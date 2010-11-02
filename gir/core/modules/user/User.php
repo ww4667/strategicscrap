@@ -5,7 +5,7 @@
  *
  */
  
-class User {
+class User extends Crud {
 
     private $_USER_ID = null;
     private $_EMAIL = null;
@@ -51,6 +51,7 @@ class User {
 			$key = 'somethingsecret';
 			// store key to validation field
 			$this->validation = $key;
+//			$this->UpdateItem($itemData);
 			// send user an email with the secret key
 			// $mail = new Mailer();
 			// $message = "mail message with url in it";

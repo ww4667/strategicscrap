@@ -20,7 +20,7 @@ tr.details td{padding:0}
 <script type="text/javascript">
 	$(document).ready(function() {
             $('#scrapExchangeListings').tabs();
-            $('#scroll-pane1,#scroll-pane2,#scroll-pane3').jScrollPane();
+            $('#scroll-pane1').jScrollPane();
             // $(".scrapDesc1").colorbox({width:"550", inline:true, href:"#listingDescription1"});
 			$('a.quote').click(function(){
 				$(this).parent().parent().next('tr').find('div').slideToggle('fast',function(){
@@ -34,7 +34,7 @@ tr.details td{padding:0}
 			});
 
 			$("#mapForm input:checkbox").click(function(item){
-				if( initLoad && !addingItems && !removingItems ) updateMarkers();
+				if( !addingItems && !removingItems ) updateMarkers();
 			});
 	});
 </script>
@@ -276,20 +276,43 @@ function updateMarkers(){
 		} else {
 		    modData = []; 
 		}
-		updateFilters = true;
-		removeMarkers();
-		$("#mapForm input:checkbox").removeAttr('disabled');
-		$('.moduleContent h3 span:first').text(modData.length);
+		updatePageData(json);
 	});
 	
 	if(checkedItems.length < 1) {
 		modData = [];
-		updateFilters = true;
-		removeMarkers();
+		updatePageData();
 		$("#mapForm input:checkbox").removeAttr('disabled');
 		$('.moduleContent h3 span:first').text(modData.length);
 	}
 
+}
+
+function updatePageData( json ){
+	if(!json) return false; 
+	updateFilters = true;
+	removeMarkers();
+	$("#mapForm input:checkbox").removeAttr('disabled');
+	$('.moduleContent h3 span:first').text(modData.length);
+
+	var pageData = "", i = 0, l = json.Locations.length,cur = null;
+	for(i;i<l;i++){
+		cur = json.Locations[i];
+		pageData += '<tr class="row2" >';
+		pageData += '	<td style="width:30px"><a class="scrapQuote quote" href="#" title="view details">details</a></td>';
+		pageData += '	<td style="width:130px">'+cur.company+'</td>';
+		pageData += '	<td style="width:60px">'+cur.category+'</td>';
+		pageData += '	<td style="width:200px">'+cur.address_1+ (cur.address_2 != '' ? '<br />' + cur.address_2 : '') + '<br />' + cur.city+', ' +cur.state_province+' '+ cur.zip_postal_code+'</td>';
+		pageData += '	<td style="width:60px">'+cur.state_province+'</td>';
+		pageData += '	<td style="width:110px">'+cur.first_name+' '+cur.last_name+'</td>';
+		pageData += '	<td><a href="#">shipping quote</a></td>';
+		pageData += '</tr>';
+		pageData += '<tr class="details facilty_1 row2 ">';
+		pageData += '	<td colspan="7"><div>details go here</div></td>';
+		pageData += '</tr>';
+	}
+	$("#scrollData").html(pageData);
+    $('#scroll-pane1').jScrollPane();
 }
 
 function loadMarkers(){ 
@@ -305,7 +328,10 @@ function addClickevent(marker) {
 		marker.openInfoWindowHtml(marker.da.content);
 	});
 }
-/*
+
+
+
+
 function createMarker(latlng, number) {
     var marker = new GMarker(latlng);
     marker.value = number;
@@ -315,20 +341,30 @@ function createMarker(latlng, number) {
     });
     return marker;
 }
-*/
+
 function createMarker(){  
 //	num++;
 	if (num < maxNum) {  
-		var latlng = new GLatLng(modData[num].lat, modData[num].lon);  
-		
+		var latlng = new GLatLng(modData[num].lat, modData[num].lon); 
 		//{"address":"P.O. Box 14667","city":"Phoenix","state":"arizona","zip":85063,"name":"Verco Decking Inc","phone":"602-272-1347","url":"http://www.vercodeck.com/","fax":"","lat":"33.45","lon":"-112.07","title":"Verco Decking Inc","type":"Mills","types":{"mat_30":true}},
-        t = modData[num].title + "<br />" + modData[num].address + "<br />" + modData[num].city + ", " + modData[num].state + ' ' + modData[num].zip + "<hr />Phone: " + modData[num].phone + ( modData[num].fax != "" ? "<br />Fax:" + modData[num].fax : "" ) + "<hr /><a href='" + modData[num].url + "'>" + modData[num].url + "</a>";
+      
         
 		var marker = new GMarker(latlng,markerOptions);  
 		marker.value = num;
 
-		 GEvent.addListener(marker, "click", function() {
-		  //marker.openInfoWindowHtml(t);
+		 GEvent.addListener(marker, "click", function() {  
+			var tfff = modData[num].company + "<br />" + 
+	        modData[num].address_1 + "<br />" + 
+	        ( modData[num].address_2  ? modData[num].address_2 + "<br />" : "" ) + 
+	        modData[num].city + ", " + 
+	        modData[num].state_province + ' ' + 
+	        modData[num].zip_postal_code + 
+	        "<hr />" + 
+	        ( modData[num].home_phone != "" ? "<br />Home Phone:" + modData[num].home_phone : "" ) + 
+	        ( modData[num].mobile_phone != "" ? "<br />Mobile Phone:" + modData[num].mobile_phone : "" ) + 
+	        ( modData[num].fax_number != "" ? "<br />Fax:" + modData[num].fax_number : "" ) + 
+	        "<hr /><a href='" + modData[num].website + "'>" + modData[num].website + "</a>";
+		  marker.openInfoWindowHtml(tfff);
 		 });
 		 
 		googleMap.addOverlay(marker);
@@ -352,8 +388,8 @@ function onMarkersCreated(){
 
 function removeMarkers(){  
 	removingItems = true;
-	progressBar.start(markersArray.length);  
-	setTimeout("removeMarker()", 10);
+		progressBar.start(markersArray.length);  
+		setTimeout("removeMarker()", 10);
 }
 
 function removeMarker(){ 
@@ -405,7 +441,7 @@ function onMarkersRemoved(){
 		<div class="fullCol">
 			<div class="oneColMod"><div class="moduleTop"><!-- IE hates empty elements --></div>
 				<div class="moduleContent">
-					<h3><span><?=count($facilities)?></span> Search Results</h3>
+					<h3><span>0</span> Search Results</h3>
 					<hr />
 					
 <div id="scrapExchangeListings" class="classifiedListing">
@@ -432,23 +468,8 @@ function onMarkersRemoved(){
 				</table>
 			<div id="scroll-pane1">
 				<table>
-					<tbody>
-						<? $i = 3; ?>
-						<? foreach ($facilities as $facility) { ?>
-							<tr<? if ($i % 2 == 0) { ?> class="row2"<? } ?>>
-							    <td style="width:30px"><a class="scrapQuote quote" href="#" title="view details">details</a></td>
-							    <td style="width:130px"><?= $facility->company?></td>
-							    <td style="width:60px"><?= $facility->category?></td>
-							    <td style="width:200px"><?= $facility->address_1?><? if ($facility->address_2 != "") { ?><br /><?= $facility->address_2?><? } ?><br /><?= $facility->city?>, <?= $facility->state_province?> <?= $facility->zip_postal_code?></td>
-							    <td style="width:60px"><?= $facility->state_province?></td>
-							    <td style="width:110px"><?= $facility->first_name?> <?= $facility->last_name?></td>
-							    <td><a href="#">shipping quote</a></td>
-							</tr>
-							<tr class="details facilty_1<? if ($i % 2 == 0) { ?> row2<? } ?>">
-								<td colspan="7"><div>details go here</div></td>
-							</tr>
-						<? $i++; ?>
-						<? } ?>
+					<tbody id="scrollData">
+						<tr><td>Please select a check box.</td></tr>
 					</tbody>
 				</table>
 			</div><!-- scroll-pane1 -->
