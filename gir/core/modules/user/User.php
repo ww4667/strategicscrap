@@ -8,16 +8,24 @@
 class User {
 
     private $_USER_ID = null;
-    private $_USERNAME = null;
-    private $_PASSWORD = null;
     private $_EMAIL = null;
+    private $_PASSWORD = null;
     private $_LAST_LOGIN = null;
+	
+	protected $_OBJECT_NAME = "gir_user";
+	protected $_OBJECT_PROPERTIES = array(	array("type"=>"text","label"=>"E-mail","field"=>"email"),
+											array("type"=>"text","label"=>"Password","field"=>"password"),
+											array("type"=>"date","label"=>"Last Login","field"=>"last_login_ts")
+										);
+	
+	function __construct(){
+		parent::__construct();
+		foreach($this->_OBJECT_PROPERTIES as $p) {
+			$this->{$p['field']} = "";
+		}
+	}
     
-    function __construct() {
-    
-    }
-    
-    private function _emailCheck() {
+    private function _emailCheck($email) {
         ;
     }
     
@@ -25,15 +33,16 @@ class User {
         ;
     }
     
-    private function _forgotPassword() {
+    private function _forgotPassword($email) {
         ;
     }
     
-    private function _setPassword() {
+    private function _setPassword($password) {
+    	// stored password = MD5(MD5(password) + SomeSuperCoolSecretGirThing + MD5(created_ts))
         ;
     }
     
-    private function _resetPassword() {
+    private function _resetPassword($email,$key) {
         ;
     }
 }
