@@ -1,0 +1,168 @@
+<div class="brokerDashboard">
+<div class="leftCol">
+<div class="lowerArea">
+	<div class="twoColMod" id="recentResponses"><div class="moduleTop"><!-- IE hates empty elements --></div>
+		<div class="moduleContent">
+	    	<h3>QUOTE MANAGER</h3>
+			<div class="more"><a href="#">advanced</a></div>
+			<hr />
+			<div class="filter">
+				<div><input type="checkbox" name="filter_accepted" checked="checked" value="accepted" /> accepted</div>
+				<div><input type="checkbox" name="filter_expired" checked="checked" value="expired" /> expired</div>
+				<div><input type="checkbox" name="filter_rejected" checked="checked" value="rejected" /> rejected</div>
+				<div><input type="checkbox" name="filter_waiting" checked="checked" value="waiting" /> waiting</div>
+				<div style="clear:both;float:none"><!-- IE hates empty elemenets --></div>
+			</div>
+			<table>
+			<tbody><tr class="row2">
+			    <th style="width:100px">STATUS</th>
+			    <th style="width:220px">DESCRIPTION</th>
+			    <th style="width:100px">QUOTE DATE</th>
+			    <th>&nbsp;</th>
+			</tr>
+			</tbody>
+			</table>
+			<div id="scroll-pane1" class="jScrollPaneContainer" tabindex="0">
+			<table class="quotes stripes">
+			<tbody>
+			<tr class="accepted">
+			    <td class="status" style="width:100px"><strong>Accepted</strong></td>
+			    <td style="width:220px"><strong>Ship to:</strong> Demo Steel Company<br><strong>Material:</strong> No. 1 Machinery Cast<br><strong>Quantity (tons):</strong> 550<br><strong>Delivery Date:</strong> 05/13/2010</td>
+			    <td style="width:100px">04/30/2010</td>
+			    <td><a class="archive" href="" title="archive this quote">archive</a></td>
+			</tr>
+			<tr class="row2 waiting">
+			    <td class="status"><strong>Waiting</strong></td>
+			    <td><strong>Ship to:</strong> Demo Steel Company<br><strong>Material:</strong> No. 1 Machinery Cast<br><strong>Quantity (tons):</strong> 550<br><strong>Delivery Date:</strong> 05/10/2010</td>
+			    <td>05/03/2010</td>
+			    <td><a class="archive" href="#" title="archive this quote">archive</a></td>
+			</tr>
+			<tr class="expired">
+			    <td class="status"><strong>Expired</strong></td>
+			    <td><strong>Ship to:</strong> Demo Steel Company<br><strong>Material:</strong> No. 1 Machinery Cast<br><strong>Quantity (tons):</strong> 550<br><strong>Delivery Date:</strong> 05/10/2010</td>
+			    <td>05/04/2010</td>
+			    <td><a class="archive" href="#" title="archive this quote">archive</a></td>
+			</tr>
+			<tr class="row2 rejected">
+			    <td class="status"><strong>Rejected</strong></td>
+			    <td><strong>Ship to:</strong> Demo Steel Company<br><strong>Material:</strong> No. 1 Machinery Cast<br><strong>Quantity (tons):</strong> 550<br><strong>Delivery Date:</strong> 05/10/2010</td>
+			    <td>05/03/2010</td>
+			    <td><a class="archive" href="#" title="archive this quote">archive</a></td>
+			</tr>
+			<tr class="waiting">
+			    <td class="status"><strong>Waiting</strong></td>
+			    <td><strong>Ship to:</strong> Demo Steel Company<br><strong>Material:</strong> No. 1 Machinery Cast<br><strong>Quantity (tons):</strong> 550<br><strong>Delivery Date:</strong> 05/10/2010</td>
+			    <td>05/04/2010</td>
+			    <td><a class="archive" href="#" title="archive this quote">archive</a></td>
+			</tr>
+			<tr class="row2 expired">
+			    <td class="status"><strong>Expired</strong></td>
+			    <td><strong>Ship to:</strong> Demo Steel Company<br><strong>Material:</strong> No. 1 Machinery Cast<br><strong>Quantity (tons):</strong> 550<br><strong>Delivery Date:</strong> 05/10/2010</td>
+			    <td>05/03/2010</td>
+			    <td><a class="archive" href="#" title="archive this quote">archive</a></td>
+			</tr>
+			<tr class="rejected">
+			    <td class="status"><strong>Rejected</strong></td>
+			    <td><strong>Ship to:</strong> Demo Steel Company<br><strong>Material:</strong> No. 1 Machinery Cast<br><strong>Quantity (tons):</strong> 550<br><strong>Delivery Date:</strong> 05/10/2010</td>
+			    <td>05/04/2010</td>
+			    <td><a class="archive" href="#" title="archive this quote">archive</a></td>
+			</tr>
+		</tbody></table>
+		</div>
+		</div><div class="moduleBottom"><!-- IE hates empty elements --></div>	
+	</div>
+	<div class="twoColMod" id="recentRequests"><div class="moduleTop"><!-- IE hates empty elements --></div>
+		<div class="moduleContent">
+	    	<h3>Recent Requests</h3>
+			<div class="more"><a href="#">advanced</a></div>
+			<hr />
+			<table>
+			<tbody>
+			<tr class="row2"	>
+			    <th style="width:100px">REQUEST ID</th>
+			    <th style="width:220px">DESCRIPTION</th>
+			    <th style="width:100px">REQUEST DATE</th>
+			    <th>&nbsp;</th>
+			</tr>
+			</tbody>
+			</table>
+			<div id="scroll-pane2" class="jScrollPaneContainer" tabindex="0">
+			<table class="stripes">
+			<tbody>
+			<tr>
+			    <td style="width:100px">2789-1207</td>
+			    <td style="width:220px"><strong>Ship to:</strong> Demo Steel Company<br><strong>Material:</strong> No. 1 Machinery Cast<br><strong>Quantity (tons):</strong> 550<br><strong>Delivery Date:</strong> 05/13/2010</td>
+			    <td style="width:100px">04/30/2010</td>
+			    <td><a class="quote" href="#" title="quote this request">quote</a></td>
+			</tr>
+			<tr class="row2">
+			    <td>2801-1207</td>
+			    <td><strong>Ship to:</strong> Demo Steel Company<br><strong>Material:</strong> No. 1 Machinery Cast<br><strong>Quantity (tons):</strong> 550<br><strong>Delivery Date:</strong> 05/10/2010</td>
+			    <td>05/03/2010</td>
+			    <td><a class="quote" href="#" title="quote this request">quote</a></td>
+			</tr>
+			<tr>
+			    <td>2823-1207</td>
+			    <td><strong>Ship to:</strong> Demo Steel Company<br><strong>Material:</strong> No. 1 Machinery Cast<br><strong>Quantity (tons):</strong> 550<br><strong>Delivery Date:</strong> 05/10/2010</td>
+			    <td>05/04/2010</td>
+			    <td><a class="quote" href="#" title="quote this request">quote</a></td>
+			</tr>
+			<tr class="row2">
+			    <td>2801-1207</td>
+			    <td><strong>Ship to:</strong> Demo Steel Company<br><strong>Material:</strong> No. 1 Machinery Cast<br><strong>Quantity (tons):</strong> 550<br><strong>Delivery Date:</strong> 05/10/2010</td>
+			    <td>05/03/2010</td>
+			    <td><a class="quote" href="#" title="quote this request">quote</a></td>
+			</tr>
+			<tr>
+			    <td>2823-1207</td>
+			    <td><strong>Ship to:</strong> Demo Steel Company<br><strong>Material:</strong> No. 1 Machinery Cast<br><strong>Quantity (tons):</strong> 550<br><strong>Delivery Date:</strong> 05/10/2010</td>
+			    <td>05/04/2010</td>
+			    <td><a class="quote" href="#" title="quote this request">quote</a></td>
+			</tr>
+			<tr class="row2">
+			    <td>2801-1207</td>
+			    <td><strong>Ship to:</strong> Demo Steel Company<br><strong>Material:</strong> No. 1 Machinery Cast<br><strong>Quantity (tons):</strong> 550<br><strong>Delivery Date:</strong> 05/10/2010</td>
+			    <td>05/03/2010</td>
+			    <td><a class="quote" href="#" title="quote this request">quote</a></td>
+			</tr>
+			<tr>
+			    <td>2823-1207</td>
+			    <td><strong>Ship to:</strong> Demo Steel Company<br><strong>Material:</strong> No. 1 Machinery Cast<br><strong>Quantity (tons):</strong> 550<br><strong>Delivery Date:</strong> 05/10/2010</td>
+			    <td>05/04/2010</td>
+			    <td><a class="quote" href="#" title="quote this request">quote</a></td>
+			</tr>
+		</tbody></table>
+		</div>
+		</div><div class="moduleBottom"><!-- IE hates empty elements --></div>	
+	</div>
+</div>
+</div>
+<div class="rightCol">
+	<div id="accountStatus" class="oneColMod"><div class="moduleTop"><!-- IE hates empty elements --></div>
+		<div class="moduleContent">
+			<h3>Account Info</h3>
+			<div class="more"><a href="#">update</a></div>
+			<hr />
+			<ul>
+				<li>Account Information Here.</li>
+				<li>Account Information Here.</li>
+				<li>Account Information Here.</li>
+			</ul>
+		</div><div class="moduleBottom"><!-- IE hates empty elements --></div>
+	</div>
+	<div id="latestNews" class="oneColMod"><div class="moduleTop"><!-- IE hates empty elements --></div>
+		<div class="moduleContent">
+			<h3>Strategic News</h3>
+			<hr />
+			<ul>
+				<li>Quick news item here.</li>
+				<li>Quick news item here.</li>
+				<li>Quick news item here.</li>
+			</ul>
+		</div><div class="moduleBottom"><!-- IE hates empty elements --></div>
+	</div>
+</div>
+</div>
+<script type="text/javascript">
+
+</script>

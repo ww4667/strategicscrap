@@ -1,0 +1,158 @@
+<div class="brokerDashboard">
+<div class="leftCol">
+<div class="lowerArea">
+	<div class="twoColMod" id="recentResponses"><div class="moduleTop"><!-- IE hates empty elements --></div>
+		<div class="moduleContent">
+	    	<h3>QUOTE MANAGER</h3>
+			<div class="more"><a href="#">advanced</a></div>
+			<hr />
+			<table>
+			<tbody><tr>
+			    <th style="width:80px">QUOTE ID</th>
+			    <th style="width:200px">DESCRIPTION</th>
+			    <th style="width:100px">QUOTE DATE</th>
+			    <th>STATUS</th>
+			</tr>
+			</tbody>
+			</table>
+			<div id="scroll-pane1" class="jScrollPaneContainer" tabindex="0">
+			<table>
+			<tbody>
+			<tr>
+			    <td style="width:80px">2789-1207</td>
+			    <td style="width:200px"><strong>Ship to:</strong> Demo Steel Company<br><strong>Material:</strong> No. 1 Machinery Cast<br><strong>Quantity (tons):</strong> 550<br><strong>Delivery Date:</strong> 05/13/2010</td>
+			    <td style="width:100px">04/30/2010</td>
+			    <td><span class="status accepted">ACCEPTED</span></td>
+			</tr>
+			<tr class="row2">
+			    <td>2801-1207</td>
+			    <td><strong>Ship to:</strong> Demo Steel Company<br><strong>Material:</strong> No. 1 Machinery Cast<br><strong>Quantity (tons):</strong> 550<br><strong>Delivery Date:</strong> 05/10/2010</td>
+			    <td>05/03/2010</td>
+			    <td><span class="status waiting">WAITING</span></td>
+			</tr>
+			<tr class="expired">
+			    <td>2823-1207</td>
+			    <td><strong>Ship to:</strong> Demo Steel Company<br><strong>Material:</strong> No. 1 Machinery Cast<br><strong>Quantity (tons):</strong> 550<br><strong>Delivery Date:</strong> 05/10/2010</td>
+			    <td>05/04/2010</td>
+			    <td><span class="status expired">EXPIRED</span></td>
+			</tr>
+			<tr class="row2">
+			    <td>2801-1207</td>
+			    <td><strong>Ship to:</strong> Demo Steel Company<br><strong>Material:</strong> No. 1 Machinery Cast<br><strong>Quantity (tons):</strong> 550<br><strong>Delivery Date:</strong> 05/10/2010</td>
+			    <td>05/03/2010</td>
+			    <td><span class="status rejected">REJECTED</span></td>
+			</tr>
+			<tr>
+			    <td>2823-1207</td>
+			    <td><strong>Ship to:</strong> Demo Steel Company<br><strong>Material:</strong> No. 1 Machinery Cast<br><strong>Quantity (tons):</strong> 550<br><strong>Delivery Date:</strong> 05/10/2010</td>
+			    <td>05/04/2010</td>
+			    <td><span class="status waiting">WAITING</span></td>
+			</tr>
+			<tr class="row2 expired">
+			    <td>2801-1207</td>
+			    <td><strong>Ship to:</strong> Demo Steel Company<br><strong>Material:</strong> No. 1 Machinery Cast<br><strong>Quantity (tons):</strong> 550<br><strong>Delivery Date:</strong> 05/10/2010</td>
+			    <td>05/03/2010</td>
+			    <td><span class="status expired">EXPIRED</span></td>
+			</tr>
+			<tr>
+			    <td>2823-1207</td>
+			    <td><strong>Ship to:</strong> Demo Steel Company<br><strong>Material:</strong> No. 1 Machinery Cast<br><strong>Quantity (tons):</strong> 550<br><strong>Delivery Date:</strong> 05/10/2010</td>
+			    <td>05/04/2010</td>
+			    <td><span class="rejected">REJECTED</span></td>
+			</tr>
+		</tbody></table>
+		</div>
+		</div><div class="moduleBottom"><!-- IE hates empty elements --></div>	
+	</div>
+	<div class="twoColMod" id="recentRequests"><div class="moduleTop"><!-- IE hates empty elements --></div>
+		<div class="moduleContent">
+	    	<h3>Recent Requests</h3>
+			<div class="more"><a href="#">advanced</a></div>
+			<hr />
+			<table>
+			<tbody>
+			<tr>
+			    <th style="width:80px">REQUEST ID</th>
+			    <th style="width:200px">DESCRIPTION</th>
+			    <th style="width:100px">REQUEST DATE</th>
+			    <th>ACTION</th>
+			</tr>
+			</tbody>
+			</table>
+			<div id="scroll-pane2" class="jScrollPaneContainer" tabindex="0">
+			<table>
+			<tbody>
+			<tr>
+			    <td style="width:80px">2789-1207</td>
+			    <td style="width:200px"><strong>Ship to:</strong> Demo Steel Company<br><strong>Material:</strong> No. 1 Machinery Cast<br><strong>Quantity (tons):</strong> 550<br><strong>Delivery Date:</strong> 05/13/2010</td>
+			    <td style="width:100px">04/30/2010</td>
+			    <td><span style="text-decoration:underline;">view bids (4)</span></td>
+			</tr>
+			<tr class="row2">
+			    <td>2801-1207</td>
+			    <td><strong>Ship to:</strong> Demo Steel Company<br><strong>Material:</strong> No. 1 Machinery Cast<br><strong>Quantity (tons):</strong> 550<br><strong>Delivery Date:</strong> 05/10/2010</td>
+			    <td>05/03/2010</td>
+			    <td><span style="text-decoration:underline;">view bids (1)</span></td>
+			</tr>
+			<tr>
+			    <td>2823-1207</td>
+			    <td><strong>Ship to:</strong> Demo Steel Company<br><strong>Material:</strong> No. 1 Machinery Cast<br><strong>Quantity (tons):</strong> 550<br><strong>Delivery Date:</strong> 05/10/2010</td>
+			    <td>05/04/2010</td>
+			    <td>waiting</td>
+			</tr>
+			<tr class="row2">
+			    <td>2801-1207</td>
+			    <td><strong>Ship to:</strong> Demo Steel Company<br><strong>Material:</strong> No. 1 Machinery Cast<br><strong>Quantity (tons):</strong> 550<br><strong>Delivery Date:</strong> 05/10/2010</td>
+			    <td>05/03/2010</td>
+			    <td><span style="text-decoration:underline;">view bids (1)</span></td>
+			</tr>
+			<tr>
+			    <td>2823-1207</td>
+			    <td><strong>Ship to:</strong> Demo Steel Company<br><strong>Material:</strong> No. 1 Machinery Cast<br><strong>Quantity (tons):</strong> 550<br><strong>Delivery Date:</strong> 05/10/2010</td>
+			    <td>05/04/2010</td>
+			    <td>waiting</td>
+			</tr>
+			<tr class="row2">
+			    <td>2801-1207</td>
+			    <td><strong>Ship to:</strong> Demo Steel Company<br><strong>Material:</strong> No. 1 Machinery Cast<br><strong>Quantity (tons):</strong> 550<br><strong>Delivery Date:</strong> 05/10/2010</td>
+			    <td>05/03/2010</td>
+			    <td><span style="text-decoration:underline;">view bids (1)</span></td>
+			</tr>
+			<tr>
+			    <td>2823-1207</td>
+			    <td><strong>Ship to:</strong> Demo Steel Company<br><strong>Material:</strong> No. 1 Machinery Cast<br><strong>Quantity (tons):</strong> 550<br><strong>Delivery Date:</strong> 05/10/2010</td>
+			    <td>05/04/2010</td>
+			    <td>waiting</td>
+			</tr>
+		</tbody></table>
+		</div>
+		</div><div class="moduleBottom"><!-- IE hates empty elements --></div>	
+	</div>
+</div>
+</div>
+<div class="rightCol">
+	<div id="accountStatus" class="oneColMod"><div class="moduleTop"><!-- IE hates empty elements --></div>
+		<div class="moduleContent">
+			<h3>Account Info</h3>
+			<div class="more"><a href="#">update</a></div>
+			<hr />
+			<ul>
+				<li>Account Information Here.</li>
+				<li>Account Information Here.</li>
+				<li>Account Information Here.</li>
+			</ul>
+		</div><div class="moduleBottom"><!-- IE hates empty elements --></div>
+	</div>
+	<div id="latestNews" class="oneColMod"><div class="moduleTop"><!-- IE hates empty elements --></div>
+		<div class="moduleContent">
+			<h3>Strategic News</h3>
+			<hr />
+			<ul>
+				<li>Quick news item here.</li>
+				<li>Quick news item here.</li>
+				<li>Quick news item here.</li>
+			</ul>
+		</div><div class="moduleBottom"><!-- IE hates empty elements --></div>
+	</div>
+</div>
+</div>

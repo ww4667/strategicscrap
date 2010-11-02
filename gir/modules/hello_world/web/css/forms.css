@@ -1,0 +1,15 @@
+
+@CHARSET "ISO-8859-1";
+ body {font-family: Verdana, Arial, Tohoma;}
+
+ul{list-style: none; margin: 0; padding: 0;}
+form {width: 400px; float: left;}
+label {float: left; clear: both;}
+input, select {float: left; clear: both;}
+
+.rowList li {margin-bottom: 1px; padding: 2px; 	background: #cecece; clear: both; height: 24px;}
+.rowList  li input, .rowList li select {float: left; clear: none;}
+.addRow{float: right; color: #fff; background: #00bb00; border: 2px solid #000; font-size: 20px; text-align: center; width: 24px; height: 24px; cursor: pointer; font-weight: bold;}
+.rowTemplate {display: none;}
+
+.clearAll{clear: both;}

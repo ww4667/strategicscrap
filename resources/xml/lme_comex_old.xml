@@ -1,0 +1,131 @@
+<?xml version="1.0"?>
+<SlashWebStudiosFeed Provider="Fastmarkets" Version="1" Status="draft">
+<MetalsData>
+
+<Copper>
+<LME>
+<Quote prompt="Cash" TimeStamp="20100415104700" units="MT">
+<Last>7666.00.00</Last>
+<Open>7734.00</Open>
+<High>7789.00</High>
+<Low>7661.00</Low>
+<Change TimeStamp="20100415104700">-10</Change>
+</Quote>
+<Quote prompt="3M" TimeStamp="20100415104700" units="MT">
+<Last>7710.00</Last>
+<Open>7770.00</Open>
+<High>7825.00</High>
+<Low>7697.00</Low>
+<Change TimeStamp="20100415104700">-10</Change>
+</Quote>
+</LME>
+<COMEX>
+<Quote prompt="Nearby" TimeStamp="20100415104700" units="LB">
+<Last>3.5304</Last>
+<Open>3.5250</Open>
+<High>3.5400</High>
+<Low>3.4975</Low>
+<Change TimeStamp="20100415104700">0.039</Change>
+</Quote>
+</COMEX>
+</Copper>
+
+<Aluminium>
+<LME>
+<Quote prompt="Cash" TimeStamp="20100415104700" units="MT">
+<Last>2383.85</Last>
+<Open>2354.50</Open>
+<High>2374.25</High>
+<Low>2315.00</Low>
+<Change TimeStamp="20100415104700">-10</Change>
+</Quote>
+<Quote prompt="3M" TimeStamp="20100415104700" units="MT">
+<Last>2359.75</Last>
+<Open>2388.00</Open>
+<High>2407.75</High>
+<Low>2349.00</Low>
+<Change TimeStamp="20100415104700">-10</Change>
+</Quote>
+</LME>
+</Aluminium>
+
+<Nickel>
+<LME>
+<Quote prompt="Cash" TimeStamp="20100415104700" units="MT">
+<Last>27310.00</Last>
+<Open>26878.00</Open>
+<High>27116.00</High>
+<Low>26382.00</Low>
+<Change TimeStamp="20100415104700">-10</Change>
+</Quote>
+<Quote prompt="3M" TimeStamp="20100415104700" units="MT">
+<Last>26570.00</Last>
+<Open>26950.00</Open>
+<High>27188.00</High>
+<Low>26454.00</Low>
+<Change TimeStamp="20100415104700">-10</Change>
+</Quote>
+</LME>
+</Nickel>
+
+<Zinc>
+<LME>
+<Quote prompt="Cash" TimeStamp="20100415104700" units="MT">
+<Last>2389.40</Last>
+<Open>2395.88</Open>
+<High>2417.38</High>
+<Low>2367.75</Low>
+<Change TimeStamp="20100415104700">-10</Change>
+</Quote>
+<Quote prompt="3M" TimeStamp="20100415104700" units="MT">
+<Last>2420.00</Last>
+<Open>2433.00</Open>
+<High>2455.50</High>
+<Low>2406.00</Low>
+<Change TimeStamp="20100415104700">-10</Change>
+</Quote>
+</LME>
+</Zinc>
+
+<Lead>
+<LME>
+<Quote prompt="Cash" TimeStamp="20100415104700" units="MT">
+<Last>2263.65</Last>
+<Open>2315.25</Open>
+<High>2335.38</High>
+<Low>2279.75</Low>
+<Change TimeStamp="20100415104700">-10</Change>
+</Quote>
+<Quote prompt="3M" TimeStamp="20100415104700" units="MT">
+<Last>2313.50</Last>
+<Open>2345.00</Open>
+<High>2365.00</High>
+<Low>2310.00</Low>
+<Change TimeStamp="20100415104700">-10</Change>
+</Quote>
+</LME>
+</Lead>
+
+<Tin>
+<LME>
+<Quote prompt="Cash" TimeStamp="20100415104700" units="MT">
+<Last>19118.50</Last>
+<Open>18957.00</Open>
+<High>19097.00</High>
+<Low>18838.50</Low>
+<Change TimeStamp="20100415104700">-10</Change>
+</Quote>
+<Quote prompt="3M" TimeStamp="20100415104700" units="MT">
+<Last>19004.00</Last>
+<Open>19050.00</Open>
+<High>19190.00</High>
+<Low>18925.00</Low>
+<Change TimeStamp="20100415104700">-10</Change>
+</Quote>
+</LME>
+</Tin>
+
+</MetalsData>
+
+</SlashWebStudiosFeed>
+

@@ -1,0 +1,230 @@
+<us_states> 
+ 
+ 
+<state id="outline_color"> 
+	<color>ffffff</color> 
+</state> 
+<state id="default_color"> 
+	<color>cccccc</color> 
+</state> 
+<state id="background_color"> 
+	<color>ffffff</color> 
+</state> 
+<state id="default_point"> 
+	<color>ff6600</color> 
+	<size>3</size> 
+	<opacity>100</opacity> 
+</state> 
+<state id="scale_points"> 
+		<data>25</data> 
+</state> 
+<state id="range">
+	<data>8</data>
+	<color>ffffff</color>
+</state> 
+	
+<state id="AL"> 
+	<name>Alabama</name> 
+	<data>1</data> 
+</state> 
+<state id="AK"> 
+	<name>Alaska</name> 
+	<data>8</data> 
+</state> 
+<state id="AZ"> 
+	<name>Arizona</name> 
+	<data>1</data> 
+</state> 
+<state id="AR"> 
+	<name>Arkansas</name> 
+	<data>1</data> 
+</state> 
+<state id="CA"> 
+	<name>California</name> 
+	<data>1</data> 
+</state> 
+<state id="CO"> 
+	<name>Colorado</name> 
+	<data>1</data> 
+</state> 
+<state id="CT"> 
+	<name>Connecticut</name> 
+	<data>1</data> 
+</state> 
+<state id="DE"> 
+	<name>Delaware</name> 
+	<data>1</data> 
+</state> 
+<state id="DC"> 
+	<name>District of Columbia</name> 
+	<data>0</data> 
+</state> 
+<state id="FL"> 
+	<name>Florida</name> 
+	<data>1</data> 
+</state> 
+<state id="GA"> 
+	<name>Georgia</name> 
+	<data>1</data> 
+</state> 
+<state id="HI"> 
+	<name>Hawaii</name> 
+	<data>8</data> 
+</state> 
+<state id="ID"> 
+	<name>Idaho</name> 
+	<data>1</data> 
+</state> 
+<state id="IL"> 
+	<name>Illinois</name> 
+	<data>1</data> 
+</state> 
+<state id="IN"> 
+	<name>Indiana</name> 
+	<data>1</data> 
+</state> 
+<state id="IA"> 
+	<name>Iowa</name> 
+	<data>0</data> 
+</state> 
+<state id="KS"> 
+	<name>Kansas</name> 
+	<data>1</data> 
+</state> 
+<state id="KY"> 
+	<name>Kentucky</name> 
+	<data>0</data> 
+</state> 
+<state id="LA"> 
+	<name>Louisiana</name> 
+	<data>1</data> 
+</state> 
+<state id="ME"> 
+	<name>Maine</name> 
+	<data>0</data> 
+</state> 
+<state id="MD"> 
+	<name>Maryland</name> 
+	<data>1</data> 
+</state> 
+<state id="MA"> 
+	<name>Massachusetts</name> 
+	<data>0</data> 
+</state> 
+<state id="MI"> 
+	<name>Michigan</name> 
+	<data>0</data> 
+</state> 
+<state id="MN"> 
+	<name>Minnesota</name> 
+	<data>0</data> 
+</state> 
+<state id="MS"> 
+	<name>Mississippi</name> 
+	<data>1</data> 
+</state> 
+<state id="MO"> 
+	<name>Missouri</name> 
+	<data>1</data> 
+</state> 
+<state id="MT"> 
+	<name>Montana</name> 
+	<data>1</data> 
+</state> 
+<state id="NE"> 
+	<name>Nebraska</name> 
+	<data>1</data> 
+</state> 
+<state id="NV"> 
+	<name>Nevada</name> 
+	<data>1</data> 
+</state> 
+<state id="NH"> 
+	<name>New Hampshire</name> 
+	<data>0</data> 
+</state> 
+<state id="NJ"> 
+	<name>New Jersey</name> 
+	<data>1</data> 
+</state> 
+<state id="NM"> 
+	<name>New Mexico</name> 
+	<data>1</data> 
+</state> 
+<state id="NY"> 
+	<name>New York</name> 
+	<data>1</data> 
+</state> 
+<state id="NC"> 
+	<name>North Carolina</name> 
+	<data>1</data> 
+</state> 
+<state id="ND"> 
+	<name>North Dakota</name> 
+	<data>0</data> 
+</state> 
+<state id="OH"> 
+	<name>Ohio</name> 
+	<data>1</data> 
+</state> 
+<state id="OK"> 
+	<name>Oklahoma</name> 
+	<data>1</data> 
+</state> 
+<state id="OR"> 
+	<name>Oregon</name> 
+	<data>1</data> 
+</state> 
+<state id="PA"> 
+	<name>Pennsylvania</name> 
+	<data>1</data> 
+</state> 
+<state id="RI"> 
+	<name>Rhode Island</name> 
+	<data>0</data> 
+</state> 
+<state id="SC"> 
+	<name>South Carolina</name> 
+	<data>1</data> 
+</state> 
+<state id="SD"> 
+	<name>South Dakota</name> 
+	<data>1</data> 
+</state> 
+<state id="TN"> 
+	<name>Tennessee</name> 
+	<data>1</data> 
+</state> 
+<state id="TX"> 
+	<name>Texas</name> 
+	<data>1</data> 
+</state> 
+<state id="UT"> 
+	<name>Utah</name> 
+	<data>1</data> 
+</state> 
+<state id="VT"> 
+	<name>Vermont</name> 
+	<data>0</data> 
+</state> 
+<state id="VA"> 
+	<name>Virginia</name> 
+	<data>1</data> 
+</state> 
+<state id="WA"> 
+	<name>Washington</name> 
+	<data>1</data> 
+</state> 
+<state id="WV"> 
+	<name>West Virginia</name> 
+	<data>0</data> 
+</state> 
+<state id="WI"> 
+	<name>Wisconsin</name> 
+	<data>0</data> 
+</state> 
+<state id="WY"> 
+	<name>Wyoming</name> 
+	<data>1</data> 
+</state> 
+</us_states> 

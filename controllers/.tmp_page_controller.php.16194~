@@ -1,0 +1,217 @@
+<?php
+if(!isset($_SESSION)){
+	session_start();
+}
+
+	switch($controller_action){
+		
+		/* HOMEPAGE FOR SCRAPPERS **************************************** */
+		case 'my-homepage':
+			// page 'template variables'
+			$PAGE_BODY = "views/my_homepage.php";  	/* which file to pull into the template */
+			
+			$content = "my homepage poop";
+			
+			//get lme_comex data from feed
+			$request_url = "resources/xml/lme_comex.xml";
+			$xml = simplexml_load_file($request_url) or die("feed not loading");
+			//set LME with metal name
+			foreach ($xml->MetalsData->children() as $name => $data) {
+				$data->LME->metal = $name;
+			}
+			$lme = $xml->xpath('//LME');
+			$comex = $xml->xpath('//COMEX');
+			
+			//get business feed from wordpress blog
+			$request_url = "http://www.strategicscrap.com/blog/wordpress/?feed=rss2&cat=4";
+			$ctx = stream_context_create(array( 
+				    'http' => array( 
+				        'timeout' => 1 
+			        ) 
+			    ) 
+			); 
+//file_get_contents("http://example.com/", 0, $ctx); 
+			$xml = file_get_contents($request_url, 0, $ctx);
+//			$xml = simplexml_load_file($request_url) or die("feed not loading");
+			$xml = preg_replace('/&[^; ]{0,6}.?/e', "((substr('\\0',-1) == ';') ? '\\0' : '&amp;'.substr('\\0',1))", $xml); 
+			$xml = simplexml_load_string($xml) or die("feed not loading");
+			$business_feed = $xml->xpath('//item');
+
+			//get metal feed from wordpress blog
+			$request_url = "http://www.strategicscrap.com/blog/wordpress/?feed=rss2&cat=527";
+//			$request_url = "resources/xml/metal_news.xml";
+			$ctx = stream_context_create(array( 
+				    'http' => array( 
+				        'timeout' => 1 
+			        ) 
+			    ) 
+			); 
+//file_get_contents("http://example.com/", 0, $ctx); 
+			$xml = file_get_contents($request_url, 0, $ctx);
+//			$xml = simplexml_load_file($request_url) or die("feed not loading");
+			$xml = preg_replace('/&[^; ]{0,6}.?/e', "((substr('\\0',-1) == ';') ? '\\0' : '&amp;'.substr('\\0',1))", $xml); 
+			$xml = simplexml_load_string($xml) or die("feed not loading");
+			$metal_feed = $xml->xpath('//item');
+			
+			//get zip based on IP address
+			$ip_addy = $_SERVER['REMOTE_ADDR'];
+			$request_url = "http://ipinfodb.com/ip_query.php?ip=173.18.191.29&timezone=true";
+//			$request_url = "http://ipinfodb.com/ip_query.php?ip=$ip_addy&timezone=true";
+			$xml = simplexml_load_file($request_url) or die("feed not loading");
+			$zipcode = $xml->xpath('//ZipPostalCode');
+//			$zipcode = $zipcode[0];
+			$zipcode = 92101; // San Diego
+//			$request_url = "http://www.google.com/ig/api?weather=$zipcode";
+			$request_url = "http://xoap.weather.com/weather/local/$zipcode?cc=*&dayf=5&link=xoap&prod=xoap&par=1182592015&key=bd35fd8b6e181b8a";
+			$xml = simplexml_load_file($request_url) or die("feed not loading");
+			$weather = $xml->xpath('//weather');
+			$weather = $weather[0];
+			
+//			echo "<pre>";
+//			var_dump($xml);
+//			echo "</pre>";
+//			die();
+
+//			foreach ($xml->xpath('//item') as $item) {
+//				echo $item->title."<br />";
+//				print_r($item);
+//			}
+			
+			
+			//the layout file  -  THIS PART NEEDS TO BE LAST
+			require($_SERVER['DOCUMENT_ROOT']."/views/layouts/shell.php");
+		break;
+		
+		/* Scrap Classifieds */
+		case 'scrap-classifieds':
+			// page 'template variables'
+			$PAGE_BODY = "views/scrap_classifieds.php";  	/* which file to pull into the template */			
+			
+			//the layout file  -  THIS PART NEEDS TO BE LAST
+			require($_SERVER['DOCUMENT_ROOT']."/views/layouts/shell.php");
+		break;
+
+
+		/* Equipment Classifieds */
+		case 'equipment-classifieds':
+			// page 'template variables'
+			$PAGE_BODY = "views/equipment_classifieds.php";  	/* which file to pull into the template */			
+			
+			//the layout file  -  THIS PART NEEDS TO BE LAST
+			require($_SERVER['DOCUMENT_ROOT']."/views/layouts/shell.php");
+		break;
+
+		/* Regions */
+		case 'regions':
+			// page 'template variables'
+			$PAGE_BODY = "views/regions.php";  	/* which file to pull into the template */			
+			
+			//the layout file  -  THIS PART NEEDS TO BE LAST
+			require($_SERVER['DOCUMENT_ROOT']."/views/layouts/shell.php");
+		break;
+
+		/* Registration (home) */
+		case 'register':
+			// page 'template variables'
+			$PAGE_BODY = "views/reg_form.php";  	/* which file to pull into the template */
+						
+			if(isset($_POST['email'])) {
+				// CLEAN DATA
+				$fields['name'] = $_POST['name'];
+				$fields['company'] = $_POST['company'];
+				$fields['email'] = $_POST['email'];
+				$fields['created_ts'] = date("Y-m-d H:i￼:s");
+				// COMMIT DATA TO DB
+				$intotable = 'scrap_registration';
+				$modx->db->insert($fields, $intotable);
+				// SET THANK YOU PAGE
+				$PAGE_BODY = "views/reg_thanks.php";  	/* which file to pull into the template */
+			}
+			
+			//the layout file  -  THIS PART NEEDS TO BE LAST
+			require($_SERVER['DOCUMENT_ROOT']."/views/layouts/shell.php");
+		break;
+
+		/* Registration (home) */
+		case 'intro':
+			// page 'template variables'
+			$PAGE_BODY = "views/intro_screen.php";  	/* which file to pull into the template */
+						
+			//the layout file  -  THIS PART NEEDS TO BE LAST
+			require($_SERVER['DOCUMENT_ROOT']."/views/layouts/shell.php");
+		break;
+		
+		/* CLIENT LOGIN **************************************** */
+		case 'client-login':
+			// page 'template variables'
+			$PAGE_BODY = "views/client_login.php";  	/* which file to pull into the template */
+			
+			$error_messages = array();
+			
+			if (isset($_GET['logout']) || isset($_GET['logged_out'])) {
+				if (isset($_GET['logout'])) {
+					Client::log_out();
+					header('Location: /client-login.html?logged_out=1');
+				}
+				array_push($error_messages, "You have been logged out.");
+			}
+
+			if (isset($_POST['password'])) {
+				$lookup = Client::email_exists($_POST['email']);
+				if ($lookup->password == sha1($_POST['password'])) {
+					$lookup->session_refresh();
+					if ($lookup->service_type == 'doc prep') {
+						header('Location: /services/my-account-document-preparation.html');
+ 					} else {
+						header('Location: /services/my-account-uncontested-divorce.html');
+ 					}
+				} else {
+					array_push($error_messages, "You could not be logged in. Check your email address and password and try again.");
+				}
+			} elseif (Client::is_logged_in()) {
+				$client = unserialize($_SESSION['hd_client']);
+				if ($client->service_type == 'doc prep') {
+					header('Location: /services/my-account-document-preparation.html');
+				} else {
+					header('Location: /services/my-account-uncontested-divorce.html');
+				}
+			}
+
+			//the layout file  -  THIS PART NEEDS TO BE LAST
+			require($_SERVER['DOCUMENT_ROOT']."/views/layouts/shell.php");
+		break;
+		
+		/* 250 CLIENT SERVICES **************************************** */
+		case '250-client-services':
+
+			if (!Client::is_logged_in()) {
+				// page 'template variables'
+				$error_messages = array();
+				array_push($error_messages, "You must be logged in to view this page.");
+				header('Location: /client-login.html');
+			}
+			
+		break;
+		
+		/* 500 CLIENT SERVICES **************************************** */
+		case '500-client-services':
+
+			if (!Client::is_logged_in()) {
+				// page 'template variables'
+				$error_messages = array();
+				array_push($error_messages, "You must be logged in to view this page.");
+				header('Location: /client-login.html');
+			}
+			
+		break;
+		
+		/* client logout **************************************** */
+		case 'client-logout':
+
+			Client::log_out();
+			header('Location: /client-login.html');
+			
+		break;
+
+	}
+?>

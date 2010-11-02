@@ -1,0 +1,63 @@
+.jScrollPaneContainer {
+	position: relative;
+	overflow: hidden;
+	z-index: 1;
+}
+
+.jScrollPaneTrack {
+	position: absolute;
+	cursor: pointer;
+	right: 0;
+	top: 0;
+	height: 100%;
+	background: #aaa;
+}
+.jScrollPaneDrag {
+	position: absolute;
+	background: #666;
+	cursor: pointer;
+	overflow: hidden;
+}
+.jScrollPaneDragTop {
+	position: absolute;
+	top: 0;
+	left: 0;
+	overflow: hidden;
+}
+.jScrollPaneDragBottom {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	overflow: hidden;
+}
+a.jScrollArrowUp {
+	display: block;
+	position: absolute;
+	z-index: 1;
+	top: 0;
+	right: 0;
+	text-indent: -2000px;
+	overflow: hidden;
+	height: 13px;
+}
+a.jScrollArrowUp:hover {}
+
+a.jScrollArrowDown {
+	display: block;
+	position: absolute;
+	z-index: 1;
+	bottom: 0;
+	right: 0;
+	text-indent: -2000px;
+	overflow: hidden;
+	height: 13px;
+}
+
+.jScrollPaneTrack {background:#ccc;}
+.jScrollPaneDrag {background:#0d0d0d;}
+/* #scroll-pane1, #scroll-pane2, #scroll-pane3{background:#fff;float:left;width:530px;height:700px;overflow:auto;} */
+#scroll-pane1, #scroll-pane2, #scroll-pane3{background:#fff;float:left;width:563px;height:700px;overflow:auto;}
+#latestNews #scroll-pane1,#latestNews #scroll-pane2{height:463px;width:250px;text-align:left;}  
+#twitterFeed{padding-left:5px;height:258px;width:255px;text-align:left;}  
+.brokerDashboard #scroll-pane1,.brokerDashboard #scroll-pane2{height:200px;width:555px;text-align:left;}
+.brokerDashboard #scroll-pane3{height:500px;width:555px;text-align:left;}

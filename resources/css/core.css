@@ -1,0 +1,159 @@
+/* ---- [ Global Definitions and Resets ] ---- */
+body{padding:0;margin:0;font-family:Arial,Helvetica,sans-serif;font-size:12px;background:#ebebeb url(../images/bg/site.png) repeat-x;}
+img {border:0 none;}
+li, p, h1, h2, h3, h4, h5, form {border:0 none;margin:0;padding:0;}
+/* ul, ol{border:0 none;margin:0 0 0 20px;padding:0; .margin-left: 35px;} */
+ul, ol{border:0 none;margin:0 0 0 20px;padding:0;margin-left:35px;}
+hr{clear:both;margin:0 0 10px;padding:5px 0 0;height:1px;border:0;border-bottom:1px solid #999;}
+
+h1{color:#000;font-family:Arial,Helvetica,sans-serif;text-transform:uppercase;margin:0 0 10px 0;}
+h2{color:#000;font-family:Arial,Helvetica,sans-serif;text-transform:uppercase;font-size:22px;}
+h3{color:#000;font-family:Arial,Helvetica,sans-serif;}
+h4{color:#F96C14;font-family:Arial,Helvetica,sans-serif;text-transform:uppercase;font-size:18px;}
+
+a			{color:#000;text-decoration:none;outline:none;}
+a:visited	{color:#000;}
+a:hover		{color:#F96C14;}
+a:active	{outline:none;}
+		
+/* ----[Utility Classes]---- */		
+.clearfix:after {content:".";display:block;height:0;clear:both;visibility:hidden;}
+.clearfix {display:inline-block;}/* for IE/Mac */
+
+/* ----[Structure]---- */
+.topAd{width:905px;margin:20px auto 15px;position:relative;z-index:3;}
+.pageContainer{width:905px;min-height:400px;margin:0 auto;position:relative;z-index:1;}
+	.wrapperTop{width:905px;height:12px;background:url(../images/bg/wrapper_top.png) no-repeat;}
+	.wrapper{background-color:#fff;}
+		.logoBG{background:url(../images/bg/logo.png)no-repeat;position:absolute;left:-115px;top:-57px;width:262px;height:231px;z-index:2;}
+		.header{border-bottom:2px solid #000;position:relative;z-index:3;margin-bottom:6px;}
+			.logo{padding:20px 0 20px 30px ;}
+			#twitter_badge{float:right;margin:24px}
+			#twitter_badge a {display:block;background:url(/resources/images/twitter_badge_33.png) no-repeat;width:33px;height:33px;text-indent:-5000px}
+			#twitter_badge a:hover {background-position:0 -33px}
+			#sign_in{float:right;margin:24px}
+				#header_sign_in{padding:0}
+					#header_sign_in input{width:140px;font-size:14px}
+					#header_sign_in input.submit{width:70px;margin:0;padding:0;position:relative;top:5px}
+		.pageBody{width:846px;min-height:300px;margin:0 auto;position:relative;z-index:3;padding:15px 15px 0;background:url(../images/bg/content_area.png) no-repeat;}
+			.mainCol{}
+			 /* .mainCol p{padding:20px 35px;} */
+				.mainCol p{padding:10px 35px;}
+				.mcAd{clear:both;margin-bottom:10px;}
+			.leftCol{float:left;padding:0 10px 20px 0;/*width:555px;*/width:563px;}
+				.leftCol p{}
+		 /* .rightCol{float:left;width:280px;} */
+			.rightCol{float:left;width:273px;}
+				.rcAd{margin-bottom:10px;text-align:right;}
+		.btmAd{margin:0 auto;width:875px;margin-bottom:20px;}
+		.footer{border-top:1px solid #000;margin-top:5px;padding-top:5px;}
+			.footerLinks{text-align:center;text-transform:uppercase;font-size:11px;margin:15px 0 25px;}
+/*				.footerLinks ul{list-style:none;width:675px;margin:0 auto 8px;} */
+				.footerLinks ul{list-style:none;margin:0 auto 8px;}
+					.footerLinks ul li{display:inline;margin:0 0 0 10px;padding:0 0 0 13px;border-left:1px solid #000;}
+					.footerLinks ul li:first-child{border-left:0 none;}
+					.footerLinks ul li.first	{ margin:0; padding:0; }
+			.footerLogos{text-align:center;}
+				.footerLogos img{margin:0 30px;}
+	.wrapperBottom{width:905px;height:12px;background:url(../images/bg/wrapper_bottom.png) no-repeat;}
+	
+/* ----[1. My Homepage]---- */
+.newsItem						{padding:5px;margin-bottom:10px;color:#999;}
+.newsItem a,.newsItem a:visited	{font-weight:bold;color:#000;display:block;}
+.newsItem a:hover				{font-weight:bold;color:#F96C14;display:block;}
+ 
+.upperLeftCol{float:left;width:273px;padding-right:13px;}
+.upperRightCol{float:left;width:273px;}
+
+.moduleContent h3{color:#f86c13;text-transform:uppercase;padding:10px 0 10px 20px;}
+.moduleContent p{padding:3px 10px;}
+.note{font-size:7px;}
+.moduleContent table{width:100%;margin:0;padding:0;border-collapse:collapse;}
+.moduleContent th{text-align:left;padding:10px;}
+.moduleContent td{padding:5px 10px;}
+.moduleContent td:first-child{font-weight:bold;}
+
+.oneColMod{width:273px;margin-bottom:10px;}
+	.oneColMod .moduleTop{width:273px;height:5px;background:url(../images/bg/module_top.png) no-repeat;}
+	.oneColMod .moduleContent{background-color:#fff;border-left:1px solid #999;border-right:1px solid #999;}	
+	.oneColMod .moduleBottom{width:273px;height:5px;background:url(../images/bg/module_bottom.png) no-repeat;}
+.twoColMod{width:560px;margin-bottom:10px;}
+	.twoColMod .moduleTop{width:560px;height:6px;background:url(../images/bg/module_l_top.png) no-repeat;}
+	.twoColMod .moduleContent{background-color:#fff;border-left:1px solid #999;border-right:1px solid #999;}
+	.twoColMod .moduleBottom{width:560px;height:6px;background:url(../images/bg/module_l_bottom.png) no-repeat;}
+	
+/* ----[2. Regions]---- */
+.region h3{margin:0 0 7px 50px;}
+.region p{margin:0 0 13px 50px;}
+.region ul, .region ol {margin:0 0 13px 70px}
+.region li {margin:0 0 7px 0}
+.region li ul, .region li ol {margin-left:20px}
+ul.regionBullets{margin-left:70px;}
+ul.regionBullets li{float:left;width:200px;}
+
+#register_now 			{ float:right;display:none }
+	#register_now img	{ padding:20px 30px 20px 0; }
+
+#map-container				{padding:40px 0 0 50px}
+#map-image					{width:462px;height:287px;}
+#map-image.default			{background:url(../images/region_map.png)no-repeat;}
+#map-image.west-map			{background:url(../images/region_map_rollover.png) no-repeat center 0;}
+#map-image.midwest-map		{background:url(../images/region_map_rollover.png) no-repeat center -1144px;}
+#map-image.south-map		{background:url(../images/region_map_rollover.png) no-repeat center -286px;}
+#map-image.northeast-map	{background:url(../images/region_map_rollover.png) no-repeat center -858px;}
+#map-image.southeast-map	{background:url(../images/region_map_rollover.png) no-repeat center -572px;}
+
+.full_width_centered		{width:100%;text-align:center;}
+
+.fifty_fifty				{float:left;width:423px;}
+	.fifty_fifty_inner		{padding:15px;}
+	
+#register_form_wrapper				{margin:40px 0 30px 220px;}
+	#register_form					{background-image:url(/resources/images/bg/register_form.png); background-repeat:no-repeat;width:390px;height:400px;text-align:center;}
+	#register_thanks				{background-image:url(/resources/images/bg/register_thanks.png); background-repeat:no-repeat;width:390px;height:300px;text-align:center;}
+		#register_form_inner		{padding:20px;}
+		#register_form_inner p		{font-weight:bold;}
+		#register_form_inner label	{float:left;margin:12px 0 17px 0;width:70px;text-align:left;}
+		#register_form_inner input	{width:180px;height:20px;float:right;margin:5px 40px 14px 0;}
+		#register_form_inner input#register_btn	{margin:25px 90px 0 0;padding:0;width:168px;height:46px;}
+
+/* ----[5 & 6. Scrap & Equipment Classifieds]---- */
+.row2{background-color:#EBEBEB;}
+.classifiedListing strong{text-transform:uppercase;display:block;padding-bottom:10px;}
+.classifiedListing p{padding-bottom:10px;}
+.classifiedListing a, .classifiedListing a:visited, .classifiedListing a:hover{text-decoration:underline;}
+
+.listingDescBox img{float:left;margin-right:20px;}
+.listingDescBox .details{float:left;width:390px;}
+	.listingDescBox strong{font-size:15px;}
+	.listingDescBox dt{float:left;width:75px;}
+	.listingDescBox dd{float:left;width:310px;margin:0;}
+	.listingDescBox p.description{padding-bottom:20px;}
+	.listingDescBox p.contactInfo{font-size:15px;}
+
+.scrapListing{padding:20px 30px;}
+	.scrapListing dl{margin:0;}
+	.scrapListing dt{float:left;width:70px;}
+	.scrapListing dt.col1{clear:both;width:50px;}
+	.scrapListing dt.colspan2{width:300px;}
+	.scrapListing dd{float:left;width:100px;margin:0;}
+
+.equipListing			{padding:30px;}
+	.equipListing dl 	{margin:0;}
+	
+/* ----[7 Broker Dashboard]---- */
+.brokerDashboard .moduleContent h3{float:left;}
+.brokerDashboard .leftCol hr{margin-bottom:0;}
+.brokerDashboard .more{float:right;margin:10px 20px 0 0;text-decoration:underline;}
+.brokerDashboard .filter{background:#777;color:#fff;line-height:40px;padding-left:20px}
+.brokerDashboard .filter div{float:left;margin-right:20px;}
+.brokerDashboard .expired{color:#CCC;font-weight:700;}
+.brokerDashboard .status{font-weight:700}
+.brokerDashboard a.archive{width:22px;height:22px;display:block;background:url(/resources/images/buttons/dashboard_action.png) 0px 0px;text-indent:-5000px}
+.brokerDashboard a.archive:hover{background-position: 0px -22px;}
+.brokerDashboard a.quote{width:22px;height:22px;display:block;background:url(/resources/images/buttons/dashboard_action.png) 66px 0px;text-indent:-5000px}
+.brokerDashboard a.quote:hover{background-position: 66px -22px;}
+.brokerDashboard a.add{width:22px;height:22px;display:block;background:url(/resources/images/buttons/dashboard_action.png) 44px 0px;text-indent:-5000px}
+.brokerDashboard a.add:hover{background-position: 44px -22px;}
+.brokerDashboard a.minus{width:22px;height:22px;display:block;background:url(/resources/images/buttons/dashboard_action.png) 22px 0px;text-indent:-5000px}
+.brokerDashboard a.minus:hover{background-position: 22px -22px;}

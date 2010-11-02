@@ -1,0 +1,58 @@
+<?php
+    
+$mats = array(array(
+"#1 HMS",
+"#2 HMS",
+"#1 Bundles",
+"#2 Bundles",
+"#1 Busheling",
+"Shredded Scrap",
+"Machine Shop Turnings",
+"Cast Iron Borings",
+"Plate & Structural",
+"Punchings and Plate",
+"Machine Cast Iron",
+"Rail Road Scrap",
+),
+array(
+"Cupola Cast",
+"Shoveling Turnings",
+"Mandrel Wound Coils of Banding, Wire, Strapping",
+"#1 & #2 Mixed Steel",
+"B Scrap",
+"Motor Blocks",
+"Black Sheet Clips",
+"Mixed Sheet Clips",
+"Black & Tin Plate Clips",
+"Pit Skulls",
+"#1 Baling",
+"Pig Iron",
+),
+array(
+"#1.5 Dealer Bundles",
+"OTM",
+"Flashings",
+"Mill Scale",
+"Steel Pit Scrap",
+"Beach/Blast Furnace Iron",
+"Briquettes",
+"Briquetted Steel",
+"Electric Furnace Steel",
+"Sheet Slabs",
+"#1 Iron",
+"Cars – Autos",
+),
+array(
+"Cast Iron",
+"Catalytic Converters",
+"Foundry Steel",
+"Iron Ore",
+"New/Useable",
+"Shredder Residue",
+"Shavings",
+"Flame Cut",
+"EAF Chill Scrap",
+"Mixed Busheling"
+));
+	
+?>

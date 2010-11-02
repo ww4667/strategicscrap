@@ -1,0 +1,58 @@
+/* ----[Containers]---- */
+.mainNavContainer	{height:54px;width:846px;margin:0 auto 20px;background: url(../images/bg/nav.png) no-repeat top right;}
+#mainnav li 		{margin:0; padding:0; list-style:none;}
+#mainnav li 		{display:inline-block; display:inline;}
+#mainnav ul 		{padding:0; margin:0; list-style:none; position:absolute; left:-9999px;}
+#mainnav :hover ul 	{left:0;}
+#mainnav table.ie6 	{border-collapse:collapse; margin-top:-1px;}/* IE6 */
+
+/* ----[Bar]---- */
+#mainnav {margin:0; padding:9px 0 0 10px; list-style:none; white-space:nowrap; text-align:left; float:left;position:relative;z-index:3;}
+
+/* All mainnav links */
+#mainnav a.mainItem, #mainnav a.mainItem:visited {display:block;color:#fff;font-size:14px;text-decoration:none;font-weight:bold;text-transform:uppercase;}
+
+/* ----[Top Level Links]---- */
+#mainnav li.li-top 						{float:left; display:block;}
+/* #mainnav li.li-top a.mainItem {float:left;color:#fff;line-height:35px;font-size:14px;text-transform:uppercase;padding:0 11px;} */ /* <---- Adjust width of buttons with this */
+#mainnav li.li-top a.mainItem 			{float:left;color:#fff;line-height:35px;font-size:13px;text-transform:uppercase;padding:0 14px;/* <---- Adjust width of buttons with this */}
+#mainnav li.li-top a.mainItem img		{padding:1px 0;}
+
+    /* Top Level Link, No Dropdown - Hover */
+	#mainnav :hover a:hover 			{color:#F96C14;}
+	
+	/* Top Level Link, No Dropdown - IE6 Hover */
+	#mainnav li a.mainItem:hover 		{position:relative;color:#F96C14;}
+
+/* ----[Current Page Top Level Link]---- */	
+#mainnav li.current a.mainItem			{color:#F96C14;background:#000 url(../images/bg/nav_on.png) repeat-x;border:1px solid #000;line-height:33px;}
+#mainnav li.current a.mainItem:visited	{color:#F96C14;}
+#mainnav li.current a.mainItem:hover	{color:#F96C14;}
+	
+/* ----[Dropdown]---- */
+#mainnav ul.ul-sub 	{background:transparent url(../images/bg/nav_ddown.png);padding:0 10px;min-width:70px;}
+
+	/* Dropdown link */
+/*	#mainnav ul.ul-sub a{color:#fff;font-size:12px;font-weight:normal;padding:0 10px 0 15px;display:block;text-decoration:none;line-height:31px;} */
+	#mainnav ul.ul-sub a				{color:#fff;font-size:12px;font-weight:normal;padding:0 10px 0 5px;display:block;text-decoration:none;line-height:31px;}
+	#mainnav ul.ul-sub a:hover			{color:#F96C14;text-decoration:underline;position:relative;z-index:5;} /* IE6 */
+/*	#mainnav ul.ul-sub li:first-child a	{margin-top:10px;} */
+	#mainnav ul.ul-sub li:first-child a	{margin-top:10px;background:none;border:none;text-indent:0;}
+	
+	/* Top Level Link, With Dropdown - Hover */
+	#mainnav li.li-top:hover ul 			{margin-top:35px;}
+	#mainnav li.li-top:hover 				{position:relative;}
+	#mainnav li.li-top:hover > a 			{padding:0 13px;color:#F96C14;background:#000 url(../images/bg/nav_on.png) repeat-x;border:1px solid #000;line-height:33px;} /* Dropdown Menu */
+	#mainnav li.li-top:hover a.mainItem img	{padding:0;}
+	#mainnav li.current:hover > a 			{padding:0 14px;color:#F96C14;} /* Dropdown Menu for "On" state */
+	
+	/* Top Level Link, With Dropdown - IE6 Hover */
+	#mainnav li.li-top a.mainItem:hover 	{color:#F96C14;position:relative;}
+	#mainnav li.current a.mainItem:hover 	{color:#F96C14;position:relative;}
+
+	/* Home icon instead of text */
+	#mainnav li.home a,#mainnav li.home a:visited { background:url("/resources/images/home.png") no-repeat scroll 14px 2px transparent; text-indent:-5000px; width:17px; padding-right:13px; border-right:none; }
+	#mainnav li.home a:hover 	{ background:url("/resources/images/bg/home-hover.png") repeat-x scroll 2px 0 transparent; text-indent:-5000px; padding-right:13px; border:1px solid #000000; }
+	#mainnav li.home.current a 	{ background:url("/resources/images/bg/home-hover.png") repeat-x scroll 2px 0 transparent; text-indent:-5000px; padding-right:13px; border:1px solid #000000; }
+
+/*	#mainnav li ul li.home a,#mainnav li ul li.home a:visited,#mainnav li ul li.home a:hover { background:none; border:none; padding-right:10px; } */

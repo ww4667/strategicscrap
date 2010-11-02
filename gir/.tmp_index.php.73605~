@@ -1,0 +1,40 @@
+<?php
+/**
+ * Main controller file that drives this puppy.
+ */
+
+// include configuration settings
+ require_once("config.php");
+
+// include core library files
+require_once($coreDirectory."/lib/database/Database.php");
+require_once($coreDirectory."/lib/database/Mysql.php");
+require_once($coreDirectory."/inc/db_connect.php");
+require_once($coreDirectory."/lib/validation/Validation.php");
+require_once($coreDirectory."/lib/xtras.php");
+
+// include core module
+require_once($coreDirectory."/models/crud/Crud.php");
+
+// include application modules
+require_once($modulesDirectory."/hello_world/hello_world.php");
+
+// get controller and method from page request
+$controller = isset($_GET['controller'])?$_GET['controller']:NULL;
+$method = isset($_GET['method'])?$_GET['method']:NULL;
+
+if(!is_null($controller)) {
+	// include specific module controller
+		// call method
+		echo "Specific module called";
+		print_r($_GET);
+} else if(!is_null($method)) {
+	// call method of default module controller
+		echo "Default module called";
+		print_r($_GET);
+} else {
+	// call default module controller and method
+	echo "Default View";
+}
+
+?>
