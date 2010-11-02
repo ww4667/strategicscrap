@@ -76,19 +76,6 @@ class Facility extends Crud {
 		$itemId = $item['id'];
 		$material = new Material();
 		$joins = $this->ReadJoins( $material );
-//		if (count($joins) > 0) {
-//			$objs = array();
-//			foreach ($joins as $item) {
-//				$obj = clone $material;
-//				foreach ($item as $key => $val) {
-//					$obj->$key = $val;
-//				}
-//				$objs[] = $obj;
-//			}
-//			$this->material_join = $objs;
-//		} else {
-//			return FALSE;
-//		}
 		$this->material_join = $joins;
 	}
 	
@@ -98,6 +85,25 @@ class Facility extends Crud {
 		$material = $m->GetItemObj( $materialId );
 		$items = $this->ReadForeignJoins( $material );
 		return $items;
+	}
+		
+	/** 
+	* return a region based on state abreviation
+	*/
+	public function setRegion( $state ) {
+		$south = array("TX","OK","AR","LA","MS");
+		$central = array("IA","MN","KS","IL","MO","SD","ND","WI","NE");
+		$northeast = array();
+		$southeast = array("TN","FL","NC","SC","AL","GA");
+		$west = array("CA","NM","AZ","ID","MT","NV","OR","WA","WY","UT","CO");
+		$region = "";
+		if(in_array($i_state, $south))$region = "S";
+		if(in_array($i_state, $west))$region = "W";
+		if(in_array($i_state, $central))$region = "C";
+		if(in_array($i_state, $southeast))$region = "SE";
+		if($region == "")$region = "NE";
+		
+		return $region;
 	}
 }
 ?>

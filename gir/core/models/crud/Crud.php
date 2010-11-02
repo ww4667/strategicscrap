@@ -204,15 +204,17 @@ class Crud {
 		$properties = $this->_GetValuesByObjectId( $itemId );
 		if ( count($properties) > 0) {
 			foreach ($objectProperties as $property) {
-				if( isset($itemData[$property["field"]]) ){
-					$this->_SetPropertyValue($itemId, $property["property_name_id"], $property["type"], $itemData[$property["field"]], true);
+				if( isset($itemData[$property["field"]]) && trim($itemData[$property["field"]]) != "" ){
+					$results = $this->_SetPropertyValue($itemId, $property["property_name_id"], $property["type"], $itemData[$property["field"]], true);
+					if(!$results)
+					$results = $this->_SetPropertyValue($itemId, $property["property_name_id"], $property["type"], $itemData[$property["field"]]);
+				} else {
+					$this->_DeletePropertyValue($itemId, $property["property_name_id"], $property["type"]);
 				}
 			}
 			$updated_ts = date("Y-m-d H:i:s"); // set updated timestamp
 			$query = "UPDATE " . $this->_TABLE_PREFIX.constant("Crud::_ITEMS") . " SET updated_ts='$updated_ts' WHERE id='$itemId'";
-			$this->database_connection->Open();
-			$this->database_connection->Query($query);
-			$this->database_connection->Close();
+			$this->_RunQuery($query);
 
 			return $itemId;
 		} else {
@@ -544,12 +546,12 @@ class Crud {
 
     
     /* DELETE */
-    private function _DeletePropertyValue( $itemId, $foreignItemId, $type ){
+    private function _DeletePropertyValue( $itemId, $propertyNameId, $type ){
     	//print "<h5>_SetPropertyValue</h5>";
     	/*  */
 
 		$table = NULL;
-	    
+
     	switch( $type ){
     		case "date":
 				$table = $this->_TABLE_PREFIX.constant('Crud::_VALUES_TABLE_DATES');
@@ -564,10 +566,9 @@ class Crud {
 				$table = $this->_TABLE_PREFIX.constant('Crud::_VALUES_TABLE_JOINS');
     			break;
     	}
-    	
-    	
+
 		$this->database_connection->Open();
-		$query = "DELETE FROM $table as tb WHERE tb.item_id = $propertyId AND tb.value=$foreignItemId;";
+		$query = "DELETE tb FROM $table as tb WHERE tb.item_id = $itemId AND tb.property_name_id = $propertyNameId;";
 		$result = $this->database_connection->Query( $query );
 		$arr1 = $this->database_connection->FetchArray( $result );
 		$this->database_connection->Close();
