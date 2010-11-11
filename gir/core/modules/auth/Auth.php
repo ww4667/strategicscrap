@@ -4,9 +4,10 @@
  * 
  * @author undead
  * 
- * 
+ * TODO: Keyed Entry
  * 
  */
+
 
 class Auth {
 	
@@ -30,20 +31,21 @@ class Auth {
 		$this->_APPLICATION = $applicationName;
 		return $this;
 	}
-	
+	/*test 2ssss2 fdkjsjfsjklsdffkdsj */
 	public function authenticate(){
+		global $gir;
 		/*
 		 * $auth = new Auth();
 		 * 
 		 * $authObject = $auth->setApllication()->$setUserGroup()->authenticate();
 		 * 
 		 */
-		$returnValue = $this->_isLoggedIn();
+		$returnValue = _isLoggedIn();
 		
 		return $returnValue;
 	}
-	
-	private function _isLoggedIn(){
+	  
+	private function _isLoggedIn( ){
 		if( isset( $_SESSION['user'] ) ){
 			if( isset( $_SESSION['user']['id'] ) )
 				$this->_USER_ID = $_SESSION['user']['id'];
