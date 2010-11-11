@@ -11,6 +11,8 @@ class Crud {
 	
 	protected $_OBJECT_NAME = "";
 
+	protected $_OBJECT_NAME_ID = "";
+
 	protected $_OBJECT_PROPERTIES = array();
 	
 	
@@ -52,8 +54,11 @@ class Crud {
 	function __construct ($tablePrefix = "gir_") {
 		$this->CreateDbConnection( $_SESSION['_DATABASE_CONNECTION'] );
 		$this->_TABLE_PREFIX = $tablePrefix;
-		if ( $this->_OBJECT_NAME != "" )
-		$this->_OBJECT_PROPERTIES = $this->CreateObjectDefinition($this->_OBJECT_NAME,	$this->_OBJECT_PROPERTIES);
+		if ( $this->_OBJECT_NAME != "" ) {
+			$this->_OBJECT_PROPERTIES = $this->CreateObjectDefinition($this->_OBJECT_NAME,	$this->_OBJECT_PROPERTIES);
+			$object = $this->_GetDataByName( $this->_OBJECT_NAME, $this->_TABLE_PREFIX.constant('Crud::_OBJECT_NAMES') );
+			$this->_OBJECT_NAME_ID = $object['id'];
+		}
 	}
 	
 
@@ -165,6 +170,43 @@ class Crud {
 		return $this;
 	}
 	
+	public function GetItemsByPropertyValue( $propertyName, $value ){
+		$objectNameId = $this->_OBJECT_NAME_ID;
+		$items = array();
+		foreach ($this->_OBJECT_PROPERTIES as $p) {
+			if ( $p['field'] == $propertyName ) {
+				$propertyNameId = $p['property_name_id'];
+				$propertyType = $p['type'];
+				$items = $this->_GetItemsByObjectPropertyValue( $objectNameId, $propertyName, $propertyType, $value );
+			}
+		}
+		return $items;
+	}
+	
+	public function GetItemsObjByPropertyValue( $propertyName, $value ){
+		$objectNameId = $this->_OBJECT_NAME_ID;
+		$items = array();
+		foreach ($this->_OBJECT_PROPERTIES as $p) {
+			if ( $p['field'] == $propertyName ) {
+				$propertyNameId = $p['property_name_id'];
+				$propertyType = $p['type'];
+				$items = $this->_GetItemsByObjectPropertyValue( $objectNameId, $propertyName, $propertyType, $value );
+				if (count($items) > 0) {
+					$objs = array();
+					foreach ($items as $item) {
+						$obj = clone $this;
+						foreach ($item as $key => $val) {
+							$obj->$key = $val;
+						}
+						$objs[] = $obj;
+					}
+					return $objs; // array objects
+				}
+			}
+		}
+		return $items; // empty array
+	}
+	
 	public function SetCurrentItem( $item ) {
 		$this->_CURRENT_ITEM = $item;
 	}
@@ -197,9 +239,11 @@ class Crud {
 		}
 	}
 	
-	public function UpdateItem( $itemData ) {
-		// TODO: check for empty fields and remove them from the DB
+	public function UpdateItem( $itemData = null ) {
+		if ( is_null($itemData) )
+			$itemData = (array) $this;
 		$itemId = $itemData['id'];
+		// TODO: check for empty fields and remove them from the DB
 		$objectProperties = $this->_OBJECT_PROPERTIES;
 		$properties = $this->_GetValuesByObjectId( $itemId );
 		if ( count($properties) > 0) {
@@ -665,6 +709,45 @@ class Crud {
 		$result = $this->database_connection->Query( $query );
 		$arr1 = $this->database_connection->FetchAssocArray( $result );
 		$this->database_connection->Close();
+		return $arr1;
+	}
+	
+	private function _GetItemsByObjectPropertyValue( $objectNameId, $propertyName, $type, $value ){
+    	switch( $type ){
+    		case "date":
+				$table = $this->_TABLE_PREFIX.constant('Crud::_VALUES_TABLE_DATES');
+		    	break;
+    		case "text":
+				$table = $this->_TABLE_PREFIX.constant('Crud::_VALUES_TABLE_TEXT');
+    			break;
+    		case "number":
+				$table = $this->_TABLE_PREFIX.constant('Crud::_VALUES_TABLE_NUMBERS');
+    			break;
+    		case "joins":
+				$table = $this->_TABLE_PREFIX.constant('Crud::_VALUES_TABLE_JOINS');
+    			break;
+    	}
+		$properties = $this->_OBJECT_PROPERTIES;
+		$fields = ""; 
+		foreach ($properties as $p) {
+			if ($fields == "") {
+				$fields .= " MAX(IF(pn.label='".$p['field']."', v.value, '')) AS ".$p['field'];
+			} else {
+				$fields .= ", MAX(IF(pn.label='".$p['field']."', v.value, '')) AS ".$p['field'];
+			}
+		}
+		$query = "SELECT * FROM";
+		$query .= " (SELECT o.id, o.created_ts, o.updated_ts, o.object_name_id,";
+		$query .= $fields;
+		$query .= " FROM " . $this->_TABLE_PREFIX.constant('Crud::_ITEMS') . " as o";
+		$query .= " LEFT JOIN " . $this->_TABLE_PREFIX.constant('Crud::_OBJECT_DEFINITIONS') . " as od on od.object_name_id = o.object_name_id";
+		$query .= " LEFT JOIN " . $this->_TABLE_PREFIX.constant('Crud::_PROPERTY_NAMES') . " as pn on pn.id = od.property_name_id";
+		$query .= " LEFT JOIN 	(SELECT * FROM " . $this->_TABLE_PREFIX.constant('Crud::_VALUES_TABLE_DATES') . " UNION SELECT * FROM " . $this->_TABLE_PREFIX.constant('Crud::_VALUES_TABLE_NUMBERS') . " UNION SELECT * FROM " . $this->_TABLE_PREFIX.constant('Crud::_VALUES_TABLE_TEXT') . ") as v on v.property_name_id = od.property_name_id AND v.item_id = o.id";
+		$query .= " WHERE o.object_name_id = $objectNameId";
+		$query .= " GROUP BY o.id) AS all_items";
+		$query .= " WHERE $propertyName = '$value'";
+		$result = $this->_RunQuery( $query );
+		$arr1 = $this->database_connection->FetchAssocArray( $result );
 		return $arr1;
 	}
 

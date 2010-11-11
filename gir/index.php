@@ -15,6 +15,7 @@ require_once("config.php");
 // include core modules
 require_once($coreDirectory."/models/crud/Crud.php");
 require_once($coreDirectory."/modules/auth/Auth.php");
+require_once($coreDirectory."/modules/user/User.php");
 
 
 // include core library files

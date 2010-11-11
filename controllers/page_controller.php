@@ -127,6 +127,35 @@ require_once($_SERVER['DOCUMENT_ROOT']."/gir/index.php");
 			if(isset($_GET['gir'])) { // use for testing stuff
 				$controller = "facility";
 				$method = "view";
+				if ( isset( $_GET['user'] ) ) {
+//					// create a user
+//					$userData = array(
+//					"email" => "greg@greg.com",
+//					"password" => "yellow",
+//					"validation" => 1
+//					);
+//					unset($_SESSION['user']);
+					$u = new User();
+					$users = $u->Login('jlabresh1@gmail.com', 'ihategit');
+					print_r($_SESSION);
+					$u->Logout();
+					print_r($_SESSION);
+//					$users = $u->GetAllItems();
+//					print_r($_SESSION['user']);
+					
+//					$u->CreateItem($userData);
+//					$userData = array(
+//					"email" => "jlabresh1@gmail.com",
+//					"password" => "ihategit",
+//					"validation" => 1
+//					);
+//					$u->CreateItem($userData);
+//					$a = new Auth();
+//					$users = $u->GetAllItems();
+//					print_r($users);
+//					$a->
+				}
+				
 				if ( isset( $_GET['edit'] ) && isset( $_GET['fid'] ) ) {
 					if ( isset( $_POST['fac_save_btn'] ) ) {
 						$f->UpdateItem($_POST);

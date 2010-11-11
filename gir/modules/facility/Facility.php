@@ -7,6 +7,7 @@
 class Facility extends Crud {
 	 
 	protected $_OBJECT_NAME = "facility";
+	protected $_OBJECT_NAME_ID = "";
 	protected $_OBJECT_PROPERTIES = array(	array("type"=>"text","label"=>"Company","field"=>"company"),
 											array("type"=>"text","label"=>"Last Name","field"=>"last_name"),
 											array("type"=>"text","label"=>"First Name","field"=>"first_name"),
