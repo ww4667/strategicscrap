@@ -473,44 +473,37 @@ array(
 			require($_SERVER['DOCUMENT_ROOT']."/views/layouts/shell.php");
 		break;
 		
-		/* CLIENT LOGIN **************************************** */
-		case 'client-login':
-			// page 'template variables'
-			$PAGE_BODY = "views/client_login.php";  	/* which file to pull into the template */
-			
+		/* SCRAP LOGIN **************************************** */
+		case 'scrap-login':
 			$error_messages = array();
 			
-			if (isset($_GET['logout']) || isset($_GET['logged_out'])) {
-				if (isset($_GET['logout'])) {
-					Client::log_out();
-					header('Location: /client-login.html?logged_out=1');
+			if ( isset($_POST['username']) && isset($_POST['password']) ) {
+				$username = trim($_POST['username']);
+				$password = trim($_POST['password']);
+				$u = new User();
+				if($u->Login($username, $password)) {
+					$error_messages[] = "Welcome!";
+					header('Location: /regions/northeast');
 				}
-				array_push($error_messages, "You have been logged out.");
+			} else {
+				$error_messages[] = "Wrong username or password.";
+				header('Location: /');
 			}
-
-			if (isset($_POST['password'])) {
-				$lookup = Client::email_exists($_POST['email']);
-				if ($lookup->password == sha1($_POST['password'])) {
-					$lookup->session_refresh();
-					if ($lookup->service_type == 'doc prep') {
-						header('Location: /services/my-account-document-preparation.html');
- 					} else {
-						header('Location: /services/my-account-uncontested-divorce.html');
- 					}
-				} else {
-					array_push($error_messages, "You could not be logged in. Check your email address and password and try again.");
-				}
-			} elseif (Client::is_logged_in()) {
-				$client = unserialize($_SESSION['hd_client']);
-				if ($client->service_type == 'doc prep') {
-					header('Location: /services/my-account-document-preparation.html');
-				} else {
-					header('Location: /services/my-account-uncontested-divorce.html');
-				}
+			//the layout file  -  THIS PART NEEDS TO BE LAST
+//			require($_SERVER['DOCUMENT_ROOT']."/views/layouts/shell.php");
+		break;
+		
+		/* SCRAP LOGOUT **************************************** */
+		case 'scrap-logout':
+			$error_messages = array();
+			$u = new User();
+			if ( $u->Logout() ) {
+				$error_messages[] = "You have been logged out successfully.";
 			}
+			header('Location: /');
 
 			//the layout file  -  THIS PART NEEDS TO BE LAST
-			require($_SERVER['DOCUMENT_ROOT']."/views/layouts/shell.php");
+//			require($_SERVER['DOCUMENT_ROOT']."/views/layouts/shell.php");
 		break;
 		
 		/* 250 CLIENT SERVICES **************************************** */
