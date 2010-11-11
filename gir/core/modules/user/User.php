@@ -30,6 +30,7 @@ class User extends Crud {
 	 * PUBLIC FUNCTIONS
 	 */
 	public function ForgotPassword($email) {
+		
 		return $this->_forgotPassword($email);
 		
 	}
