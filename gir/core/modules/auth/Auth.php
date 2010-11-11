@@ -31,7 +31,7 @@ class Auth {
 		$this->_APPLICATION = $applicationName;
 		return $this;
 	}
-	
+	/*test */
 	public function authenticate(){
 		global $gir;
 		/*
