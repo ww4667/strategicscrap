@@ -47,7 +47,7 @@ tr.details td{padding:0}
 		<script type="text/javascript" src="http://gmaps-utility-library.googlecode.com/svn/trunk/progressbarcontrol/1.0/src/progressbarcontrol.js"></script>
 
 
-		<script type="text/javascript">
+		<script type="text/javascript"><!--
 		//<![CDATA[
 
 
@@ -253,6 +253,9 @@ var initLoad = false;
 var updateFilters = false;
 var removingItems = false;
 var addingItems = false;
+var gmarkers = [];
+var points = [];
+
 
 function updateMarkers(){
 	$("#mapForm input:checkbox").attr('disabled','disabled');
@@ -276,7 +279,7 @@ function updateMarkers(){
 		} else {
 		    modData = []; 
 		}
-		updatePageData(json);
+		updatePageData(modData);
 	});
 	
 	if(checkedItems.length < 1) {
@@ -289,15 +292,17 @@ function updateMarkers(){
 }
 
 function updatePageData( json ){
+	console.log(json);
 	if(!json) return false; 
 	updateFilters = true;
 	removeMarkers();
 	$("#mapForm input:checkbox").removeAttr('disabled');
 	$('.moduleContent h3 span:first').text(modData.length);
 
-	var pageData = "", i = 0, l = json.Locations.length,cur = null;
+	var pageData = "", i = 0, l = json.length,cur = null;
+	
 	for(i;i<l;i++){
-		cur = json.Locations[i];
+		cur = json[i];
 		pageData += '<tr class="row2" >';
 		pageData += '	<td style="width:30px"><a class="scrapQuote quote" href="#" title="view details">details</a></td>';
 		pageData += '	<td style="width:130px">'+cur.company+'</td>';
@@ -318,66 +323,67 @@ function updatePageData( json ){
 function loadMarkers(){ 
 	num = 0; 
 	maxNum = modData.length;
-	progressBar.start(maxNum);  
 	addingItems = true;
-	setTimeout('createMarker()', 10);
+	createMarkers();
 }
 
-function addClickevent(marker) {
-	GEvent.addListener(marker, "click", function() {
-		marker.openInfoWindowHtml(marker.da.content);
-	});
+function addIcon(icon) { // Add icon properties
+
+ 
+ icon.shadow = "";
+ icon.iconSize = new GSize(15, 15);
+ icon.shadowSize = new GSize(0, 0);
+ icon.iconAnchor = new GPoint(0, 0);
+ icon.infoWindowAnchor = new GPoint(0, 0);
+ icon.image = "http://demo.strategicscrap.com/lib/map/orange_dot.png";
 }
 
 
+function createMarkers(){
+	var data = modData;
 
-
-function createMarker(latlng, number) {
-    var marker = new GMarker(latlng);
-    marker.value = number;
-    GEvent.addListener(marker,"click", function() {
-      var myHtml = "<b>#" + number + "</b><br/>" + message[number -1];
-      map.openInfoWindowHtml(latlng, myHtml);
-    });
-    return marker;
-}
-
-function createMarker(){  
-//	num++;
-	if (num < maxNum) {  
-		var latlng = new GLatLng(modData[num].lat, modData[num].lon); 
-		//{"address":"P.O. Box 14667","city":"Phoenix","state":"arizona","zip":85063,"name":"Verco Decking Inc","phone":"602-272-1347","url":"http://www.vercodeck.com/","fax":"","lat":"33.45","lon":"-112.07","title":"Verco Decking Inc","type":"Mills","types":{"mat_30":true}},
-      
+	var icon = new GIcon();
+	icon.image = "http://demo.strategicscrap.com/lib/map/orange_dot.png";
+	addIcon(icon);
+		
+	for(var i = 0; i < data.length; i++) {
+		points[i] = new GLatLng(parseFloat(data[i].lat), parseFloat(data[i].lon));
+		gmarkers[i] = new GMarker(points[i], icon);
+		
+		// Store data attributes as property of gmarkers
+		var html = "<div class='infowindow'>" +data[i].company + "<br />" + 
+		data[i].address_1 + "<br />" + 
+        ( data[i].address_2  ? data[i].address_2 + "<br />" : "" ) + 
+        data[i].city + ", " + 
+        data[i].state_province + ' ' + 
+        data[i].zip_postal_code + 
+        "<hr />" + 
+        ( data[i].home_phone != "" ? "<br />Home Phone:" + data[i].home_phone : "" ) + 
+        ( data[i].mobile_phone != "" ? "<br />Mobile Phone:" + data[i].mobile_phone : "" ) + 
+        ( data[i].fax_number != "" ? "<br />Fax:" + data[i].fax_number : "" ) + 
+        "<hr /><a href='" + data[i].website + "'>" + data[i].website + "</a><\/div>";
         
-		var marker = new GMarker(latlng,markerOptions);  
-		marker.value = num;
-
-		 GEvent.addListener(marker, "click", function() {  
-			var tfff = modData[num].company + "<br />" + 
-	        modData[num].address_1 + "<br />" + 
-	        ( modData[num].address_2  ? modData[num].address_2 + "<br />" : "" ) + 
-	        modData[num].city + ", " + 
-	        modData[num].state_province + ' ' + 
-	        modData[num].zip_postal_code + 
-	        "<hr />" + 
-	        ( modData[num].home_phone != "" ? "<br />Home Phone:" + modData[num].home_phone : "" ) + 
-	        ( modData[num].mobile_phone != "" ? "<br />Mobile Phone:" + modData[num].mobile_phone : "" ) + 
-	        ( modData[num].fax_number != "" ? "<br />Fax:" + modData[num].fax_number : "" ) + 
-	        "<hr /><a href='" + modData[num].website + "'>" + modData[num].website + "</a>";
-		  marker.openInfoWindowHtml(tfff);
-		 });
-		 
-		googleMap.addOverlay(marker);
-		 
-		markersArray.push(marker);  
-			
-		setTimeout('createMarker()', 10);  
-		if(num+1 < maxNum)progressBar.updateLoader(1);  
-	} else {
-		onMarkersCreated();
+		gmarkers[i].content = html;
+		gmarkers[i].nr = i;
+		addClickevent( gmarkers[i] );
+		googleMap.addOverlay( gmarkers[i] );
 	}
-	num++;
+	
+	onMarkersCreated();
+	
 }
+
+function addClickevent( marker ) { 
+	
+	GEvent.addListener(marker, "click", function() {
+		marker.openInfoWindowHtml(marker.content);
+		count = marker.nr;
+		stopClick = true;
+	});
+	 
+	return marker;
+}
+
 
 function onMarkersCreated(){
 	progressBar.remove();    
@@ -388,18 +394,9 @@ function onMarkersCreated(){
 
 function removeMarkers(){  
 	removingItems = true;
-		progressBar.start(markersArray.length);  
-		setTimeout("removeMarker()", 10);
-}
-
-function removeMarker(){ 
-	if (markersArray.length > 0) {
-		progressBar.updateLoader(1);  
-		googleMap.removeOverlay(markersArray.pop());  
-		    setTimeout("removeMarker()", 10);  
-	} else {
-		onMarkersRemoved();
-	}
+	var i = 0; l = modData.length;
+	for( i; i<l; i++ ) googleMap.removeOverlay( modData[i] ); 
+	onMarkersRemoved();
 }
 
 function onMarkersRemoved(){
@@ -412,7 +409,7 @@ function onMarkersRemoved(){
 }
 
 //////////////////////////
-</script>
+--></script>
 	
 <!-- DONE JEREMIAH -->
 
