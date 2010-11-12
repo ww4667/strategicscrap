@@ -48,7 +48,7 @@ tr.details td{padding:0}
 
 
 		<script type="text/javascript"><!--
-		//<![CDATA[
+		/* <![CDATA[ */
 
 
 		//A few constants identical client-side and server-side
@@ -56,7 +56,7 @@ tr.details td{padding:0}
 			'RGB_MODE' : 0,//color check based on RGB coords
 			'HSL_MODE' : 1,//color check based on HSL coords
 			'RGB_PRECISION' : 30,//0..255 - max distance in the RGB space
-			'HSL_PRECISION' : 0.1,//0..1 - max distance in the HSL space
+			'HSL_PRECISION' : 0.1//0..1 - max distance in the HSL space
 		};
 		//Current color check mode
 		var COLOR_CHECK_MODE = oConstant.RGB_MODE;
@@ -258,27 +258,31 @@ var points = [];
 
 
 function updateMarkers(){
+	
+	
 	$("#mapForm input:checkbox").attr('disabled','disabled');
-//	var i = 0, len = _d.length;
+
+	
 	modData = [];
 	var checkedItems = $("#mapForm input:checkbox:checked");
     var val_string = "||";
+	
 	$.each(checkedItems, function() {
 		val_string += $(this).val() + "||";
 	});
-//	for( var j = 0; j<checkedItems.length; j++){
-//		chkd_item = checkedItems[j];
-//	}
 
+	
 	$.getJSON("/controllers/remote_controller.php?method=filter-material&val=" + val_string, function(json) { 
+		
 		if (json.Locations.length>0) { 
 		  for (i=0; i<json.Locations.length; i++) { 
 		    var location = json.Locations[i]; 
 		  }
-		    modData = json.Locations;
+		  modData = json.Locations;
 		} else {
 		    modData = []; 
 		}
+		
 		updatePageData(modData);
 	});
 	
@@ -292,7 +296,8 @@ function updateMarkers(){
 }
 
 function updatePageData( json ){
-	console.log(json);
+	
+	
 	if(!json) return false; 
 	updateFilters = true;
 	removeMarkers();
@@ -321,21 +326,20 @@ function updatePageData( json ){
 }
 
 function loadMarkers(){ 
+	
 	num = 0; 
 	maxNum = modData.length;
 	addingItems = true;
 	createMarkers();
 }
 
-function addIcon(icon) { // Add icon properties
-
- 
- icon.shadow = "";
- icon.iconSize = new GSize(15, 15);
- icon.shadowSize = new GSize(0, 0);
- icon.iconAnchor = new GPoint(0, 0);
- icon.infoWindowAnchor = new GPoint(0, 0);
- icon.image = "http://demo.strategicscrap.com/lib/map/orange_dot.png";
+function addIcon(icon) {
+	icon.shadow = "";
+	icon.iconSize = new GSize(15, 15);
+	icon.shadowSize = new GSize(0, 0);
+	icon.iconAnchor = new GPoint(0, 0);
+	icon.infoWindowAnchor = new GPoint(0, 0);
+	icon.image = "http://demo.strategicscrap.com/lib/map/orange_dot.png";
 }
 
 
@@ -375,6 +379,7 @@ function createMarkers(){
 
 function addClickevent( marker ) { 
 	
+	
 	GEvent.addListener(marker, "click", function() {
 		marker.openInfoWindowHtml(marker.content);
 		count = marker.nr;
@@ -386,6 +391,7 @@ function addClickevent( marker ) {
 
 
 function onMarkersCreated(){
+	
 	progressBar.remove();    
 	num = 0;
 	initLoad = true;
@@ -393,13 +399,15 @@ function onMarkersCreated(){
 }
 
 function removeMarkers(){  
+	
 	removingItems = true;
-	var i = 0; l = modData.length;
-	for( i; i<l; i++ ) googleMap.removeOverlay( modData[i] ); 
+	var i = 0; l = gmarkers.length;
+	for( i; i<l; i++ ) googleMap.removeOverlay( gmarkers[i] ); 
 	onMarkersRemoved();
 }
 
 function onMarkersRemoved(){
+	
 	progressBar.remove();
 	removingItems = false;
 	if( updateFilters ) {
@@ -407,9 +415,8 @@ function onMarkersRemoved(){
 		loadMarkers();
 	}
 }
-
-//////////////////////////
---></script>
+/* ]]> */
+</script>
 	
 <!-- DONE JEREMIAH -->
 
