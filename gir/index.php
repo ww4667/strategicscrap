@@ -32,6 +32,8 @@ $gir = new Gir();
 // include application modules
 require_once($modulesDirectory."/facility/Facility.php");
 require_once($modulesDirectory."/material/Material.php");
+require_once($modulesDirectory."/scrapper/Scrapper.php");
+require_once($modulesDirectory."/broker/Broker.php");
 
 // get controller and method from page request
 $controller = isset($controller) ? $controller : NULL;

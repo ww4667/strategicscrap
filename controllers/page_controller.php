@@ -134,11 +134,18 @@ require_once($_SERVER['DOCUMENT_ROOT']."/gir/index.php");
 //					"password" => "yellow",
 //					"validation" => 1
 //					);
-//					unset($_SESSION['user']);
-					$u = new User();
-					$users = $u->Login('jlabresh1@gmail.com', 'ihategit');
+					$groups = array("Scrapper","Broker");
+					foreach ($groups as $g) {
+						if(!isset($_SESSION['user'])) {
+							$u = new $g();
+							$user = $u->Login('ww4667@gmail.com', 'blue');
+						}
+					}
 					print_r($_SESSION);
-					$u->Logout();
+					if(isset($_SESSION['user'])) {
+						$u = new User();
+						$u->Logout();
+					}
 					print_r($_SESSION);
 //					$users = $u->GetAllItems();
 //					print_r($_SESSION['user']);
@@ -480,14 +487,38 @@ array(
 			if ( isset($_POST['username']) && isset($_POST['password']) ) {
 				$username = trim($_POST['username']);
 				$password = trim($_POST['password']);
+				// snag matching user(s)
 				$u = new User();
-				if($u->Login($username, $password)) {
-					$error_messages[] = "Welcome!";
-					header('Location: /regions/northeast');
+				$users = $u->GetItemsObjByPropertyValue('email', $username);
+				$user = $users[0];
+				// get joins for users
+				$groups = array("Scrapper","Broker");
+				foreach ( $groups as $g ) {
+					$obj = new $g();
+					$joins = $obj->ReadForeignJoins( $user );
+					print_r($joins);
+					if( count($joins) > 0 ) {
+						$obj->Login( $username, $password );
+						break;
+					}
 				}
-			} else {
-				$error_messages[] = "Wrong username or password.";
-				header('Location: /');
+				// send to page based on obj type
+				switch ($_SESSION['user']['group']) {
+					case 'scrapper':
+						$error_messages[] = "Welcome!";
+						header('Location: /regions/northeast');
+					break;
+					
+					case 'broker':
+						$error_messages[] = "Welcome!";
+						header('Location: /broker-admin/dashboard');
+					break;
+					
+					default:
+						$error_messages[] = "Wrong username or password.";
+						header('Location: /');
+					break;
+				}
 			}
 			//the layout file  -  THIS PART NEEDS TO BE LAST
 //			require($_SERVER['DOCUMENT_ROOT']."/views/layouts/shell.php");
@@ -506,37 +537,38 @@ array(
 //			require($_SERVER['DOCUMENT_ROOT']."/views/layouts/shell.php");
 		break;
 		
-		/* 250 CLIENT SERVICES **************************************** */
-		case '250-client-services':
-
-			if (!Client::is_logged_in()) {
-				// page 'template variables'
-				$error_messages = array();
-				array_push($error_messages, "You must be logged in to view this page.");
-				header('Location: /client-login.html');
+		/* REGISTER **************************************** */
+		case 'scrap-registration':
+			$PAGE_BODY = "views/registration/signup_form.php";  	/* which file to pull into the template */
+			if ( isset($_POST['email']) ) {
+				$itemData = $_POST;
+				echo "<pre>";
+				print_r($itemData);
+				echo "</pre>";
+				// setup the new user!
+				$u = new User();
+				$userId = $u->CreateItem($itemData); 
+				if ( $userId && !isset($_GET['broker']) ) {
+					// setup the new scrapper!
+					$s = new Scrapper();
+					$scrapperId = $s->CreateItem($itemData);
+					$scrapper = $s->GetItemObj($scrapperId);
+					$scrapper->addUser($userId);
+					die(print_r($scrapper));
+				} else {
+					// setup the new broker!
+					$b = new Broker();
+					$brokerId = $b->CreateItem($itemData);
+					$broker = $b->GetItemObj($brokerId);
+					$broker->addUser($userId);
+					die(print_r($broker));
+				}
+				die("Hmmmm. something didn't work right.");
 			}
 			
+			$error_messages = array();
+			//the layout file  -  THIS PART NEEDS TO BE LAST
+			require($_SERVER['DOCUMENT_ROOT']."/views/layouts/shell.php");
 		break;
-		
-		/* 500 CLIENT SERVICES **************************************** */
-		case '500-client-services':
-
-			if (!Client::is_logged_in()) {
-				// page 'template variables'
-				$error_messages = array();
-				array_push($error_messages, "You must be logged in to view this page.");
-				header('Location: /client-login.html');
-			}
-			
-		break;
-		
-		/* client logout **************************************** */
-		case 'client-logout':
-
-			Client::log_out();
-			header('Location: /client-login.html');
-			
-		break;
-
 	}
 ?>

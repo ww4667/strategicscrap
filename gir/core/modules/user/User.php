@@ -51,8 +51,9 @@ class User extends Crud {
 		if ( !isset($_SESSION['user']) && !isset($_SESSION['user']['loggedIn']) ) {
 	        // check email exists
 			$propertyName = 'email';
+			$u = new User();
 			$users = array();
-			$users = $this->GetItemsObjByPropertyValue( $propertyName, $username );
+			$users = $u->GetItemsObjByPropertyValue( $propertyName, $username );
 			if( count($users) > 0 && $users[0]->password == $password ) {
 				// authenticate and set session vars...
 	//			$item = new User();
@@ -64,7 +65,7 @@ class User extends Crud {
 				$_SESSION['user']['id'] = $user->id;
 				$_SESSION['user']['username'] = $user->email;
 				$_SESSION['user']['loggedIn'] = true;
-				$_SESSION['user']['group'] = 'scrapper';
+				$_SESSION['user']['group'] = $this->_OBJECT_NAME;
 				return true;
 			}
     	}
