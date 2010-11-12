@@ -15,6 +15,39 @@ require_once($_SERVER['DOCUMENT_ROOT']."/gir/index.php");
 			
 			$content = "my homepage poop";
 			
+			// START XIGNITE COMEX FEED
+			
+			// define the SOAP client using the url for the service
+			$key = "FDFDBEAF9B004b2eBB2D7A9D1D39F24F";
+			$client = new soapclient('http://www.xignite.com/xFutures.asmx?WSDL&header_username='.$key, array('trace' => 1));
+			
+			// create an array of parameters 
+			$param = array(
+			               'Symbol' => "HG",
+			               'Month' => "0",
+			               'Year' => "0");
+			
+			// call the service, passing the parameters and the name of the operation 
+			$result = $client->GetDelayedFuture($param);
+			// assess the results 
+			if (is_soap_fault($result) && isset($_GET['xml'])) {
+			     echo '<h2>Fault</h2><pre>';
+			     print_r($result);
+			     echo '</pre>';
+			} else if (isset($_GET['xml'])) {
+			     echo '<h2>Result</h2><pre>';
+			     print_r($result);
+			     echo '</pre>';
+			}
+//			// print the SOAP request 
+//			echo '<h2>Request</h2><pre>' . htmlspecialchars($client->__getLastRequest(), ENT_QUOTES) . '</pre>';
+//			// print the SOAP request Headers 
+//			echo '<h2>Request Headers</h2><pre>' . htmlspecialchars($client->__getLastRequestHeaders(), ENT_QUOTES) . '</pre>';
+//			// print the SOAP response 
+//			echo '<h2>Response</h2><pre>' . htmlspecialchars($client->__getLastResponse(), ENT_QUOTES) . '</pre>';
+			
+			// END XIGNITE COMEX FEED
+			
 			//get lme_comex data from feed
 			$request_url = "resources/xml/lme_comex.xml";
 			$xml = simplexml_load_file($request_url) or die("feed not loading");

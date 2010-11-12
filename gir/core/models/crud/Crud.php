@@ -811,7 +811,6 @@ class Crud {
 		$query .= " JOIN " . $this->_TABLE_PREFIX.constant('Crud::_VALUES_TABLE_JOINS') . " as vj on vj.value = $foreignItemId AND vj.item_id = o.id";
 		$query .= " WHERE obj.label = '$objectName'";
 		$query .= " GROUP BY o.id";
-		echo($query);
 		$this->database_connection->Open();
 		$result = $this->database_connection->Query( $query );
 		$arr1 = $this->database_connection->FetchAssocArray( $result );
