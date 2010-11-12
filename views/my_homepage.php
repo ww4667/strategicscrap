@@ -27,17 +27,17 @@
 								?>
 								<?
 								$i=(count($lme)%2)?1:0;
-								foreach ($comex as $data) {
+//								foreach ($comex as $data) {
 								?>
 								<tr<?=$i%2?' class="row2"':""?>>
 								    <td>COMEX Copper</td>
-								    <td><?=number_format($data->Quote[0]->Last,2)?></td>
-								    <td><?=$data->Quote[1]->Last?></td>
-								    <td><?=$data->Quote[2]->Last?></td>
+								    <td><?=number_format($comex['cash'],2)?></td>
+								    <td><?=""?></td>
+								    <td><?=""?></td>
 								</tr>
 								<?
 								$i++;
-								}
+//								}
 								?>
 								</table>
 							</div><div class="moduleBottom"><!-- IE hates empty elements --></div>	

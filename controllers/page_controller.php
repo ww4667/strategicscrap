@@ -35,9 +35,11 @@ require_once($_SERVER['DOCUMENT_ROOT']."/gir/index.php");
 			     print_r($result);
 			     echo '</pre>';
 			} else if (isset($_GET['xml'])) {
-			     echo '<h2>Result</h2><pre>';
-			     print_r($result);
-			     echo '</pre>';
+//			     echo '<h2>Result</h2><pre>';
+//			     print_r($result);
+//			     echo '</pre>';
+				$comex_data = $result;
+				$comex = array("cash"=>$comex_data->GetDelayedFutureResult->Last);
 			}
 //			// print the SOAP request 
 //			echo '<h2>Request</h2><pre>' . htmlspecialchars($client->__getLastRequest(), ENT_QUOTES) . '</pre>';
@@ -56,7 +58,7 @@ require_once($_SERVER['DOCUMENT_ROOT']."/gir/index.php");
 				$data->LME->metal = $name;
 			}
 			$lme = $xml->xpath('//LME');
-			$comex = $xml->xpath('//COMEX');
+//			$comex = $xml->xpath('//COMEX');
 			
 			//get business feed from wordpress blog
 //			$request_url = "http://www.strategicscrap.com/blog/wordpress/?feed=rss2&cat=4";
