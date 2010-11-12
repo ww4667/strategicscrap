@@ -24,7 +24,7 @@ $method = trim($_GET['method']);
 		case 'filter-material':
 			$val = ( isset($_GET['val']) ) ? $_GET['val'] : null;
 			if($val=='||') {
-				echo json_encode(array("Locations"=>array())); 
+				echo json_encode(array("locations"=>array())); 
 			} else {
 				$vals = explode('||', trim($val,"||"));
 				$tmp = array();
@@ -75,7 +75,7 @@ $method = trim($_GET['method']);
 				
 				array_multisort($names, SORT_ASC, $op);
 				
-				echo json_encode(array("Locations"=>$op)); 
+				echo json_encode(array("locations"=>$op)); 
 			}
 			exit; 
 		break;
