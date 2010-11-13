@@ -304,23 +304,25 @@ function updatePageData( json ){
 	$("#mapForm input:checkbox").removeAttr('disabled');
 	$('.moduleContent h3 span:first').text(modData.length);
 
-	var pageData = "", i = 0, l = json.length,cur = null;
+	var pageData = "", i = 0, l = json.length,cur = null, highlight = true;
 	
 	for(i;i<l;i++){
 		cur = json[i];
-		pageData += '<tr class="row2" >';
+		pageData += '<tr class="' + ( highlight ? 'row1' : 'row2' ) + '" >';
 		pageData += '	<td style="width:30px"><a class="scrapQuote quote" href="#" title="view details">details</a></td>';
 		pageData += '	<td style="width:130px">'+cur.company+'</td>';
 		pageData += '	<td style="width:60px">'+cur.category+'</td>';
 		pageData += '	<td style="width:200px">'+cur.address_1+ (cur.address_2 != '' ? '<br />' + cur.address_2 : '') + '<br />' + cur.city+', ' +cur.state_province+' '+ cur.zip_postal_code+'</td>';
 		pageData += '	<td style="width:60px">'+cur.state_province+'</td>';
 		pageData += '	<td style="width:110px">'+cur.first_name+' '+cur.last_name+'</td>';
-		pageData += '	<td><a href="#">shipping quote</a></td>';
+		pageData += '	<td><a href="/transportation-hub?id='+cur.id+'">shipping quote</a></td>';
 		pageData += '</tr>';
-		pageData += '<tr class="details facilty_1 row2 ">';
+		pageData += '<tr style="display:none;" id="facility_'+i+'" class="details ' + ( highlight ? 'row1' : 'row2' ) + ' ">';
 		pageData += '	<td colspan="7"><div>details go here</div></td>';
 		pageData += '</tr>';
+		highlight = !highlight;
 	}
+	highlight = true;
 	$("#scrollData").html(pageData);
     $('#scroll-pane1').jScrollPane();
 }
@@ -349,7 +351,7 @@ function createMarkers(){
 	var icon = new GIcon();
 	icon.image = "http://demo.strategicscrap.com/lib/map/orange_dot.png";
 	addIcon(icon);
-		
+
 	for(var i = 0; i < data.length; i++) {
 		points[i] = new GLatLng(parseFloat(data[i].lat), parseFloat(data[i].lon));
 		gmarkers[i] = new GMarker(points[i], icon);
@@ -362,10 +364,12 @@ function createMarkers(){
         data[i].state_province + ' ' + 
         data[i].zip_postal_code + 
         "<hr />" + 
-        ( data[i].home_phone != "" ? "<br />Home Phone:" + data[i].home_phone : "" ) + 
-        ( data[i].mobile_phone != "" ? "<br />Mobile Phone:" + data[i].mobile_phone : "" ) + 
-        ( data[i].fax_number != "" ? "<br />Fax:" + data[i].fax_number : "" ) + 
-        "<hr /><a href='" + data[i].website + "'>" + data[i].website + "</a><\/div>";
+        ( data[i].home_phone != "" ? "<br />Home Phone: " + data[i].home_phone : "" ) + 
+        ( data[i].mobile_phone != "" ? "<br />Mobile Phone: " + data[i].mobile_phone : "" ) + 
+        ( data[i].fax_number != "" ? "<br />Fax: " + data[i].fax_number : "" ) + 
+        "<hr />Website: <a href='" + data[i].website + "' target='_blank'>click here</a>" +
+        "<hr />Get Quote: <a href='/transportation-hub?id="+data[i].id+"'>click here</a>" +
+        "<\/div>";
         
 		gmarkers[i].content = html;
 		gmarkers[i].nr = i;

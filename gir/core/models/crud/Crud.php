@@ -617,7 +617,6 @@ class Crud {
 		$arr1 = $this->database_connection->FetchArray( $result );
 		$this->database_connection->Close();
 		$op = $arr1;
-
 		return $op;
     }
 	
@@ -786,6 +785,9 @@ class Crud {
 		$result = $this->database_connection->Query( $query );
 		$arr1 = $this->database_connection->FetchAssocArray( $result );
 		$this->database_connection->Close();
+		$joins = array();
+		$joins[ $objectName ] = $arr1;
+		$this->joins = $joins;
 		return $arr1;
 	}
 
