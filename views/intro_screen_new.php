@@ -23,7 +23,7 @@
 		<div class="video_container" style="text-align:center">
 			<object width="420" height="261"><param name="movie" value="http://www.youtube.com/v/VYYzAmmQ4yI&amp;hl=en_US&amp;fs=1?rel=0&amp;hd=0&amp;autoplay=0"></param><param name="allowFullScreen" value="true"></param><param name="allowscriptaccess" value="always"></param><embed src="http://www.youtube.com/v/VYYzAmmQ4yI&amp;hl=en_US&amp;fs=1?rel=0&amp;hd=0&amp;autoplay=0" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="420" height="261"></embed></object>
 		</div>
-		<p><a href="#" id="sign_up_home" title="sign up today!">sign up</a></p>
+		<p><a href="/scrap-registration" id="sign_up_home" title="sign up today!">sign up</a></p>
 	</div>
 	<div id="coffee_wrapper">
 		<div class="content">
@@ -31,15 +31,16 @@
 			<p class="warning">WARNING: Consumption of this product, may lead to less headaches, competetive advantage and increased profits. This product also contains features that may be addictive.</p>
 			<br />
 			<div class="form_wrapper">
-				<form action="" method="post">
+				<form action="/scrap-registration" method="post">
+					<input type="hidden" name="try_it" />
 					<ul>
 						<li>
 							<label>Name</label>
-							<input type="text" name="try_name" />
+							<input type="text" name="name" />
 						</li>
 						<li>
 							<label>Email</label>
-							<input type="text" name="try_email" />
+							<input type="text" name="email" />
 						</li>
 						<li>
 							<input class="submit" type="image" src="/resources/images/buttons/try_it.png" alt="try it today!" name="try_submit" />

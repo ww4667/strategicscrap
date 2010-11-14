@@ -17,7 +17,6 @@ require_once($coreDirectory."/models/crud/Crud.php");
 require_once($coreDirectory."/modules/auth/Auth.php");
 require_once($coreDirectory."/modules/user/User.php");
 
-
 // include core library files
 require_once($coreDirectory."/lib/database/Database.php");
 require_once($coreDirectory."/lib/database/Mysql.php");
@@ -34,6 +33,7 @@ require_once($modulesDirectory."/facility/Facility.php");
 require_once($modulesDirectory."/material/Material.php");
 require_once($modulesDirectory."/scrapper/Scrapper.php");
 require_once($modulesDirectory."/broker/Broker.php");
+require_once($modulesDirectory."/request/Request.php");
 
 // get controller and method from page request
 $controller = isset($controller) ? $controller : NULL;

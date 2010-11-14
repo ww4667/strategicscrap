@@ -45,7 +45,7 @@ class Broker extends User {
 			$c = count($this->_OBJECT_PROPERTIES);
 			$i = 0;
 			while($i<$c){
-				if( $arr[$i]['field'] == "brokerJoin_user_id" ){
+				if( $arr[$i]['field'] == "broker_join_user_id" ){
 					$user_join_property = $arr[$i]['property_name_id'];
 					break;
 				}
