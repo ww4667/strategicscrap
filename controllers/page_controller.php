@@ -588,32 +588,60 @@ array(
 					}
 				}
 			} else if ( isset($_POST['email']) && !isset($_POST['try_it']) ) {
-				$itemData = $_POST;
-				echo "<pre>";
-				print_r($itemData);
-				echo "</pre>";
-				// setup the new user!
-				$u = new User();
-				$userId = $u->CreateItem($itemData); 
-				if ( $userId && !isset($_GET['broker']) ) {
-					// setup the new scrapper!
-					$s = new Scrapper();
-					$scrapperId = $s->CreateItem($itemData);
-					$scrapper = $s->GetItemObj($scrapperId);
-					$scrapper->addUser($userId);
-					die(print_r($scrapper));
-				} else {
-					// setup the new broker!
-					$b = new Broker();
-					$brokerId = $b->CreateItem($itemData);
-					$broker = $b->GetItemObj($brokerId);
-					$broker->addUser($userId);
-					die(print_r($broker));
+				$error_messages = array();
+				foreach ($_POST as $key => $val) {
+					$post_data[$key] = trim($val);
 				}
-				die("Hmmmm. something didn't work right.");
+				// let's validate this data first!
+				// all fields should have data in them so we need only check for email dups and format_phone($phone)
+				if( $post_data['first_name'] == "" )
+					$error_messages[] = "First Name field cannot be left empty.";
+				if( $post_data['last_name'] == "" )
+					$error_messages[] = "Last Name field cannot be left empty.";
+				$post_data['email'] = strtolower($post_data['email']);
+				$u = new User();
+				$users = $u->GetItemsObjByPropertyValue( 'email', $post_data['email'] );
+				if( $post_data['email'] == "" )
+					$error_messages[] = "Email field cannot be left empty.";
+				elseif( !isValidEmail($post_data['email']) )
+					$error_messages[] = "Email field must contain a valid email address.";
+				elseif( count($users) > 0 )
+					$error_messages[] = "Email is already being used.";
+				if( $post_data['password'] == "" )
+					$error_messages[] = "Password field cannot be left empty.";
+				if( $post_data['verify_password'] != $post_data['password'] )
+					$error_messages[] = "Verify Password does not match Password field.";
+				$post_data['work_phone'] = format_phone($post_data['work_phone']);
+				if( strlen($post_data['work_phone']) != 14 )
+					$error_messages[] = "Phone field must have 10 digits.";
+				if( $post_data['state_province'] == "" )
+					$error_messages[] = "State/Province selection missing.";
+				if( !isZip($post_data['postal_code']) )
+					$error_messages[] = "Zip Code cannot be empty.";
+				// setup the new user!
+				if(count($error_messages) == 0) {
+					$u = new User();
+					$userId = $u->CreateItem($post_data); 
+					if ( $userId && !isset($_GET['broker']) ) {
+						// setup the new scrapper!
+						$s = new Scrapper();
+						$scrapperId = $s->CreateItem($post_data);
+						$scrapper = $s->GetItemObj($scrapperId);
+						$scrapper->addUser($userId);
+						die(print_r($scrapper));
+					} else {
+						// setup the new broker!
+						$b = new Broker();
+						$brokerId = $b->CreateItem($post_data);
+						$broker = $b->GetItemObj($brokerId);
+						$broker->addUser($userId);
+						die(print_r($broker));
+					}
+				} else {
+					print_r($error_messages);
+//					die("Hmmmm. something didn't work right.");
+				}
 			}
-			
-			$error_messages = array();
 			//the layout file  -  THIS PART NEEDS TO BE LAST
 			require($_SERVER['DOCUMENT_ROOT']."/views/layouts/shell.php");
 		break;

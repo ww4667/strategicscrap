@@ -9,7 +9,7 @@ class Scrapper extends User {
 
 	protected $_OBJECT_NAME = "scrapper";
 	protected $_OBJECT_NAME_ID = "";
-	protected $_OBJECT_PROPERTIES = array(	array("type"=>"text","label"=>"User Join","field"=>"user_id"),
+	protected $_OBJECT_PROPERTIES = array(	array("type"=>"text","label"=>"User Join","field"=>"join_user"),
 											array("type"=>"text","label"=>"First Name","field"=>"first_name"),
 											array("type"=>"text","label"=>"Last Name","field"=>"last_name"),
 											array("type"=>"text","label"=>"Mobile Phone","field"=>"mobile_phone"),
@@ -45,7 +45,7 @@ class Scrapper extends User {
 			$c = count($this->_OBJECT_PROPERTIES);
 			$i = 0;
 			while($i<$c){
-				if( $arr[$i]['field'] == "user_id" ){
+				if( $arr[$i]['field'] == "join_user" ){
 					$user_join_property = $arr[$i]['property_name_id'];
 					break;
 				}
