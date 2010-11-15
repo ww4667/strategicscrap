@@ -9,12 +9,13 @@ class Scrapper extends User {
 
 	protected $_OBJECT_NAME = "scrapper";
 	protected $_OBJECT_NAME_ID = "";
-	protected $_OBJECT_PROPERTIES = array(	array("type"=>"text","label"=>"User Join","field"=>"user_id"),
+	protected $_OBJECT_PROPERTIES = array(	array("type"=>"text","label"=>"Join_user","field"=>"join_user"),
 											array("type"=>"text","label"=>"First Name","field"=>"first_name"),
 											array("type"=>"text","label"=>"Last Name","field"=>"last_name"),
 											array("type"=>"text","label"=>"Mobile Phone","field"=>"mobile_phone"),
 											array("type"=>"text","label"=>"Home Phone","field"=>"home_phone"),
 											array("type"=>"text","label"=>"Work Phone","field"=>"work_phone"),
+											array("type"=>"text","label"=>"Fax Number","field"=>"fax_number"),
 											array("type"=>"text","label"=>"Address 1","field"=>"address_1"),
 											array("type"=>"text","label"=>"Address 2","field"=>"address_2"),
 											array("type"=>"text","label"=>"City","field"=>"city"),
@@ -45,7 +46,7 @@ class Scrapper extends User {
 			$c = count($this->_OBJECT_PROPERTIES);
 			$i = 0;
 			while($i<$c){
-				if( $arr[$i]['field'] == "user_id" ){
+				if( $arr[$i]['field'] == "join_user" ){
 					$user_join_property = $arr[$i]['property_name_id'];
 					break;
 				}

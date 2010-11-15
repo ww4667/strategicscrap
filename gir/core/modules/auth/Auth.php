@@ -40,7 +40,7 @@ class Auth {
 		 * $authObject = $auth->setApllication()->$setUserGroup()->authenticate();
 		 * 
 		 */
-		$returnValue = _isLoggedIn();
+		$returnValue = $this->_isLoggedIn();
 		
 		return $returnValue;
 	}
