@@ -17,12 +17,13 @@ require_once($coreDirectory."/models/crud/Crud.php");
 require_once($coreDirectory."/modules/auth/Auth.php");
 require_once($coreDirectory."/modules/user/User.php");
 
-// include core library files
+// include core library and include files
 require_once($coreDirectory."/lib/database/Database.php");
 require_once($coreDirectory."/lib/database/Mysql.php");
 require_once($coreDirectory."/inc/db_connect.php");
 require_once($coreDirectory."/lib/validation/Validation.php");
 require_once($coreDirectory."/lib/xtras.php");
+//require_once($coreDirectory."/inc/util.php");
 
 // initialize Gir
 require_once($coreDirectory."/Gir.php");
