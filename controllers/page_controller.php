@@ -19,7 +19,7 @@ require_once($_SERVER['DOCUMENT_ROOT']."/gir/index.php");
 			
 			// define the SOAP client using the url for the service
 			$key = "FDFDBEAF9B004b2eBB2D7A9D1D39F24F";
-			$client = new soapclient('http://www.xignite.com/xFutures.asmx?WSDL&header_username='.$key, array('trace' => 1));
+			$client = new soapclient('http://www.xignite.com/xFutures.asmx?WSDL', array('trace' => 1));
 			
 			// create an array of parameters 
 			$param = array(
@@ -34,7 +34,7 @@ require_once($_SERVER['DOCUMENT_ROOT']."/gir/index.php");
 			     echo '<h2>Fault</h2><pre>';
 			     print_r($result);
 			     echo '</pre>';
-			} else if (isset($_GET['xml'])) {
+			} else {
 //			     echo '<h2>Result</h2><pre>';
 //			     print_r($result);
 //			     echo '</pre>';
@@ -357,6 +357,7 @@ array(
 			// page 'template variables'
 			$PAGE_BODY = "views/scrappers/transport_material.php";  	/* which file to pull into the template */			
 			
+			
 			//the layout file  -  THIS PART NEEDS TO BE LAST
 			require($_SERVER['DOCUMENT_ROOT']."/views/layouts/shell.php");
 		break;
@@ -575,7 +576,18 @@ array(
 		/* REGISTER **************************************** */
 		case 'scrap-registration':
 			$PAGE_BODY = "views/registration/signup_form.php";  	/* which file to pull into the template */
-			if ( isset($_POST['email']) ) {
+			$post_data = isset($_POST['email']) ? $_POST : "";
+			if ( isset($_POST['try_it']) ) {
+				if (trim($_POST['name']) != "") {
+					if ( preg_match('/\s/',trim($_POST['name'])) > 0 ) {
+						$name_array = preg_split("/[\s,]+/",$_POST['name']);
+						$post_data['first_name'] = $name_array[0];
+						$post_data['last_name'] = $name_array[1];
+					} else {
+						$post_data['first_name'] = trim($_POST['name']);
+					}
+				}
+			} else if ( isset($_POST['email']) && !isset($_POST['try_it']) ) {
 				$itemData = $_POST;
 				echo "<pre>";
 				print_r($itemData);
