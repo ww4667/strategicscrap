@@ -380,8 +380,8 @@ class Crud {
     	return $this->_DeletePropertyValue( $propertyId, "joins" );
     }
     
-    public function Query( $query ){
-    	return $this->_RunQuery( $query );
+    public function Query( $query, $asArray = false ){
+    	return $this->_RunQuery( $query, $asArray );
     }
 
     /* PRIVATE */
@@ -691,10 +691,12 @@ class Crud {
 		$query .= " LEFT JOIN 	(SELECT * FROM " . $this->_TABLE_PREFIX.constant('Crud::_VALUES_TABLE_DATES') . " UNION SELECT * FROM " . $this->_TABLE_PREFIX.constant('Crud::_VALUES_TABLE_NUMBERS') . " UNION SELECT * FROM " . $this->_TABLE_PREFIX.constant('Crud::_VALUES_TABLE_TEXT') . ") as v on v.property_name_id = od.property_name_id AND v.item_id = o.id";
 		$query .= " WHERE o.object_name_id = $objectNameId";
 		$query .= " GROUP BY o.id";
+		
 		$this->database_connection->Open();
 		$result = $this->database_connection->Query( $query );
 		$arr1 = $this->database_connection->FetchAssocArray( $result );
 		$this->database_connection->Close();
+		
 		return $arr1;
 	}
 		
@@ -771,7 +773,7 @@ class Crud {
 				$fields .= ", MAX(IF(pn.label='".$p['field']."', v.value, '')) AS ".$p['field'];
 			}
 		}
-		$query = "SELECT o.id, o.created_ts, o.updated_ts, o.object_name_id,";
+		$query = "SELECT o.id, o.created_ts, o.updated_ts, o.object_name_id, vjn.label as join_property_label,";
 		$query .= $fields;
 		$query .= " FROM " . $this->_TABLE_PREFIX.constant('Crud::_ITEMS') . " as o";
 		$query .= " JOIN " . $this->_TABLE_PREFIX.constant('Crud::_OBJECT_NAMES') . " as obj on obj.id = o.object_name_id";
@@ -779,16 +781,15 @@ class Crud {
 		$query .= " JOIN " . $this->_TABLE_PREFIX.constant('Crud::_PROPERTY_NAMES') . " as pn on pn.id = od.property_name_id";
 		$query .= " JOIN 	(SELECT * FROM " . $this->_TABLE_PREFIX.constant('Crud::_VALUES_TABLE_DATES') . " UNION SELECT * FROM " . $this->_TABLE_PREFIX.constant('Crud::_VALUES_TABLE_NUMBERS') . " UNION SELECT * FROM " . $this->_TABLE_PREFIX.constant('Crud::_VALUES_TABLE_TEXT') . ") as v on v.property_name_id = od.property_name_id AND v.item_id = o.id";
 		$query .= " JOIN " . $this->_TABLE_PREFIX.constant('Crud::_VALUES_TABLE_JOINS') . " as vj on vj.item_id = $itemId AND vj.value = o.id";
+		$query .= " JOIN " . $this->_TABLE_PREFIX.constant('Crud::_PROPERTY_NAMES') . " as vjn ON vjn.id = vj.property_name_id"; 
 		$query .= " WHERE obj.label = '$objectName'";
 		$query .= " GROUP BY o.id";
-		$this->database_connection->Open();
-		$result = $this->database_connection->Query( $query );
-		$arr1 = $this->database_connection->FetchAssocArray( $result );
-		$this->database_connection->Close();
-		$joins = array();
-		$joins[ $objectName ] = $arr1;
-		$this->joins = $joins;
-		return $arr1;
+		
+		$result = (array) $this->Query( $query, true );
+		
+		if( count( $result ) > 1 ) $this->$result[0]['join_property_label'] = $result;
+		
+		return $result;
 	}
 
 	private function _GetForeignJoins( $joinObject ){
@@ -824,10 +825,11 @@ class Crud {
 		$this->_CURRENT_ITEM = $item;
 	}
 
-    private function _RunQuery( $query ){
+    private function _RunQuery( $query, $asArray = false ){
     	if( isset( $_SESSION ) && session_id() ){
 			$this->database_connection->Open();
 			$result = $this->database_connection->Query( $query );
+			if( $asArray ) $result = $this->database_connection->FetchAssocArray( $result );
 			$this->database_connection->Close();
 	
 			return $result;    		

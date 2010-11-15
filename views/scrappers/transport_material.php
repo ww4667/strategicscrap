@@ -6,6 +6,11 @@ $f->GetItemObj($_location);
 $f->ReadJoins( new Material() );
 $facility = (array) $f;
 
+
+print "<pre>";
+print_r( $f );
+print "</pre>";
+
 $isFacility = $facility['object_name_id'] == 1 ? true : false;
 $message = '';
 if($isFacility){
@@ -55,7 +60,7 @@ if($isFacility){
 		<?
 		$op = '<option>No Materials</option>';
 		if( isset( $facility['joins'] ) && isset( $facility['joins']['material'] ) && count($facility['joins']['material']) > 0 ){
-			$i = 0; $l = count($facility['joins']['material']);
+			$i = 0; $l = count( $facility['joins']['material'] );
 			$op = '<option>--SELECT ONE--</option>';
 			while($i<$l){ $op .= '<option value="'.$facility['joins']['material'][$i]['id'].'">'.$facility['joins']['material'][$i]['name'].'</option>'; $i++; }
 		}
