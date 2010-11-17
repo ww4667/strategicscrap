@@ -33,9 +33,15 @@ a:active	{outline:none;}
 			#twitter_badge a:hover {background-position:0 -33px}
 			#sign_in{float:right;margin:24px}
 				#header_sign_in{padding:0}
+					#header_sign_in a {margin:0 10px;position:relative;top:-2px;text-decoration:underline;}
+					#header_sign_in div.error {color:#FF0000}
 					#header_sign_in input{width:140px;font-size:14px}
+					#header_sign_in input.username{background:url(/resources/images/bg/sign_in_bg.gif) no-repeat 0px 0px}
+					#header_sign_in input.password{background:url(/resources/images/bg/sign_in_bg.gif) no-repeat 0px -19px}
 					#header_sign_in input.submit{width:70px;margin:0;padding:0;position:relative;top:5px}
 		.pageBody{width:846px;min-height:300px;margin:0 auto;position:relative;z-index:3;padding:15px 15px 0;background:url(../images/bg/content_area.png) no-repeat;}
+			#flash_panel{background:#CCC;border:#999 2px solid;border-top:none;margin:0 10px;top:-20px;position:relative;}
+			#flash_panel ul{margin:0;padding:10px 30px 10px 40px}
 			.mainCol{}
 			 /* .mainCol p{padding:20px 35px;} */
 				.mainCol p{padding:10px 35px;}

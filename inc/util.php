@@ -38,12 +38,18 @@ function set_static_form_field_cookie_from_post($value,$post){
     setcookie($value, $post[$value], time()+3600);
 }
 
-function flash($message){
-    $_SESSION['flash'] = $message;
+function flash($message,$type='good'){
+	$_SESSION['flash'] = $message;
+	if($type!='good'){
+		$_SESSION['flashtype'] = 'bad';
+	}else{
+		$_SESSION['flashtype'] = 'good';
+	}
 }
 
 function clear_flash(){
-    unset($_SESSION['flash']);
+	unset($_SESSION['flash']);
+	unset($_SESSION['flashtype']);
 }
 
 // Original PHP code by Chirp Internet: www.chirp.com.au // Please acknowledge use of this code by including this header.

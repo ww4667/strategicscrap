@@ -6,6 +6,10 @@ if(!isset($_SESSION)){
 require_once($_SERVER['DOCUMENT_ROOT']."/gir/index.php");
 //$auth = new Auth();
 
+//$KILL = FALSE;
+//
+//while (!$KILL) {
+
 	switch($controller_action){
 		
 		/* HOMEPAGE FOR SCRAPPERS **************************************** */
@@ -520,7 +524,7 @@ array(
 		case 'scrap-login':
 			$error_messages = array();
 			
-			if ( isset($_POST['username']) && isset($_POST['password']) ) {
+			if ( (isset($_POST['username']) && $_POST['username'] != "") && (isset($_POST['password']) && $_POST['password'] != "") ) {
 				$username = trim($_POST['username']);
 				$password = trim($_POST['password']);
 				// snag matching user(s)
@@ -542,19 +546,26 @@ array(
 				switch ($_SESSION['user']['group']) {
 					case 'scrapper':
 						$error_messages[] = "Welcome!";
+						flash($error_messages);
 						header('Location: /regions/northeast');
 					break;
 					
 					case 'broker':
 						$error_messages[] = "Welcome!";
+						flash($error_messages);
 						header('Location: /broker-admin/dashboard');
 					break;
 					
 					default:
 						$error_messages[] = "Wrong username or password.";
+						$_SESSION['sign-in-error'] = true;
 						header('Location: /');
 					break;
 				}
+			} else {
+						$error_messages[] = "Wrong username or password.";
+						$_SESSION['sign-in-error'] = true;
+						header('Location: /');
 			}
 			//the layout file  -  THIS PART NEEDS TO BE LAST
 //			require($_SERVER['DOCUMENT_ROOT']."/views/layouts/shell.php");
@@ -576,7 +587,12 @@ array(
 		/* REGISTER **************************************** */
 		case 'scrap-registration':
 			$PAGE_BODY = "views/registration/signup_form.php";  	/* which file to pull into the template */
-			$post_data = isset($_POST['email']) ? $_POST : "";
+			if(isset($_SESSION['post_data_'.$controller_action])) {
+				$post_data = $_SESSION['post_data_'.$controller_action];
+				unset($_SESSION['post_data_'.$controller_action]);
+			} else {
+				$post_data = isset($_POST['email']) ? $_POST : "";
+			}
 			if ( isset($_POST['try_it']) ) {
 				if (trim($_POST['name']) != "") {
 					if ( preg_match('/\s/',trim($_POST['name'])) > 0 ) {
@@ -638,7 +654,9 @@ array(
 						die(print_r($broker));
 					}
 				} else {
-					print_r($error_messages);
+					flash($error_messages,'bad');
+					$_SESSION['post_data_'.$controller_action] = $post_data;
+					redirect_to('/scrap-registration');
 //					die("Hmmmm. something didn't work right.");
 				}
 			}
@@ -646,4 +664,5 @@ array(
 			require($_SERVER['DOCUMENT_ROOT']."/views/layouts/shell.php");
 		break;
 	}
+//} // END WHILE $KILL
 ?>
