@@ -51,7 +51,7 @@ class Facility extends Crud {
 			$c = count($this->_OBJECT_PROPERTIES);
 			$i = 0;
 			while($i<$c){
-				if( $arr[$i]['field'] == "material_join" ){
+				if( $arr[$i]['field'] == "join_material" ){
 					$material_join_property = $arr[$i]['property_name_id'];
 					break;
 				}

@@ -12,6 +12,9 @@ class Material extends Crud {
 											);
 	function __construct(){
 		parent::__construct();
+		foreach($this->_OBJECT_PROPERTIES as $p) {
+			$this->{$p['field']} = "";
+		}
 	}
 }
 ?>

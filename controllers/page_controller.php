@@ -23,11 +23,13 @@ require_once($_SERVER['DOCUMENT_ROOT']."/gir/index.php");
 			
 			// define the SOAP client using the url for the service
 			$key = "FDFDBEAF9B004b2eBB2D7A9D1D39F24F";
+			$xignite_header = new SoapHeader('http://www.xignite.com/services/', 'Header', array("Username" => "FDFDBEAF9B004b2eBB2D7A9D1D39F24F", "Tracer" => ""));
 			$client = new soapclient('http://www.xignite.com/xFutures.asmx?WSDL', array('trace' => 1));
+			$client->__setSoapHeaders(array($xignite_header));
 			
 			// create an array of parameters 
 			$param = array(
-			               'Symbol' => "HG",
+			               'Symbol' => "CU",
 			               'Month' => "0",
 			               'Year' => "0");
 			
@@ -43,6 +45,7 @@ require_once($_SERVER['DOCUMENT_ROOT']."/gir/index.php");
 //			     print_r($result);
 //			     echo '</pre>';
 				$comex_data = $result;
+				print_r($comex_data);
 				$comex = array("cash"=>$comex_data->GetDelayedFutureResult->Last);
 			}
 //			// print the SOAP request 
@@ -53,6 +56,47 @@ require_once($_SERVER['DOCUMENT_ROOT']."/gir/index.php");
 //			echo '<h2>Response</h2><pre>' . htmlspecialchars($client->__getLastResponse(), ENT_QUOTES) . '</pre>';
 			
 			// END XIGNITE COMEX FEED
+
+			// START XIGNITE LME FEED
+			
+			// define the SOAP client using the url for the service
+//			$xignite_lme_url = "http://lmemetals.xignite.com/xLMEMetals.asmx/GetDelayedFutureForMetal?Symbol=CU&Day=22&Month=11&Year=2010&currencyType=USD&header_username=FDFDBEAF9B004b2eBB2D7A9D1D39F24F";
+//			$key = "FDFDBEAF9B004b2eBB2D7A9D1D39F24F";
+			$xignite_header = new SoapHeader('http://www.xignite.com/services/', 'Header', array("Username" => "FDFDBEAF9B004b2eBB2D7A9D1D39F24F", "Tracer" => ""));
+			$client = new soapclient('http://lmemetals.xignite.com/xLMEMetals.asmx?WSDL', array('trace' => 1));
+			$client->__setSoapHeaders(array($xignite_header));
+			
+			// create an array of parameters 
+			$param = array(
+			               'Symbol' => "LAM",
+			               'CurrencyType' => "USD",
+			               'Day' => "16",
+			               'Month' => "2",
+			               'Year' => "2011");
+			
+			// call the service, passing the parameters and the name of the operation 
+			$result = $client->GetDelayedFutureForMetal($param);
+			// assess the results 
+			if (is_soap_fault($result) && isset($_GET['xml'])) {
+			     echo '<h2>Fault</h2><pre>';
+			     print_r($result);
+			     echo '</pre>';
+			} elseif (isset($_GET['xml'])) {
+//			     echo '<h2>Result</h2><pre>';
+//			     print_r($result);
+//			     echo '</pre>';
+				$lme_data = $result;
+				print_r($lme_data);
+				$lme = array("cash"=>$lme_data->GetDelayedFutureResult->Last);
+			}
+//			// print the SOAP request 
+//			echo '<h2>Request</h2><pre>' . htmlspecialchars($client->__getLastRequest(), ENT_QUOTES) . '</pre>';
+//			// print the SOAP request Headers 
+//			echo '<h2>Request Headers</h2><pre>' . htmlspecialchars($client->__getLastRequestHeaders(), ENT_QUOTES) . '</pre>';
+//			// print the SOAP response 
+//			echo '<h2>Response</h2><pre>' . htmlspecialchars($client->__getLastResponse(), ENT_QUOTES) . '</pre>';
+			
+			// END XIGNITE LME FEED
 			
 			//get lme_comex data from feed
 			$request_url = "resources/xml/lme_comex.xml";
@@ -158,50 +202,11 @@ require_once($_SERVER['DOCUMENT_ROOT']."/gir/index.php");
 //			$auth->setUserGroup('scrapper');
 			// page 'template variables'
 			$PAGE_BODY = "views/scrappers/scrap_exchange_new.php";  	/* which file to pull into the template */
-			$controller = "facility"; // controller for gir app -- not being used yet
 			$f = new Facility();
 			$facilities = $f->GetAllItemsObj();
 			$m = new Material();
 			$materials = $m->GetAllItemsObj();
 			if(isset($_GET['gir'])) { // use for testing stuff
-				$controller = "facility";
-				$method = "view";
-				if ( isset( $_GET['user'] ) ) {
-//					// create a user
-//					$userData = array(
-//					"email" => "greg@greg.com",
-//					"password" => "yellow",
-//					"validation" => 1
-//					);
-					$groups = array("Scrapper","Broker");
-					foreach ($groups as $g) {
-						if(!isset($_SESSION['user'])) {
-							$u = new $g();
-							$user = $u->Login('ww4667@gmail.com', 'blue');
-						}
-					}
-					print_r($_SESSION);
-					if(isset($_SESSION['user'])) {
-						$u = new User();
-						$u->Logout();
-					}
-					print_r($_SESSION);
-//					$users = $u->GetAllItems();
-//					print_r($_SESSION['user']);
-					
-//					$u->CreateItem($userData);
-//					$userData = array(
-//					"email" => "jlabresh1@gmail.com",
-//					"password" => "ihategit",
-//					"validation" => 1
-//					);
-//					$u->CreateItem($userData);
-//					$a = new Auth();
-//					$users = $u->GetAllItems();
-//					print_r($users);
-//					$a->
-				}
-				
 				if ( isset( $_GET['edit'] ) && isset( $_GET['fid'] ) ) {
 					if ( isset( $_POST['fac_save_btn'] ) ) {
 						$f->UpdateItem($_POST);
@@ -216,8 +221,75 @@ require_once($_SERVER['DOCUMENT_ROOT']."/gir/index.php");
 					</li>
 					<? }
 					?><li><input name="fac_save_btn" type="submit" value="Update" /></li></ul></form><?
+				} elseif ( isset($_GET['add_material']) ) {
+					$m = new Material();
+					if ( isset($_POST['submit_add_material']) ) {
+						$post_data = $_POST;
+						foreach ($post_data as $key => $val) {
+							$post_data[$key] = is_string($post_data[$key]) ? trim($val) : $post_data[$key];
+						}
+						$itemId = $m->CreateItem($post_data);
+						if($itemId)
+							echo "success!";
+						else
+							echo "material not added...";
+					}
+					$attributes = $m;
+					print_r($attributes);
+					$PAGE_BODY = "views/materials/add_material.php";  	/* which file to pull into the template */
+				} elseif ( isset($_GET['add_facility']) ) {
+					if ($_POST['address_1'] != "") {
+						$address = $_POST['address_1'];
+						$address .= ", ".$_POST['address_2'];
+						$address .= ", ".$_POST['city'];
+						$address .= ", ".$_POST['state_province'];
+						$address .= " ".$_POST['zip_postal_code'];
+						$address .= ", ".$_POST['country'];
+						$address = urlencode($address);
+					} else {
+						$address = urlencode("204 SW Stonegate Dr, Ankeny, IA");
+					}
+					$url = 'http://maps.google.com/maps/api/geocode/json?address='.$address.'&sensor=false';
+					$data = file_get_contents( $url );
+//					$array = unserialize($data);
+					$results = json_decode($data);
+					$results = $results->results[0];
+echo "<pre>";
+					print_r($results->geometry->location);
+echo "</pre>";
+					if ($_POST['address_1']) {
+						$post_data = $_POST;
+						$post_data['lat'] = $results->geometry->location->lat;
+						$post_data['lon'] = $results->geometry->location->lng;
+						// fix data
+						// trim first
+						foreach ($post_data as $key => $val) {
+							$post_data[$key] = is_string($post_data[$key]) ? trim($val) : $post_data[$key];
+						}
+						// fix phone numbers
+						$post_data['business_phone'] = format_phone($post_data['business_phone']);
+						$post_data['home_phone'] = format_phone($post_data['home_phone']);
+						$post_data['mobile_phone'] = format_phone($post_data['mobile_phone']);
+						$post_data['fax_number'] = format_phone($post_data['fax_number']);
+						// create the facility
+						$itemId = $f->CreateItem($post_data);
+						$facility = $f->GetItemObj($itemId);
+						foreach ($post_data['materials_array'] as $m) {
+							$facility->addMaterial($m);
+						}
+						echo "success!";
+					}
+
+//					$geo_test = 
+					$attributes = $f;
+//					print_r($attributes);
+//					print_r($materials);
+					$PAGE_BODY = "views/facilities/add_facility.php";  	/* which file to pull into the template */
+					if ( isset($_POST['submit_add_facility']) ) {
+						print_r($post_data);
+					}
 				}
-				die();
+//				die();
 				
 				
 // ID	Company	Last Name	First Name	E-mail Address	Job Title	Business Phone	Address	City	State/Province	ZIP/Postal Code	Country	Web Page	Notes	Category	Broker Exclusive"),
@@ -577,6 +649,7 @@ array(
 			$u = new User();
 			if ( $u->Logout() ) {
 				$error_messages[] = "You have been logged out successfully.";
+				flash($error_messages);
 			}
 			header('Location: /');
 
