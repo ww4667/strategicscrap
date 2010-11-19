@@ -174,6 +174,9 @@
 								    <td>05/04/2010</td>
 								    <td>waiting</td>
 								</tr>
+								<?php 
+								print "hi there";
+								?>
 							</tbody></table>
 							</div><div class="moduleBottom"><!-- IE hates empty elements --></div>	
 						</div>
