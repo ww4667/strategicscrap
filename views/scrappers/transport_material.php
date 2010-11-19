@@ -7,7 +7,7 @@ if(!$gir->auth->authenticate()){
 	
 	<?
 } else {
-	
+	 
 	if( $_SESSION['user']['group'] != 'scrapper' ){
 		print "This feature is reserved.";
 	} else {
