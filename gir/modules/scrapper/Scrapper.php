@@ -120,7 +120,6 @@ class Scrapper extends User {
 		return $requestReturnArray;
 	}
     
-    
 	/*
 	 * PRIVATE FUNCTIONS
 	 */
