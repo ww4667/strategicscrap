@@ -74,10 +74,10 @@ class Facility extends Crud {
 	public function getMaterials( $itemId = null ) {
 		// get materials by "itemId" and join type "material_join"
 		$item = $this->GetCurrentItem();
-		$itemId = $item['id'];
+		$itemId = isset($itemId) ? $itemId : $item['id'];
 		$material = new Material();
 		$joins = $this->ReadJoins( $material );
-		$this->material_join = $joins;
+		$this->join_material = $joins;
 	}
 	
 	public function getFacilitiesByMaterialId( $materialId ) {

@@ -30,10 +30,52 @@ if(!$gir->auth->authenticate()){
 			if($isFacility){
 				$message = 'This is not a Facility.';	
 			}
+			if ( isset($_POST['ship_date']) ) {
+				$post_data = $_POST;
+				// need to do some cleanup and validation first
+				// let's drop the data in the db
+				$r = new Request();
+				$itemId = $r->CreateItem($post_data);
+				$request = $r->GetItemObj($itemId);
+				// attach facility, scrapper and material to the request
+				$request->addFacility($post_data['facility_id']);
+				// we have the user id so... technically this is attaching a user id not a scrapper id
+				// will have to see how this affects the system
+				$request->addScrapper($post_data['user_id']);
+				$request->addMaterial($post_data['material_id']);
+				// if all creates/adds worked then
+				// redirect to the default homepage
+				$message = array();
+				$message[] = "Request has been submitted.";
+				flash($message);
+				$url = "/regions/northeast";
+				redirect_to($url);
+			}
+			print "<pre>";
+			print_r($_POST);
+			print "</pre>";
 			?>
 			
+			<script >
+			$(function() {
+				
+				
+				$( "#shipDate, #arriveDate" ).datepicker({
+					showOtherMonths: true,
+					selectOtherMonths: true
+						
+				});
+				
+			});
+			</script>
+		
+		
+		
+
 			<p>Fill out the form below to receive bids from our national database of logistics experts.</p>
-			<form class="clearfix" action="#">
+			<form class="clearfix" action="" method="post">
+				<input type="hidden" name="user_id" value="<?=isset($user['id']) ? $user['id'] : ''?>" /> 
+				<input type="hidden" name="facility_id" value="<?=isset($facility['id']) ? $facility['id'] : ''?>" />
 				<fieldset>
 				<legend>Ship From:</legend>							
 				<ul class="form">
@@ -52,7 +94,7 @@ if(!$gir->auth->authenticate()){
 				<li><label>Phone:</label><input id="fromPhone" name="fromPhone" type="text" disabled="disabled" value="<?=$user['work_phone'] ? $user['work_phone'] : ''?>" /></li>
 				<li><label>Fax:</label><input id="fromFax" name="fromFax" type="text" disabled="disabled" value="<?=$user['fax_number'] ? $user['fax_number'] : ''?>" /></li>
 				<li><label>Email:</label><input id="fromEmail" name="fromEmail" type="text" disabled="disabled" value="<?=$_SESSION['user']['username']?>" /></li>
-				<li><label>Special Instruction:</label><textarea id="specialInstructions" name="specialInstructions"></textarea></li>
+				<li><label>Special Instruction:</label><textarea id="special_instructions" name="special_instructions"></textarea></li>
 				</ul>
 				</fieldset>
 				<fieldset>
@@ -78,29 +120,29 @@ if(!$gir->auth->authenticate()){
 						$op = '<option>No Materials</option>';
 						if( isset( $facility['join_material'] ) && count($facility['join_material']) > 0 ){
 							$i = 0; $l = count( $facility['join_material'] );
-							$op = '<option>--SELECT ONE--</option>';
+							$op = '<option value="">--SELECT ONE--</option>';
 							while($i<$l){ $op .= '<option value="'.$facility['join_material'][$i]['id'].'">'.$facility['join_material'][$i]['name'].'</option>'; $i++; }
 						}
-						print '<select id="materials" name="materials">'.$op.'</select>';
+						print '<select id="material_id" name="material_id">'.$op.'</select>';
 						?>
 					
 				</li>
 				</ul>
 				<ul class="form hii">
-				<li><label class="firstLabel">Volume:</label><select id="volume" name="volume"><option></option></select></li>
-				<li><label>Preferred Transportation:</label><select id="transportation" name="transportation">
+				<li><label class="firstLabel">Volume:</label><input type="text"  id="volume" name="volume" /></li>
+				<li><label>Preferred Transportation:</label><select id="transportation_type" name="transportation_type">
 					<option value="">Select Transport Type</option>
-				    <option value="">Van</option>
-				    <option value="">Flat Bed</option>
-				    <option value="">Drop Deck</option>
-				    <option value="">Step Deck</option>
-				    <option value="">Gondola/Open Top</option>
-				    <option value="">Export Containers</option>
-				    <option value="">End Dumps</option>
+				    <option value="van">Van</option>
+				    <option value="flat_bed">Flat Bed</option>
+				    <option value="drop_deck">Drop Deck</option>
+				    <option value="step_deck">Step Deck</option>
+				    <option value="gondola_open_top">Gondola/Open Top</option>
+				    <option value="export_containers">Export Containers</option>
+				    <option value="end_dumps">End Dumps</option>
 					</select></li>
-				<li class="cb"><label class="firstLabel">Ship Date:</label><select id="shipDate" name="shipDate"><option></option></select></li>
-				<li><label>Arrive Date:</label><select id="arriveDate" name="arriveDate"><option></option></select></li>
-				<li class="cb"><label class="firstLabel">Bid type:</label><select id="bidType"><option></option></select></li>
+				<li class="cb"><label class="firstLabel">Ship Date:</label><input type="text"  id="ship_date" name="ship_date" /></li>
+				<li><label>Arrive Date:</label><input type="text" id="arrive_date" name="arrive_date" /></li>
+				<li class="cb"><label class="firstLabel">Bid type:</label><select id="bid_type"><option></option></select></li>
 				</ul>
 				<div class="submitButton">
 				<input id="submitBid" alt="Submit Bid Request" name="submitBid" src="resources/images/buttons/submit_bid.png" type="image" />

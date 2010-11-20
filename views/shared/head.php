@@ -32,7 +32,10 @@
 					       $(this).attr('src', '/resources/images/buttons/sign_in_header.png'); 
 					});
 					$('#header_sign_in input').focus(function(){
-						$(this).css('background','none');
+						$(this).addClass('focus');
+					}).blur(function(){
+						if($(this).val() == "")
+							$(this).removeClass('focus');
 					});
 				</script>
 		<? } ?>

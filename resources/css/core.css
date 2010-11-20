@@ -38,6 +38,8 @@ a:active	{outline:none;}
 					#header_sign_in input{width:140px;font-size:14px}
 					#header_sign_in input.username{background:url(/resources/images/bg/sign_in_bg.gif) no-repeat 0px 0px}
 					#header_sign_in input.password{background:url(/resources/images/bg/sign_in_bg.gif) no-repeat 0px -19px}
+					#header_sign_in input.username.focus{background:url(/resources/images/bg/sign_in_bg.gif) no-repeat 1000px 0px}
+					#header_sign_in input.password.focus{background:url(/resources/images/bg/sign_in_bg.gif) no-repeat 1000px -19px}
 					#header_sign_in input.submit{width:70px;margin:0;padding:0;position:relative;top:5px}
 		.pageBody{width:846px;min-height:300px;margin:0 auto;position:relative;z-index:3;padding:15px 15px 0;background:url(../images/bg/content_area.png) no-repeat;}
 			#flash_panel{background:#CCC;border:#999 2px solid;border-top:none;margin:0 10px;top:-20px;position:relative;}
