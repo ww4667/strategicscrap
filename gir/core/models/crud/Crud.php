@@ -151,23 +151,27 @@ class Crud {
 	
 	public function GetItemObj( $itemId, $detail = false ){
 		$item = $this->_GetValuesByObjectId( $itemId );
-		if(!$detail){
-			$op = array();
-			$op['id'] = $item[0]['id'];
-			$this->id = $item[0]['id'];
-			$op['created_ts'] = $item[0]['created_ts'];
-			$this->created_ts = $item[0]['created_ts'];
-			$op['updated_ts'] = $item[0]['updated_ts'];
-			$this->updated_ts = $item[0]['updated_ts'];
-			$op['object_name_id'] = $item[0]['object_name_id'];
-			$this->object_name_id = $item[0]['object_name_id'];
-			foreach ($item as $detail) {
-				$op[$detail['label']] = $detail['value'];
-				$this->{$detail['label']} = $detail['value'];
+		if( count( $item ) > 0 ){
+			if(!$detail){
+				$op = array();
+				$op['id'] = $item[0]['id'];
+				$this->id = $item[0]['id'];
+				$op['created_ts'] = $item[0]['created_ts'];
+				$this->created_ts = $item[0]['created_ts'];
+				$op['updated_ts'] = $item[0]['updated_ts'];
+				$this->updated_ts = $item[0]['updated_ts'];
+				$op['object_name_id'] = $item[0]['object_name_id'];
+				$this->object_name_id = $item[0]['object_name_id'];
+				foreach ($item as $detail) {
+					$op[$detail['label']] = $detail['value'];
+					$this->{$detail['label']} = $detail['value'];
+				}
 			}
+			$this->_CURRENT_ITEM = $op;
+			return $this;
+		} else {
+			return false;
 		}
-		$this->_CURRENT_ITEM = $op;
-		return $this;
 	}
 	
 	public function GetItemsByPropertyValue( $propertyName, $value ){
@@ -382,6 +386,13 @@ class Crud {
     
     public function Query( $query, $asArray = false ){
     	return $this->_RunQuery( $query, $asArray );
+    }
+    
+    public function PTS( $value, $title = null ){
+    	if( $title ) print "<h3>$title</h3>";
+    	print "<pre>";
+    	print_r( $value );
+    	print "</pre>";
     }
 
     /* PRIVATE */
@@ -785,9 +796,11 @@ class Crud {
 		$query .= " WHERE obj.label = '$objectName'";
 		$query .= " GROUP BY o.id";
 		
+		//print "<blockquote>$query</blockquote>";
+		
 		$result = (array) $this->Query( $query, true );
 		
-		if( count( $result ) > 1 ) $this->$result[0]['join_property_label'] = $result;
+		if( count( $result ) > 0 ) $this->$result[0]['join_property_label'] = $result;
 		
 		return $result;
 	}
@@ -814,11 +827,12 @@ class Crud {
 		$query .= " JOIN " . $this->_TABLE_PREFIX.constant('Crud::_VALUES_TABLE_JOINS') . " as vj on vj.value = $foreignItemId AND vj.item_id = o.id";
 		$query .= " WHERE obj.label = '$objectName'";
 		$query .= " GROUP BY o.id";
-		$this->database_connection->Open();
-		$result = $this->database_connection->Query( $query );
-		$arr1 = $this->database_connection->FetchAssocArray( $result );
-		$this->database_connection->Close();
-		return $arr1;
+		
+		$result = (array) $this->Query( $query, true );
+		
+		//if( count( $result ) > 1 ) $this->$result[0]['join_property_label'] = $result;
+		
+		return $result;
 	}
 	
 	private function _SetCurrentItem( $item ) {

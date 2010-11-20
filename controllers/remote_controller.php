@@ -86,21 +86,24 @@ $method = trim($_GET['method']);
 		
 		case 'getRequests':
 			$val = ( isset($_GET['uid']) ) ? $_GET['uid'] : null;
-			$requestArray = array();
+			$requestReturnArray = array();
+			$requestClass = null;
 			
 			if($val){
 				$scrapperClass = new Scrapper();
 				$scrapperByUserId = $scrapperClass->getScrappersByUserId( $val );
-				$scrapperClass->GetItemObj( $scrapperByUserId[0]['id'] );
 				
-				$requestArray = $scrapperClass->getRequests();
-				/*
-				 * TODO: going to need to get request by id, using the $requestArray - then get the joins needed. 
-				 * */
+				if( count( $scrapperByUserId ) > 0 ){
+					$scrapperClass->GetItemObj( $scrapperByUserId[0]['id'] );
+					
+					$requestReturnArray = $scrapperClass->getRequests(); 
+				}
 				
-				print json_encode( $requestArray ); 
+				print json_encode( $requestReturnArray ); 
 			} else {
-				print json_encode( $requestArray ); 
+				$requestClass = new Request();
+				$requestReturnArray = $requestClass->getAllRequests();
+				print json_encode( $requestReturnArray ); 
 			}
 			
 			break;

@@ -131,5 +131,24 @@ class Request extends Crud {
 		
 		return $region;
 	}
+	
+	public function getAllRequests(){
+		$requestArray = $this->GetAllItemsObj();
+		$requestReturnArray = array();
+		
+		$i = 0;
+		while( $i < count($requestArray) ){
+			$ra = $requestArray[$i];
+			
+			$this->GetItemObj( $ra->id );
+			$this->ReadJoins( new Material() );
+			$this->ReadJoins( new Scrapper() );
+			$this->ReadJoins( new Facility() );
+			$requestReturnArray[] = $this;
+			$i++;
+			
+		}
+		return $requestReturnArray;
+	}
 }
 ?>
