@@ -51,9 +51,6 @@ if(!$gir->auth->authenticate()){
 				$url = "/regions/northeast";
 				redirect_to($url);
 			}
-			print "<pre>";
-			print_r($_POST);
-			print "</pre>";
 			?>
 			
 			<script >

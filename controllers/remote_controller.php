@@ -78,7 +78,32 @@ $method = trim($_GET['method']);
 				echo json_encode(array("locations"=>$op)); 
 			}
 			exit; 
-		break;
+			
+			break;
+		
+		case 'getRequests':
+			$val = ( isset($_GET['uid']) ) ? $_GET['uid'] : null;
+			$requestReturnArray = array();
+			$requestClass = null;
+			
+			if($val){
+				$scrapperClass = new Scrapper();
+				$scrapperByUserId = $scrapperClass->getScrappersByUserId( $val );
+				
+				if( count( $scrapperByUserId ) > 0 ){
+					$scrapperClass->GetItemObj( $scrapperByUserId[0]['id'] );
+					
+					$requestReturnArray = $scrapperClass->getRequests(); 
+				}
+				
+				print json_encode( $requestReturnArray ); 
+			} else {
+				$requestClass = new Request();
+				$requestReturnArray = $requestClass->getAllRequests();
+				print json_encode( $requestReturnArray ); 
+			}
+			
+			break;
 
 	}
 ?>

@@ -78,9 +78,48 @@ class Scrapper extends User {
 		// get facilities by materialId and join type "material_join"
 		$u = new User();
 		$user = $u->GetItemObj( $userId );
-		$items = $this->ReadForeignJoins( $user );
-		return $items;
+		if($user){
+			$items = $this->ReadForeignJoins( $user );
+			return $items;
+		} else {
+			return array();
+		}
 	}
+	
+	/**
+	 * Returns array of all Requests made by the scrapper
+	 * @return Object
+	 * @example 
+	 * $scrapperClass = new Scrapper();
+	 * $scrapperByUserId = $scrapperClass->getScrappersByUserId( 105 ); //assumed user id
+	 * $scrapperClass->GetItemObj( $scrapperByUserId[0]['id'] );
+	 * $requestArray = $scrapperClass->getRequests();
+	 */
+	public function getRequests( ){
+		// get materials by "itemId" and join type "material_join"
+		$item = $this;
+		
+		$request = new Request();
+		$joins = $request->ReadForeignJoins( $item );
+		$requestReturnArray = array();
+		
+		$i = 0;
+		while( $i < count($joins) ){
+			$ra = $joins[$i];
+			
+			$requestClass = new Request();
+			$requestClass->GetItemObj( $ra['id'] );
+			$requestClass->ReadJoins( new Material() );
+			$requestClass->ReadJoins( new Scrapper() );
+			$requestClass->ReadJoins( new Facility() );
+			$requestReturnArray[] = $requestClass;
+			$i++;
+			
+		}
+		
+		return $requestReturnArray;
+	}
+    
     
 	/*
 	 * PRIVATE FUNCTIONS

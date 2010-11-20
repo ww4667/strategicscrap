@@ -59,7 +59,6 @@ class Facility extends Crud {
 			}
 			$this->AddValueJoin($item['id'], $material_join_property, $materialId);
 		}
-		
 	}
 	
 	public function removeMaterial( $materialId = null ){

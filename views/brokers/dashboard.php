@@ -88,7 +88,8 @@
 			</table>
 			<div id="scroll-pane2" class="jScrollPaneContainer" tabindex="0">
 			<table class="stripes">
-			<tbody>
+			<tbody id="recent_requests">
+			<!-- 
 			<tr>
 			    <td style="width:100px">05/15/2010</td>
 			    <td style="width:220px"><strong>Ship from:</strong> Demo Scrap<br /><strong>Ship to:</strong> Demo Steel Company<br><strong>Material:</strong> No. 1 Machinery Cast<br><strong>Quantity (tons):</strong> 550<br><strong>Transportation Type:</strong> Flat Bed</td>
@@ -131,7 +132,48 @@
 			    <td>05/04/2010</td>
 			    <td><a class="scrapQuote quote" href="#" title="quote this request">quote</a></td>
 			</tr>
+			-->
 		</tbody></table>
+
+		<script type="text/javascript">
+			var requestInterval = 0;
+			function getRequests(){
+				$.getJSON("/controllers/remote_controller.php?method=getRequests", function(json) { 
+					clearTimeout(requestInterval);
+					var tableRows = $("#recent_requests"), html = '', off=false, item=null;
+					
+					if ( json.length > 0 ) { 
+						for ( i=0; i < json.length; i++ ) {
+							item = json[i];
+							
+							html += '<tr '+ ( off ? 'class="row2"' : '' ) +'>' + 
+							'	<td>'+item.expiration_date+'</td>'+
+							'	<td><strong>Ship to:</strong> '+item.join_facility[0].company+'<br>'+
+							'		<strong>Material:</strong>'+item.join_material[0].name+'<br>'+
+							'		<strong>Quantity (tons):</strong> '+item.volume+'<br>'+
+							'		<strong>Delivery Date:</strong> '+item.arrive_date+''+
+							'	</td>'+
+							'	<td>'+item.created_ts+'</td>'+
+							'	<td>waiting</td>'+
+							'</tr>';
+							
+							off=!off;
+							
+						}
+					    
+					    $("#recent_requests").html( html );
+						$('#scroll-pane2').jScrollPane();
+					    
+					}
+					
+					requestInterval = setTimeout("getRequests();",20000);
+				});
+			}
+			
+			$(document).ready(function(){
+				getRequests();
+			});
+		</script>
 		</div>
 		</div><div class="moduleBottom"><!-- IE hates empty elements --></div>	
 	</div>

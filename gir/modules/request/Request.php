@@ -112,5 +112,44 @@ class Request extends Crud {
 		$items = $this->ReadForeignJoins( $material );
 		return $items;
 	}
+		
+	/** 
+	* return a region based on state abreviation
+	*/
+	public function setRegion( $state ) {
+		$south = array("TX","OK","AR","LA","MS");
+		$central = array("IA","MN","KS","IL","MO","SD","ND","WI","NE");
+		$northeast = array();
+		$southeast = array("TN","FL","NC","SC","AL","GA");
+		$west = array("CA","NM","AZ","ID","MT","NV","OR","WA","WY","UT","CO");
+		$region = "";
+		if(in_array($i_state, $south))$region = "S";
+		if(in_array($i_state, $west))$region = "W";
+		if(in_array($i_state, $central))$region = "C";
+		if(in_array($i_state, $southeast))$region = "SE";
+		if($region == "")$region = "NE";
+		
+		return $region;
+	}
+	
+	public function getAllRequests(){
+		$requestArray = $this->GetAllItemsObj();
+		$requestReturnArray = array();
+		
+		$i = 0;
+		while( $i < count($requestArray) ){
+			$ra = $requestArray[$i];
+			
+			$this->GetItemObj( $ra->id );
+			$this->ReadJoins( new Material() );
+			$this->ReadJoins( new Scrapper() );
+			$this->ReadJoins( new Facility() );
+			$requestReturnArray[] = $this;
+			$i++;
+			
+		}
+		return $requestReturnArray;
+	}
+>>>>>>> cccd09c3bd3e592cc16e27d437dc6036cc7f6065
 }
 ?>

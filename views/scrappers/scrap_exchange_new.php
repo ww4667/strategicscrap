@@ -274,11 +274,11 @@ function updateMarkers(){
 	
 	$.getJSON("/controllers/remote_controller.php?method=filter-material&val=" + val_string, function(json) { 
 		
-		if (json.Locations.length>0) { 
-		  for (i=0; i<json.Locations.length; i++) { 
-		    var location = json.Locations[i]; 
+		if (json.locations.length>0) { 
+		  for (i=0; i<json.locations.length; i++) { 
+		    var location = json.locations[i]; 
 		  }
-		  modData = json.Locations;
+		  modData = json.locations;
 		} else {
 		    modData = []; 
 		}
