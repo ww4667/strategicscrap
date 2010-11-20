@@ -150,6 +150,5 @@ class Request extends Crud {
 		}
 		return $requestReturnArray;
 	}
->>>>>>> cccd09c3bd3e592cc16e27d437dc6036cc7f6065
 }
 ?>
