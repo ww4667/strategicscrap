@@ -76,7 +76,7 @@ class Facility extends Crud {
 		$itemId = $item['id'];
 		$material = new Material();
 		$joins = $this->ReadJoins( $material );
-		$this->material_join = $joins;
+		$this->join_material = $joins;
 	}
 	
 	public function getFacilitiesByMaterialId( $materialId ) {

@@ -14,10 +14,28 @@ require_once($_SERVER['DOCUMENT_ROOT']."/gir/index.php");
 		
 		/* HOMEPAGE FOR SCRAPPERS **************************************** */
 		case 'my-homepage':
+			
 			// page 'template variables'
 			$PAGE_BODY = "views/my_homepage.php";  	/* which file to pull into the template */
 			
 			$content = "my homepage poop";
+			
+	/*
+	 * 
+	 * symbols being used
+	 * CU AM NI ZZ LD TN || HG
+	 * 
+	 */		
+			
+//			$market_data = array(
+//				"LME Copper" => array(),
+//				"LME Aluminium" => array(),
+//				"LME Nickel" => array(),
+//				"LME Zinc" => array(),
+//				"LME Lead" => array(),
+//				"LME Tin" => array(),
+//				"COMEX Copper" => array()
+//			);
 			
 			// START XIGNITE COMEX FEED
 			
@@ -30,17 +48,18 @@ require_once($_SERVER['DOCUMENT_ROOT']."/gir/index.php");
 			// create an array of parameters 
 			$param = array(
 			               'Symbol' => "CU",
+			               'StripType' => "EighteenMonth",
 			               'Month' => "0",
 			               'Year' => "0");
 			
 			// call the service, passing the parameters and the name of the operation 
-			$result = $client->GetDelayedFuture($param);
+			$result = $client->GetDelayedFutureStrip($param);
 			// assess the results 
 			if (is_soap_fault($result) && isset($_GET['xml'])) {
 			     echo '<h2>Fault</h2><pre>';
 			     print_r($result);
 			     echo '</pre>';
-			} else {
+			} elseif (isset($_GET['xml'])) {
 //			     echo '<h2>Result</h2><pre>';
 //			     print_r($result);
 //			     echo '</pre>';
@@ -163,9 +182,9 @@ require_once($_SERVER['DOCUMENT_ROOT']."/gir/index.php");
 //				print_r($item);
 //			}
 			
-			
 			//the layout file  -  THIS PART NEEDS TO BE LAST
 			require($_SERVER['DOCUMENT_ROOT']."/views/layouts/shell.php");
+//			die();
 		break;
 		
 		/* Scrap Classifieds */
@@ -198,234 +217,104 @@ require_once($_SERVER['DOCUMENT_ROOT']."/gir/index.php");
 
 		/* Scrap Exchange */
 		case 'scrap-exchange':
-//			$auth->setApplication('strategicscrap');
-//			$auth->setUserGroup('scrapper');
-			// page 'template variables'
-			$PAGE_BODY = "views/scrappers/scrap_exchange_new.php";  	/* which file to pull into the template */
-			$f = new Facility();
-			$facilities = $f->GetAllItemsObj();
-			$m = new Material();
-			$materials = $m->GetAllItemsObj();
-			if(isset($_GET['gir'])) { // use for testing stuff
-				if ( isset( $_GET['edit'] ) && isset( $_GET['fid'] ) ) {
-					if ( isset( $_POST['fac_save_btn'] ) ) {
-						$f->UpdateItem($_POST);
-						echo "updated record " . $_POST['id'];
-					}
-					$facility = $f->GetItem( $_GET['fid'] );
-					?><form action="" method="post"><ul><?
-					foreach ($facility as $key => $val) { ?>
-					<li>
-						<label><?=$key?></label>
-						<input type="text" name="<?=$key?>" value="<?=$val?>" />
-					</li>
-					<? }
-					?><li><input name="fac_save_btn" type="submit" value="Update" /></li></ul></form><?
-				} elseif ( isset($_GET['add_material']) ) {
-					$m = new Material();
-					if ( isset($_POST['submit_add_material']) ) {
-						$post_data = $_POST;
-						foreach ($post_data as $key => $val) {
-							$post_data[$key] = is_string($post_data[$key]) ? trim($val) : $post_data[$key];
+			if(!$gir->auth->authenticate()){
+				$message = array();
+				$message[] = "You are not logged in. Please login or register to use this feature.";
+				flash($message,'bad');
+//				$url = "/scrap-exchange";
+//				redirect_to($url);
+				print "<p>You are not logged in. Please login or register to use this feature.</p>";
+			} else {
+	//			$auth->setApplication('strategicscrap');
+	//			$auth->setUserGroup('scrapper');
+				// page 'template variables'
+				$PAGE_BODY = "views/scrappers/scrap_exchange_new.php";  	/* which file to pull into the template */
+				$f = new Facility();
+				$facilities = $f->GetAllItemsObj();
+				$m = new Material();
+				$materials = $m->GetAllItemsObj();
+				if(isset($_GET['gir'])) { // use for testing stuff
+					if ( isset( $_GET['edit'] ) && isset( $_GET['fid'] ) ) {
+						if ( isset( $_POST['fac_save_btn'] ) ) {
+							$f->UpdateItem($_POST);
+							echo "updated record " . $_POST['id'];
 						}
-						$itemId = $m->CreateItem($post_data);
-						if($itemId)
+						$facility = $f->GetItem( $_GET['fid'] );
+						?><form action="" method="post"><ul><?
+						foreach ($facility as $key => $val) { ?>
+						<li>
+							<label><?=$key?></label>
+							<input type="text" name="<?=$key?>" value="<?=$val?>" />
+						</li>
+						<? }
+						?><li><input name="fac_save_btn" type="submit" value="Update" /></li></ul></form><?
+					} elseif ( isset($_GET['add_material']) ) {
+						$m = new Material();
+						if ( isset($_POST['submit_add_material']) ) {
+							$post_data = $_POST;
+							foreach ($post_data as $key => $val) {
+								$post_data[$key] = is_string($post_data[$key]) ? trim($val) : $post_data[$key];
+							}
+							$itemId = $m->CreateItem($post_data);
+							if($itemId)
+								echo "success!";
+							else
+								echo "material not added...";
+						}
+						$attributes = $m;
+						print_r($attributes);
+						$PAGE_BODY = "views/materials/add_material.php";  	/* which file to pull into the template */
+					} elseif ( isset($_GET['add_facility']) ) {
+						if ($_POST['address_1'] != "") {
+							$address = $_POST['address_1'];
+							$address .= ", ".$_POST['address_2'];
+							$address .= ", ".$_POST['city'];
+							$address .= ", ".$_POST['state_province'];
+							$address .= " ".$_POST['zip_postal_code'];
+							$address .= ", ".$_POST['country'];
+							$address = urlencode($address);
+						} else {
+							$address = urlencode("204 SW Stonegate Dr, Ankeny, IA");
+						}
+						$url = 'http://maps.google.com/maps/api/geocode/json?address='.$address.'&sensor=false';
+						$data = file_get_contents( $url );
+						$results = json_decode($data);
+						$results = $results->results[0];
+						echo "<pre>";
+						print_r($results->geometry->location);
+						echo "</pre>";
+						if ($_POST['address_1']) {
+							$post_data = $_POST;
+							$post_data['lat'] = $results->geometry->location->lat;
+							$post_data['lon'] = $results->geometry->location->lng;
+							// fix data
+							// trim first
+							foreach ($post_data as $key => $val) {
+								$post_data[$key] = is_string($post_data[$key]) ? trim($val) : $post_data[$key];
+							}
+							// fix phone numbers
+							$post_data['business_phone'] = format_phone($post_data['business_phone']);
+							$post_data['home_phone'] = format_phone($post_data['home_phone']);
+							$post_data['mobile_phone'] = format_phone($post_data['mobile_phone']);
+							$post_data['fax_number'] = format_phone($post_data['fax_number']);
+							// create the facility
+							$itemId = $f->CreateItem($post_data);
+							$facility = $f->GetItemObj($itemId);
+							foreach ($post_data['materials_array'] as $m) {
+								$facility->addMaterial($m);
+							}
 							echo "success!";
-						else
-							echo "material not added...";
-					}
-					$attributes = $m;
-					print_r($attributes);
-					$PAGE_BODY = "views/materials/add_material.php";  	/* which file to pull into the template */
-				} elseif ( isset($_GET['add_facility']) ) {
-					if ($_POST['address_1'] != "") {
-						$address = $_POST['address_1'];
-						$address .= ", ".$_POST['address_2'];
-						$address .= ", ".$_POST['city'];
-						$address .= ", ".$_POST['state_province'];
-						$address .= " ".$_POST['zip_postal_code'];
-						$address .= ", ".$_POST['country'];
-						$address = urlencode($address);
-					} else {
-						$address = urlencode("204 SW Stonegate Dr, Ankeny, IA");
-					}
-					$url = 'http://maps.google.com/maps/api/geocode/json?address='.$address.'&sensor=false';
-					$data = file_get_contents( $url );
-//					$array = unserialize($data);
-					$results = json_decode($data);
-					$results = $results->results[0];
-echo "<pre>";
-					print_r($results->geometry->location);
-echo "</pre>";
-					if ($_POST['address_1']) {
-						$post_data = $_POST;
-						$post_data['lat'] = $results->geometry->location->lat;
-						$post_data['lon'] = $results->geometry->location->lng;
-						// fix data
-						// trim first
-						foreach ($post_data as $key => $val) {
-							$post_data[$key] = is_string($post_data[$key]) ? trim($val) : $post_data[$key];
 						}
-						// fix phone numbers
-						$post_data['business_phone'] = format_phone($post_data['business_phone']);
-						$post_data['home_phone'] = format_phone($post_data['home_phone']);
-						$post_data['mobile_phone'] = format_phone($post_data['mobile_phone']);
-						$post_data['fax_number'] = format_phone($post_data['fax_number']);
-						// create the facility
-						$itemId = $f->CreateItem($post_data);
-						$facility = $f->GetItemObj($itemId);
-						foreach ($post_data['materials_array'] as $m) {
-							$facility->addMaterial($m);
+						$attributes = $f;
+						$PAGE_BODY = "views/facilities/add_facility.php";  	/* which file to pull into the template */
+						if ( isset($_POST['submit_add_facility']) ) {
+							print_r($post_data);
 						}
-						echo "success!";
-					}
-
-//					$geo_test = 
-					$attributes = $f;
-//					print_r($attributes);
-//					print_r($materials);
-					$PAGE_BODY = "views/facilities/add_facility.php";  	/* which file to pull into the template */
-					if ( isset($_POST['submit_add_facility']) ) {
-						print_r($post_data);
 					}
 				}
-//				die();
-				
-				
-// ID	Company	Last Name	First Name	E-mail Address	Job Title	Business Phone	Address	City	State/Province	ZIP/Postal Code	Country	Web Page	Notes	Category	Broker Exclusive"),
-$newFacilities = array(
-array(
-	"id" => "24",
-	"company" => "ArcelorMittal - Burns Harbor",
-	"last_name" => "Harreld",
-	"first_name" => "Mike",
-	"email" => "mike.harreld@arcelormittal.com",
-	"job_title" => "",
-	"business_phone" => "(219) 787-2120",
-	"home_phone" => "",
-	"mobile_phone" => "",
-	"fax" => "",
-	"address_1" => "250 W Us Highway 12",
-	"address_2" => "",
-	"Burns Harbor",
-	"Indiana",
-	"46304",
-	"",
-	"United States",
-	"",
-	"",
-	"http://www.mittalsteel.com/Facilities/Americas/Mittal+Steel+USA/Operating+Facilities/#",
-	"Gary Loyld 219-391-2932",
-	"Mill",
-	""
-	),
-array(
-	"25",
-	"ArcelorMittal - Cleveland",
-	"Harreld",
-	"Mike",
-	"mike.harreld@arcelormittal.com",
-	"",
-	"(216) 429-6000",
-	"",
-	"",
-	"",
-	"3060 Eggers Ave",
-	"",
-	"Cleveland",
-	"Ohio",
-	"44105",
-	"",
-	"United States",
-	"",
-	"",
-	"http://www.mittalsteel.com/Facilities/Americas/Mittal+Steel+USA/Operating+Facilities/cleveland.asp#",
-	"",
-	"Mill",
-	""
-	),
-array(
-	"26",
-	"ArcelorMittal - Indiana Harbor",
-	"Harreld",
-	"Mike",
-	"mike.harreld@arcelormittal.com",
-	"",
-	"(773) 375-6200",
-	"",
-	"",
-	"",
-	"3210 Watling St",
-	"",
-	"East Chicago",
-	"Indiana",
-	"46312",
-	"",
-	"United States",
-	"",
-	"",
-	"http://www.mittalsteel.com/Facilities/Americas/Mittal+Steel+USA/Operating+Facilities/indiana+harbor.asp#",
-	"",
-	"Mill",
-	""
-	),
-array(
-	"23",
-	"ArcelorMittal - Riverdale",
-	"Harreld",
-	"Mike",
-	"mike.harreld@arcelormittal.com",
-	"",
-	"708-849-8803",
-	"",
-	"",
-	"",
-	"13500 South Perry Avenue",
-	"",
-	"Riverdale",
-	"Illinois",
-	"60827",
-	"",
-	"United States",
-	"",
-	"",
-	"http://www.mittalsteel.com/Facilities/Americas/Mittal+Steel+USA/Operating+Facilities/riverdale.asp#",
-	"",
-	"Mill",
-	""
-	),
-array(
-	"22",
-	"ArcelorMittal - Indiana Harbor Long Carbon Div.",
-	"Harreld",
-	"Mike",
-	"mike.harreld@arcelormittal.com",
-	"",
-	"(219) 399-3333‎",
-	"",
-	"",
-	"",
-	"3210 Watling St",
-	"",
-	"East Chicago",
-	"Indiana",
-	"46312",
-	"",
-	"United States",
-	"",
-	"",
-	"http://www.mittalsteel.com",
-	"219-399-3109 John Hamherhan(sp?)",
-	"Mill",
-	""
-	)
-);
-				
-				
-//				require_once($_SERVER['DOCUMENT_ROOT']."/gir/index.php");
+				//the layout file  -  THIS PART NEEDS TO BE LAST
+				require($_SERVER['DOCUMENT_ROOT']."/views/layouts/shell.php");
 			}
-			//the layout file  -  THIS PART NEEDS TO BE LAST
-			require($_SERVER['DOCUMENT_ROOT']."/views/layouts/shell.php");
 		break;
 
 		/* Transport Material */

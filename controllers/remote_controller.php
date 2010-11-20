@@ -1,5 +1,8 @@
 <?php
 
+if(!isset($_SESSION)){
+	session_start();
+}
 ini_set('display_errors', 1); 
 ini_set('log_errors', 1); 
 //ini_set('error_log', dirname(__FILE__) . '/error_log.txt'); 
@@ -78,7 +81,29 @@ $method = trim($_GET['method']);
 				echo json_encode(array("locations"=>$op)); 
 			}
 			exit; 
-		break;
+			
+			break;
+		
+		case 'getRequests':
+			$val = ( isset($_GET['uid']) ) ? $_GET['uid'] : null;
+			$requestArray = array();
+			
+			if($val){
+				$scrapperClass = new Scrapper();
+				$scrapperByUserId = $scrapperClass->getScrappersByUserId( $val );
+				$scrapperClass->GetItemObj( $scrapperByUserId[0]['id'] );
+				
+				$requestArray = $scrapperClass->getRequests();
+				/*
+				 * TODO: going to need to get request by id, using the $requestArray - then get the joins needed. 
+				 * */
+				
+				print json_encode( $requestArray ); 
+			} else {
+				print json_encode( $requestArray ); 
+			}
+			
+			break;
 
 	}
 ?>

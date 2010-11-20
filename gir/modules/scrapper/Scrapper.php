@@ -81,6 +81,16 @@ class Scrapper extends User {
 		$items = $this->ReadForeignJoins( $user );
 		return $items;
 	}
+	
+	public function getRequests( $userId = null ){
+		// get materials by "itemId" and join type "material_join"
+		$item = $this;
+		
+		$request = new Request();
+		$joins = $request->ReadForeignJoins( $item );
+		return $joins;
+	}
+    
     
 	/*
 	 * PRIVATE FUNCTIONS

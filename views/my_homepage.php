@@ -150,12 +150,14 @@
 								<h3>Transportation Requests</h3>
 								<hr style="margin-bottom:0" />
 								<table>
-								<tbody><tr class="row2">
+								<thead><tr class="row2">
 								    <th>EXPIRATION</th>
 								    <th>DESCRIPTION</th>
 								    <th>REQUEST DATE</th>
 								    <th>STATUS</th>
 								</tr>
+								</thead>
+								<tbody id="requests_table">
 								<tr>
 								    <td>05/15/2010</td>
 								    <td><strong>Ship to:</strong> Demo Steel Company<br><strong>Material:</strong> No. 1 Machinery Cast<br><strong>Quantity (tons):</strong> 550<br><strong>Delivery Date:</strong> 05/13/2010</td>
@@ -174,10 +176,37 @@
 								    <td>05/04/2010</td>
 								    <td>waiting</td>
 								</tr>
-								<?php 
-								print "hi there";
-								?>
 							</tbody></table>
+							<script type="text/javascript">
+								
+								$.getJSON("/controllers/remote_controller.php?method=getRequests&uid=<?=$_SESSION['user']['id'] ?>", function(json) { 
+									var tableRows = $("requests_table"), html = '';
+									
+									if ( json.length > 0 ) { 
+										for ( i=0; i < json.length; i++ ) {
+											
+											html += '<tr>' + 
+											'	<td>06/08/2010</td>'+
+											'	<td><strong>Ship to:</strong> Demo Steel Company<br>'+
+											'		<strong>Material:</strong> No. 1 Machinery Cast<br>'+
+											'		<strong>Quantity (tons):</strong> 550<br>'+
+											'		<strong>Delivery Date:</strong> 05/10/2010'+
+											'	</td>'+
+											'	<td>05/04/2010</td>'+
+											'	<td>waiting</td>'+
+											'</tr>';
+											
+											console.log(json[i]);
+											
+										}
+									    
+									    $("requests_table").html( html );
+									    
+									} else {
+									    modData = []; 
+									}
+								});
+							</script>
 							</div><div class="moduleBottom"><!-- IE hates empty elements --></div>	
 						</div>
 					</div>
