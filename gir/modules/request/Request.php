@@ -17,7 +17,8 @@ class Request extends Crud {
 											array("type"=>"text","label"=>"Special Instructions","field"=>"special_instructions"),
 											array("type"=>"text","label"=>"Scrapper Join","field"=>"join_scrapper"),
 											array("type"=>"text","label"=>"Facility Join","field"=>"join_facility"),
-											array("type"=>"text","label"=>"Material Join","field"=>"join_material")
+											array("type"=>"text","label"=>"Material Join","field"=>"join_material"),
+											array("type"=>"number","label"=>"Locked","field"=>"locked")
 										);
 	
 	function __construct(){
@@ -144,7 +145,8 @@ class Request extends Crud {
 			$this->ReadJoins( new Material() );
 			$this->ReadJoins( new Scrapper() );
 			$this->ReadJoins( new Facility() );
-			$requestReturnArray[] = $this;
+			$stupidFace = clone $this;
+			$requestReturnArray[] = $stupidFace;
 			$i++;
 			
 		}

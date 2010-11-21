@@ -79,7 +79,7 @@
 			<table>
 			<tbody>
 			<tr class="row2"	>
-			    <th style="width:100px">DELIVERY DATE</th>
+			    <th style="width:100px">EXPIRATION DATE</th>
 			    <th style="width:220px">DESCRIPTION</th>
 			    <th style="width:100px">REQUEST DATE</th>
 			    <th>&nbsp;</th>
