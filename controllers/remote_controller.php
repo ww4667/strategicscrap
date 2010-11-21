@@ -112,6 +112,24 @@ $method = trim($_GET['method']);
 			}
 			
 			break;
-
+		
+		case 'addBid':
+			
+			$post_data = $_GET;
+			/*
+			 * transport_cost=123.00&material_price=3.00&ship_date=2011-12-03 03:22:12&arrival_date=2011-12-03 03:22:12&notes=This is a note&join_request=123&join_transportation_type=123&join_broker=123
+			 */
+//			$transport_cost = $post_data['transport_cost'];
+//			$material_price = $post_data['material_price'];
+//			$ship_date = $post_data['ship_date'];
+//			$arrival_date = $post_data['arrival_date'];
+//			$notes = $post_data['notes'];
+			//$join_request = $post_data['join_request'];
+			//$join_transportation_type = $post_data['join_transportation_type'];
+			//$join_broker = $post_data['join_broker'];
+			$b = new Bid();
+			$hi = $b->CreateItem($post_data);
+			
+			break;
 	}
 ?>

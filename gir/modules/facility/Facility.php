@@ -31,7 +31,7 @@ class Facility extends Crud {
 											array("type"=>"text","label"=>"Attachments","field"=>"attachments"),
 											array("type"=>"text","label"=>"Category","field"=>"category"),
 											array("type"=>"text","label"=>"Broker Exclusive","field"=>"broker_exclusive"),
-											array("type"=>"text","label"=>"Join Material","field"=>"join_material")
+											array("type"=>"join","label"=>"Join Material","field"=>"join_material")
 										);
 	
 	function __construct(){

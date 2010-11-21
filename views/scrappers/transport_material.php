@@ -27,11 +27,12 @@ if(!$gir->auth->authenticate()){
 			}
 			if ( isset($_POST['ship_date']) ) {
 				$post_data = $_POST;
+				$gir->crud->PTS($post_data);
 				// need to do some cleanup and validation first
 				// let's drop the data in the db
 				$r = new Request();
-				$itemId = $r->CreateItem($post_data);
-				$request = $r->GetItemObj($itemId);
+				$r->CreateItem($post_data);
+				$request = $r->GetItemObj($r->newId);
 				// attach facility, scrapper and material to the request
 				$request->addFacility($post_data['facility_id']);
 				// we have the user id so... technically this is attaching a user id not a scrapper id
