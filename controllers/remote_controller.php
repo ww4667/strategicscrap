@@ -93,7 +93,15 @@ $method = trim($_GET['method']);
 				if( count( $scrapperByUserId ) > 0 ){
 					$scrapperClass->GetItemObj( $scrapperByUserId[0]['id'] );
 					
-					$requestReturnArray = $scrapperClass->getRequests(); 
+					$requestReturnArray = $scrapperClass->getRequests();
+					
+					// sorting object array by created_ts date DESC
+					$dates = array();					
+					foreach ( (array) $requestReturnArray as $key => $row ) {
+					    $dates[$key] = $row->created_ts;
+					}
+					
+					array_multisort($dates, SORT_DESC, $requestReturnArray);
 				}
 				
 				print json_encode( $requestReturnArray ); 
