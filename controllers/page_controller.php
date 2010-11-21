@@ -264,6 +264,22 @@ require_once($_SERVER['DOCUMENT_ROOT']."/gir/index.php");
 						$attributes = $m;
 						print_r($attributes);
 						$PAGE_BODY = "views/materials/add_material.php";  	/* which file to pull into the template */
+					} elseif ( isset($_GET['add_transportation_type']) ) {
+						$m = new Transportation_Type();
+						if ( isset($_POST['submit_add_transportation_type']) ) {
+							$post_data = $_POST;
+							foreach ($post_data as $key => $val) {
+								$post_data[$key] = is_string($post_data[$key]) ? trim($val) : $post_data[$key];
+							}
+							$itemId = $m->CreateItem($post_data);
+							if($itemId)
+								echo "success!";
+							else
+								echo "transportation not added...";
+						}
+						$attributes = $m;
+						print_r($attributes);
+						$PAGE_BODY = "views/transportation_type/add_transportation_type.php";  	/* which file to pull into the template */
 					} elseif ( isset($_GET['add_facility']) ) {
 						if ($_POST['address_1'] != "") {
 							$address = $_POST['address_1'];
