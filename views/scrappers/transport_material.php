@@ -1,13 +1,9 @@
 <?php 
-
-
 if(!$gir->auth->authenticate()){
 	?>
 	<p>You are not logged in. Please login or register to use this feature.</p>
-	
 	<?
 } else {
-	
 	if( $_SESSION['user']['group'] != 'scrapper' ){
 		print "This feature is reserved.";
 	} else {
@@ -19,7 +15,6 @@ if(!$gir->auth->authenticate()){
 			$f->GetItemObj( $_location );
 			$f->ReadJoins( new Material() );
 			$facility = (array) $f;
-			
 			
 			$u = new Scrapper();
 			$user = $u->getScrappersByUserId( $_SESSION['user']['id'] );
@@ -65,9 +60,6 @@ if(!$gir->auth->authenticate()){
 				
 			});
 			</script>
-		
-		
-		
 
 			<p>Fill out the form below to receive bids from our national database of logistics experts.</p>
 			<form class="clearfix" action="" method="post">
@@ -122,7 +114,6 @@ if(!$gir->auth->authenticate()){
 						}
 						print '<select id="material_id" name="material_id">'.$op.'</select>';
 						?>
-					
 				</li>
 				</ul>
 				<ul class="form hii">

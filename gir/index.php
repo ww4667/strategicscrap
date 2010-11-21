@@ -35,6 +35,8 @@ require_once($modulesDirectory."/material/Material.php");
 require_once($modulesDirectory."/scrapper/Scrapper.php");
 require_once($modulesDirectory."/broker/Broker.php");
 require_once($modulesDirectory."/request/Request.php");
+require_once($modulesDirectory."/bid/Bid.php");
+require_once($modulesDirectory."/transportation_type/Transportation_Type.php");
 
 // get controller and method from page request
 $controller = isset($controller) ? $controller : NULL;
