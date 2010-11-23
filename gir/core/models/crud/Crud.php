@@ -495,7 +495,7 @@ class Crud {
     			break;
     		case "join":
 				$table = $this->_TABLE_PREFIX.constant('Crud::_VALUES_TABLE_JOINS');
-				$this->PTS($value);
+//				$this->PTS($value);
 				if( count( $this->_GetValuesByObjectId( $value ) ) < 1 ) $fail = true;
 				$doesJoinExist = $this->_GetJoin( $itemId, $value );
 				if( !empty( $doesJoinExist ) ) $fail = true;
@@ -819,7 +819,7 @@ class Crud {
 
 	private function _GetJoins( $joinObject ){
 		$itemId = $this->id;
-		$this->PTS($this);
+//		$this->PTS($this);
 		$properties = $joinObject->_OBJECT_PROPERTIES;
 		$objectName = $joinObject->_OBJECT_NAME;
 		$fields = "";
@@ -842,7 +842,7 @@ class Crud {
 		$query .= " WHERE obj.label = '$objectName'";
 		$query .= " GROUP BY o.id";
 		
-		print "<blockquote>$query</blockquote>";
+//		print "<blockquote>$query</blockquote>";
 		
 		$result = (array) $this->Query( $query, true );
 		

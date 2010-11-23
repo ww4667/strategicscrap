@@ -5,6 +5,9 @@
 	<div id="sign_in">
 		<? if(isset($_SESSION['user']['loggedIn'])) { ?>
 		<form action="/scrap-logout" method="post" id="header_sign_in">
+			<? if( isset($_SESSION['user']['group']) && $_SESSION['user']['group'] == "scrapper" ) { ?>
+				<a id="unread-bids" href="/my-account" style="display:none"><span id="bid-number"></span> Unread Bids</a>
+			<? } ?>
 			<a href="/my-account">My Account</a>
 			<input class="submit" type="image" src="/resources/images/buttons/sign_out_header.png" name="sign_in_submit" />
 		</form>

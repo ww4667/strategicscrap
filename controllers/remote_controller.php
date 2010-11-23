@@ -117,7 +117,7 @@ $method = trim($_GET['method']);
 			
 			$post_data = $_GET;
 			/*
-			 * http://demo.strategicscrap.com/controllers/remote_controller.php?method=addBid&transport_cost=123.00&material_price=3.00&ship_date=2011-12-03%2003:22:12&arrival_date=2011-12-23%2007:22:12&notes=This%20is%20a%20note&join_request=146&join_transportation_type=154&join_broker=93
+			 * transport_cost=123.00&material_price=3.00&ship_date=2011-12-03 03:22:12&arrival_date=2011-12-03 03:22:12&notes=This is a note&join_request=123&join_transportation_type=123&join_broker=123
 			 */
 //			$transport_cost = $post_data['transport_cost'];
 //			$material_price = $post_data['material_price'];
@@ -130,8 +130,6 @@ $method = trim($_GET['method']);
 			$b = new Bid();
 			$hi = $b->CreateItem($post_data);
 			
-			
 			break;
-
 	}
 ?>

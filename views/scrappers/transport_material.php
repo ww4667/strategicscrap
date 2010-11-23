@@ -31,9 +31,8 @@ if(!$gir->auth->authenticate()){
 				// need to do some cleanup and validation first
 				// let's drop the data in the db
 				$r = new Request();
-				$itemId = $r->CreateItem($post_data);
-				/*
-				$request = $r->GetItemObj($itemId);
+				$r->CreateItem($post_data);
+				$request = $r->GetItemObj($r->newId);
 				// attach facility, scrapper and material to the request
 				$request->addFacility($post_data['facility_id']);
 				// we have the user id so... technically this is attaching a user id not a scrapper id
@@ -42,8 +41,6 @@ if(!$gir->auth->authenticate()){
 				$request->addMaterial($post_data['material_id']);
 				// if all creates/adds worked then
 				// redirect to the default homepage
-				 * 
-				 */
 				$message = array();
 				$message[] = "Request has been submitted.";
 				flash($message);

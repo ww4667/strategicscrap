@@ -9,7 +9,7 @@ class Broker extends User {
 
 	protected $_OBJECT_NAME = "broker";
 	protected $_OBJECT_NAME_ID = "";
-	protected $_OBJECT_PROPERTIES = array(	array("type"=>"text","label"=>"User Join","field"=>"join_user"),
+	protected $_OBJECT_PROPERTIES = array(	array("type"=>"join","label"=>"User Join","field"=>"join_user"),
 											array("type"=>"text","label"=>"First Name","field"=>"first_name"),
 											array("type"=>"text","label"=>"Last Name","field"=>"last_name"),
 											array("type"=>"text","label"=>"Mobile Phone","field"=>"mobile_phone"),
