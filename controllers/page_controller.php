@@ -615,21 +615,25 @@ require_once($_SERVER['DOCUMENT_ROOT']."/gir/index.php");
 				// setup the new user!
 				if(count($error_messages) == 0) {
 					$u = new User();
-					$userId = $u->CreateItem($post_data); 
-					if ( $userId && !isset($_GET['broker']) ) {
+					$newUser = $u->CreateItem($post_data); 
+					if ( $newUser && !isset($_GET['broker']) ) {
 						// setup the new scrapper!
 						$s = new Scrapper();
-						$scrapperId = $s->CreateItem($post_data);
-						$scrapper = $s->GetItemObj($scrapperId);
-						$scrapper->addUser($userId);
-						die(print_r($scrapper));
+						$newScrapper = $s->CreateItem($post_data);
+						$scrapper = $s->GetItemObj($newScrapper->newId);
+						$scrapper->addUser($newUser->newId);
+						flash("Welcome to Strategic Scrap! You have successfully been registered. Use the sign-in form above to get started.");
+						redirect_to('/');
+//						die(print_r($scrapper));
 					} else {
 						// setup the new broker!
 						$b = new Broker();
-						$brokerId = $b->CreateItem($post_data);
-						$broker = $b->GetItemObj($brokerId);
-						$broker->addUser($userId);
-						die(print_r($broker));
+						$newBroker = $b->CreateItem($post_data);
+						$broker = $b->GetItemObj($newBroker->newId);
+						$broker->addUser($newUser->newId);
+						flash("Welcome to Strategic Scrap! You have successfully been registered. Use the sign-in form above to get started.");
+						redirect_to('/');
+//						die(print_r($broker));
 					}
 				} else {
 					flash($error_messages,'bad');
