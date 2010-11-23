@@ -27,10 +27,12 @@ if(!$gir->auth->authenticate()){
 			}
 			if ( isset($_POST['ship_date']) ) {
 				$post_data = $_POST;
+				$gir->crud->PTS($post_data);
 				// need to do some cleanup and validation first
 				// let's drop the data in the db
 				$r = new Request();
 				$itemId = $r->CreateItem($post_data);
+				/*
 				$request = $r->GetItemObj($itemId);
 				// attach facility, scrapper and material to the request
 				$request->addFacility($post_data['facility_id']);
@@ -40,6 +42,8 @@ if(!$gir->auth->authenticate()){
 				$request->addMaterial($post_data['material_id']);
 				// if all creates/adds worked then
 				// redirect to the default homepage
+				 * 
+				 */
 				$message = array();
 				$message[] = "Request has been submitted.";
 				flash($message);

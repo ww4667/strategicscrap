@@ -221,17 +221,17 @@
 </div>
 <div style="display:none">
 	<div id="quoteForm" style="padding:20px; background:#fff;">
-		<div>
+		<div id="bidForm">
 			<h2>QUOTE THIS REQUEST</h2>
 			<hr />
-			<strong>Ship from:</strong> Demo Scrap, 123 N 1st, City, State Zip<br />
-			<strong>Ship to:</strong> Demo Scrap, 123 N 1st, City, State Zip<br />
-			<strong>Material:</strong> No. 1 Machinery Cast<br />
-			<strong>Quantity (tons):</strong> 550<br />
-			<strong>Delivery Date:</strong> 05/13/2010<br />
-			<strong>Preferred Transporation:</strong> Flat Bed
+			<strong>Ship from:</strong> <span id="bid_request_ship_from">Demo Scrap, 123 N 1st, City, State Zip</span> <br />
+			<strong>Ship to:</strong> <span id="bid_request_ship_to">Demo Scrap, 123 N 1st, City, State Zip</span><br />
+			<strong>Material:</strong> <span id="bid_request_material">No. 1 Machinery Cast</span><br />
+			<strong>Quantity (tons):</strong> <span id="bid_request_quantity">550</span><br />
+			<strong>Delivery Date:</strong> <span id="bid_request_delivery_date">05/13/2010</span><br />
+			<strong>Preferred Transporation:</strong> <span id="bid_request_preferred_transporation">Flat Bed</span>
 			<hr />
-			<form action="" mehtod="POST" id="quoteForm">
+			<form action="" method="POST" id="quoteForm" action="javascript: false;">
 				<ul class="form">
 					<li>
 						<label><strong>Transport Cost:</strong></label>
@@ -247,21 +247,44 @@
 					</li>
 					<li>
 						<label><strong>Arrival Date:</strong></label>
-						<input name="ship_date" type="text" />
+						<input name="arrival_date" type="text" />
 					</li>
 					<li>
 						<label><strong>Additional Notes:</strong></label>
-						<textarea name="notes" type="text" style="width:273px;height:40px"></textarea>
+						<textarea name="notes" style="width:273px; height:40px;"></textarea>
 					</li>
 				</ul>
 				<div class="submitButton" style="text-align:left">
-				<input id="submitQuote" alt="Submit Quote" name="submitQuote" src="resources/images/buttons/submit_quote.png" type="image" />
+					<input id="submitQuote" alt="Submit Quote" name="submitQuote" src="resources/images/buttons/submit_quote.png" type="image" />
 				</div>
 			</form>
 		</div>
+		<div id="bidResult" style></div>
 	</div>
 </div>
 </div>
 <script type="text/javascript">
-            $(".scrapQuote").colorbox({width:"550", inline:true, href:"#quoteForm"});
+
+	
+	   
+	$("quoteForm").submit(function() {
+		if ($("input:first").val() == "correct") {
+			$("span").text("Validated...").show();
+
+			$.post("test.php", { "func": "getNameAndTime" },
+			   function(data){
+			     alert(data.name); // John
+			     console.log(data.time); //  2pm
+			   }, "json");
+			   
+			return true;
+		}
+		$("span").text("Not valid!").show().fadeOut(1000);
+		return false;
+	});
+
+
+   	$(".scrapQuote").colorbox({width:"550", inline:true, href:"#quoteForm"});
+
 </script>
+

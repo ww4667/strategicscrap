@@ -21,6 +21,8 @@ class Crud {
 	
 	private $database_connection;
 	
+	public $newId = null;
+	
 	
 	/*** DEFINE CONST ***/
 	/* database table name to contain items: Items are defined pieces of information. For example a user with a username and password that is defined. */
@@ -127,9 +129,10 @@ class Crud {
 				$itemData[$property["field"]] = "";
 			}
 			
-			$this->_SetPropertyValue($itemId, $property["property_name_id"], $property["type"], $itemData[$property["field"]]);
+			if( !empty( $itemData[$property["field"]] ) ) $this->_SetPropertyValue($itemId, $property["property_name_id"], $property["type"], $itemData[$property["field"]]);
 		}
-		return $itemId;
+		$this->newId = $itemId;
+		return $this;
     }
 	
 	public function GetItem( $itemId, $detail = false ){
@@ -170,7 +173,7 @@ class Crud {
 			$this->_CURRENT_ITEM = $op;
 			return $this;
 		} else {
-			return false;
+			return $this;
 		}
 	}
 	
@@ -287,7 +290,7 @@ class Crud {
     }
 
     public function AddValueJoin( $itemId, $foreignItemId, $number = "" ){
-    	return $this->_SetPropertyValue( $itemId, $foreignItemId, "joins", $number );
+    	return $this->_SetPropertyValue( $itemId, $foreignItemId, "join", $number );
     }
 
     public function UpdateValueDate( $itemId, $propertyId, $date = "" ){
@@ -303,7 +306,32 @@ class Crud {
     }
 
     public function UpdateValueJoin( $itemId, $propertyId, $number = "" ){
-    	return $this->_SetPropertyValue( $itemId, $propertyId, "joins", $number, true );
+    	return $this->_SetPropertyValue( $itemId, $propertyId, "join", $number, true );
+    }
+    
+    public function AddJoin( $joinItemId, $joinName ){
+		$item = $this->GetCurrentItem();
+		$joinItem = $this->GetItem($joinItemId);
+		$this->SetCurrentItem($item); // need to reset Current item back to the request
+		if(count($joinItem)>0){
+			$join_property = null;
+			$arr = $this->_OBJECT_PROPERTIES;
+			$c = count($this->_OBJECT_PROPERTIES);
+			$i = 0;
+			while($i<$c){
+				if( $arr[$i]['field'] == $joinName){
+					$join_property = $arr[$i]['property_name_id'];
+					break;
+				}
+				$i++;
+			}
+			
+    		$this->_SetPropertyValue( $item['id'], $join_property, "join", $joinItemId );
+    		
+			return $this;
+		} else {
+			return $this;
+		}
     }
 
     /*     READ     */
@@ -381,7 +409,7 @@ class Crud {
     }
 
     public function RemoveValueJoin( $itemId, $foreignItemId ){
-    	return $this->_DeletePropertyValue( $propertyId, "joins" );
+    	return $this->_DeletePropertyValue( $propertyId, "join" );
     }
     
     public function Query( $query, $asArray = false ){
@@ -448,44 +476,61 @@ class Crud {
      *
      */
 
-    private function _SetPropertyValue( $itemId, $propertyId, $type, $value, $update = false ){
+    private function _SetPropertyValue( $itemId=null, $propertyId=null, $type=null, $value=null, $update = false ){
 		$table = NULL;
+		$fail = false;
     	switch( $type ){
     		case "date":
 				$table = $this->_TABLE_PREFIX.constant('Crud::_VALUES_TABLE_DATES');
-		    	$value = strtotime( $value );
+		    	$value = date( 'Y-m-d H:i:s', strtotime( $value ) );
+		    	if( !$value ) $fail = true;
 		    	break;
     		case "text":
 				$table = $this->_TABLE_PREFIX.constant('Crud::_VALUES_TABLE_TEXT');
+				if(!is_string($value)) $fail = true;
     			break;
     		case "number":
 				$table = $this->_TABLE_PREFIX.constant('Crud::_VALUES_TABLE_NUMBERS');
+				if(!is_numeric($value)) $fail = true;
     			break;
-    		case "joins":
+    		case "join":
 				$table = $this->_TABLE_PREFIX.constant('Crud::_VALUES_TABLE_JOINS');
+				$this->PTS($value);
+				if( count( $this->_GetValuesByObjectId( $value ) ) < 1 ) $fail = true;
+				$doesJoinExist = $this->_GetJoin( $itemId, $value );
+				if( !empty( $doesJoinExist ) ) $fail = true;
     			break;
+    		default:
+    			$fail = true;
     	}
-
-		$this->database_connection->Open();
-		if ($update) {
-			$query = "SELECT id FROM $table WHERE property_name_id='$propertyId' AND item_id='$itemId' LIMIT 1;";
-			$result = $this->database_connection->Query( $query );
-			$arr1 = $this->database_connection->FetchArray( $result );
-			$recordId = $arr1['id'];
-			$query = "UPDATE $table SET value='" . mysql_real_escape_string( $value ) . "' WHERE id='$recordId'";
-			$result = $this->database_connection->Query( $query );
-			$op = $recordId;
-		} else {
-			$query = "INSERT INTO $table ( value, property_name_id, item_id  ) VALUES ( '" . mysql_real_escape_string( $value ) . "', $propertyId, $itemId );";
-			$result = $this->database_connection->Query( $query );
-			$query = "SELECT id FROM $table ORDER BY id DESC LIMIT 1;";
-			$result = $this->database_connection->Query( $query );
-			$arr1 = $this->database_connection->FetchArray( $result );
-			$op = $arr1['id'];
-		}
-		$this->database_connection->Close();
-
-		return $op;
+    	
+    	
+		
+    	if( !$fail ){
+			$this->database_connection->Open();
+			if ($update) {
+				$query = "SELECT id FROM $table WHERE property_name_id='$propertyId' AND item_id='$itemId' LIMIT 1;";
+				$result = $this->database_connection->Query( $query );
+				$arr1 = $this->database_connection->FetchArray( $result );
+				$recordId = $arr1['id'];
+				$query = "UPDATE $table SET value='" . mysql_real_escape_string( $value ) . "' WHERE id='$recordId'";
+				$result = $this->database_connection->Query( $query );
+				$op = $recordId;
+			} else {
+				$query = "INSERT INTO $table ( value, property_name_id, item_id  ) VALUES ( '" . mysql_real_escape_string( $value ) . "', $propertyId, $itemId );";
+				
+				$result = $this->database_connection->Query( $query );
+				$query = "SELECT id FROM $table ORDER BY id DESC LIMIT 1;";
+				$result = $this->database_connection->Query( $query );
+				$arr1 = $this->database_connection->FetchArray( $result );
+				$op = $arr1['id'];
+			}
+			$this->database_connection->Close();
+	
+			return $op;
+    	} else {
+			return false;
+    	}
     }
 
     private function _CreateObjectAndPropertyRelationship( $objectId, $propertyId ){
@@ -617,7 +662,7 @@ class Crud {
     		case "number":
 				$table = $this->_TABLE_PREFIX.constant('Crud::_VALUES_TABLE_NUMBERS');
     			break;
-    		case "joins":
+    		case "join":
 				$table = $this->_TABLE_PREFIX.constant('Crud::_VALUES_TABLE_JOINS');
     			break;
     	}
@@ -735,7 +780,7 @@ class Crud {
     		case "number":
 				$table = $this->_TABLE_PREFIX.constant('Crud::_VALUES_TABLE_NUMBERS');
     			break;
-    		case "joins":
+    		case "join":
 				$table = $this->_TABLE_PREFIX.constant('Crud::_VALUES_TABLE_JOINS');
     			break;
     	}
@@ -774,6 +819,7 @@ class Crud {
 
 	private function _GetJoins( $joinObject ){
 		$itemId = $this->id;
+		$this->PTS($this);
 		$properties = $joinObject->_OBJECT_PROPERTIES;
 		$objectName = $joinObject->_OBJECT_NAME;
 		$fields = "";
@@ -796,7 +842,7 @@ class Crud {
 		$query .= " WHERE obj.label = '$objectName'";
 		$query .= " GROUP BY o.id";
 		
-		//print "<blockquote>$query</blockquote>";
+		print "<blockquote>$query</blockquote>";
 		
 		$result = (array) $this->Query( $query, true );
 		
