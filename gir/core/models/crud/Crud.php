@@ -45,7 +45,6 @@ class Crud {
 	const _VALUES_TABLE_NUMBERS = "property_values_numbers";
 	/* database table name to contain property names: Property names are names of . For example a user with a username and password that is defined. */
 	const _VALUES_TABLE_JOINS = "property_values_joins";
-	
 
 	/*** DEFINE CONSTRUCTOR ***/
 	/**
@@ -62,7 +61,6 @@ class Crud {
 			$this->_OBJECT_NAME_ID = $object['id'];
 		}
 	}
-	
 
 	/***
 	 * PUBLIC 
@@ -115,12 +113,10 @@ class Crud {
 			}
 		}
 		return $structureArray;
-
     }
 
     public function CreateItem( $itemData ){
-		// TODO: check for empty fields and skip them
-    	$objectArray = $this->ReadObjectByName($this->_OBJECT_NAME);
+    	$objectArray = $this->_GetDataByName( $this->_OBJECT_NAME, $this->_TABLE_PREFIX.constant('Crud::_OBJECT_NAMES') );
 		$objectNameId = $objectArray['id'];
 		$itemId = $this->_CreateItem($objectNameId);
 		$objectProperties = $this->_OBJECT_PROPERTIES;
@@ -131,50 +127,25 @@ class Crud {
 			
 			if( !empty( $itemData[$property["field"]] ) ) $this->_SetPropertyValue($itemId, $property["property_name_id"], $property["type"], $itemData[$property["field"]]);
 		}
+		$item = $this->_GetValuesByObjectId( $itemId );
+		$this->_BuildObject( $item );
 		$this->newId = $itemId;
 		return $this;
     }
 	
 	public function GetItem( $itemId, $detail = false ){
 		$item = $this->_GetValuesByObjectId( $itemId );
-		$op = $item;
-		if(!$detail){
-			$op = array();
-			$op['id'] = $item[0]['id'];
-			$op['created_ts'] = $item[0]['created_ts'];
-			$op['updated_ts'] = $item[0]['updated_ts'];
-			$op['object_name_id'] = $item[0]['object_name_id'];
-			foreach ($item as $detail) {
-				$op[$detail['label']] = $detail['value']; 
-			}
-		}
+		$op = $this->_BuildItem( $item );
 		$this->_CURRENT_ITEM = $op;
-		return $op;
+		if(!$detail)
+			return $op;
+		return $item;
 	}
 	
-	public function GetItemObj( $itemId, $detail = false ){
+	public function GetItemObj( $itemId ){
 		$item = $this->_GetValuesByObjectId( $itemId );
-		if( count( $item ) > 0 ){
-			if(!$detail){
-				$op = array();
-				$op['id'] = $item[0]['id'];
-				$this->id = $item[0]['id'];
-				$op['created_ts'] = $item[0]['created_ts'];
-				$this->created_ts = $item[0]['created_ts'];
-				$op['updated_ts'] = $item[0]['updated_ts'];
-				$this->updated_ts = $item[0]['updated_ts'];
-				$op['object_name_id'] = $item[0]['object_name_id'];
-				$this->object_name_id = $item[0]['object_name_id'];
-				foreach ($item as $detail) {
-					$op[$detail['label']] = $detail['value'];
-					$this->{$detail['label']} = $detail['value'];
-				}
-			}
-			$this->_CURRENT_ITEM = $op;
-			return $this;
-		} else {
-			return $this;
-		}
+		$this->_BuildObject( $item );
+		return $this;
 	}
 	
 	public function GetItemsByPropertyValue( $propertyName, $value ){
@@ -250,7 +221,6 @@ class Crud {
 		if ( is_null($itemData) )
 			$itemData = (array) $this;
 		$itemId = $itemData['id'];
-		// TODO: check for empty fields and remove them from the DB
 		$objectProperties = $this->_OBJECT_PROPERTIES;
 		$properties = $this->_GetValuesByObjectId( $itemId );
 		if ( count($properties) > 0) {
@@ -432,6 +402,41 @@ class Crud {
     private function CreateDbConnection( Mysql $instance_reference ) {
 		$this->database_connection = $instance_reference;
     }
+	
+	private function _BuildObject( $item ) {
+		if( count( $item ) > 0 ){
+			$op = array();
+			$op['id'] = $item[0]['id'];
+			$this->id = $item[0]['id'];
+			$op['created_ts'] = $item[0]['created_ts'];
+			$this->created_ts = $item[0]['created_ts'];
+			$op['updated_ts'] = $item[0]['updated_ts'];
+			$this->updated_ts = $item[0]['updated_ts'];
+			$op['object_name_id'] = $item[0]['object_name_id'];
+			$this->object_name_id = $item[0]['object_name_id'];
+			foreach ($item as $detail) {
+				$op[$detail['label']] = $detail['value'];
+				$this->{$detail['label']} = $detail['value'];
+			}
+			$this->_CURRENT_ITEM = $op;
+		}
+		return $this;
+	}
+	
+	private function _BuildItem( $item ) {
+		$op = array();
+		if( count( $item ) > 0 ){
+			$op = $item;
+			$op['id'] = $item[0]['id'];
+			$op['created_ts'] = $item[0]['created_ts'];
+			$op['updated_ts'] = $item[0]['updated_ts'];
+			$op['object_name_id'] = $item[0]['object_name_id'];
+			foreach ($item as $detail) {
+				$op[$detail['label']] = $detail['value']; 
+			}
+		}
+		return $op;
+	}
     
     /*     SET     */
     private function _CreateItem( $objectNameId ){
