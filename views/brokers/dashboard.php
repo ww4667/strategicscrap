@@ -216,8 +216,8 @@
 				}
 
 
-				if( item['join_request'] && item['join_request'][0] ){ 
-					$("#join_request").val(item['join_request'][0]['id']);
+				if( item['id'] ){ 
+					$("#join_request").val(item['id']);
 				} 
 				
 
@@ -372,7 +372,15 @@
 			 $("#notes").val() != "" ) {
 
 		     	console.log($("#quoteForm").serialize());
-				$.post("/controllers/remote_controller.php?method=addBid", $("#quoteForm").serialize(),
+				$.post("/controllers/remote_controller.php?method=addBid", 
+						'transport_cost=' + $("#transport_cost").val() +
+						'&material_price=' + $("#material_price").val() +
+						'&ship_date=' + $("#ship_date").val() +
+						'&arrival_date=' + $("#arrival_date").val() +
+						'&join_broker=' + $("#join_broker").val() +
+						'&join_transportation_type=' + $("#join_transportation_type").val() +
+						'&join_request=' + $("#join_request").val() +
+						'&notes=' + $("#notes").val(),
 				   function(data){
 				     console.log("success");
 				     console.log(data);
