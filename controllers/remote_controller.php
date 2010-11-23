@@ -115,7 +115,7 @@ $method = trim($_GET['method']);
 		
 		case 'addBid':
 			
-			$post_data = $_GET;
+			$post_data = $_POST;
 			/*
 			 * transport_cost=123.00&material_price=3.00&ship_date=2011-12-03 03:22:12&arrival_date=2011-12-03 03:22:12&notes=This is a note&join_request=123&join_transportation_type=123&join_broker=123
 			 */
