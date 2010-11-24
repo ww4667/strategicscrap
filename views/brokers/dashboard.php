@@ -171,7 +171,7 @@
 					    $("#recent_requests").html( html );
 						$('#scroll-pane2').jScrollPane();
 					    $(".scrapQuote").colorbox({	width:"550", inline:true, href:"#quoteForm", 
-						    						onComplete:function(){ current_request = $( this ).attr( "requestId" ); console.log( 'current_request:' + current_request + ( iii++ )); loadBidForm();  } 
+						    						onComplete:function(){ current_request = $( this ).attr( "requestId" ); loadBidForm(); $.colorbox.resize();  } 
 						    					});
 					}
 					
@@ -265,6 +265,7 @@
 			}
 			
 			$(document).ready(function(){
+				$("#bidResult").hide();
 				getRequests();
 			});
 		--></script>
@@ -351,18 +352,16 @@
 						<textarea name="notes" id="notes" style="width:273px; height:40px;"></textarea>
 					</li>
 				</ul>
-				<div class="submitButton" style="text-align:left">
-					<input id="submitQuote" value="Submit Quote" name="submitQuote" src="resources/images/buttons/submit_quote.png" type="button" />
-				</div>
+				<div class="submitButton" id="submitQuote" style="cursor: pointer; text-align:left; background: #fff url(resources/images/buttons/submit_quote.png) no-repeat; padding: 3px; width:177px; height: 46px;"><!--  --></div>
 			</form>
 		</div>
-		<div id="bidResult" style></div>
+		<div id="bidResult" style=""></div>
 	</div>
 </div>
 </div>
 <script type="text/javascript">
 
-	
+	var colorboxTimeOut = 0;
 //http://demo.strategicscrap.com/controllers/remote_controller.php?method=addBid&transport_cost=123.00&material_price=3.00&ship_date=2011-12-03%2003:22:12&arrival_date=2011-12-23%2007:22:12&notes=This%20is%20a%20note&join_request=146&join_transportation_type=154&join_broker=93
 	$("#submitQuote").click(function() {
 		if ( $("#transport_cost").val() != "" && 
@@ -371,7 +370,6 @@
 			 $("#arrival_date").val() != "" && 
 			 $("#notes").val() != "" ) {
 
-		     	console.log($("#quoteForm").serialize());
 				$.post("/controllers/remote_controller.php?method=addBid", 
 						'transport_cost=' + $("#transport_cost").val() +
 						'&material_price=' + $("#material_price").val() +
@@ -382,8 +380,18 @@
 						'&join_request=' + $("#join_request").val() +
 						'&notes=' + $("#notes").val(),
 				   function(data){
-				     console.log("success");
-				     console.log(data);
+				     $("#transport_cost").val(''); 
+					 $("#material_price").val(''); 
+					 $("#ship_date").val(''); 
+					 $("#arrival_date").val(''); 
+					 $("#notes").val('');
+
+					 //
+					 $("#bidForm").hide();
+					 $("#bidResult").html('<h2>Success!</h2><p>Your bid has been submitted.</p>').show();
+					 $.colorbox.resize();
+					 
+					 colorboxTimeOut = setTimeout( function(){ clearTimeout(colorboxTimeOut); $.colorbox.close(); }, 5000 );
 				   }, "json");
 			   
 				return false;
