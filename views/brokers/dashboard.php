@@ -135,45 +135,139 @@
 			-->
 		</tbody></table>
 
-		<script type="text/javascript">
-			var requestInterval = 0;
+		<script type="text/javascript"><!--
+			var requestInterval = 0, reqObject = {}, current_request = -1, iii = 0;
 			function getRequests(){
 				$.getJSON("/controllers/remote_controller.php?method=getRequests", function(json) { 
-					clearTimeout(requestInterval);
-					var tableRows = $("#recent_requests"), html = '', off=false, item=null;
+//					clearTimeout( requestInterval );
+					var tableRows = $("#recent_requests"), html = '', off=false, item=null, i = 0, l = json.length;
 					
-					if ( json.length > 0 ) { 
-						for ( i=0; i < json.length; i++ ) {
+					if ( l > 0 ) { 
+						for ( i; i < l; i++ ) {
 							item = json[i];
-							
-							html += '<tr '+ ( off ? 'class="row2"' : '' ) +'>' + 
-							'	<td>'+item.expiration_date+'</td>'+
-							'	<td><strong>Ship to:</strong> '+item.join_facility[0].company+'<br>'+
-							'		<strong>Material:</strong>'+item.join_material[0].name+'<br>'+
-							'		<strong>Quantity (tons):</strong> '+item.volume+'<br>'+
-							'		<strong>Delivery Date:</strong> '+item.arrive_date+''+
-							'	</td>'+
-							'	<td>'+item.created_ts+'</td>'+
-							'	<td>waiting</td>'+
-							'</tr>';
-							
+							reqObject[item.id] = item; 
+							html += '<tr class="'+ ( off ? 'row2' : '' ) + ' scrapQuote" requestId="' + item.id + '">' + 
+									'	<td>' + item.expiration_date + '</td>' +
+									'	<td>';
+							if( 	item['join_facility'] && 
+									item['join_facility'] != null && 
+									item['join_facility'].length > 0 ){ 
+										html += '		<strong>Ship to:</strong> ' + item['join_facility'][0]['company'] + '<br>'; }
+									
+							if( 	item['join_material'] && 
+									item['join_material'] != null && 
+									item['join_material'].length > 0 ){ 
+										html += '		<strong>Material:</strong> ' + item['join_material'][0]['name'] + '<br>'; }
+							html += '' +
+									'		<strong>Quantity (tons):</strong> ' + item.volume + '<br>' +
+									'		<strong>Delivery Date:</strong> ' + item.arrive_date + '' +'	</td>' +
+									'	<td>' + item.created_ts + '</td>' + 
+									'	<td>waiting</td>' + 
+									'	<td><a class="quote" href="#" title="quote this request" requestId="' + item.id + '">quote</a></td>' + 
+									'</tr>';
 							off=!off;
-							
 						}
-					    
+
 					    $("#recent_requests").html( html );
 						$('#scroll-pane2').jScrollPane();
-					    
+					    $(".scrapQuote").colorbox({	width:"550", inline:true, href:"#quoteForm", 
+						    						onComplete:function(){ current_request = $( this ).attr( "requestId" ); console.log( 'current_request:' + current_request + ( iii++ )); loadBidForm();  } 
+						    					});
 					}
 					
-					requestInterval = setTimeout("getRequests();",20000);
+//					requestInterval = setTimeout("getRequests();",20000);
 				});
+			}
+
+			function loadBidForm(  ){
+
+				var item = reqObject[ current_request ]; 
+				console.log( item );
+				var scrapperData = "", facilityData = "";
+
+				if( item['join_scrapper'] && item['join_scrapper'][0]['company'] ){ 
+						scrapperData += item['join_scrapper'][0]['company'] + '<br />';
+				} 
+				
+				if( item['join_scrapper'] && item['join_scrapper'][0]['address_1'] ){ 
+						scrapperData += item['join_scrapper'][0]['address_1'] + '<br />';
+				} 
+				
+				if( item['join_scrapper'] && item['join_scrapper'][0]['address_2'] ){ 
+						scrapperData += item['join_scrapper'][0]['address_2'] + '<br />';
+				} 
+				
+				if( item['join_scrapper'] && item['join_scrapper'][0]['city'] ){ 
+						scrapperData += item['join_scrapper'][0]['city'] + ', ';
+				} 
+				
+				if( item['join_scrapper'] && item['join_scrapper'][0]['state_province'] ){ 
+						scrapperData += item['join_scrapper'][0]['state_province'] + ' ';
+				} 
+				
+				if( item['join_scrapper'] && item['join_scrapper'][0]['zip_postal_code'] ){ 
+						scrapperData += item['join_scrapper'][0]['zip_postal_code'] + ' ';
+				} 
+
+				if( scrapperData.length > 0 ){
+					$("#bid_request_ship_from").html( scrapperData );
+				} else {
+					alert("This bid cannot happen because there is no Scrapper.");
+				}
+
+
+				if( item['id'] ){ 
+					$("#join_request").val(item['id']);
+				} 
+				
+
+				if( item['join_facility'] && item['join_facility'][0]['company'] ){ 
+					facilityData += item['join_facility'][0]['company'] + '<br />';
+				} 
+				
+				if( item['join_facility'] && item['join_facility'][0]['address_1'] ){ 
+					facilityData += item['join_facility'][0]['address_1'] + '<br />';
+				} 
+				
+				if( item['join_facility'] && item['join_facility'][0]['address_2'] ){ 
+					facilityData += item['join_facility'][0]['address_2'] + '<br />';
+				} 
+				
+				if( item['join_facility'] && item['join_facility'][0]['city'] ){ 
+					facilityData += item['join_facility'][0]['city'] + ', ';
+				} 
+				
+				if( item['join_facility'] && item['join_facility'][0]['state_province'] ){ 
+					facilityData += item['join_facility'][0]['state_province'] + ' ';
+				} 
+				
+				if( item['join_facility'] && item['join_facility'][0]['zip_postal_code'] ){ 
+					facilityData += item['join_facility'][0]['zip_postal_code'] + ' ';
+				} 
+
+				if( facilityData.length > 0 ){
+					$("#bid_request_ship_to").html( facilityData );
+				} else {
+					alert("This bid cannot happen because there is no Facility.");
+				}
+
+				if( item['join_material'] ){
+					$("#bid_request_material").html( item['join_material'][0]['name'] );
+					$("#join_transportation_type").val( item['join_material'][0]['id'] );
+				} else {
+					alert("This bid cannot happen because there is no Material.");
+				}
+				
+				$("#bid_request_quantity").html( item['volume'] );
+				$("#bid_request_delivery_date").html( item['arrive_date'] );
+				$("#bid_request_preferred_transporation").html( item['transportation_type'] );
+				
 			}
 			
 			$(document).ready(function(){
 				getRequests();
 			});
-		</script>
+		--></script>
 		</div>
 		</div><div class="moduleBottom"><!-- IE hates empty elements --></div>	
 	</div>
@@ -227,35 +321,38 @@
 			<strong>Ship from:</strong> <span id="bid_request_ship_from">Demo Scrap, 123 N 1st, City, State Zip</span> <br />
 			<strong>Ship to:</strong> <span id="bid_request_ship_to">Demo Scrap, 123 N 1st, City, State Zip</span><br />
 			<strong>Material:</strong> <span id="bid_request_material">No. 1 Machinery Cast</span><br />
-			<strong>Quantity (tons):</strong> <span id="bid_request_quantity">550</span><br />
+			<strong>Volume (tons):</strong> <span id="bid_request_quantity">550</span><br />
 			<strong>Delivery Date:</strong> <span id="bid_request_delivery_date">05/13/2010</span><br />
 			<strong>Preferred Transporation:</strong> <span id="bid_request_preferred_transporation">Flat Bed</span>
 			<hr />
-			<form action="" method="POST" id="quoteForm" action="javascript: false;">
+			<form id="quoteForm">
+				<input name="join_broker" id="join_broker" type="hidden" value="<?=$_SESSION['user']['id']?>" />
+				<input name="join_transportation_type" id="join_transportation_type" type="hidden" value="" />
+				<input name="join_request" id="join_request" type="hidden" value="" />
 				<ul class="form">
 					<li>
 						<label><strong>Transport Cost:</strong></label>
-						<input name="transport_cost" type="text" />
+						<input name="transport_cost" id="transport_cost" type="text" />
 					</li>
 					<li>
 						<label><strong>Price (per/GT):</strong></label>
-						<input name="material_price" type="text" />
+						<input name="material_price" id="material_price" type="text" />
 					</li>
 					<li>
 						<label><strong>Ship Date:</strong></label>
-						<input name="ship_date" type="text" />
+						<input name="ship_date" id="ship_date" type="text" />
 					</li>
 					<li>
 						<label><strong>Arrival Date:</strong></label>
-						<input name="arrival_date" type="text" />
+						<input name="arrival_date" id="arrival_date" type="text" />
 					</li>
 					<li>
 						<label><strong>Additional Notes:</strong></label>
-						<textarea name="notes" style="width:273px; height:40px;"></textarea>
+						<textarea name="notes" id="notes" style="width:273px; height:40px;"></textarea>
 					</li>
 				</ul>
 				<div class="submitButton" style="text-align:left">
-					<input id="submitQuote" alt="Submit Quote" name="submitQuote" src="resources/images/buttons/submit_quote.png" type="image" />
+					<input id="submitQuote" value="Submit Quote" name="submitQuote" src="resources/images/buttons/submit_quote.png" type="button" />
 				</div>
 			</form>
 		</div>
@@ -266,25 +363,36 @@
 <script type="text/javascript">
 
 	
-	   
-	$("quoteForm").submit(function() {
-		if ($("input:first").val() == "correct") {
-			$("span").text("Validated...").show();
+//http://demo.strategicscrap.com/controllers/remote_controller.php?method=addBid&transport_cost=123.00&material_price=3.00&ship_date=2011-12-03%2003:22:12&arrival_date=2011-12-23%2007:22:12&notes=This%20is%20a%20note&join_request=146&join_transportation_type=154&join_broker=93
+	$("#submitQuote").click(function() {
+		if ( $("#transport_cost").val() != "" && 
+			 $("#material_price").val() != "" && 
+			 $("#ship_date").val() != "" && 
+			 $("#arrival_date").val() != "" && 
+			 $("#notes").val() != "" ) {
 
-			$.post("test.php", { "func": "getNameAndTime" },
-			   function(data){
-			     alert(data.name); // John
-			     console.log(data.time); //  2pm
-			   }, "json");
+		     	console.log($("#quoteForm").serialize());
+				$.post("/controllers/remote_controller.php?method=addBid", 
+						'transport_cost=' + $("#transport_cost").val() +
+						'&material_price=' + $("#material_price").val() +
+						'&ship_date=' + $("#ship_date").val() +
+						'&arrival_date=' + $("#arrival_date").val() +
+						'&join_broker=' + $("#join_broker").val() +
+						'&join_transportation_type=' + $("#join_transportation_type").val() +
+						'&join_request=' + $("#join_request").val() +
+						'&notes=' + $("#notes").val(),
+				   function(data){
+				     console.log("success");
+				     console.log(data);
+				   }, "json");
 			   
-			return true;
+				return false;
 		}
-		$("span").text("Not valid!").show().fadeOut(1000);
+		
 		return false;
 	});
 
-
-   	$(".scrapQuote").colorbox({width:"550", inline:true, href:"#quoteForm"});
+    $(".scrapQuote").colorbox({width:"550", inline:true, href:"#quoteForm"});
 
 </script>
 
