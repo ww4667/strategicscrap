@@ -378,11 +378,16 @@ require_once($_SERVER['DOCUMENT_ROOT']."/gir/index.php");
 
 		/* Broker Dashboard */
 		case 'broker-dashboard':
-			// page 'template variables'
-			$PAGE_BODY = "views/brokers/dashboard.php";  	/* which file to pull into the template */
-						
-			//the layout file  -  THIS PART NEEDS TO BE LAST
-			require($_SERVER['DOCUMENT_ROOT']."/views/layouts/shell.php");
+			if( !$gir->auth->authenticate() || $_SESSION['user']['group'] != "broker" ){
+				$message = array();
+				$message[] = "You need to be logged in as a broker to use this feature.";
+				flash($message,'bad');
+			} else {
+				// page 'template variables'
+				$PAGE_BODY = "views/brokers/dashboard.php";  	/* which file to pull into the template */
+				//the layout file  -  THIS PART NEEDS TO BE LAST
+				require($_SERVER['DOCUMENT_ROOT']."/views/layouts/shell.php");
+			}
 		break;
 
 		/* Broker Dashboard :: quote manager */

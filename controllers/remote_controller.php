@@ -17,6 +17,9 @@ require_once($_SERVER['DOCUMENT_ROOT']."/gir/index.php");
 $method = trim($_GET['method']);
 //$key = $_GET['key'];
 //$_SESSION[$key]
+/**
+ * TODO: Add Keys for these cases so people cant access them outside without proper permissions
+ */
 
 	switch($method){
 		
@@ -129,6 +132,13 @@ $method = trim($_GET['method']);
 			//$join_broker = $post_data['join_broker'];
 			$b = new Bid();
 			$hi = $b->CreateItem($post_data);
+			
+			break;
+		case 'getBids':
+			$b = new Bid();
+			$bidArray = $b->GetAllItems();
+//			$bidArray = $b->getAllBids();
+			$b->PTS( $bidArray );
 			
 			break;
 	}

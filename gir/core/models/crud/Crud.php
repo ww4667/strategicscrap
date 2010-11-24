@@ -739,9 +739,9 @@ class Crud {
 		$fields = ""; 
 		foreach ($properties as $p) {
 			if ($fields == "") {
-				$fields .= " MAX(IF(pn.label='".$p['field']."', v.value, '')) AS ".$p['field'];
+				$fields .= " MAX(IF(pn.label='".$p['field']."', v.value, '')) AS `".$p['field']."`";
 			} else {
-				$fields .= ", MAX(IF(pn.label='".$p['field']."', v.value, '')) AS ".$p['field'];
+				$fields .= ", MAX(IF(pn.label='".$p['field']."', v.value, '')) AS `".$p['field']."`";
 			}
 		}
 		$query = "SELECT o.id, o.created_ts, o.updated_ts, o.object_name_id,";
@@ -793,9 +793,9 @@ class Crud {
 		$fields = ""; 
 		foreach ($properties as $p) {
 			if ($fields == "") {
-				$fields .= " MAX(IF(pn.label='".$p['field']."', v.value, '')) AS ".$p['field'];
+				$fields .= " MAX(IF(pn.label='".$p['field']."', v.value, '')) AS `".$p['field']."`";
 			} else {
-				$fields .= ", MAX(IF(pn.label='".$p['field']."', v.value, '')) AS ".$p['field'];
+				$fields .= ", MAX(IF(pn.label='".$p['field']."', v.value, '')) AS `".$p['field']."`";
 			}
 		}
 		$query = "SELECT * FROM";
@@ -807,7 +807,7 @@ class Crud {
 		$query .= " LEFT JOIN 	(SELECT * FROM " . $this->_TABLE_PREFIX.constant('Crud::_VALUES_TABLE_DATES') . " UNION SELECT * FROM " . $this->_TABLE_PREFIX.constant('Crud::_VALUES_TABLE_NUMBERS') . " UNION SELECT * FROM " . $this->_TABLE_PREFIX.constant('Crud::_VALUES_TABLE_TEXT') . ") as v on v.property_name_id = od.property_name_id AND v.item_id = o.id";
 		$query .= " WHERE o.object_name_id = $objectNameId";
 		$query .= " GROUP BY o.id) AS all_items";
-		$query .= " WHERE $propertyName = '$value'";
+		$query .= " WHERE `$propertyName` = '$value'";
 		$result = $this->_RunQuery( $query );
 		$arr1 = $this->database_connection->FetchAssocArray( $result );
 		return $arr1;
@@ -830,9 +830,9 @@ class Crud {
 		$fields = "";
 		foreach ($properties as $p) {
 			if ($fields == "") {
-				$fields .= " MAX(IF(pn.label='".$p['field']."', v.value, '')) AS ".$p['field'];
+				$fields .= " MAX(IF(pn.label='".$p['field']."', v.value, '')) AS `".$p['field']."`";
 			} else {
-				$fields .= ", MAX(IF(pn.label='".$p['field']."', v.value, '')) AS ".$p['field'];
+				$fields .= ", MAX(IF(pn.label='".$p['field']."', v.value, '')) AS `".$p['field']."`";
 			}
 		}
 		$query = "SELECT o.id, o.created_ts, o.updated_ts, o.object_name_id, vjn.label as join_property_label,";
@@ -863,9 +863,9 @@ class Crud {
 		$fields = "";
 		foreach ($properties as $p) {
 			if ($fields == "") {
-				$fields .= " MAX(IF(pn.label='".$p['field']."', v.value, '')) AS ".$p['field'];
+				$fields .= " MAX(IF(pn.label='".$p['field']."', v.value, '')) AS `".$p['field']."`";
 			} else {
-				$fields .= ", MAX(IF(pn.label='".$p['field']."', v.value, '')) AS ".$p['field'];
+				$fields .= ", MAX(IF(pn.label='".$p['field']."', v.value, '')) AS `".$p['field']."`";
 			}
 		}
 		$query = "SELECT o.id, o.created_ts, o.updated_ts, o.object_name_id,";
