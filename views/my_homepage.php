@@ -48,9 +48,8 @@
 							<div class="moduleContent">
 								<h3>Regional Ferrous Pricing</h3>
 								<hr />
-								<p>Our pricing is based on averages of actual transactions reported to us by mills, foundries, brokers &amp; exporters.</p>
+								<p>All prices are shown in US dollars per gross ton(GT) or (2,240lbs) of material delivered to the consumer unless otherwise noted.</p>
 								<table>
-
 									<tr class="row2">
 									    <th>SCRAP TYPE</th>
 									    <th>COST/GT</th>
@@ -115,9 +114,7 @@
 									    <td>Cupola Cast</td>
 									    <td>296.00</td>
 									</tr>
-								
 								</table>
-								<p class="note">All prices are shown in US dollars per gross ton(GT) or (2,240lbs) of material delivered to the consumer unless otherwise noted.</p>
 							</div><div class="moduleBottom"><!-- IE hates empty elements --></div>
 						</div>
 					</div>

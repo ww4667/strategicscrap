@@ -40,43 +40,43 @@
 			<tbody>
 			<tr>
 			    <td style="width:100px">05/15/2010</td>
-			    <td style="width:220px"><strong>Ship from:</strong> Demo Scrap<br /><strong>Ship to:</strong> Demo Steel Company<br><strong>Material:</strong> No. 1 Machinery Cast<br><strong>Quantity (tons):</strong> 550<br><strong>Transportation Type:</strong> Flatbed</td>
+			    <td style="width:220px"><strong>Ship from:</strong> Demo Scrap<br /><strong>Ship to:</strong> Demo Steel Company<br /><strong>Material:</strong> No. 1 Machinery Cast<br /><strong>Quantity (tons):</strong> 550<br /><strong>Transportation Type:</strong> Flatbed</td>
 			    <td style="width:100px">04/30/2010</td>
 			    <td><a class="scrapQuote quote" href="#" title="quote this request">quote</a></td>
 			</tr>
 			<tr class="row2">
 			    <td>2801-1207</td>
-			    <td><strong>Ship from:</strong> Demo Scrap<br /><strong>Ship to:</strong> Demo Steel Company<br><strong>Material:</strong> No. 1 Machinery Cast<br><strong>Quantity (tons):</strong> 550<br><strong>Transportation Type:</strong> Dump</td>
+			    <td><strong>Ship from:</strong> Demo Scrap<br /><strong>Ship to:</strong> Demo Steel Company<br /><strong>Material:</strong> No. 1 Machinery Cast<br /><strong>Quantity (tons):</strong> 550<br /><strong>Transportation Type:</strong> Dump</td>
 			    <td>05/03/2010</td>
 			    <td><a class="scrapQuote quote" href="#" title="quote this request">quote</a></td>
 			</tr>
 			<tr>
 			    <td>05/20/2010</td>
-			    <td><strong>Ship from:</strong> Demo Scrap<br /><strong>Ship to:</strong> Demo Steel Company<br><strong>Material:</strong> No. 1 Machinery Cast<br><strong>Quantity (tons):</strong> 550<br><strong><strong>Transportation Type:</strong> Flatbed</td>
+			    <td><strong>Ship from:</strong> Demo Scrap<br /><strong>Ship to:</strong> Demo Steel Company<br /><strong>Material:</strong> No. 1 Machinery Cast<br /><strong>Quantity (tons):</strong> 550<br /><strong>Transportation Type:</strong> Flatbed</td>
 			    <td>05/04/2010</td>
 			    <td><a class="scrapQuote quote" href="#" title="quote this request">quote</a></td>
 			</tr>
 			<tr class="row2">
 			    <td>05/20/2010</td>
-			    <td><strong>Ship from:</strong> Demo Scrap<br /><strong>Ship to:</strong> Demo Steel Company<br><strong>Material:</strong> No. 1 Machinery Cast<br><strong>Quantity (tons):</strong> 550<br><strong>Transportation Type:</strong> Flatbed</td>
+			    <td><strong>Ship from:</strong> Demo Scrap<br /><strong>Ship to:</strong> Demo Steel Company<br /><strong>Material:</strong> No. 1 Machinery Cast<br /><strong>Quantity (tons):</strong> 550<br /><strong>Transportation Type:</strong> Flatbed</td>
 			    <td>05/03/2010</td>
 			    <td><a class="scrapQuote quote" href="#" title="quote this request">quote</a></td>
 			</tr>
 			<tr>
 			    <td>05/23/2010</td>
-			    <td><strong>Ship from:</strong> Demo Scrap<br /><strong>Ship to:</strong> Demo Steel Company<br><strong>Material:</strong> No. 1 Machinery Cast<br><strong>Quantity (tons):</strong> 550<br><strong>Transportation Type:</strong> Dump</td>
+			    <td><strong>Ship from:</strong> Demo Scrap<br /><strong>Ship to:</strong> Demo Steel Company<br /><strong>Material:</strong> No. 1 Machinery Cast<br /><strong>Quantity (tons):</strong> 550<br /><strong>Transportation Type:</strong> Dump</td>
 			    <td>05/04/2010</td>
 			    <td><a class="scrapQuote quote" href="#" title="quote this request">quote</a></td>
 			</tr>
 			<tr class="row2">
 			    <td>05/12/2010</td>
-			    <td><strong>Ship from:</strong> Demo Scrap<br /><strong>Ship to:</strong> Demo Steel Company<br><strong>Material:</strong> No. 1 Machinery Cast<br><strong>Quantity (tons):</strong> 550<br><strong>Transportation Type:</strong> Flatbed</td>
+			    <td><strong>Ship from:</strong> Demo Scrap<br /><strong>Ship to:</strong> Demo Steel Company<br /><strong>Material:</strong> No. 1 Machinery Cast<br /><strong>Quantity (tons):</strong> 550<br /><strong>Transportation Type:</strong> Flatbed</td>
 			    <td>05/03/2010</td>
 			    <td><a class="scrapQuote quote" href="#" title="quote this request">quote</a></td>
 			</tr>
 			<tr>
 			    <td>06/02/2010</td>
-			    <td><strong>Ship from:</strong> Demo Scrap<br /><strong>Ship to:</strong> Demo Steel Company<br><strong>Material:</strong> No. 1 Machinery Cast<br><strong>Quantity (tons):</strong> 550<br><strong>Transportation Type:</strong> Dump</td>
+			    <td><strong>Ship from:</strong> Demo Scrap<br /><strong>Ship to:</strong> Demo Steel Company<br /><strong>Material:</strong> No. 1 Machinery Cast<br /><strong>Quantity (tons):</strong> 550<br /><strong>Transportation Type:</strong> Dump</td>
 			    <td>05/04/2010</td>
 			    <td><a class="scrapQuote quote" href="#" title="quote this request">quote</a></td>
 			</tr>
@@ -112,7 +112,6 @@
 			Strategic Scrap has improved your broker experience with the addition of the logistics dashboard.<br />
 			<a href="#">More...</a></p>
 		</div><div class="moduleBottom"><!-- IE hates empty elements --></div>
-		</div><div class="moduleBottom"><!-- IE hates empty elements --></div>
 	</div>
 	<div id="disclaimer" class="oneColMod"><div class="moduleTop"><!-- IE hates empty elements --></div>
 		<div class="moduleContent">
@@ -140,7 +139,7 @@
 			<strong>Delivery Date:</strong> 05/13/2010<br />
 			<strong>Preferred Transporation:</strong> Flat Bed
 			<hr />
-			<form action="" mehtod="POST" id="quoteForm">
+			<form action="" method="post">
 				<ul class="form">
 					<li>
 						<label><strong>Transport Type:</strong></label>
@@ -170,7 +169,7 @@
 					</li>
 					<li>
 						<label><strong>Additional Notes:</strong></label>
-						<textarea name="notes" type="text" style="width:273px;height:40px"></textarea>
+						<textarea name="notes" cols="4" rows="30" style="width:273px;height:40px"></textarea>
 					</li>
 				</ul>
 				<div class="submitButton" style="text-align:left">
