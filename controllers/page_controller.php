@@ -645,6 +645,43 @@ require_once($_SERVER['DOCUMENT_ROOT']."/gir/index.php");
 			//the layout file  -  THIS PART NEEDS TO BE LAST
 			require($_SERVER['DOCUMENT_ROOT']."/views/layouts/shell.php");
 		break;
+		
+		/* MY ACCOUNT SETTINGS **************************************** */
+		case 'my-account':
+			if(!$gir->auth->authenticate()){
+				$message = array();
+				$message[] = "You need to login to update your account settings.";
+				flash($message,'bad');
+			} else {
+				$PAGE_BODY = "views/my_account.php";  	/* which file to pull into the template */
+				// grab user object
+				$user = new User();
+				$user->GetItemObj( $_SESSION['user']['id'] );
+				// get the correct user type object
+				$group = ucfirst( $_SESSION['user']['group'] );
+				$item = new $group();
+				$joins = $item->ReadForeignJoins( $user );
+				$item->GetItemObj( $joins[0]['id'] );
+				// check for update submit
+				if ( isset($_POST['AccountUpdate']) ) {
+					$post_data = $_POST;
+					foreach ($post_data as $key => $val) {
+						$post_data[$key] = is_string($post_data[$key]) ? trim($val) : $post_data[$key];
+						if ( strpos($key, "phone") || strpos($key, "fax") )
+							$post_data[$key] = format_phone( $post_data[$key] );
+					}
+					if ( $item->UpdateItem( $post_data ) ) {
+						flash( array("Your Account has been updated successfully.") );
+						redirect_to('/my-account');
+					} else {
+						flash( array("There was a problem updating your account."), "bad" );
+						redirect_to('/my-account');
+					}
+				}
+				//the layout file  -  THIS PART NEEDS TO BE LAST
+				require($_SERVER['DOCUMENT_ROOT']."/views/layouts/shell.php");
+			}
+		break;
 	}
 //} // END WHILE $KILL
 ?>

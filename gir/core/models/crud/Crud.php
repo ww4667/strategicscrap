@@ -228,8 +228,8 @@ class Crud {
 				if( isset($itemData[$property["field"]]) && trim($itemData[$property["field"]]) != "" ){
 					$results = $this->_SetPropertyValue($itemId, $property["property_name_id"], $property["type"], $itemData[$property["field"]], true);
 					if(!$results)
-					$results = $this->_SetPropertyValue($itemId, $property["property_name_id"], $property["type"], $itemData[$property["field"]]);
-				} else {
+						$results = $this->_SetPropertyValue($itemId, $property["property_name_id"], $property["type"], $itemData[$property["field"]]);
+				} elseif ( isset($itemData[$property["field"]]) && $property["type"] != 'join' ) {
 					$this->_DeletePropertyValue($itemId, $property["property_name_id"], $property["type"]);
 				}
 			}
