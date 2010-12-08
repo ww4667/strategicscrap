@@ -31,7 +31,8 @@ a:active	{outline:none;}
 			#twitter_badge{float:right;margin:24px}
 			#twitter_badge a {display:block;background:url(/resources/images/twitter_badge_33.png) no-repeat;width:33px;height:33px;text-indent:-5000px}
 			#twitter_badge a:hover {background-position:0 -33px}
-			#sign_in{float:right;margin:24px}
+			#sign_in{float:right;margin:24px;text-align:right;position:relative;}
+				#sign_in div{position:absolute;top:-20px;right:0px;color:#CCC;white-space:nowrap;}
 				#header_sign_in{padding:0}
 					#header_sign_in a {margin:0 10px;position:relative;top:-2px;text-decoration:underline;}
 					#header_sign_in div.error {color:#FF0000}

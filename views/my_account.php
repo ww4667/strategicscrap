@@ -39,6 +39,5 @@
 <li><label class="firstLabel">Password:</label><input name="password" type="password" /></li>
 <li><label class="firstLabel">Verify Password:</label><input name="verify_password" type="password" /></li>
 </ul>
-<li>You can customize your Strategic Scrap experience!</li>
 </fieldset>
 </form>
