@@ -25,9 +25,9 @@ $dbUsername = "silvers_scrap";
 $dbPassword = "20Scrap10";
 $dbTablePrefix = "gir_";
 
-define( "DATABASE_SERVER", "mysql307.ixwebhosting.com");
-define( "DATABASE_USERNAME", "silvers_scrap" );
-define( "DATABASE_PASSWORD", "20Scrap10" );
-define( "DATABASE_NAME", "silvers_scrap" );
-define( "DATABASE_TABLE_PREFIX", "gir_" );
+//define( "DATABASE_SERVER", "mysql307.ixwebhosting.com");
+//define( "DATABASE_USERNAME", "silvers_scrap" );
+//define( "DATABASE_PASSWORD", "20Scrap10" );
+//define( "DATABASE_NAME", "silvers_scrap" );
+//define( "DATABASE_TABLE_PREFIX", "gir_" );
 ?>
