@@ -94,7 +94,7 @@ require_once($_SERVER['DOCUMENT_ROOT']."/gir/index.php");
 			               'Year' => "2011");
 			
 			// call the service, passing the parameters and the name of the operation 
-			$result = $client->GetDelayedFutureForMetal($param);
+//			$result = $client->GetDelayedFutureForMetal($param);
 			// assess the results 
 			if (is_soap_fault($result) && isset($_GET['xml'])) {
 			     echo '<h2>Fault</h2><pre>';

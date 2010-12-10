@@ -19,7 +19,7 @@
 <li><label>Zip Code:</label><input name="postal_code" type="text" value="<?=$post_data['postal_code']?>" /></li>
 </ul>
 <div class="submitButton">
-<input id="submitRegistration" alt="Submit Registration" name="submitReg" src="resources/images/buttons/submit_bid.png" type="image" />
+<input id="submitRegistration" alt="Submit Registration" name="submitReg" src="resources/images/buttons/submit_registration.png" type="image" />
 </div>
 </fieldset>
 <fieldset>

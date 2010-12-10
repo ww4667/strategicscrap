@@ -20,6 +20,7 @@
 					}); 
 				</script>
 		<? } else { ?>
+		<a href="/scrap-registration" class="sign_up"><img src="/resources/images/buttons/sign_up_header.png" alt="Sign up today!" /></a>
 		<form action="/scrap-login" method="post" id="header_sign_in">
 			<input type="text" name="username" class="username" />
 			<input type="password" name="password" class="password" />
@@ -34,6 +35,11 @@
 					       $(this).attr('src', '/resources/images/buttons/sign_in_header_hover.png'); 
 					}, function(){ 
 					       $(this).attr('src', '/resources/images/buttons/sign_in_header.png'); 
+					});
+					$('#sign_in .sign_up img').hover(function(){ 
+					       $(this).attr('src', '/resources/images/buttons/sign_up_header_hover.png'); 
+					}, function(){ 
+					       $(this).attr('src', '/resources/images/buttons/sign_up_header.png'); 
 					});
 					$('#header_sign_in input').focus(function(){
 						$(this).addClass('focus');

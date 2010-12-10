@@ -159,7 +159,8 @@ function year_select($start=2000,$end=2050,$name='year',$id='',$class=''){
 
 function state_select($display='abbr',$name='state',$id='',$class='',$active=''){
     $states_arr = array('AL'=>"Alabama",'AK'=>"Alaska",'AZ'=>"Arizona",'AR'=>"Arkansas",'CA'=>"California",'CO'=>"Colorado",'CT'=>"Connecticut",'DE'=>"Delaware",'DC'=>"District Of Columbia",'FL'=>"Florida",'GA'=>"Georgia",'HI'=>"Hawaii", 'IA'=>"Iowa", 'ID'=>"Idaho",'IL'=>"Illinois", 'IN'=>"Indiana", 'KS'=>"Kansas",'KY'=>"Kentucky",'LA'=>"Louisiana",'ME'=>"Maine",'MD'=>"Maryland", 'MA'=>"Massachusetts",'MI'=>"Michigan",'MN'=>"Minnesota",'MS'=>"Mississippi",'MO'=>"Missouri",'MT'=>"Montana",'NE'=>"Nebraska",'NV'=>"Nevada",'NH'=>"New Hampshire",'NJ'=>"New Jersey",'NM'=>"New Mexico",'NY'=>"New York",'NC'=>"North Carolina",'ND'=>"North Dakota",'OH'=>"Ohio",'OK'=>"Oklahoma", 'OR'=>"Oregon",'PA'=>"Pennsylvania",'RI'=>"Rhode Island",'SC'=>"South Carolina",'SD'=>"South Dakota",'TN'=>"Tennessee",'TX'=>"Texas",'UT'=>"Utah",'VT'=>"Vermont",'VA'=>"Virginia",'WA'=>"Washington",'WV'=>"West Virginia",'WI'=>"Wisconsin",'WY'=>"Wyoming");
-    $string="<select name='$name' id='$id' class='$class'>";
+    $string="<select name='$name' id='$id' class='$class'>\n";
+	$string .= '<option value="">-- Select a State --</option>'."\n";
 	foreach($states_arr as $k => $v){
 		$s = ($active == $k)? ' selected="selected"' : '';
 		if($display=='abbr'){
@@ -168,6 +169,46 @@ function state_select($display='abbr',$name='state',$id='',$class='',$active='')
 			$string .= '<option value="'.$k.'"'.$s.'>'.$v.'</option>'."\n";     
 		}
     }
+    $string .= '</select>';
+	return $string;
+}
+
+function state_province_select($display='abbr',$name='state',$id='',$class='',$active=''){
+    $us_states_arr = array("US-AL"=>"Alabama","US-AK"=>"Alaska","US-AZ"=>"Arizona","US-AR"=>"Arkansas","US-CA"=>"California","US-CO"=>"Colorado","US-CT"=>"Connecticut","US-DE"=>"Delaware","US-DC"=>"District Of Columbia","US-FL"=>"Florida","US-GA"=>"Georgia","US-HI"=>"Hawaii","US-IA"=>"Iowa","US-ID"=>"Idaho","US-IL"=>"Illinois","US-IN"=>"Indiana","US-KS"=>"Kansas","US-KY"=>"Kentucky","US-LA"=>"Louisiana","US-ME"=>"Maine","US-MD"=>"Maryland","US-MA"=>"Massachusetts","US-MI"=>"Michigan","US-MN"=>"Minnesota","US-MS"=>"Mississippi","US-MO"=>"Missouri","US-MT"=>"Montana","US-NE"=>"Nebraska","US-NV"=>"Nevada","US-NH"=>"New Hampshire","US-NJ"=>"New Jersey","US-NM"=>"New Mexico","US-NY"=>"New York","US-NC"=>"North Carolina","US-ND"=>"North Dakota","US-OH"=>"Ohio","US-OK"=>"Oklahoma","US-OR"=>"Oregon","US-PA"=>"Pennsylvania","US-RI"=>"Rhode Island","US-SC"=>"South Carolina","US-SD"=>"South Dakota","US-TN"=>"Tennessee","US-TX"=>"Texas","US-UT"=>"Utah","US-VT"=>"Vermont","US-VA"=>"Virginia","US-WA"=>"Washington","US-WV"=>"West Virginia","US-WI"=>"Wisconsin","US-WY"=>"Wyoming");
+    $mx_states_arr = array("MX-AGU"=>"Aguascalientes","MX-BCN"=>"Baja California","MX-BCS"=>"Baja California Sur","MX-CAM"=>"Campeche","MX-CHP"=>"Chiapas","MX-CHH"=>"Chihuahua","MX-COA"=>"Coahuila","MX-COL"=>"Colima","MX-DIF"=>"Federal District","MX-DUR"=>"Durango","MX-GUA"=>"Guanajuato","MX-GRO"=>"Guerrero","MX-HID"=>"Hidalgo","MX-JAL"=>"Jalisco","MX-MEX"=>"Mexico State","MX-MIC"=>"Michoacán","MX-MOR"=>"Morelos","MX-NAY"=>"Nayarit","MX-NLE"=>"Nuevo León","MX-OAX"=>"Oaxaca","MX-PUE"=>"Puebla","MX-QUE"=>"Querétaro","MX-ROO"=>"Quintana Roo","MX-SLP"=>"San Luis Potosí","MX-SIN"=>"Sinaloa","MX-SON"=>"Sonora","MX-TAB"=>"Tabasco","MX-TAM"=>"Tamaulipas","MX-TLA"=>"Tlaxcala","MX-VER"=>"Veracruz","MX-YUC"=>"Yucatán","MX-ZAC"=>"Zacatecas");
+    $ca_states_arr = array("CA-AB"=>"Alberta","CA-BC"=>"British Columbia","CA-MB"=>"Manitoba","CA-NB"=>"New Brunswick","CA-NL"=>"Newfoundland and Labrador","CA-NS"=>"Nova Scotia","CA-ON"=>"Ontario","CA-PE"=>"Prince Edward Island","CA-QC"=>"Quebec","CA-SK"=>"Saskatchewan","CA-NT"=>"Northwest Territories","CA-NU"=>"Nunavut","CA-YT"=>"Yukon Territory");
+    $string="<select name='$name' id='$id' class='$class'>\n";
+	$string .= '<option value="">-- Select One --</option>'."\n";
+	$string .= '<optgroup label="United States">'."\n";     
+	foreach($us_states_arr as $k => $v){
+		$s = ($active == $k)? ' selected="selected"' : '';
+		if($display=='abbr'){
+			$string .= '<option value="'.$k.'"'.$s.'>'.$k.'</option>'."\n";     
+		}else{
+			$string .= '<option value="'.$k.'"'.$s.'>'.$v.'</option>'."\n";     
+		}
+    }
+	$string .= '</optgroup>'."\n";     
+	$string .= '<optgroup label="Canada">'."\n";     
+	foreach($ca_states_arr as $k => $v){
+		$s = ($active == $k)? ' selected="selected"' : '';
+		if($display=='abbr'){
+			$string .= '<option value="'.$k.'"'.$s.'>'.$k.'</option>'."\n";     
+		}else{
+			$string .= '<option value="'.$k.'"'.$s.'>'.$v.'</option>'."\n";     
+		}
+    }
+	$string .= '</optgroup>'."\n";     
+	$string .= '<optgroup label="Mexico">'."\n";     
+	foreach($mx_states_arr as $k => $v){
+		$s = ($active == $k)? ' selected="selected"' : '';
+		if($display=='abbr'){
+			$string .= '<option value="'.$k.'"'.$s.'>'.$k.'</option>'."\n";     
+		}else{
+			$string .= '<option value="'.$k.'"'.$s.'>'.$v.'</option>'."\n";     
+		}
+    }
+	$string .= '</optgroup>'."\n";     
     $string .= '</select>';
 	return $string;
 }
