@@ -44,9 +44,6 @@ class Bid extends Crud {
 	public function getAllBids(){
 		$bidArray = $this->GetAllItemsObj();
 		
-		
-		/*
-		
 		$bidReturnArray = array();
 		
 		$i = 0;
@@ -54,16 +51,15 @@ class Bid extends Crud {
 			$ba = $bidArray[$i];
 			
 			$this->GetItemObj( $ba->id );
-			
-			//$this->ReadJoins( new Request() );
-			//$this->ReadJoins( new Broker() );
+			$this->ReadJoins( new Request() );
+			$this->ReadJoins( new Broker() );
 			$stupidFace = clone $this;
 			$bidReturnArray[] = $stupidFace;
 			$i++;
 			
 		}
-		*/
-		return $bidArray;//$bidReturnArray;
+		
+		return $bidReturnArray;
 	}
 }
 ?>

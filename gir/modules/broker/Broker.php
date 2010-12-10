@@ -62,6 +62,43 @@ class Broker extends User {
 			$this->RemoveValueJoin($item['id'], $userId);
 		}
 	}
+	
+	public function getBrokersByUserId( $userId ) {
+		$u = new User();
+		$user = $u->GetItemObj( $userId );
+		if($user){
+			$items = $this->ReadForeignJoins( $user );
+			return $items;
+		} else {
+			return array();
+		}
+	}
+	
+	public function getBids( ){
+		// get materials by "itemId" and join type "material_join"
+		$item = $this; // Broker
+		
+		$bid = new Bid();
+		$joins = $bid->ReadForeignJoins( $item );
+		$bidReturnArray = array();
+		
+		$i = 0;
+		
+		while( $i < count($joins) ){
+			$ra = $joins[$i];
+			
+			$bidClass = new Bid();
+			$bidClass->GetItemObj( $ra['id'] );
+			$bidClass->ReadJoins( new Request() );
+			$bidClass->ReadJoins( new Transportation_Type() );
+			$bidClass->ReadJoins( new Broker() );
+			$bidReturnArray[] = $bidClass;
+			$i++;
+			
+		}
+		
+		return $bidReturnArray;
+	}
     
 	/*
 	 * PRIVATE FUNCTIONS

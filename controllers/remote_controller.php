@@ -97,7 +97,7 @@ $method = trim($_GET['method']);
 					$scrapperClass->GetItemObj( $scrapperByUserId[0]['id'] );
 					
 					$requestReturnArray = $scrapperClass->getRequests();
-					
+					 
 					// sorting object array by created_ts date DESC
 					$dates = array();					
 					foreach ( (array) $requestReturnArray as $key => $row ) {
@@ -130,16 +130,75 @@ $method = trim($_GET['method']);
 			//$join_request = $post_data['join_request'];
 			//$join_transportation_type = $post_data['join_transportation_type'];
 			//$join_broker = $post_data['join_broker'];
-			$b = new Bid();
-			$hi = $b->CreateItem($post_data);
+			/**
+			 * VALIDATE BROKER
+			 * TODO: make sure we do not have duplicate quotes
+			 */
+			if(isset($post_data['join_broker'])){
+				$join_broker = $post_data['join_broker'];
+				$brokerClass = new Broker();
+				$brokerArray = $brokerClass->getBrokersByUserId($join_broker);
+				if( count($brokerArray) > 0 && isset($brokerArray[0]['id']) ){
+					$post_data['join_broker'] = $brokerArray[0]['id'];
+					$bidClass = new Bid();
+					$newBid = $bidClass->CreateItem($post_data);
+					/**
+					 * Associate Request 
+					 * TODO: need to validate if this is a duplicate 
+					 */
+					$requestClass = new Request();
+					$requestClass->ReadPropertyByName("bid_count");
+					$requestClass->ReadPropertyByName("bid_unread");
+					$bidCount = (int) $requestClass->GetValueNumber( $post_data['join_request'], $requestClass->ReadPropertyByName("bid_count") );
+					
+					$bidCountProperty = $requestClass->ReadPropertyByName("bid_count");
+					
+					if( isset( $bidCountProperty['id'] ) ){
+						if( !$requestClass->UpdateValueNumber( $post_data['join_request'], $bidCountProperty['id'], $bidCount+1  ) ){
+							$requestClass->AddValueNumber( $post_data['join_request'], $bidCountProperty['id'], $bidCount+1  );
+						}
+					}
+					
+					$bidUnreadProperty = $requestClass->ReadPropertyByName("bid_count");
+					if( isset( $bidUnreadProperty['id'] ) ){
+						if( !$requestClass->UpdateValueNumber( $post_data['join_request'], $bidUnreadProperty['id'], 1  ) ){
+							$requestClass->AddValueNumber( $post_data['join_request'], $bidUnreadProperty['id'], 1  );
+						}
+					}
+				}
+			}
 			
 			break;
-		case 'getBids':
-			$b = new Bid();
-			$bidArray = $b->GetAllItems();
-//			$bidArray = $b->getAllBids();
-			$b->PTS( $bidArray );
+		case 'getBids': 
+	
+			$val = ( isset($_GET['uid']) ) ? $_GET['uid'] : null;
+			$bidReturnArray = array();
+			$bidClass = null;
 			
+			if($val){
+				$brokerClass = new Broker();
+				$brokerByUserId = $brokerClass->getBrokersByUserId( $val );
+				
+				if( count( $brokerByUserId ) > 0 ){
+					$brokerClass->GetItemObj( $brokerByUserId[0]['id'] );
+					
+					$bidReturnArray = $brokerClass->getBids();
+					/*
+					// sorting object array by created_ts date DESC
+					$dates = array();					
+					foreach ( (array) $bidReturnArray as $key => $row ) {
+					    $dates[$key] = $row->created_ts;
+					}
+					
+					array_multisort($dates, SORT_DESC, $bidReturnArray);*/
+				}
+				
+				print json_encode( $bidReturnArray ); 
+			} else {
+				$bidClass = new Bid();
+				$bidReturnArray = $bidClass->getAllBids();
+				print json_encode( $bidReturnArray ); 
+			}
 			break;
 	}
 ?>
