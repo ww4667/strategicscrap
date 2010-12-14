@@ -13,31 +13,17 @@
 								</tr>
 								<?
 								$i=0;
-								foreach ($lme as $data) {
+								foreach ($market_data as $lbl => $val) {
 								?>
 								<tr<?=$i%2?' class="row2"':""?>>
-								    <td>LME <?=$data->metal?></td>
-								    <td><?=number_format($data->Quote[0]->Last/2204.62262,2)?></td>
-								    <td><?=number_format($data->Quote[1]->Last/2204.62262,2)?></td>
-								    <td><?=number_format($data->Quote[2]->Bid/2204.62262,2)?></td>
+								    <td><?=$lbl?></td>
+								    <td><?=$val['cash']?></td>
+								    <td><?=$val['3 month']?></td>
+								    <td><?=$val['15 month']?></td>
 								</tr>
 								<?
 								$i++;
 								}
-								?>
-								<?
-								$i=(count($lme)%2)?1:0;
-//								foreach ($comex as $data) {
-								?>
-								<tr<?=$i%2?' class="row2"':""?>>
-								    <td>COMEX Copper</td>
-								    <td><?=number_format($comex['cash'],2)?></td>
-								    <td><?=""?></td>
-								    <td><?=""?></td>
-								</tr>
-								<?
-								$i++;
-//								}
 								?>
 								</table>
 							</div><div class="moduleBottom"><!-- IE hates empty elements --></div>	

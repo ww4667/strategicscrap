@@ -27,141 +27,129 @@ require_once($_SERVER['DOCUMENT_ROOT']."/gir/index.php");
 	 * 
 	 */		
 			
-//			$market_data = array(
-//				"LME Copper" => array(),
-//				"LME Aluminium" => array(),
-//				"LME Nickel" => array(),
-//				"LME Zinc" => array(),
-//				"LME Lead" => array(),
-//				"LME Tin" => array(),
-//				"COMEX Copper" => array()
-//			);
-			
-			// START XIGNITE COMEX FEED
-			
-			// define the SOAP client using the url for the service
-			$key = "FDFDBEAF9B004b2eBB2D7A9D1D39F24F";
-			$xignite_header = new SoapHeader('http://www.xignite.com/services/', 'Header', array("Username" => "FDFDBEAF9B004b2eBB2D7A9D1D39F24F", "Tracer" => ""));
-			$client = new soapclient('http://www.xignite.com/xFutures.asmx?WSDL', array('trace' => 1));
-			$client->__setSoapHeaders(array($xignite_header));
-			
-			// create an array of parameters 
-			$param = array(
-			               'Symbol' => "CU",
-			               'StripType' => "EighteenMonth",
-			               'Month' => "0",
-			               'Year' => "0");
-			
-			// call the service, passing the parameters and the name of the operation 
-			$result = $client->GetDelayedFutureStrip($param);
-			// assess the results 
-			if (is_soap_fault($result) && isset($_GET['xml'])) {
-			     echo '<h2>Fault</h2><pre>';
-			     print_r($result);
-			     echo '</pre>';
-			} elseif (isset($_GET['xml'])) {
-//			     echo '<h2>Result</h2><pre>';
-//			     print_r($result);
-//			     echo '</pre>';
-				$comex_data = $result;
-				print_r($comex_data);
-				$comex = array("cash"=>$comex_data->GetDelayedFutureResult->Last);
+			function getComexData($symbol,$type = null) {
+				$xignite_header = new SoapHeader('http://www.xignite.com/services/', 'Header', array("Username" => "greg@slashwebstudios.com"));
+				$client = new soapclient('http://www.xignite.com/xFutures.asmx?WSDL', array('trace' => 1));
+				$client->__setSoapHeaders(array($xignite_header));
+				
+				switch ($type) {
+					case 'strip':
+						// create an array of parameters 
+						$param = array(
+						               'Symbol' => $symbol,
+						               'StripType' => "EighteenMonth"
+									   );
+						// call the service, passing the parameters and the name of the operation 
+						$result = $client->GetDelayedFutureStrip($param);
+						// assess the results 
+						if (is_soap_fault($result) && isset($_GET['xml'])) {
+						     echo '<h2>Fault</h2><pre>';
+						     print_r($result);
+						     echo '</pre>';
+						} elseif (isset($_GET['xml'])) {
+							print_r($result);
+							$comex = array("cash"=>number_format($result->GetDelayedFutureResult->Last,2));
+							print_r($comex);
+						}
+					break;
+					
+					default:
+						// create an array of parameters 
+						$param = array(
+						               'Symbol' => $symbol,
+						               'Day' => "0",
+						               'Month' => "0",
+						               'Year' => date('Y')
+									   );
+						// call the service, passing the parameters and the name of the operation 
+						$result = $client->GetDelayedFuture($param);
+						// assess the results 
+						if (is_soap_fault($result) && isset($_GET['xml'])) {
+						     echo '<h2>Fault</h2><pre>';
+						     print_r($result);
+						     echo '</pre>';
+						} else {
+							$comex = array("cash"=>number_format($result->GetDelayedFutureResult->Last,2));
+							return $comex;
+						}
+					break;
+				}
 			}
-//			// print the SOAP request 
-//			echo '<h2>Request</h2><pre>' . htmlspecialchars($client->__getLastRequest(), ENT_QUOTES) . '</pre>';
-//			// print the SOAP request Headers 
-//			echo '<h2>Request Headers</h2><pre>' . htmlspecialchars($client->__getLastRequestHeaders(), ENT_QUOTES) . '</pre>';
-//			// print the SOAP response 
-//			echo '<h2>Response</h2><pre>' . htmlspecialchars($client->__getLastResponse(), ENT_QUOTES) . '</pre>';
 			
-			// END XIGNITE COMEX FEED
-
-			// START XIGNITE LME FEED
-			
-			// define the SOAP client using the url for the service
-//			$xignite_lme_url = "http://lmemetals.xignite.com/xLMEMetals.asmx/GetDelayedFutureForMetal?Symbol=CU&Day=22&Month=11&Year=2010&currencyType=USD&header_username=FDFDBEAF9B004b2eBB2D7A9D1D39F24F";
-//			$key = "FDFDBEAF9B004b2eBB2D7A9D1D39F24F";
-			$xignite_header = new SoapHeader('http://www.xignite.com/services/', 'Header', array("Username" => "FDFDBEAF9B004b2eBB2D7A9D1D39F24F", "Tracer" => ""));
-			$client = new soapclient('http://lmemetals.xignite.com/xLMEMetals.asmx?WSDL', array('trace' => 1));
-			$client->__setSoapHeaders(array($xignite_header));
-			
-			// create an array of parameters 
-			$param = array(
-			               'Symbol' => "LAM",
-			               'CurrencyType' => "USD",
-			               'Day' => "16",
-			               'Month' => "2",
-			               'Year' => "2011");
-			
-			// call the service, passing the parameters and the name of the operation 
-//			$result = $client->GetDelayedFutureForMetal($param);
-			// assess the results 
-			if (is_soap_fault($result) && isset($_GET['xml'])) {
-			     echo '<h2>Fault</h2><pre>';
-			     print_r($result);
-			     echo '</pre>';
-			} elseif (isset($_GET['xml'])) {
-//			     echo '<h2>Result</h2><pre>';
-//			     print_r($result);
-//			     echo '</pre>';
-				$lme_data = $result;
-				print_r($lme_data);
-				$lme = array("cash"=>$lme_data->GetDelayedFutureResult->Last);
+			function getLmeData($symbol,$type = null) {
+				$xignite_header = new SoapHeader('http://www.xignite.com/services/', 'Header', array("Username" => "FDFDBEAF9B004b2eBB2D7A9D1D39F24F"));
+				$client = new soapclient('http://lmemetals.xignite.com/xLMEMetals.asmx?WSDL', array('trace' => 1));
+				$client->__setSoapHeaders(array($xignite_header));
+				
+				switch ($type) {
+					case 'strip':
+						// create an array of parameters 
+						$param = array(
+						               'Symbol' => $symbol,
+						               'CurrencyType' => "USD",
+						               'StripTypes' => "EighteenMonth"
+									   );
+						// call the service, passing the parameters and the name of the operation 
+						$result = $client->GetDelayedFutureStripForMetal($param);
+						// assess the results 
+						if (is_soap_fault($result) && isset($_GET['xml'])) {
+						     echo '<h2>Fault</h2><pre>';
+						     print_r($result);
+						     echo '</pre>';
+						} else {
+							$result = (array) $result->GetDelayedFutureStripForMetalResult->FutureQuote;
+							$lme = array(	"cash"=>number_format($result[0]->Last/2204.62262,2),
+											"3 month"=>number_format($result[2]->Last/2204.62262,2),
+											"15 month"=>number_format($result[14]->Last/2204.62262,2)
+							);
+							return $lme;
+						}
+					break;
+					
+					default:
+						// create an array of parameters 
+						$param = array(
+						               'Symbol' => $symbol,
+						               'CurrencyType' => "USD",
+						               'Day' => date('d'),			// can't be zero
+						               'Month' => date('m'),			// can't be zero
+						               'Year' => date('Y')			// can't be zero
+									   );
+						// call the service, passing the parameters and the name of the operation 
+						$result = $client->GetDelayedFuture($param);
+						// assess the results 
+						if (is_soap_fault($result) && isset($_GET['xml'])) {
+						     echo '<h2>Fault</h2><pre>';
+						     print_r($result);
+						     echo '</pre>';
+						} else {
+							$lme = array("cash"=>$result->GetDelayedFutureResult->Last);
+							return $lme;
+						}
+					break;
+				}
 			}
-//			// print the SOAP request 
-//			echo '<h2>Request</h2><pre>' . htmlspecialchars($client->__getLastRequest(), ENT_QUOTES) . '</pre>';
-//			// print the SOAP request Headers 
-//			echo '<h2>Request Headers</h2><pre>' . htmlspecialchars($client->__getLastRequestHeaders(), ENT_QUOTES) . '</pre>';
-//			// print the SOAP response 
-//			echo '<h2>Response</h2><pre>' . htmlspecialchars($client->__getLastResponse(), ENT_QUOTES) . '</pre>';
 			
-			// END XIGNITE LME FEED
+			$market_data = array(
+				"LME Copper" => getLmeData("CU","strip"),
+				"LME Aluminium" => getLmeData("CU","strip"),
+				"LME Nickel" => getLmeData("NI","strip"),
+				"LME Zinc" => getLmeData("ZZ","strip"),
+				"LME Lead" => getLmeData("CU","strip"),
+				"LME Tin" => getLmeData("TN","strip"),
+				"COMEX Copper" => getComexData("HG")
+			);
 			
-			//get lme_comex data from feed
-			$request_url = "resources/xml/lme_comex.xml";
-			$xml = simplexml_load_file($request_url) or die("feed not loading");
-			//set LME with metal name
-			foreach ($xml->MetalsData->children() as $name => $data) {
-				$data->LME->metal = $name;
-			}
-			$lme = $xml->xpath('//LME');
-//			$comex = $xml->xpath('//COMEX');
-			
-			//get business feed from wordpress blog
-//			$request_url = "http://www.strategicscrap.com/blog/wordpress/?feed=rss2&cat=4";
-//			$ctx = stream_context_create(array( 
-//				    'http' => array( 
-//				        'timeout' => 1 
-//			        ) 
-//			    ) 
-//			); 
-//file_get_contents("http://example.com/", 0, $ctx); 
-//			$xml = file_get_contents($request_url, 0, $ctx);
-//			$xml = simplexml_load_file($request_url) or die("feed not loading");
-//			$xml = preg_replace('/&[^; ]{0,6}.?/e', "((substr('\\0',-1) == ';') ? '\\0' : '&amp;'.substr('\\0',1))", $xml); 
-//			$xml = simplexml_load_string($xml) or die("feed not loading");
-//			$business_feed = $xml->xpath('//item');
-
-			//get metal feed from wordpress blog
-//			$request_url = "http://www.strategicscrap.com/blog/wordpress/?feed=rss2&cat=527";
-//			$request_url = "resources/xml/metal_news.xml";
-//			$ctx = stream_context_create(array( 
-//				    'http' => array( 
-//				        'timeout' => 1 
-//			        ) 
-//			    ) 
-//			); 
-//file_get_contents("http://example.com/", 0, $ctx); 
-//			$xml = file_get_contents($request_url, 0, $ctx);
-//			$xml = simplexml_load_file($request_url) or die("feed not loading");
-//			$xml = preg_replace('/&[^; ]{0,6}.?/e', "((substr('\\0',-1) == ';') ? '\\0' : '&amp;'.substr('\\0',1))", $xml); 
-//			$xml = simplexml_load_string($xml) or die("feed not loading");
-//			$metal_feed = $xml->xpath('//item');
+//			if (isset($_GET['xml'])) {
+//				echo '<h2>Market Data</h2><pre>';
+//				print_r($market_data);
+//				echo '</pre>';
+//			}
 			
 			//get zip based on IP address
 			$ip_addy = $_SERVER['REMOTE_ADDR'];
-			$request_url = "http://ipinfodb.com/ip_query.php?ip=173.18.191.29&timezone=true";
-//			$request_url = "http://ipinfodb.com/ip_query.php?ip=$ip_addy&timezone=true";
+//			$request_url = "http://ipinfodb.com/ip_query.php?ip=173.18.191.29&timezone=true";
+			$request_url = "http://ipinfodb.com/ip_query.php?ip=$ip_addy&timezone=true";
 			$xml = simplexml_load_file($request_url) or die("feed not loading");
 			$zipcode = $xml->xpath('//ZipPostalCode');
 //			$zipcode = $zipcode[0];
