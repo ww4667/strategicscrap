@@ -54,6 +54,14 @@
 									    <th>SCRAP TYPE</th>
 									    <th>COST/GT</th>
 									</tr>
+									<? if(isset($_GET['test'])) { ?>
+										<? foreach ($prices as $p) { ?>
+									<tr>
+									    <td><?= $p['name'] ?></td>
+									    <td><?= number_format($p['price']) ?></td>
+									</tr>
+										<? } ?>
+									<? } ?>
 									<tr>
 									    <td>80% No.1 HMS / 20% No.2 HMS</td>
 									    <td>362.00</td>

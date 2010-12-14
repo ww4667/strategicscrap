@@ -1,11 +1,11 @@
-<h3>Click on the map below to select your region.</h3>
+<p>Your free trial has begun! Click on the map below to select your region.</p>
 <p><strong>Each region page contains:</strong></p>
 <ul class="regionBullets clearfix">
 	<li>Regional Pricing</li>
 	<li>Market Data</li>
 	<li>News</li>
 	<li>Weather Reports</li>
-	<li>Transportation Dashboard</li>
+	<li>Transportation Request Manager</li>
 	<li>Quick Poll</li>
 </ul>
 <div id="map-container">

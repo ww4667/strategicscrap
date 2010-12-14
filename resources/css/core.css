@@ -32,8 +32,9 @@ a:active	{outline:none;}
 			#twitter_badge a {display:block;background:url(/resources/images/twitter_badge_33.png) no-repeat;width:33px;height:33px;text-indent:-5000px}
 			#twitter_badge a:hover {background-position:0 -33px}
 			#sign_in{float:right;margin:24px;text-align:right;position:relative;}
-				#sign_in div{position:absolute;top:-20px;right:0px;color:#CCC;white-space:nowrap;}
-				#header_sign_in{padding:0}
+				#sign_in .sign_up{position:absolute;top:11px;right:-32px}
+				#sign_in div{position:absolute;top:-14px;right:0px;color:#CCC;white-space:nowrap;}
+				#header_sign_in{padding:0;margin-top:6px;margin-right:40px}
 					#header_sign_in a {margin:0 10px;position:relative;top:-2px;text-decoration:underline;}
 					#header_sign_in div.error {color:#FF0000}
 					#header_sign_in input{width:140px;font-size:14px}
@@ -93,12 +94,13 @@ a:active	{outline:none;}
 	
 /* ----[2. Regions]---- */
 .region h3{margin:0 0 7px 50px;}
-.region p{margin:0 0 13px 50px;}
-.region ul, .region ol {margin:0 0 13px 70px}
+/* .region p{margin:0 0 13px 50px;} */
+.region .content p, .region .content ul, .region .content ol{margin-left:50px;color:#555;font-family:Georgia,serif;font-size:1.5em;line-height:1.2em;margin-bottom:1.2em;margin-right:20px;padding:0px 10px;}
+/* .region ul, .region ol {margin:0 0 13px 70px} */
 .region li {margin:0 0 7px 0}
-.region li ul, .region li ol {margin-left:20px}
-ul.regionBullets{margin-left:70px;}
-ul.regionBullets li{float:left;width:200px;}
+.region ul li, .region ol li {margin-left:20px}
+/* ul.regionBullets{margin-left:70px;} */
+ul.regionBullets li{float:left;width:210px;}
 
 #register_now 			{ float:right;display:none }
 	#register_now img	{ padding:20px 30px 20px 0; }

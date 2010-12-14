@@ -131,7 +131,6 @@ if(!$gir->auth->authenticate()){
 					</select></li>
 				<li class="cb"><label class="firstLabel">Ship Date:</label><input type="text"  id="ship_date" name="ship_date" /></li>
 				<li><label>Arrive Date:</label><input type="text" id="arrive_date" name="arrive_date" /></li>
-				<li class="cb"><label class="firstLabel">Bid type:</label><select id="bid_type"><option></option></select></li>
 				</ul>
 				<div class="submitButton">
 				<input id="submitBid" alt="Submit Bid Request" name="submitBid" src="resources/images/buttons/submit_bid.png" type="image" />
