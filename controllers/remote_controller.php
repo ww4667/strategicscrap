@@ -159,7 +159,7 @@ $method = trim($_GET['method']);
 						}
 					}
 					
-					$bidUnreadProperty = $requestClass->ReadPropertyByName("bid_count");
+					$bidUnreadProperty = $requestClass->ReadPropertyByName("bid_unread");
 					if( isset( $bidUnreadProperty['id'] ) ){
 						if( !$requestClass->UpdateValueNumber( $post_data['join_request'], $bidUnreadProperty['id'], 1  ) ){
 							$requestClass->AddValueNumber( $post_data['join_request'], $bidUnreadProperty['id'], 1  );

@@ -24,7 +24,8 @@
 			</table>
 			<div id="scroll-pane1" class="jScrollPaneContainer" tabindex="0">
 			<table class="quotes stripes">
-			<tbody>
+			<tbody id="recent_bids">
+<!-- 			
 			<tr class="accepted">
 			    <td class="status" style="width:100px"><strong>Accepted</strong></td>
 			    <td style="width:220px"><strong>Ship from:</strong> Demo Scrap<br /><strong>Ship to:</strong> Demo Steel Company<br><strong>Material:</strong> No. 1 Machinery Cast<br><strong>Quantity (tons):</strong> 550<br><strong>Delivery Date:</strong> 05/13/2010</td>
@@ -67,6 +68,7 @@
 			    <td>05/04/2010</td>
 			    <td><a class="archive" href="#" title="archive this quote">archive</a></td>
 			</tr>
+-->
 		</tbody></table>
 		</div>
 		</div><div class="moduleBottom"><!-- IE hates empty elements --></div>	
@@ -137,6 +139,9 @@
 
 		<script type="text/javascript"><!--
 			var requestInterval = 0, reqObject = {}, current_request = -1, iii = 0;
+
+
+		
 			function getRequests(){
 				$.getJSON("/controllers/remote_controller.php?method=getRequests", function(json) { 
 //					clearTimeout( requestInterval );
@@ -179,8 +184,59 @@
 				});
 			}
 
+
+			
+			function getBids(){
+				$.getJSON("/controllers/remote_controller.php?method=getBids&uid=<?=$_SESSION['user']['id'] ?>", function(json) { 
+//					clearTimeout( requestInterval );
+					var tableRows = $("#recent_bids"), html = '', off=false, item=null, i = 0, l = json.length;
+					console.log(json);
+/*
+				    <td class="status" style="width:100px"><strong>Accepted</strong></td>
+				    <td style="width:220px"><strong>Ship from:</strong> Demo Scrap<br /><strong>Ship to:</strong> Demo Steel Company<br><strong>Material:</strong> No. 1 Machinery Cast<br><strong>Quantity (tons):</strong> 550<br><strong>Delivery Date:</strong> 05/13/2010</td>
+				    <td style="width:100px">04/30/2010</td>
+				    <td><a class="archive" href="" title="archive this quote">archive</a></td>
+				    
+					if ( l > 0 ) { 
+						for ( i; i < l; i++ ) {
+							item = json[i];
+							reqObject[item.id] = item; 
+							html += '<tr class="'+ ( off ? 'row2' : '' ) + ' scrapBid" requestId="' + item.id + '">' + 
+									'	<td class="status" style="width: 100px;"><strong>' + ( item.status ? item.status : 'waiting' ) + '</strong></td>' +
+									'	<td>';
+							if( 	item['join_facility'] && 
+									item['join_facility'] != null && 
+									item['join_facility'].length > 0 ){ 
+										html += '		<strong>Ship to:</strong> ' + item['join_facility'][0]['company'] + '<br>'; }
+									
+							if( 	item['join_material'] && 
+									item['join_material'] != null && 
+									item['join_material'].length > 0 ){ 
+										html += '		<strong>Material:</strong> ' + item['join_material'][0]['name'] + '<br>'; }
+							html += '' +
+									'		<strong>Quantity (tons):</strong> ' + item.volume + '<br>' +
+									'		<strong>Delivery Date:</strong> ' + item.arrive_date + '' +'	</td>' +
+									'	<td>' + item.created_ts + '</td>' + 
+									'	<td>waiting</td>' + 
+									'	<td><a class="quote" href="#" title="quote this request" requestId="' + item.id + '">quote</a></td>' + 
+									'</tr>';
+							off=!off;
+						}
+
+					    $("#recent_requests").html( html );
+						$('#scroll-pane2').jScrollPane();
+					    $(".scrapQuote").colorbox({	width:"550", inline:true, href:"#quoteForm", 
+						    						onComplete:function(){ current_request = $( this ).attr( "requestId" ); loadBidForm(); $.colorbox.resize();  } 
+						    					});
+					}
+					*/
+//					requestInterval = setTimeout("getRequests();",20000);
+				});
+			}
 			function loadBidForm(  ){
 
+				 $("#bidForm").show();
+				 $("#bidResult").hide();
 				var item = reqObject[ current_request ]; 
 				console.log( item );
 				var scrapperData = "", facilityData = "";
