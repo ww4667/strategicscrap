@@ -259,8 +259,12 @@ class Crud {
     	return $this->_SetPropertyValue( $itemId, $propertyId, "number", $number );
     }
 
-    public function AddValueJoin( $itemId, $foreignItemId, $number = "" ){
-    	return $this->_SetPropertyValue( $itemId, $foreignItemId, "join", $number );
+    public function AddValueJoin( $itemId, $propertyId, $number = "" ){
+    	return $this->_SetPropertyValue( $itemId, $propertyId, "join", $number );
+    }
+    
+    public function AddJoin( $joinItemId, $joinName ){
+    	return $this->_SetJoinValue( $joinItemId, $joinName );
     }
 
     public function UpdateValueDate( $itemId, $propertyId, $date = "" ){
@@ -293,31 +297,6 @@ class Crud {
 
     public function GetValueJoin( $itemId, $propertyId  ){
     	return $this->_GetPropertyValue( $itemId, $propertyId, "join");
-    }
-    
-    public function AddJoin( $joinItemId, $joinName ){
-		$item = $this->GetCurrentItem();
-		$joinItem = $this->GetItem($joinItemId);
-		$this->SetCurrentItem($item); // need to reset Current item back to the request
-		if(count($joinItem)>0){
-			$join_property = null;
-			$arr = $this->_OBJECT_PROPERTIES;
-			$c = count($this->_OBJECT_PROPERTIES);
-			$i = 0;
-			while($i<$c){
-				if( $arr[$i]['field'] == $joinName){
-					$join_property = $arr[$i]['property_name_id'];
-					break;
-				}
-				$i++;
-			}
-			
-    		$this->_SetPropertyValue( $item['id'], $join_property, "join", $joinItemId );
-    		
-			return $this;
-		} else {
-			return $this;
-		}
     }
 
     /*     READ     */
@@ -394,9 +373,13 @@ class Crud {
     	return $this->_DeletePropertyValue( $propertyId, "number" );
     }
 
-    public function RemoveValueJoin( $itemId, $foreignItemId ){
+    public function RemoveValueJoin( $propertyId ){
     	return $this->_DeletePropertyValue( $propertyId, "join" );
     }
+
+	public function RemoveJoin( $joinItemId, $joinName ) {
+		return $this->_DeleteJoinValue( $joinItemId, $joinName );
+	}
     
     public function Query( $query, $asArray = false, $openConnection = true ){
     	return $this->_RunQuery( $query, $asArray, $openConnection );
@@ -564,6 +547,32 @@ class Crud {
 			return false;
     	}
     }
+	
+	private function _SetJoinValue ( $joinItemId, $joinName ) {
+		$item = $this->_CURRENT_ITEM;
+		$joinItem = $this->_GetValuesByObjectId( $joinItemId );
+		$joinItem = $this->_BuildItem( $joinItem );
+		$this->_CURRENT_ITEM = $item; // need to reset Current item back to the request
+		if(count($joinItem)>0){
+			$join_property = null;
+			$arr = $this->_OBJECT_PROPERTIES;
+			$c = count($this->_OBJECT_PROPERTIES);
+			$i = 0;
+			while($i<$c){
+				if( $arr[$i]['field'] == $joinName){
+					$join_property = $arr[$i]['property_name_id'];
+					break;
+				}
+				$i++;
+			}
+			
+    		$this->_SetPropertyValue( $item['id'], $join_property, "join", $joinItemId );
+    		
+			return $this;
+		} else {
+			return $this;
+		}
+	}
 
     private function _GetPropertyValue( $itemId=null, $propertyId=null, $type=null ){
 		$table = NULL;
@@ -739,6 +748,25 @@ class Crud {
 		$op = $arr1;
 		return $op;
     }
+	
+	private function _DeleteJoinValue( $joinItemId, $joinName ) {
+		$item = $this->_CURRENT_ITEM;
+		$itemId = $item['id'];
+		$joinPropertyId = null;
+		$arr = $this->_OBJECT_PROPERTIES;
+		$c = count($this->_OBJECT_PROPERTIES);
+		$i = 0;
+		while($i<$c){
+			if( $arr[$i]['field'] == $joinName){
+				$joinPropertyId = $arr[$i]['property_name_id'];
+				break;
+			}
+			$i++;
+		}
+		$table = $this->_TABLE_PREFIX.constant('Crud::_VALUES_TABLE_JOINS');
+		$query = "DELETE tb FROM $table as tb WHERE tb.item_id = $itemId AND tb.property_name_id = $joinPropertyId AND tb.value = $joinItemId;";
+		return $this->_RunQuery($query);		
+	}
 	
 	private function _DeleteItem( $itemId ) {
 		$this->database_connection->Open();

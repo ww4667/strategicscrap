@@ -50,6 +50,28 @@ while (!$KILL) {
 				$post_data['id'] = $post_data['facility_id'];
 				$f = new Facility();
 				$f->GetItemObj($post_data['id']);
+				if( $f->UpdateItem($post_data) ) {
+					// update material join
+					$f->getMaterials();
+					$joined_materials = $f->join_material;
+					// grab current join ids
+					$joined_material_ids = array();
+					foreach ($joined_materials as $jm) {
+						$joined_material_ids[$jm['id']] = $jm['name'];
+					}
+					// grab posted join ids
+					$material_ids = array();
+					foreach ($post_data['materials_array'] as $pm) {
+						$material_ids[$pm] = $pm;
+					}
+					// loop the arrays and add/remove
+					foreach ($material_ids as $key => $val) {
+						if ( !isset($joined_material_ids[$key]) ) $f->addMaterial($key);
+					}
+					foreach ($joined_material_ids as $key => $val) {
+						if ( !isset($material_ids[$key]) ) $f->removeMaterial($key);
+					}
+				}
 				if( $f->UpdateItem($post_data)){
 					$message = "Facility updated successfully.";
 				} else {
@@ -62,6 +84,13 @@ while (!$KILL) {
 			$f = new Facility();
 			$facility = $f->GetItemObj($_GET['facility_id']);
 			$facility->getMaterials();
+			$joined_materials = $facility->join_material;
+			$material_ids = array();
+			foreach ($joined_materials as $jm) {
+				$material_ids[$jm['id']] = $jm['name'];
+			}
+			$m = new Material();
+			$materials = $m->GetAllItems();
 
 			//the layout file
 			require($ss_path."views/layouts/manager_shell.php");

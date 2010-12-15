@@ -27,7 +27,7 @@
 </ul>
 <div class="submitButton">
 <input name="AccountUpdate" type="hidden" />
-<input id="submitAccountUpdate" alt="Update My Account" name="submitAccountUpdate" src="resources/images/buttons/submit_bid.png" type="image" />
+<input id="submitAccountUpdate" alt="Update My Account" name="submitAccountUpdate" src="resources/images/buttons/account_update.png" type="image" />
 </div>
 </fieldset>
 <fieldset>

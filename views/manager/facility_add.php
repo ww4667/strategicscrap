@@ -55,7 +55,7 @@
     <br style="clear:left" />
 	
 	<div class="label"><strong>Additional Notes:</strong></div>
-	<div class="value"><input type="text" name="notes" value="<?= $post_data['notes']?>" /></div>
+	<div class="value"><textarea name="notes"><?= $post_data['notes']?></textarea></div>
     <br style="clear:left" />
     <br style="clear:left" />
 
