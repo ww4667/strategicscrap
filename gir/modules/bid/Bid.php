@@ -18,6 +18,14 @@ class Bid extends Crud {
 											array("type"=>"number","label"=>"Archived","field"=>"archived"),
 											array("type"=>"number","label"=>"Read","field"=>"read"),
 											array("type"=>"join","label"=>"Request Join","field"=>"join_request"),
+											/**
+											 * NOTE
+											 * TODO: make the request faster so that we can just pull the data from the request join 
+											 */
+											array("type"=>"join","label"=>"Scrapper Join","field"=>"join_scrapper"),
+											array("type"=>"join","label"=>"Facility Join","field"=>"join_facility"),
+											array("type"=>"join","label"=>"Material Join","field"=>"join_material"),
+											/* END NOTE */
 											array("type"=>"join","label"=>"Transportation Type","field"=>"join_transportation_type"),
 											array("type"=>"join","label"=>"Broker Join","field"=>"join_broker")
 										);	
@@ -37,6 +45,18 @@ class Bid extends Crud {
 		return $this->AddJoin( $brokerId, "join_broker" );
 	}
 	
+	public function addScrapper( $scrapperId = null ){
+		return $this->AddJoin( $scrapperId, "join_scrapper" );
+	}
+	
+	public function addFacility( $facilityId = null ){
+		return $this->AddJoin( $facilityId, "join_facility" );
+	}
+	
+	public function addMaterial( $materialId = null ){
+		return $this->AddJoin( $materialId, "join_material" );
+	}
+	
 	public function addTransportationType( $transporationType = null ){
 		return $this->AddJoin( $transporationType, "join_transportation_type" );
 	}
@@ -53,6 +73,9 @@ class Bid extends Crud {
 			$this->GetItemObj( $ba->id );
 			$this->ReadJoins( new Request() );
 			$this->ReadJoins( new Broker() );
+			$this->ReadJoins( new Scrapper() );
+			$this->ReadJoins( new Facility() );
+			$this->ReadJoins( new Material() );
 			$stupidFace = clone $this;
 			$bidReturnArray[] = $stupidFace;
 			$i++;

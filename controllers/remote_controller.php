@@ -15,6 +15,8 @@ require_once($_SERVER['DOCUMENT_ROOT']."/gir/index.php");
 //}
 
 $method = trim($_GET['method']);
+$type = trim($_GET['type']);
+$type = $type ? $type : 'json';
 //$key = $_GET['key'];
 //$_SESSION[$key]
 /**
@@ -78,7 +80,7 @@ $method = trim($_GET['method']);
 				
 				array_multisort($names, SORT_ASC, $op);
 				
-				echo json_encode(array("locations"=>$op)); 
+				print json_encode(array("locations"=>$op)); 
 			}
 			exit; 
 			
@@ -86,6 +88,7 @@ $method = trim($_GET['method']);
 		
 		case 'getRequests':
 			$val = ( isset($_GET['uid']) ) ? $_GET['uid'] : null;
+			$brokerId = ( isset($_GET['buid']) ) ? $_GET['buid'] : null;
 			$requestReturnArray = array();
 			$requestClass = null;
 			
@@ -111,7 +114,113 @@ $method = trim($_GET['method']);
 			} else {
 				$requestClass = new Request();
 				$requestReturnArray = $requestClass->getAllRequests();
-				print json_encode( $requestReturnArray ); 
+				
+				if( $brokerId  ){
+					$brokerClass = new Broker();
+					$brokerByUserId = $brokerClass->getBrokersByUserId( $brokerId );
+					
+					if( count( $brokerByUserId ) > 0 ){
+						$brokerClass->GetItemObj( $brokerByUserId[0]['id'] );
+						
+						$bidReturnArray = $brokerClass->getBids();
+						
+						
+						
+//							$brokerClass->PTS($bidReturnArray,'bids'); 
+//							$brokerClass->PTS($requestReturnArray,'requests');
+						$counter = 0; 
+						$counter2 = 0;
+						$count = count( $bidReturnArray );
+						$count2 = count( $requestReturnArray );
+						$currentBid = null;
+						$bidId = null;
+						$currentRequest = null;
+						$arrayOfIdsToRemove = array();
+						
+						$a = $b = array();
+						while( $counter < $count ){
+							
+							$currentBid = $bidReturnArray[ $counter ];
+//							$brokerClass->PTS($currentBid,'current Bid');
+							$bidId = $currentBid->join_request[0]['id'];
+							
+							$counter2 = 0;
+							$count2 = count($requestReturnArray);
+							
+							while( $counter2 < $count2 ){
+								if(isset($requestReturnArray[$counter2])){
+									$currentRequest = $requestReturnArray[$counter2];
+									
+									if( $bidId == $currentRequest->id ){
+										/*
+										array_splice( $requestReturnArray, $counter2 );
+									    $a = array_slice($requestReturnArray, 0, $counter2-1,true);
+									    $b = array_slice($requestReturnArray, $counter2, null, true);
+									    $requestReturnArray = array_merge(array($a),$b);
+									    */
+										unset($requestReturnArray[$counter2]); 
+									}	
+								}
+								$counter2++;
+							}
+							
+							$counter++; 
+						}
+						
+						
+						/*
+						// sorting object array by created_ts date DESC
+						$dates = array();					
+						foreach ( (array) $bidReturnArray as $key => $row ) {
+						    $dates[$key] = $row->created_ts;
+						}
+						
+						array_multisort($dates, SORT_DESC, $bidReturnArray);*/
+					}
+					
+				}
+
+				switch( $type ) {
+					case 'html':
+							$counter = 0;
+							$count = count( $requestReturnArray );
+							$output = "";
+							$off = false;
+							foreach( $requestReturnArray as $request ){
+								
+								$output .= 	'<tr class="' . ( $off ? 'row2' : '' ) . ' scrapQuote" requestId="' . $request->id . '">' . 
+											"	<td>" .
+											( !empty( $request->expiration_date ) ? $request->expiration_date : 'not set' ) . '<br />'  .
+											"	</td>" .
+											"	<td>" .
+											( 	$request->join_facility && 
+												$request->join_facility != '' && 
+												count( $request->join_facility ) > 0 ?
+													'<strong>Ship to:</strong> ' . $request->join_facility[0]['company'] . '<br>' : 
+													'<strong>Ship to:</strong><br>' ) . 
+											( 	$request->join_material && 
+												$request->join_material != '' && 
+												count( $request->join_material ) > 0 ?
+													'<strong>Material:</strong> ' . $request->join_material[0]['name'] . '<br>' : 
+													'<strong>Material:</strong><br>' ) . 
+											'<strong>Volume: </strong>' . ( !empty( $request->volume ) ? $request->volume : '0' ) . '<br />' .
+											'<strong>Arrival Date: </strong>' . ( !empty( $request->arrive_date ) ? $request->arrive_date : 'not set' ) . '<br />' .
+											"	</td>" .
+											"	<td>" .
+											$request->created_ts . '<br />' .
+											"	</td>" .
+											"	<td>" .
+											'		<a class="quote" href="#" title="quote this request" requestId="' . $request->id . '">quote</a>' .
+											"	</td>" .
+											"</tr>";
+								$off = !$off;
+								
+							}
+							print $output;
+						break;
+					default:
+						print json_encode( $requestReturnArray ); 
+				}
 			}
 			
 			break;
@@ -146,13 +255,12 @@ $method = trim($_GET['method']);
 					 * Associate Request 
 					 * TODO: need to validate if this is a duplicate 
 					 */
+					
 					$requestClass = new Request();
-					$requestClass->ReadPropertyByName("bid_count");
-					$requestClass->ReadPropertyByName("bid_unread");
+					
 					$bidCount = (int) $requestClass->GetValueNumber( $post_data['join_request'], $requestClass->ReadPropertyByName("bid_count") );
-					
+
 					$bidCountProperty = $requestClass->ReadPropertyByName("bid_count");
-					
 					if( isset( $bidCountProperty['id'] ) ){
 						if( !$requestClass->UpdateValueNumber( $post_data['join_request'], $bidCountProperty['id'], $bidCount+1  ) ){
 							$requestClass->AddValueNumber( $post_data['join_request'], $bidCountProperty['id'], $bidCount+1  );

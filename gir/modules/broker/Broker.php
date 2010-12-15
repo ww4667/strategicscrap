@@ -92,6 +92,9 @@ class Broker extends User {
 			$bidClass->ReadJoins( new Request() );
 			$bidClass->ReadJoins( new Transportation_Type() );
 			$bidClass->ReadJoins( new Broker() );
+			$bidClass->ReadJoins( new Scrapper() );
+			$bidClass->ReadJoins( new Facility() );
+			$bidClass->ReadJoins( new Material() );
 			$bidReturnArray[] = $bidClass;
 			$i++;
 			

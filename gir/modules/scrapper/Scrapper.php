@@ -10,6 +10,7 @@ class Scrapper extends User {
 	protected $_OBJECT_NAME = "scrapper";
 	protected $_OBJECT_NAME_ID = "";
 	protected $_OBJECT_PROPERTIES = array(	array("type"=>"join","label"=>"Join User","field"=>"join_user"),
+											array("type"=>"text","label"=>"Company","field"=>"company"),
 											array("type"=>"text","label"=>"First Name","field"=>"first_name"),
 											array("type"=>"text","label"=>"Last Name","field"=>"last_name"),
 											array("type"=>"text","label"=>"Mobile Phone","field"=>"mobile_phone"),
