@@ -105,8 +105,12 @@
 	<div class="value"><input type="text" name="mobile_phone" value="<?= $facility->mobile_phone ?>" /></div>
     <br style="clear:left" />
 	
-	<div class="label"><strong>Fax Number:</strong></div>
+	<div class="label"><strong>Home Phone:</strong></div>
 	<div class="value"><input type="text" name="home_phone" value="<?= $facility->home_phone ?>" /></div>
+    <br style="clear:left" />
+	
+	<div class="label"><strong>Fax Number:</strong></div>
+	<div class="value"><input type="text" name="fax_number" value="<?= $facility->fax_number ?>" /></div>
     <br style="clear:left" />
     <br style="clear:left" />
 	

@@ -516,12 +516,11 @@ class Crud {
 			
 			if ($update) {
 				$query = "SELECT id FROM $table WHERE property_name_id='$propertyId' AND item_id='$itemId' LIMIT 1;";
-				$arr1 = $this->Query( $query, true, false );
-				
-				if(isset($arr1['id'])){
-					$recordId = $arr1['id'];
+				$arr1 = $this->_RunQuery( $query, true, false );
+				if(isset($arr1[0]['id'])){
+					$recordId = $arr1[0]['id'];
 					$query = "UPDATE $table SET value='" . mysql_real_escape_string( $value ) . "' WHERE id='$recordId'";
-					$result = $this->Query( $query, false, false );
+					$result = $this->_RunQuery( $query, false, false );
 					$op = $recordId;
 				} else {
 					$op = false;
@@ -530,11 +529,11 @@ class Crud {
 			} else {
 				
 				$query = "INSERT INTO $table ( value, property_name_id, item_id  ) VALUES ( '" . mysql_real_escape_string( $value ) . "', $propertyId, $itemId );";
-				$result = $this->Query( $query, false, false );
+				$result = $this->_RunQuery( $query, false, false );
 				$query = "SELECT LAST_INSERT_ID() as id;";
-				$arr1 = $this->Query( $query, true, false );
-				if(isset($arr1['id'])){
-					$op = $arr1['id'];
+				$arr1 = $this->_RunQuery( $query, true, false );
+				if(isset($arr1[0]['id'])){
+					$op = $arr1[0]['id'];
 				} else {
 					$op = false;
 				}

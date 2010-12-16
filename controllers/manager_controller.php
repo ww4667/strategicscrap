@@ -71,8 +71,6 @@ while (!$KILL) {
 					foreach ($joined_material_ids as $key => $val) {
 						if ( !isset($material_ids[$key]) ) $f->removeMaterial($key);
 					}
-				}
-				if( $f->UpdateItem($post_data)){
 					$message = "Facility updated successfully.";
 				} else {
 					$message = "There was a problem updating the facility.";	
@@ -115,7 +113,23 @@ while (!$KILL) {
 //											array("country","Country cannot be left empty"),
 											array("","")
 				);
-				
+				// fix data
+				// trim first
+				foreach ($post_data as $key => $val) {
+					$post_data[$key] = is_string($post_data[$key]) ? trim($val) : $post_data[$key];
+				}
+				// fix state/province country data
+				$state = substr($post_data['state_province'], -2);
+				$country = substr($post_data['state_province'], 0, 2);
+				$post_data['state_province'] = $state;
+				if ( $country == "US" ) {
+					$post_data['country'] = "United States";
+				} elseif ( $country == "MX" ) {
+					$post_data['country'] = "Mexico";
+				} else {
+					$post_data['country'] = "Canada";
+				}
+				// get geo code info				
 				if ($post_data['address_1'] != "") {
 					$address = $post_data['address_1'];
 					$address .= ", ".$post_data['address_2'];
@@ -131,42 +145,20 @@ while (!$KILL) {
 				$data = file_get_contents( $url );
 				$results = json_decode($data);
 				$results = $results->results[0];
-				echo "<pre>";
-				print_r($results->geometry->location);
-				echo "</pre>";
-				if ($_POST['address_1']) {
-					$post_data = $_POST;
-					$post_data['lat'] = $results->geometry->location->lat;
-					$post_data['lon'] = $results->geometry->location->lng;
-					// fix data
-					// trim first
-					foreach ($post_data as $key => $val) {
-						$post_data[$key] = is_string($post_data[$key]) ? trim($val) : $post_data[$key];
-					}
-					// fix phone numbers
-					$post_data['business_phone'] = format_phone($post_data['business_phone']);
-					$post_data['home_phone'] = format_phone($post_data['home_phone']);
-					$post_data['mobile_phone'] = format_phone($post_data['mobile_phone']);
-					$post_data['fax_number'] = format_phone($post_data['fax_number']);
-					// create the facility
-					$itemId = $f->CreateItem($post_data);
-					$facility = $f->GetItemObj($itemId);
-					foreach ($post_data['materials_array'] as $m) {
-						$facility->addMaterial($m);
-					}
-					echo "success!";
-				}
-				$attributes = $f;
-				$PAGE_BODY = "views/facilities/add_facility.php";  	/* which file to pull into the template */
-				if ( isset($_POST['submit_add_facility']) ) {
-					print_r($post_data);
-				}
-				
-				die(print_r($post_data));
-				$post_data['id'] = $post_data['facility_id'];
+				$post_data['lat'] = (string) $results->geometry->location->lat;
+				$post_data['lon'] = (string) $results->geometry->location->lng;
+				// fix phone numbers
+				$post_data['business_phone'] = format_phone($post_data['business_phone']);
+				$post_data['home_phone'] = format_phone($post_data['home_phone']);
+				$post_data['mobile_phone'] = format_phone($post_data['mobile_phone']);
+				$post_data['fax_number'] = format_phone($post_data['fax_number']);
+				// create the facility
 				$f = new Facility();
-				$f->GetItemObj($post_data['id']);
-				if( $f->UpdateItem($post_data)){
+				$f->CreateItem($post_data);
+				foreach ($post_data['materials_array'] as $m) {
+					$f->addMaterial($m);
+				}
+				if( !empty($f->id) ){
 					$message = "Facility added successfully.";
 				} else {
 					$message = "There was a problem adding the facility.";	
@@ -232,6 +224,20 @@ while (!$KILL) {
 				$pricing[$indx] = $p;
 			}
 			
+			$m = new Material();
+			$materials = $m->GetAllItems();
+
+			//the layout file
+			require($ss_path."views/layouts/manager_shell.php");
+			$KILL = true;
+		break;
+		
+		case 'material-manager':
+			
+			$PAGE_TITLE 		= "Material Manager";								/* Title text for this page */
+			$SECTION_HEADER 	= "Materials List";									/* Header text for this page */
+			$PAGE_BODY 			= $ss_path."views/manager/materials.php";			/* which file to pull into the template */
+
 			$m = new Material();
 			$materials = $m->GetAllItems();
 
