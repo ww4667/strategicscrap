@@ -1,3 +1,4 @@
+<h1 style="margin:0;padding:0">Facilities // Update</h1>
 <ul>
 	<li><a href="<?= $ss_url ?>&amp;method=facility-manager">Back to Facilities</a></li>
 </ul>
@@ -52,9 +53,15 @@
 	<div class="label"><strong>Region:</strong></div>
 	<div class="value"><input type="text" name="region" value="<?= $facility->region ?>" /></div>
     <br style="clear:left" />
-	
+		
 	<div class="label"><strong>Category:</strong></div>
-	<div class="value"><input type="text" name="category" value="<?= $facility->category ?>" /></div>
+	<div class="value">
+		<select name="category">
+			<option value="Mill" <?= $facility->category == "Mill" ? 'selected="selected"' : "" ?>>Mill</option>
+			<option value="Foundry" <?= $facility->category == "Foundry" ? 'selected="selected"' : "" ?>>Foundry</option>
+			<option value="Exporter" <?= $facility->category == "Exporter" ? 'selected="selected"' : "" ?>>Exporter</option>
+		</select>
+	</div>
     <br style="clear:left" />
 	
 	<div class="label"><strong>Website:</strong></div>
@@ -70,7 +77,7 @@
     <br style="clear:left" />
 	
 	<div class="label"><strong>Additional Notes:</strong></div>
-	<div class="value"><input type="text" name="notes" value="<?= $facility->notes ?>" /></div>
+	<div class="value"><textarea name="notes"><?= $facility->notes ?></textarea></div>
     <br style="clear:left" />
     <br style="clear:left" />
 
@@ -99,10 +106,25 @@
 	<div class="value"><input type="text" name="mobile_phone" value="<?= $facility->mobile_phone ?>" /></div>
     <br style="clear:left" />
 	
-	<div class="label"><strong>Fax Number:</strong></div>
+	<div class="label"><strong>Home Phone:</strong></div>
 	<div class="value"><input type="text" name="home_phone" value="<?= $facility->home_phone ?>" /></div>
     <br style="clear:left" />
+	
+	<div class="label"><strong>Fax Number:</strong></div>
+	<div class="value"><input type="text" name="fax_number" value="<?= $facility->fax_number ?>" /></div>
     <br style="clear:left" />
+    <br style="clear:left" />
+	
+	<div><strong>Accepted Materials:</strong><hr /></div>
+	<div class="label"><strong>Select Accepted Materials:</strong></div>
+	<div class="value"><select multiple="multiple" name="materials_array[]" >
+		<? foreach ($materials as $m) { ?>
+		<option value="<?= $m['id']?>"<?= isset($material_ids[$m['id']]) ? ' selected="selected"' : '' ?>><?= $m['name']?></option>
+		<? } ?>
+	</select></div>
+    <br style="clear:left" />
+    <br style="clear:left" />
+
 	
 	<input type="submit" name="submitted" value="Update Facility" />
 	</form>

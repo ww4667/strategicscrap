@@ -1,3 +1,4 @@
+<h1 style="margin:0;padding:0">Facilities // Add</h1>
 <ul>
 	<li><a href="<?= $ss_url ?>&amp;method=facility-manager">Back to Facilities</a></li>
 </ul>
@@ -55,7 +56,7 @@
     <br style="clear:left" />
 	
 	<div class="label"><strong>Additional Notes:</strong></div>
-	<div class="value"><input type="text" name="notes" value="<?= $post_data['notes']?>" /></div>
+	<div class="value"><textarea name="notes"><?= $post_data['notes']?></textarea></div>
     <br style="clear:left" />
     <br style="clear:left" />
 
@@ -84,8 +85,12 @@
 	<div class="value"><input type="text" name="mobile_phone" value="<?= $post_data['mobile_phone']?>" /></div>
     <br style="clear:left" />
 	
-	<div class="label"><strong>Fax Number:</strong></div>
+	<div class="label"><strong>Home Phone:</strong></div>
 	<div class="value"><input type="text" name="home_phone" value="<?= $post_data['home_phone']?>" /></div>
+    <br style="clear:left" />
+	
+	<div class="label"><strong>Fax Number:</strong></div>
+	<div class="value"><input type="text" name="fax_number" value="<?= $post_data['fax_number']?>" /></div>
     <br style="clear:left" />
     <br style="clear:left" />
 	

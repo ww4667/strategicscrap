@@ -20,6 +20,8 @@ $controller_action = "facility-manager";
 
 $method = isset($_GET['method'])?$_GET['method']:$controller_action;	// default is show-menu
 
+$MODULE_TITLE = "Strategic Scrap Manager";
+
 $KILL = false;
 
 while (!$KILL) {
@@ -28,8 +30,8 @@ while (!$KILL) {
 		case 'facility-manager':
 			
 			$PAGE_TITLE 		= "Facility Manager";								/* Title text for this page */
-			$SECTION_HEADER 	= "Facilities List";								/* Header text for this page */
-			$PAGE_BODY 			= $ss_path."views/manager/facilities.php";			/* which file to pull into the template */
+			$SECTION_HEADER 	= "Facility List";								/* Header text for this page */
+			$PAGE_BODY 			= $ss_path."views/manager/facility_manager.php";			/* which file to pull into the template */
 
 			$f = new Facility();
 			$facilities = $f->GetAllItems();
@@ -50,10 +52,31 @@ while (!$KILL) {
 				$post_data['id'] = $post_data['facility_id'];
 				$f = new Facility();
 				$f->GetItemObj($post_data['id']);
-				if( $f->UpdateItem($post_data)){
+				if( $f->UpdateItem($post_data) ) {
+					// update material join
+					$f->getMaterials();
+					$joined_materials = $f->join_material;
+					// grab current join ids
+					$joined_material_ids = array();
+					foreach ($joined_materials as $jm) {
+						$joined_material_ids[$jm['id']] = $jm['name'];
+					}
+					// grab posted join ids
+					$material_ids = array();
+					foreach ($post_data['materials_array'] as $pm) {
+						$material_ids[$pm] = $pm;
+					}
+					// loop the arrays and add/remove
+					foreach ($material_ids as $key => $val) {
+						if ( !isset($joined_material_ids[$key]) ) $f->addMaterial($key);
+					}
+					foreach ($joined_material_ids as $key => $val) {
+						if ( !isset($material_ids[$key]) ) $f->removeMaterial($key);
+					}
 					$message = "Facility updated successfully.";
 				} else {
-					$message = "There was a problem updating the facility.";	
+					$message = "There was a problem updating the facility.";
+					$error = true;	
 				}
 				$method = "facility-manager";
 				break;
@@ -62,6 +85,13 @@ while (!$KILL) {
 			$f = new Facility();
 			$facility = $f->GetItemObj($_GET['facility_id']);
 			$facility->getMaterials();
+			$joined_materials = $facility->join_material;
+			$material_ids = array();
+			foreach ($joined_materials as $jm) {
+				$material_ids[$jm['id']] = $jm['name'];
+			}
+			$m = new Material();
+			$materials = $m->GetAllItems();
 
 			//the layout file
 			require($ss_path."views/layouts/manager_shell.php");
@@ -86,7 +116,23 @@ while (!$KILL) {
 //											array("country","Country cannot be left empty"),
 											array("","")
 				);
-				
+				// fix data
+				// trim first
+				foreach ($post_data as $key => $val) {
+					$post_data[$key] = is_string($post_data[$key]) ? trim($val) : $post_data[$key];
+				}
+				// fix state/province country data
+				$state = substr($post_data['state_province'], -2);
+				$country = substr($post_data['state_province'], 0, 2);
+				$post_data['state_province'] = $state;
+				if ( $country == "US" ) {
+					$post_data['country'] = "United States";
+				} elseif ( $country == "MX" ) {
+					$post_data['country'] = "Mexico";
+				} else {
+					$post_data['country'] = "Canada";
+				}
+				// get geo code info				
 				if ($post_data['address_1'] != "") {
 					$address = $post_data['address_1'];
 					$address .= ", ".$post_data['address_2'];
@@ -102,45 +148,24 @@ while (!$KILL) {
 				$data = file_get_contents( $url );
 				$results = json_decode($data);
 				$results = $results->results[0];
-				echo "<pre>";
-				print_r($results->geometry->location);
-				echo "</pre>";
-				if ($_POST['address_1']) {
-					$post_data = $_POST;
-					$post_data['lat'] = $results->geometry->location->lat;
-					$post_data['lon'] = $results->geometry->location->lng;
-					// fix data
-					// trim first
-					foreach ($post_data as $key => $val) {
-						$post_data[$key] = is_string($post_data[$key]) ? trim($val) : $post_data[$key];
-					}
-					// fix phone numbers
-					$post_data['business_phone'] = format_phone($post_data['business_phone']);
-					$post_data['home_phone'] = format_phone($post_data['home_phone']);
-					$post_data['mobile_phone'] = format_phone($post_data['mobile_phone']);
-					$post_data['fax_number'] = format_phone($post_data['fax_number']);
-					// create the facility
-					$itemId = $f->CreateItem($post_data);
-					$facility = $f->GetItemObj($itemId);
-					foreach ($post_data['materials_array'] as $m) {
-						$facility->addMaterial($m);
-					}
-					echo "success!";
-				}
-				$attributes = $f;
-				$PAGE_BODY = "views/facilities/add_facility.php";  	/* which file to pull into the template */
-				if ( isset($_POST['submit_add_facility']) ) {
-					print_r($post_data);
-				}
-				
-				die(print_r($post_data));
-				$post_data['id'] = $post_data['facility_id'];
+				$post_data['lat'] = (string) $results->geometry->location->lat;
+				$post_data['lon'] = (string) $results->geometry->location->lng;
+				// fix phone numbers
+				$post_data['business_phone'] = format_phone($post_data['business_phone']);
+				$post_data['home_phone'] = format_phone($post_data['home_phone']);
+				$post_data['mobile_phone'] = format_phone($post_data['mobile_phone']);
+				$post_data['fax_number'] = format_phone($post_data['fax_number']);
+				// create the facility
 				$f = new Facility();
-				$f->GetItemObj($post_data['id']);
-				if( $f->UpdateItem($post_data)){
+				$f->CreateItem($post_data);
+				foreach ($post_data['materials_array'] as $m) {
+					$f->addMaterial($m);
+				}
+				if( !empty($f->id) ){
 					$message = "Facility added successfully.";
 				} else {
 					$message = "There was a problem adding the facility.";	
+					$error = true;	
 				}
 				$method = "facility-manager";
 				break;
@@ -184,6 +209,7 @@ while (!$KILL) {
 						$message = $post_data['region']." pricing has been updated successfully.";
 					} else {
 						$message = "There was a problem updating the pricing.";
+						$error = true;	
 					}
 					unset($_POST);
 				} else {
@@ -210,10 +236,88 @@ while (!$KILL) {
 			require($ss_path."views/layouts/manager_shell.php");
 			$KILL = true;
 		break;
+		
+		case 'material-manager':
+			
+			$PAGE_TITLE 		= "Material Manager";					/* Title text for this page */
+			$SECTION_HEADER 	= "Material List";									/* Header text for this page */
+			$PAGE_BODY 			= $ss_path."views/manager/material_manager.php";			/* which file to pull into the template */
+
+			$m = new Material();
+			$materials = $m->GetAllItems();
+
+			//the layout file
+			require($ss_path."views/layouts/manager_shell.php");
+			$KILL = true;
+		break;
+		
+		case 'material-update':
+			
+			$PAGE_TITLE 		= "Material Manager";							/* Title text for this page */
+			$SECTION_HEADER 	= "Update Material";									/* Header text for this page */
+			$PAGE_BODY 			= $ss_path."views/manager/material_update.php";			/* which file to pull into the template */
+			
+			if(isset($_POST['submitted'])){
+				$post_data = $_POST;
+				$post_data['id'] = $post_data['material_id'];
+				$m = new Material();
+				$m->GetItemObj($post_data['id']);
+				if( $m->UpdateItem($post_data) ) {
+					$message = "Material updated successfully.";
+				} else {
+					$message = "There was a problem updating the material.";
+					$error = true;
+				}
+				$method = "material-manager";
+				break;
+			}
+
+			$m = new Material();
+			$material = $m->GetItemObj($_GET['material_id']);
+
+			//the layout file
+			require($ss_path."views/layouts/manager_shell.php");
+			$KILL = true;
+		break;
+		
+		case 'material-add':
+			
+			$PAGE_TITLE 		= "Material Manager";					/* Title text for this page */
+			$SECTION_HEADER 	= "Add Material";								/* Header text for this page */
+			$PAGE_BODY 			= $ss_path."views/manager/material_add.php";			/* which file to pull into the template */
+			
+			if(isset($_POST['submitted'])){
+				$post_data = $_POST;
+				// check for required fields
+				$required_fields = array(
+											array("name","Material Name cannot be left empty")
+				);
+				// fix data
+				// trim first
+				foreach ($post_data as $key => $val) {
+					$post_data[$key] = is_string($post_data[$key]) ? trim($val) : $post_data[$key];
+				}
+				// create the material
+				$m = new Material();
+				$m->CreateItem($post_data);
+				if( !empty($m->id) ){
+					$message = "Material added successfully.";
+				} else {
+					$message = "There was a problem adding the material.";
+					$error = true;
+				}
+				$method = "material-manager";
+				break;
+			}
+
+			//the layout file
+			require($ss_path."views/layouts/manager_shell.php");
+			$KILL = true;
+		break;
 
 		case 'scrappers':
 			
-			$PAGE_TITLE 		= "Scrapper Manager";								/* Title text for this page */
+			$PAGE_TITLE 		= "Scrapper Manager";						/* Title text for this page */
 			$SECTION_HEADER 	= "Scrappers List";									/* Header text for this page */
 			$PAGE_BODY 			= $ss_path."views/manager/scrappers.php";			/* which file to pull into the template */
 
