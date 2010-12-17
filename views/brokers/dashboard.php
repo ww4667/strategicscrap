@@ -1,144 +1,13 @@
-<div class="brokerDashboard">
-<div class="leftCol">
-<div class="lowerArea">
-	<div class="twoColMod" id="recentResponses"><div class="moduleTop"><!-- IE hates empty elements --></div>
-		<div class="moduleContent">
-	    	<h3>QUOTE MANAGER</h3>
-			<div class="more"><a href="[~27~]">advanced</a></div>
-			<hr />
-			<div class="filter">
-				<div><input type="checkbox" name="filter_accepted" checked="checked" value="accepted" /> accepted</div>
-				<div><input type="checkbox" name="filter_expired" checked="checked" value="expired" /> expired</div>
-				<div><input type="checkbox" name="filter_rejected" checked="checked" value="rejected" /> rejected</div>
-				<div><input type="checkbox" name="filter_waiting" checked="checked" value="waiting" /> waiting</div>
-				<div style="clear:both;float:none"><!-- IE hates empty elemenets --></div>
-			</div>
-			<table>
-			<tbody><tr class="row2">
-			    <th style="width:100px">STATUS</th>
-			    <th style="width:220px">DESCRIPTION</th>
-			    <th style="width:100px">QUOTE DATE</th>
-			    <th>&nbsp;</th>
-			</tr>
-			</tbody>
-			</table>
-			<div id="scroll-pane1" class="jScrollPaneContainer" tabindex="0">
-			<table class="quotes stripes">
-			<tbody id="recent_bids">
-<!-- 			
-			<tr class="accepted">
-			    <td class="status" style="width:100px"><strong>Accepted</strong></td>
-			    <td style="width:220px"><strong>Ship from:</strong> Demo Scrap<br />
-			    						<strong>Ship to:</strong> Demo Steel Company<br>
-			    						<strong>Material:</strong> No. 1 Machinery Cast<br>
-			    						<strong>Quantity (tons):</strong> 550<br>
-			    						<strong>Delivery Date:</strong> 05/13/2010</td>
-			    <td style="width:100px">04/30/2010</td>
-			    <td><a class="archive" href="" title="archive this quote">archive</a></td>
-			</tr>
-			<tr class="row2 waiting">
-			    <td class="status"><strong>Waiting</strong></td>
-			    <td><strong>Ship from:</strong> Demo Scrap<br /><strong>Ship to:</strong> Demo Steel Company<br /><strong>Material:</strong> No. 1 Machinery Cast<br><strong>Quantity (tons):</strong> 550<br><strong>Delivery Date:</strong> 05/10/2010</td>
-			    <td>05/03/2010</td>
-			    <td><a class="archive" href="#" title="archive this quote">archive</a></td>
-			</tr>
-			<tr class="expired">
-			    <td class="status"><strong>Expired</strong></td>
-			    <td><strong>Ship from:</strong> Demo Scrap<br /><strong>Ship to:</strong> Demo Steel Company<br><strong>Material:</strong> No. 1 Machinery Cast<br><strong>Quantity (tons):</strong> 550<br><strong>Delivery Date:</strong> 05/10/2010</td>
-			    <td>05/04/2010</td>
-			    <td><a class="archive" href="#" title="archive this quote">archive</a></td>
-			</tr>
-			<tr class="row2 rejected">
-			    <td class="status"><strong>Rejected</strong></td>
-			    <td><strong>Ship from:</strong> Demo Scrap<br /><strong>Ship to:</strong> Demo Steel Company<br><strong>Material:</strong> No. 1 Machinery Cast<br><strong>Quantity (tons):</strong> 550<br><strong>Delivery Date:</strong> 05/10/2010</td>
-			    <td>05/03/2010</td>
-			    <td><a class="archive" href="#" title="archive this quote">archive</a></td>
-			</tr>
-			<tr class="waiting">
-			    <td class="status"><strong>Waiting</strong></td>
-			    <td><strong>Ship from:</strong> Demo Scrap<br /><strong>Ship to:</strong> Demo Steel Company<br><strong>Material:</strong> No. 1 Machinery Cast<br><strong>Quantity (tons):</strong> 550<br><strong>Delivery Date:</strong> 05/10/2010</td>
-			    <td>05/04/2010</td>
-			    <td><a class="archive" href="#" title="archive this quote">archive</a></td>
-			</tr>
-			<tr class="row2 expired">
-			    <td class="status"><strong>Expired</strong></td>
-			    <td><strong>Ship from:</strong> Demo Scrap<br /><strong>Ship to:</strong> Demo Steel Company<br><strong>Material:</strong> No. 1 Machinery Cast<br><strong>Quantity (tons):</strong> 550<br><strong>Delivery Date:</strong> 05/10/2010</td>
-			    <td>05/03/2010</td>
-			    <td><a class="archive" href="#" title="archive this quote">archive</a></td>
-			</tr>
-			<tr class="rejected">
-			    <td class="status"><strong>Rejected</strong></td>
-			    <td><strong>Ship from:</strong> Demo Scrap<br /><strong>Ship to:</strong> Demo Steel Company<br><strong>Material:</strong> No. 1 Machinery Cast<br><strong>Quantity (tons):</strong> 550<br><strong>Delivery Date:</strong> 05/10/2010</td>
-			    <td>05/04/2010</td>
-			    <td><a class="archive" href="#" title="archive this quote">archive</a></td>
-			</tr>
--->
-		</tbody></table>
-		</div>
-		</div><div class="moduleBottom"><!-- IE hates empty elements --></div>	
-	</div>
-	<div class="twoColMod" id="recentRequests"><div class="moduleTop"><!-- IE hates empty elements --></div>
-		<div class="moduleContent">
-	    	<h3>Recent Requests</h3>
-			<div class="more"><a href="[~22~]">advanced</a></div>
-			<hr />
-			<table>
-			<tbody>
-			<tr class="row2"	>
-			    <th style="width:100px">EXPIRATION DATE</th>
-			    <th style="width:220px">DESCRIPTION</th>
-			    <th style="width:100px">REQUEST DATE</th>
-			</tr>
-			</tbody>
-			</table>
-			<div id="scroll-pane2" class="jScrollPaneContainer" tabindex="0">
-			<table class="stripes">
-			<tbody id="recent_requests">
-			<!-- 
-			<tr>
-			    <td style="width:100px">05/15/2010</td>
-			    <td style="width:220px"><strong>Ship from:</strong> Demo Scrap<br /><strong>Ship to:</strong> Demo Steel Company<br><strong>Material:</strong> No. 1 Machinery Cast<br><strong>Quantity (tons):</strong> 550<br><strong>Transportation Type:</strong> Flat Bed</td>
-			    <td style="width:100px">04/30/2010</td>
-			    <td><a class="scrapQuote quote" href="#" title="quote this request">quote</a></td>
-			</tr>
-			<tr class="row2">
-			    <td>2801-1207</td>
-			    <td><strong>Ship from:</strong> Demo Scrap<br /><strong>Ship to:</strong> Demo Steel Company<br><strong>Material:</strong> No. 1 Machinery Cast<br><strong>Quantity (tons):</strong> 550<br><strong>Transportation Type:</strong> End Dumps</td>
-			    <td>05/03/2010</td>
-			    <td><a class="scrapQuote quote" href="#" title="quote this request">quote</a></td>
-			</tr>
-			<tr>
-			    <td>05/20/2010</td>
-			    <td><strong>Ship from:</strong> Demo Scrap<br /><strong>Ship to:</strong> Demo Steel Company<br><strong>Material:</strong> No. 1 Machinery Cast<br><strong>Quantity (tons):</strong> 550<br><strong><strong>Transportation Type:</strong> Flat Bed</td>
-			    <td>05/04/2010</td>
-			    <td><a class="scrapQuote quote" href="#" title="quote this request">quote</a></td>
-			</tr>
-			<tr class="row2">
-			    <td>05/20/2010</td>
-			    <td><strong>Ship from:</strong> Demo Scrap<br /><strong>Ship to:</strong> Demo Steel Company<br><strong>Material:</strong> No. 1 Machinery Cast<br><strong>Quantity (tons):</strong> 550<br><strong>Transportation Type:</strong> Flat Bed</td>
-			    <td>05/03/2010</td>
-			    <td><a class="scrapQuote quote" href="#" title="quote this request">quote</a></td>
-			</tr>
-			<tr>
-			    <td>05/23/2010</td>
-			    <td><strong>Ship from:</strong> Demo Scrap<br /><strong>Ship to:</strong> Demo Steel Company<br><strong>Material:</strong> No. 1 Machinery Cast<br><strong>Quantity (tons):</strong> 550<br><strong>Transportation Type:</strong> End Dumps</td>
-			    <td>05/04/2010</td>
-			    <td><a class="scrapQuote quote" href="#" title="quote this request">quote</a></td>
-			</tr>
-			<tr class="row2">
-			    <td>05/12/2010</td>
-			    <td><strong>Ship from:</strong> Demo Scrap<br /><strong>Ship to:</strong> Demo Steel Company<br><strong>Material:</strong> No. 1 Machinery Cast<br><strong>Quantity (tons):</strong> 550<br><strong>Transportation Type:</strong> Flat Bed</td>
-			    <td>05/03/2010</td>
-			    <td><a class="scrapQuote quote" href="#" title="quote this request">quote</a></td>
-			</tr>
-			<tr>
-			    <td>06/02/2010</td>
-			    <td><strong>Ship from:</strong> Demo Scrap<br /><strong>Ship to:</strong> Demo Steel Company<br><strong>Material:</strong> No. 1 Machinery Cast<br><strong>Quantity (tons):</strong> 550<br><strong>Transportation Type:</strong> End Dumps</td>
-			    <td>05/04/2010</td>
-			    <td><a class="scrapQuote quote" href="#" title="quote this request">quote</a></td>
-			</tr>
-			-->
-		</tbody></table>
+<?php 
+
+	 $pageURL = 'http' . 
+	 			( $_SERVER["HTTPS"] == "on" ? "s" : "" ) . 
+	 			"://" . 
+	 			($_SERVER["SERVER_PORT"] != "80" ? 
+	  				$_SERVER["SERVER_NAME"].":".$_SERVER["SERVER_PORT"] :
+	  				$_SERVER["SERVER_NAME"] );
+?>
+
 
 		<script type="text/javascript"><!--
 			var requestInterval = 0, bidInterval = 0, reqObject = {}, current_request = -1, iii = 0;
@@ -146,127 +15,35 @@
 
 		
 			function getRequests(){
-				/*
-				$.getJSON("/controllers/remote_controller.php?method=getRequests", function(json) { 
-//					clearTimeout( requestInterval );
-					var tableRows = $("#recent_requests"), html = '', off=false, item=null, i = 0, l = json.length;
-					
-					if ( l > 0 ) { 
-						for ( i; i < l; i++ ) {
-							item = json[i];
-							reqObject[item.id] = item; 
-							html += '<tr class="'+ ( off ? 'row2' : '' ) + ' scrapQuote" requestId="' + item.id + '">' + 
-									'	<td>' + item.expiration_date + '</td>' +
-									'	<td>';
-							if( 	item['join_facility'] && 
-									item['join_facility'] != null && 
-									item['join_facility'].length > 0 ){ 
-										html += '		<strong>Ship to:</strong> ' + item['join_facility'][0]['company'] + '<br>'; }
-									
-							if( 	item['join_material'] && 
-									item['join_material'] != null && 
-									item['join_material'].length > 0 ){ 
-										html += '		<strong>Material:</strong> ' + item['join_material'][0]['name'] + '<br>'; }
-							html += '' +
-									'		<strong>Quantity (tons):</strong> ' + item.volume + '<br>' +
-									'		<strong>Delivery Date:</strong> ' + item.arrive_date + '' +'	</td>' +
-									'	<td>' + item.created_ts + '</td>' + 
-									'	<td>waiting</td>' + 
-									'	<td><a class="quote" href="#" title="quote this request" requestId="' + item.id + '">quote</a></td>' + 
-									'</tr>';
-							off=!off;
-						}
 
-					    $("#recent_requests").html( html );
-						$('#scroll-pane2').jScrollPane();
-					    $(".scrapQuote").colorbox({	width:"550", inline:true, href:"#quoteForm", 
-						    						onComplete:function(){ current_request = $( this ).attr( "requestId" ); loadBidForm(); $.colorbox.resize();  } 
-						    					});
-					}
-					
-//					requestInterval = setTimeout("getRequests();",20000);
-				});*/
 			    $('#recent_requests').load("/controllers/remote_controller.php?method=getRequests&buid=<?=$_SESSION['user']['id'] ?>&type=html", function() {
 //			    	  alert('Load was performed.');
 						$('#scroll-pane2').jScrollPane();
 					    $(".scrapQuote").colorbox({	width:"550", inline:true, href:"#quoteForm", 
-    						onComplete:function(){ current_request = $( this ).attr( "requestId" ); loadBidForm(); $.colorbox.resize();  } 
+    						onComplete:function(){ current_request = $( this ).attr( "requestCount" ); loadBidForm(); $.colorbox.resize();  } 
     					});
 			    });
-				requestInterval = setTimeout("getRequests",20000);
+				//requestInterval = setTimeout("getRequests",20000);
 			}
 
 
 			
 			function getBids(){
-				$.getJSON("/controllers/remote_controller.php?method=getBids&uid=<?=$_SESSION['user']['id'] ?>", function(json) { 
-//					clearTimeout( requestInterval );
-					var tableRows = $("#recent_bids"), html = '', off=false, item=null, i = 0, l = json.length;
-					
-/*
-				    <td class="status" style="width:100px"><strong>Accepted</strong></td>
-				    <td style="width:220px"><strong>Ship from:</strong> Demo Scrap<br />
-				    						<strong>Ship to:</strong> Demo Steel Company<br>
-				    						<strong>Material:</strong> No. 1 Machinery Cast<br>
-				    						<strong>Quantity (tons):</strong> 550<br>
-				    						<strong>Delivery Date:</strong> 05/13/2010</td>
-				    <td style="width:100px">04/30/2010</td>
-				    <td><a class="archive" href="" title="archive this quote">archive</a></td>
-*/
-					if ( l > 0 ) { 
-						for ( i; i < l; i++ ) {
-							item = json[i];
-							reqObject[item.id] = item; 
-							html += '<tr class="'+ ( off ? 'row2' : '' ) + ' scrapBid" requestId="' + item.id + '">' + 
-									'	<td class="status" style="width: 100px;"><strong>' + ( item.status ? item.status : 'waiting' ) + '</strong></td>' +
-									'	<td>';
-
-							if( 	item['join_scrapper'] && 
-									item['join_scrapper'] != null && 
-									item['join_scrapper'].length > 0 ){ 
-										html += '		<strong>Ship from:</strong> ' + 
-													item['join_scrapper'][0]['first_name'] + ' ' + 
-													item['join_scrapper'][0]['last_name'] + 
-													( item['join_scrapper'][0]['company'] ? ', ' + item['join_scrapper'][0]['company'] : '' ) + '<br>'; }
-							
-							if( 	item['join_facility'] && 
-									item['join_facility'] != null && 
-									item['join_facility'].length > 0 ){ 
-										html += '		<strong>Ship to:</strong> ' + item['join_facility'][0]['company'] + '<br>'; }
-									
-							if( 	item['join_material'] && 
-									item['join_material'] != null && 
-									item['join_material'].length > 0 ){ 
-										html += '		<strong>Material:</strong> ' + item['join_material'][0]['name'] + '<br>'; }
-							html += '' +
-									'		<strong>Quantity (tons):</strong> ' + item['join_request'][0].volume + '<br>' +
-									'		<strong>Ship Date:</strong> ' + item.ship_date + '<br />' +
-									'		<strong>Delivery Date:</strong> ' + item.arrival_date + '' +
-									'	</td>' +
-									'	<td>' + item.created_ts + '</td>' + 
-									'</tr>';
-							off=!off;
-						}
-
-					    $("#recent_bids").html( html );
-					    //$('#recent_bids').load("/controllers/remote_controller.php?method=getBids&uid=<?=$_SESSION['user']['id'] ?>", function() {
-					    	  //alert('Load was performed.');
-					    //});
+				
+				$('#recent_bids').load("/controllers/remote_controller.php?method=getBids&uid=<?=$_SESSION['user']['id'] ?>&type=html", function() {
 						$('#scroll-pane1').jScrollPane();
-						
-					}
-					
-					bidInterval = setTimeout("getBids();",20000);
 				});
+				//bidInterval = setTimeout("getBids();",20000);
 			}
 			function loadBidForm(  ){
 
 				 $("#bidForm").show();
 				 $("#bidResult").hide();
-				var item = reqObject[ current_request ]; 
-				console.log( item );
+				var item = request_object[ current_request ]; 
+				
+				
 				var scrapperData = "", facilityData = "";
-
+					
 				if( item['join_scrapper'] && item['join_scrapper'][0] ){ 
 					$("#join_scrapper").val( item['join_scrapper'][0]['id'] );
 				} 
@@ -347,11 +124,6 @@
 					alert("This bid cannot happen because there is no Material.");
 				}
 
-/*
-				$bidScrapper = $requestClass->GetValueJoin( $post_data['join_request'], $requestClass->ReadPropertyByName("join_scrapper") );
-				$bidFacility = $requestClass->GetValueJoin( $post_data['join_request'], $requestClass->ReadPropertyByName("join_facility") );
-				$bidMaterial = $requestClass->GetValueJoin( $post_data['join_request'], $requestClass->ReadPropertyByName("join_material") );
-*/
 
 				$("#bid_request_quantity").html( item['volume'] );
 				$("#bid_request_delivery_date").html( item['arrive_date'] );
@@ -361,12 +133,93 @@
 			
 			$(document).ready(function(){
 				$("#bidResult").hide();
-				getRequests();
-				getBids();
+				//getRequests();
+				//getBids();
+			    $(".scrapQuote").colorbox({	width:"550", inline:true, href:"#quoteForm", 
+    				onComplete:function(){ current_request = $( this ).attr( "requestCount" ); loadBidForm(); $.colorbox.resize();  } 
+    			});
+    			
 			});
 		--></script>
+
+<div class="brokerDashboard">
+<div class="leftCol">
+<div class="lowerArea">
+	<div class="twoColMod" id="recentResponses">
+		<div class="moduleTop"><!-- IE hates empty elements --></div>
+		<div class="moduleContent">
+	    	<h3>QUOTE MANAGER</h3>
+			<div class="more"><a href="[~27~]">advanced</a></div>
+			<hr />
+			<div class="filter">
+				<div><input type="checkbox" name="filter_accepted" checked="checked" value="accepted" /> accepted</div>
+				<div><input type="checkbox" name="filter_expired" checked="checked" value="expired" /> expired</div>
+				<div><input type="checkbox" name="filter_rejected" checked="checked" value="rejected" /> rejected</div>
+				<div><input type="checkbox" name="filter_waiting" checked="checked" value="waiting" /> waiting</div>
+				<div style="clear:both;float:none"><!-- IE hates empty elemenets --></div>
+			</div>
+			<table>
+				<tbody>
+					<tr class="row2">
+					    <th style="width:100px">STATUS</th>
+					    <th style="width:220px">DESCRIPTION</th>
+					    <th style="width:100px">QUOTE DATE</th>
+					    <th>&nbsp;</th>
+					</tr>
+				</tbody>
+			</table>
+			<div id="scroll-pane1" class="jScrollPaneContainer" tabindex="0">
+				<table class="stripes">
+					<tbody id="recent_bids">
+						<?php 
+		 
+						$recent_bids = file_get_contents($pageURL."/controllers/remote_controller.php?method=getBids&uid=".$_SESSION['user']['id'] ."&type=html");
+										
+						if ($recent_bids !== false) {
+						   print $recent_bids;
+						} else {
+						   print "Error loading bid data.";
+						}
+						?>
+					</tbody>
+				</table>
+			</div>
 		</div>
-		</div><div class="moduleBottom"><!-- IE hates empty elements --></div>	
+		<div class="moduleBottom"><!-- IE hates empty elements --></div>	
+	</div>
+	<div class="twoColMod" id="recentRequests">
+		<div class="moduleTop"><!-- IE hates empty elements --></div>
+		<div class="moduleContent">
+	    	<h3>Recent Requests</h3>
+			<div class="more"><a href="[~22~]">advanced</a></div>
+			<hr />
+			<table>
+				<tbody>
+					<tr class="row2"	>
+					    <th style="width:100px">EXPIRATION DATE</th>
+					    <th style="width:220px">DESCRIPTION</th>
+					    <th style="width:100px">REQUEST DATE</th>
+					</tr>
+				</tbody>
+			</table>
+			<div id="scroll-pane2" class="jScrollPaneContainer" tabindex="0">
+				<table class="stripes">
+					<tbody id="recent_requests">
+						<?php 
+						$recent_requests = file_get_contents( $pageURL."/controllers/remote_controller.php?method=getRequests&buid=".$_SESSION['user']['id']."&type=html" );
+		
+						if ($recent_requests !== false) {
+						   print $recent_requests;
+						} else {
+						   print "Error loading requests data.";
+						}
+						?>
+						
+					</tbody>
+				</table>
+			</div>
+		</div>
+		<div class="moduleBottom"><!-- IE hates empty elements --></div>	
 	</div>
 </div>
 </div>
@@ -501,9 +354,11 @@
 					 //
 					 $("#bidForm").hide();
 					 $("#bidResult").html('<h2>Success!</h2><p>Your bid has been submitted.</p>').show();
-					 $.colorbox.resize();
-					 
-					 colorboxTimeOut = setTimeout( function(){ clearTimeout(colorboxTimeOut); $.colorbox.close(); }, 5000 );
+					 $(".scrapQuote").colorbox.resize();
+
+						getRequests();
+						getBids();
+					 colorboxTimeOut = setTimeout( function(){ clearTimeout(colorboxTimeOut); $(".scrapQuote").colorbox.close(); }, 5000 );
 				   }, "json");
 			   
 				return false;
