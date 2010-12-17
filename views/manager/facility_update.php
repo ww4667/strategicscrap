@@ -1,3 +1,4 @@
+<h1 style="margin:0;padding:0">Facilities // Update</h1>
 <ul>
 	<li><a href="<?= $ss_url ?>&amp;method=facility-manager">Back to Facilities</a></li>
 </ul>

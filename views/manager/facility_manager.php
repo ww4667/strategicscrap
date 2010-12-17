@@ -1,29 +1,20 @@
-<ul>
-	<li><a href="<?=$ss_url?>&method=scrappers">manager scrappers</a></li>
-	<li><a href="<?=$ss_url?>&method=pricing">manager regional pricing</a></li>
-</ul>
-<br />
+<h1 style="margin:0;padding:0">Facilities</h1>
 <ul><li><a href="<?=$ss_url?>&method=facility-add">[+] add a facility</a></li></ul>
 <br />
 <?php if (count($facilities) >= 1) { ?>
-
-<p>You can sort the table by clicking on the column headers.</p>
-
-<h1 style="margin:0;padding:0">Facilities</h1>
-<ul class="pagination" id="facility_table_paginator"></ul>
 <div style="clear:both;"></div>
 	<table id="facility_table" border="0" cellpadding="4" cellspacing="1" bgcolor="#707070" class="sortabletable" width="100%">
 		<thead><tr>
-			<th class="nosort" width="">&nbsp;</th>
-			<th width="140">Company</th>
+			<th class="nosort" width="40">&nbsp;</th>
+			<th width="">Company</th>
 			<th width="">Contact</th>
 			<th width="">Phone</th>
 			<th width="">Address</th>
-			<th width="10">City</th>
+			<th width="">City</th>
 			<th width="">State/Province</th>
 			<th width="">Region</th>
-			<th width="">Created</th>
-			<th width="">Updated</th>
+			<th width="65">Created</th>
+			<th width="65">Updated</th>
 		</tr></thead>
 		<tbody>
 	    <?php foreach ($facilities as $facility) { ?>
@@ -43,16 +34,21 @@
 				
 		</tbody>
 	</table>
+<div style="clear:both;"></div>
 <?php } else { ?>
 <div class="message error"><p>No records to show. Try revising your search.</p></div>
 <?php } ?>
-<script type="text/javascript">
-	window.addEvent('domready', function(){
-	    new SortingTable('facility_table', {
-		    zebra: true,                        // Stripe the table, also on initialize
-	        paginator: new PaginatingTable('facility_table', 'facility_table_paginator', {
-	            per_page: 15
-	        })
-	    });
-	});
+<script type="text/javascript"> 
+	jQuery.noConflict();
+	(function($) { 
+	  $(function() {
+		$(document).ready(function () {
+			$('#facility_table').dataTable( {
+				"aoColumnDefs": [
+					{ "bSortable": false, "aTargets": [ 0 ] },
+					{ "bSearchable": false, "aTargets": [ 0 ] }
+			] } );
+		});
+	  });
+	})(jQuery);
 </script>

@@ -20,6 +20,8 @@ $controller_action = "facility-manager";
 
 $method = isset($_GET['method'])?$_GET['method']:$controller_action;	// default is show-menu
 
+$MODULE_TITLE = "Strategic Scrap Manager";
+
 $KILL = false;
 
 while (!$KILL) {
@@ -28,8 +30,8 @@ while (!$KILL) {
 		case 'facility-manager':
 			
 			$PAGE_TITLE 		= "Facility Manager";								/* Title text for this page */
-			$SECTION_HEADER 	= "Facilities List";								/* Header text for this page */
-			$PAGE_BODY 			= $ss_path."views/manager/facilities.php";			/* which file to pull into the template */
+			$SECTION_HEADER 	= "Facility List";								/* Header text for this page */
+			$PAGE_BODY 			= $ss_path."views/manager/facility_manager.php";			/* which file to pull into the template */
 
 			$f = new Facility();
 			$facilities = $f->GetAllItems();
@@ -73,7 +75,8 @@ while (!$KILL) {
 					}
 					$message = "Facility updated successfully.";
 				} else {
-					$message = "There was a problem updating the facility.";	
+					$message = "There was a problem updating the facility.";
+					$error = true;	
 				}
 				$method = "facility-manager";
 				break;
@@ -162,6 +165,7 @@ while (!$KILL) {
 					$message = "Facility added successfully.";
 				} else {
 					$message = "There was a problem adding the facility.";	
+					$error = true;	
 				}
 				$method = "facility-manager";
 				break;
@@ -205,6 +209,7 @@ while (!$KILL) {
 						$message = $post_data['region']." pricing has been updated successfully.";
 					} else {
 						$message = "There was a problem updating the pricing.";
+						$error = true;	
 					}
 					unset($_POST);
 				} else {
@@ -234,9 +239,9 @@ while (!$KILL) {
 		
 		case 'material-manager':
 			
-			$PAGE_TITLE 		= "Material Manager";								/* Title text for this page */
-			$SECTION_HEADER 	= "Materials List";									/* Header text for this page */
-			$PAGE_BODY 			= $ss_path."views/manager/materials.php";			/* which file to pull into the template */
+			$PAGE_TITLE 		= "Material Manager";					/* Title text for this page */
+			$SECTION_HEADER 	= "Material List";									/* Header text for this page */
+			$PAGE_BODY 			= $ss_path."views/manager/material_manager.php";			/* which file to pull into the template */
 
 			$m = new Material();
 			$materials = $m->GetAllItems();
@@ -245,10 +250,74 @@ while (!$KILL) {
 			require($ss_path."views/layouts/manager_shell.php");
 			$KILL = true;
 		break;
+		
+		case 'material-update':
+			
+			$PAGE_TITLE 		= "Material Manager";							/* Title text for this page */
+			$SECTION_HEADER 	= "Update Material";									/* Header text for this page */
+			$PAGE_BODY 			= $ss_path."views/manager/material_update.php";			/* which file to pull into the template */
+			
+			if(isset($_POST['submitted'])){
+				$post_data = $_POST;
+				$post_data['id'] = $post_data['material_id'];
+				$m = new Material();
+				$m->GetItemObj($post_data['id']);
+				if( $m->UpdateItem($post_data) ) {
+					$message = "Material updated successfully.";
+				} else {
+					$message = "There was a problem updating the material.";
+					$error = true;
+				}
+				$method = "material-manager";
+				break;
+			}
+
+			$m = new Material();
+			$material = $m->GetItemObj($_GET['material_id']);
+
+			//the layout file
+			require($ss_path."views/layouts/manager_shell.php");
+			$KILL = true;
+		break;
+		
+		case 'material-add':
+			
+			$PAGE_TITLE 		= "Material Manager";					/* Title text for this page */
+			$SECTION_HEADER 	= "Add Material";								/* Header text for this page */
+			$PAGE_BODY 			= $ss_path."views/manager/material_add.php";			/* which file to pull into the template */
+			
+			if(isset($_POST['submitted'])){
+				$post_data = $_POST;
+				// check for required fields
+				$required_fields = array(
+											array("name","Material Name cannot be left empty")
+				);
+				// fix data
+				// trim first
+				foreach ($post_data as $key => $val) {
+					$post_data[$key] = is_string($post_data[$key]) ? trim($val) : $post_data[$key];
+				}
+				// create the material
+				$m = new Material();
+				$m->CreateItem($post_data);
+				if( !empty($m->id) ){
+					$message = "Material added successfully.";
+				} else {
+					$message = "There was a problem adding the material.";
+					$error = true;
+				}
+				$method = "material-manager";
+				break;
+			}
+
+			//the layout file
+			require($ss_path."views/layouts/manager_shell.php");
+			$KILL = true;
+		break;
 
 		case 'scrappers':
 			
-			$PAGE_TITLE 		= "Scrapper Manager";								/* Title text for this page */
+			$PAGE_TITLE 		= "Scrapper Manager";						/* Title text for this page */
 			$SECTION_HEADER 	= "Scrappers List";									/* Header text for this page */
 			$PAGE_BODY 			= $ss_path."views/manager/scrappers.php";			/* which file to pull into the template */
 
