@@ -91,6 +91,7 @@ a:active	{outline:none;}
 	.twoColMod .moduleTop{width:560px;height:6px;background:url(../images/bg/module_l_top.png) no-repeat;}
 	.twoColMod .moduleContent{background-color:#fff;border-left:1px solid #999;border-right:1px solid #999;}
 	.twoColMod .moduleBottom{width:560px;height:6px;background:url(../images/bg/module_l_bottom.png) no-repeat;}
+#regionalPricing .moduleContent{overflow:hidden;height:513px}
 	
 /* ----[2. Regions]---- */
 .region h3{margin:0 0 7px 50px;}

@@ -40,14 +40,16 @@
 									    <th>SCRAP TYPE</th>
 									    <th>COST/GT</th>
 									</tr>
-									<? if(isset($_GET['test'])) { ?>
-										<? foreach ($prices as $p) { ?>
-									<tr>
-									    <td><?= $p['name'] ?></td>
-									    <td><?= number_format($p['price']) ?></td>
+									<? if( $region == "c" ) { ?>
+										<? $i = 0; ?>
+										<? foreach ($pricing as $p) { ?>
+									<tr<?=$i%2?' class="row2"':""?>>
+									    <td><?= $p->join_material[0]['name'] ?></td>
+									    <td><?= $p->price ?></td>
 									</tr>
+										<? $i++; ?>
 										<? } ?>
-									<? } ?>
+									<? } else { ?>
 									<tr>
 									    <td>80% No.1 HMS / 20% No.2 HMS</td>
 									    <td>362.00</td>
@@ -108,6 +110,7 @@
 									    <td>Cupola Cast</td>
 									    <td>296.00</td>
 									</tr>
+									<? } ?>
 								</table>
 							</div><div class="moduleBottom"><!-- IE hates empty elements --></div>
 						</div>

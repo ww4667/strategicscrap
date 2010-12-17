@@ -76,10 +76,10 @@ class Facility extends Crud {
 		$southeast = array("TN","FL","NC","SC","AL","GA");
 		$west = array("CA","NM","AZ","ID","MT","NV","OR","WA","WY","UT","CO");
 		$region = "";
-		if(in_array($i_state, $south))$region = "S";
-		if(in_array($i_state, $west))$region = "W";
-		if(in_array($i_state, $central))$region = "C";
-		if(in_array($i_state, $southeast))$region = "SE";
+		if(in_array($state, $south))$region = "S";
+		if(in_array($state, $west))$region = "W";
+		if(in_array($state, $central))$region = "C";
+		if(in_array($state, $southeast))$region = "SE";
 		if($region == "")$region = "NE";
 		
 		return $region;

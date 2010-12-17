@@ -146,29 +146,36 @@ require_once($_SERVER['DOCUMENT_ROOT']."/gir/index.php");
 //				echo '</pre>';
 //			}
 			
-			//get zip based on IP address
-			$ip_addy = $_SERVER['REMOTE_ADDR'];
-//			$request_url = "http://ipinfodb.com/ip_query.php?ip=173.18.191.29&timezone=true";
-			$request_url = "http://ipinfodb.com/ip_query.php?ip=$ip_addy&timezone=true";
-			$xml = simplexml_load_file($request_url) or die("feed not loading");
-			$zipcode = $xml->xpath('//ZipPostalCode');
-//			$zipcode = $zipcode[0];
-			$zipcode = 92101; // San Diego
-//			$request_url = "http://www.google.com/ig/api?weather=$zipcode";
+			// region setup
+			if ( $region == "ne" ) {
+				$zipcode = 10292; // New York
+			} elseif ( $region == "c" ) {
+				$zipcode = 60601; // Chicago
+			} elseif ( $region == "w" ) {
+				$zipcode = 92101; // San Diego
+			} elseif ( $region == "s" ) {
+				$zipcode = 77299; // Houston
+			} elseif ( $region == "se" ) {
+				$zipcode = 39901; // Atlanta
+			}
+			if ( $region == "c") {
+				$p = new Pricing();
+				$pricing_array = $p->getPricingByRegion(strtoupper($region));
+				$pricing = array();
+				foreach ($pricing_array as $val) {
+					$p = new Pricing();
+					$price = $p->GetItemObj($val['id']);
+					$price->getMaterials();
+					$pricing[] = $price;
+				}
+//				print "<pre>";
+//				var_dump($pricing);
+//				print "</pre>";
+			}
 			$request_url = "http://xoap.weather.com/weather/local/$zipcode?cc=*&dayf=5&link=xoap&prod=xoap&par=1182592015&key=bd35fd8b6e181b8a";
 			$xml = simplexml_load_file($request_url) or die("feed not loading");
 			$weather = $xml->xpath('//weather');
 			$weather = $weather[0];
-			
-//			echo "<pre>";
-//			var_dump($xml);
-//			echo "</pre>";
-//			die();
-
-//			foreach ($xml->xpath('//item') as $item) {
-//				echo $item->title."<br />";
-//				print_r($item);
-//			}
 			
 			//the layout file  -  THIS PART NEEDS TO BE LAST
 			require($_SERVER['DOCUMENT_ROOT']."/views/layouts/shell.php");

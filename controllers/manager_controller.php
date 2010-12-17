@@ -124,6 +124,8 @@ while (!$KILL) {
 				// fix state/province country data
 				$state = substr($post_data['state_province'], -2);
 				$country = substr($post_data['state_province'], 0, 2);
+				$f = new Facility();
+				$post_data['region'] = $f->setRegion($state);
 				$post_data['state_province'] = $state;
 				if ( $country == "US" ) {
 					$post_data['country'] = "United States";
