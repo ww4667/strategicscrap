@@ -190,7 +190,9 @@
 												'		<strong>Delivery Date:</strong> '+item.arrive_date+''+
 												'	</td>'+
 												'	<td>'+item.created_ts+'</td>'+
-												'	<td>waiting</td>'+
+												'	<td style="'+( item['bid_unread'] && item['bid_unread'] != 0 ? 'font-weight: 900;' : '' )+'">'+ 
+												'		' + ( item['bid_count'] && item['bid_count'] != 0 ? '(' + item['bid_count'] + ')' : 'waiting' ) +
+												'	</td>'+
 												'</tr>';
 												
 												off=!off;

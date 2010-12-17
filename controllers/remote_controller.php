@@ -14,9 +14,8 @@ require_once($_SERVER['DOCUMENT_ROOT']."/gir/index.php");
 //	return false;
 //}
 
-$method = trim($_GET['method']);
-$type = trim($_GET['type']);
-$type = $type ? $type : 'json';
+$method = isset( $_GET['method'] ) ? trim( $_GET['method'] ) : null;
+$type = isset( $_GET['type'] ) ? trim( $_GET['type'] ) : 'json';
 //$key = $_GET['key'];
 //$_SESSION[$key]
 /**
@@ -124,10 +123,6 @@ $type = $type ? $type : 'json';
 						
 						$bidReturnArray = $brokerClass->getBids();
 						
-						
-						
-//							$brokerClass->PTS($bidReturnArray,'bids'); 
-//							$brokerClass->PTS($requestReturnArray,'requests');
 						$counter = 0; 
 						$counter2 = 0;
 						$count = count( $bidReturnArray );
@@ -136,59 +131,44 @@ $type = $type ? $type : 'json';
 						$bidId = null;
 						$currentRequest = null;
 						$arrayOfIdsToRemove = array();
+						$arrayOfBids = array();
 						
-						$a = $b = array();
+						/* get bids from current user - build temp array */
 						while( $counter < $count ){
-							
 							$currentBid = $bidReturnArray[ $counter ];
-//							$brokerClass->PTS($currentBid,'current Bid');
-							$bidId = $currentBid->join_request[0]['id'];
-							
-							$counter2 = 0;
-							$count2 = count($requestReturnArray);
-							
-							while( $counter2 < $count2 ){
-								if(isset($requestReturnArray[$counter2])){
-									$currentRequest = $requestReturnArray[$counter2];
-									
-									if( $bidId == $currentRequest->id ){
-										/*
-										array_splice( $requestReturnArray, $counter2 );
-									    $a = array_slice($requestReturnArray, 0, $counter2-1,true);
-									    $b = array_slice($requestReturnArray, $counter2, null, true);
-									    $requestReturnArray = array_merge(array($a),$b);
-									    */
-										unset($requestReturnArray[$counter2]); 
-									}	
-								}
-								$counter2++;
-							}
-							
+							$arrayOfBids[ $currentBid->join_request[0]['id'] ] = true;
 							$counter++; 
 						}
 						
+						$counter2 = 0;
+						$count2 = count($requestReturnArray);
 						
-						/*
-						// sorting object array by created_ts date DESC
-						$dates = array();					
-						foreach ( (array) $bidReturnArray as $key => $row ) {
-						    $dates[$key] = $row->created_ts;
+						/* remove items the broker already has bidded on */
+						while( $counter2 < $count2 ){
+							
+							if(isset($requestReturnArray[$counter2])){
+								$currentRequest = $requestReturnArray[$counter2];
+								
+								if( isset($arrayOfBids[ $currentRequest->id ] ) ){
+									unset($requestReturnArray[$counter2]); 
+								}	
+							}
+							$counter2++;
 						}
-						
-						array_multisort($dates, SORT_DESC, $bidReturnArray);*/
 					}
 					
 				}
-
+				
 				switch( $type ) {
 					case 'html':
 							$counter = 0;
 							$count = count( $requestReturnArray );
 							$output = "";
 							$off = false;
+							$outputArray = array();
 							foreach( $requestReturnArray as $request ){
-								
-								$output .= 	'<tr class="' . ( $off ? 'row2' : '' ) . ' scrapQuote" requestId="' . $request->id . '">' . 
+								$outputArray[] = $request;
+								$output .= 	'<tr class="' . ( $off ? 'row2' : '' ) . ' scrapQuote" id="request_' . $counter. '" requestCount="'.$counter.'" requestId="' . $request->id . '">' . 
 											"	<td>" .
 											( !empty( $request->expiration_date ) ? $request->expiration_date : 'not set' ) . '<br />'  .
 											"	</td>" .
@@ -214,8 +194,9 @@ $type = $type ? $type : 'json';
 											"	</td>" .
 											"</tr>";
 								$off = !$off;
-								
+								$counter++;
 							}
+							$output .= '<script type="text/javascript"> var request_object = ' . json_encode( $outputArray ) . ';</script>';
 							print $output;
 						break;
 					default:
@@ -301,11 +282,52 @@ $type = $type ? $type : 'json';
 					array_multisort($dates, SORT_DESC, $bidReturnArray);*/
 				}
 				
-				print json_encode( $bidReturnArray ); 
 			} else {
 				$bidClass = new Bid();
 				$bidReturnArray = $bidClass->getAllBids();
-				print json_encode( $bidReturnArray ); 
+			}
+			
+			switch( $type ) {
+				case 'html':
+						$counter = 0;
+						$count = count( $bidReturnArray );
+						$output = "";
+						$off = false;
+						foreach( $bidReturnArray as $bid ){
+							$output .= 	'<tr class="' . ( $off ? 'row2' : '' ) . ' scrapBid" requestId="' . $bid->id . '">' . 
+										"	<td>" .
+										( !empty( $bid->status ) ? $bid->status : 'waiting' ) . '<br />'  .
+										"	</td>" .
+										"	<td>" .
+										( 	!empty( $bid->join_facility ) && 
+											count( $bid->join_facility ) > 0 ?
+												'<strong>Ship from:</strong> ' . ( isset($bid->join_facility[0] ) && isset( $bid->join_facility[0]['company'] ) ? $bid->join_facility[0]['company'] : 'no company name' ) . '<br>' : 
+												'<strong>Ship from:</strong><br>' ) . 
+										( 	$bid->join_scrapper && 
+											$bid->join_scrapper != '' && 
+											count( $bid->join_scrapper ) > 0 ?
+												'<strong>Ship to:</strong> ' . ( isset($bid->join_scrapper[0] ) && isset( $bid->join_scrapper[0]['company'] ) ? $bid->join_scrapper[0]['company'] : 'no company name' ) . '<br>' : 
+												'<strong>Ship to:</strong><br>' ) . 
+										( 	$bid->join_material && 
+											$bid->join_material != '' && 
+											count( $bid->join_material ) > 0 ?
+												'<strong>Material:</strong> ' . ( isset($bid->join_material[0] ) && isset( $bid->join_material[0]['name'] ) ? $bid->join_material[0]['name'] : 'material name' ) . '<br>' : 
+												'<strong>Material:</strong><br>' ) . 
+										'<strong>Volume: </strong>' . ( !empty( $bid->volume ) ? $bid->volume : '0' ) . '<br />' .
+										'<strong>Ship Date: </strong>' . ( !empty( $bid->ship_date ) ? $bid->ship_date : 'not set' ) . '<br />' .
+										'<strong>Arrival Date: </strong>' . ( !empty( $bid->arrive_date ) ? $bid->arrive_date : 'not set' ) . '<br />' .
+										"	</td>" .
+										"	<td>" .
+										$bid->created_ts . '<br />' .
+										"	</td>" .
+										"</tr>";
+							$off = !$off;
+							
+						}
+						print $output;
+					break;
+				default:
+					print json_encode( $requestReturnArray ); 
 			}
 			break;
 	}
