@@ -132,10 +132,10 @@ require_once($_SERVER['DOCUMENT_ROOT']."/gir/index.php");
 			
 			$market_data = array(
 				"LME Copper" => getLmeData("CU","strip"),
-				"LME Aluminium" => getLmeData("CU","strip"),
+				"LME Aluminium" => getLmeData("AM","strip"),
 				"LME Nickel" => getLmeData("NI","strip"),
 				"LME Zinc" => getLmeData("ZZ","strip"),
-				"LME Lead" => getLmeData("CU","strip"),
+				"LME Lead" => getLmeData("LD","strip"),
 				"LME Tin" => getLmeData("TN","strip"),
 				"COMEX Copper" => getComexData("HG")
 			);
@@ -172,6 +172,12 @@ require_once($_SERVER['DOCUMENT_ROOT']."/gir/index.php");
 //				var_dump($pricing);
 //				print "</pre>";
 			}
+			// ping feedburner
+			$url1 = 'http://feedburner.google.com/fb/a/pingSubmit?bloglink=http://feeds.feedburner.com/StrategicScrapRssBusinessNews';
+			$data1 = file_get_contents( $url1,null,null,null,10 );
+			$url2 = 'http://feedburner.google.com/fb/a/pingSubmit?bloglink=http://feeds.feedburner.com/StrategicScrapRssMetalNews';
+			$data2 = file_get_contents( $url2,null,null,null,10 );
+			// grab weather data
 			$request_url = "http://xoap.weather.com/weather/local/$zipcode?cc=*&dayf=5&link=xoap&prod=xoap&par=1182592015&key=bd35fd8b6e181b8a";
 			$xml = simplexml_load_file($request_url) or die("feed not loading");
 			$weather = $xml->xpath('//weather');
@@ -228,6 +234,12 @@ require_once($_SERVER['DOCUMENT_ROOT']."/gir/index.php");
 				$facilities = $f->GetAllItemsObj();
 				$m = new Material();
 				$materials = $m->GetAllItemsObj();
+				// alphabetize the materials array
+				$name_array = array();
+				foreach ($materials as $val) {
+					$name_array[] = $val->name;
+				}
+				array_multisort($name_array,$materials);
 				if(isset($_GET['gir'])) { // use for testing stuff
 					if ( isset( $_GET['edit'] ) && isset( $_GET['fid'] ) ) {
 						if ( isset( $_POST['fac_save_btn'] ) ) {

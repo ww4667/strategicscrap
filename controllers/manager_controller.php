@@ -92,6 +92,12 @@ while (!$KILL) {
 			}
 			$m = new Material();
 			$materials = $m->GetAllItems();
+			// alphabetize the materials array
+			$name_array = array();
+			foreach ($materials as $val) {
+				$name_array[] = $val['name'];
+			}
+			array_multisort($name_array,$materials);
 
 			//the layout file
 			require($ss_path."views/layouts/manager_shell.php");
@@ -101,8 +107,8 @@ while (!$KILL) {
 		case 'facility-add':
 			
 			$PAGE_TITLE 		= "Facility Manager";								/* Title text for this page */
-			$SECTION_HEADER 	= "Add Facility";								/* Header text for this page */
-			$PAGE_BODY 			= $ss_path."views/manager/facility_add.php";			/* which file to pull into the template */
+			$SECTION_HEADER 	= "Add Facility";									/* Header text for this page */
+			$PAGE_BODY 			= $ss_path."views/manager/facility_add.php";		/* which file to pull into the template */
 			
 			if(isset($_POST['submitted'])){
 				$post_data = $_POST;
@@ -171,10 +177,21 @@ while (!$KILL) {
 				}
 				$method = "facility-manager";
 				break;
+			} else {
+				$f = new Facility();
+				foreach($f as $key => $val) {
+					$post_data[$key] = "";
+				}
 			}
 			
 			$m = new Material();
 			$materials = $m->GetAllItems();
+			// alphabetize the materials array
+			$name_array = array();
+			foreach ($materials as $val) {
+				$name_array[] = $val['name'];
+			}
+			array_multisort($name_array,$materials);
 
 			//the layout file
 			require($ss_path."views/layouts/manager_shell.php");
@@ -233,6 +250,12 @@ while (!$KILL) {
 			
 			$m = new Material();
 			$materials = $m->GetAllItems();
+			// alphabetize the materials array
+			$name_array = array();
+			foreach ($materials as $val) {
+				$name_array[] = $val['name'];
+			}
+			array_multisort($name_array,$materials);
 
 			//the layout file
 			require($ss_path."views/layouts/manager_shell.php");
@@ -310,6 +333,11 @@ while (!$KILL) {
 				}
 				$method = "material-manager";
 				break;
+			} else {
+				$m = new Material();
+				foreach($m as $key => $val) {
+					$post_data[$key] = "";
+				}
 			}
 
 			//the layout file
