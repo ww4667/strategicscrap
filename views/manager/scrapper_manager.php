@@ -29,7 +29,7 @@
 			<td><?php echo ucwords($scrapper['city']); ?></td>
 			<td><?php echo strtoupper($scrapper['state_province']); ?></td>
 			<td><?php echo strtoupper($scrapper['region']); ?></td>
-			<td><?php echo !is_null($scrapper['updated_ts']) ? "never" : date("Y-m-d", strtotime($scrapper['last_login_ts'])) . "<br />" . date("H:i:s", strtotime($scrapper['last_login_ts'])) ?></td>
+			<td><?php echo !is_null($scrapper['updated_ts']) ? "never" : date("Y-m-d", strtotime($scrapper['last_login_ts'])) ?><br /><?php echo date("H:i:s", strtotime($scrapper['last_login_ts'])) ?></td>
 			<td><?php echo date("Y-m-d", strtotime($scrapper['created_ts'])) ?><br /><?php echo date("H:i:s", strtotime($scrapper['created_ts'])) ?></td>
 			<td><?php echo !is_null($scrapper['updated_ts']) ? date("Y-m-d", strtotime($scrapper['updated_ts']))."<br />".date("H:i:s", strtotime($scrapper['updated_ts'])) : date("Y-m-d", strtotime($scrapper['created_ts']))."<br />".date("H:i:s", strtotime($scrapper['created_ts'])) ?></td>
 		</tr>
