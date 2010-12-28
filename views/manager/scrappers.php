@@ -1,1 +1,0 @@
-<p>scrapper manager page</p>

@@ -345,11 +345,27 @@ while (!$KILL) {
 			$KILL = true;
 		break;
 
-		case 'scrappers':
+		case 'scrapper-manager':
 			
-			$PAGE_TITLE 		= "Scrapper Manager";						/* Title text for this page */
-			$SECTION_HEADER 	= "Scrappers List";									/* Header text for this page */
-			$PAGE_BODY 			= $ss_path."views/manager/scrappers.php";			/* which file to pull into the template */
+			$PAGE_TITLE 		= "Scrapper Manager";								/* Title text for this page */
+			$SECTION_HEADER 	= "Scrapper List";									/* Header text for this page */
+			$PAGE_BODY 			= $ss_path."views/manager/scrapper_manager.php";	/* which file to pull into the template */
+			
+			$s = new Scrapper();
+			$scrappers = $s->getAllItemsObj();
+			
+			// make array of objects to useful simple array
+			$scrapper_array = array();
+			
+			foreach ($scrappers as $obj) {
+				$obj->getUsers();
+				$obj->email = $obj->join_user[0]['email'];
+				$obj->logged_in = $obj->join_user[0]['logged_in'];
+				$obj->last_login_ts = $obj->join_user[0]['last_login_ts'];
+				$scrapper_array[] = (array) $obj;
+			}
+			
+			$scrappers = $scrapper_array;
 
 			//the layout file
 			require($ss_path."views/layouts/manager_shell.php");

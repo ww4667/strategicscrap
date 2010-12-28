@@ -72,7 +72,7 @@ class Scrapper extends User {
 		$itemId = $item['id'];
 		$user = new User();
 		$joins = $this->ReadJoins( $user );
-		$this->user_join = $joins;
+		$this->join_user = $joins;
 	}
 	
 	public function getScrappersByUserId( $userId ) {
