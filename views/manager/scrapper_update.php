@@ -4,7 +4,11 @@
 </ul>
 <br />
 
+<<<<<<< HEAD
 <div class="sectionHeader">Updating Scrapper ID: <?= $scrapper->id ?> (<?= ($scrapper->join_user[0]['logged_in'] == 1) ? "currently" : "not" ?> logged-in)</div>
+=======
+<div class="sectionHeader">Updating Scrapper ID: <?= $scrapper->id ?> (<?= ($scrapper->join_user[0]->logged_in == 1) ? "currently" : "not" ?> logged-in)</div>
+>>>>>>> 62f6ce139870fe8dc504e8659e9ab277961a0c58
 <div class="sectionBody order_details">
 	<form action="<?=$ss_url?>&amp;method=scrapper-update" method="post">
 	<input type="hidden" name="scrapper_id" value="<?= $scrapper->id ?>" />
