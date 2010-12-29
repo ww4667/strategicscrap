@@ -372,6 +372,69 @@ while (!$KILL) {
 			$KILL = true;
 		break;
 		
+		case 'scrapper-update':
+			
+			$PAGE_TITLE 		= "Scrapper Manager";								/* Title text for this page */
+			$SECTION_HEADER 	= "Update Scrapper";								/* Header text for this page */
+			$PAGE_BODY 			= $ss_path."views/manager/scrapper_update.php";		/* which file to pull into the template */
+			
+			if(isset($_POST['submitted'])){
+				$error_messages = array();
+				$post_data = $_POST;
+
+				// clean the data
+				foreach ($post_data as $key => $val) {
+					$post_data[$key] = is_string($post_data[$key]) ? trim($val) : $post_data[$key];
+					if ( strpos($key, "phone") || strpos($key, "fax") )
+						$post_data[$key] = format_phone( $post_data[$key] );
+				}
+				
+				// update scrapper
+				$s = new Scrapper();
+				$scrapper = $s->GetItemObj($post_data['scrapper_id']);
+				
+				// update scrapper's user
+				$u = new User();
+				$user = $u->GetItemObj($post_data['user_id']);
+				
+				// check user data: email & password are good to go
+				$post_data['email'] = strtolower($post_data['email']);
+				if ( $user->email != $post_data['email'] ) {
+					$users = $u->GetItemsObjByPropertyValue( 'email', $post_data['email'] );
+					if( $post_data['email'] == "" )
+						$error_messages[] = "Email field cannot be left empty.";
+					elseif( !isValidEmail($post_data['email']) )
+						$error_messages[] = "Email field must contain a valid email address.";
+					elseif( count($users) > 0 )
+						$error_messages[] = "Email is already being used.";
+				}
+				if( count($error_messages) > 0 ){
+					$message = implode("<br />", $error_messages);
+					$error = true;
+					unset($_POST); // so we don't loop forever...
+					$_GET['scrapper_id'] = $post_data['scrapper_id'];
+					$method = "scrapper-update";
+					break;
+				}
+				if( $user->UpdateItem($post_data) && $scrapper->UpdateItem($post_data) ) {
+					$message = "Scrapper updated successfully.";
+				} else {
+					$message = "There was a problem updating the scrapper.";
+					$error = true;	
+				}
+				$method = "scrapper-manager";
+				break;
+			}
+			
+			$s = new Scrapper();
+			$scrapper = $s->GetItemObj($_GET['scrapper_id']);
+			$scrapper->getUsers();
+			
+			//the layout file
+			require($ss_path."views/layouts/manager_shell.php");
+			$KILL = true;
+		break;
+		
 		default:
 			die('No method found');
 		break;

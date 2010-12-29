@@ -11,7 +11,7 @@
 	<div class="label"><strong>Created On:</strong></div>
 	<div class="value"><?= $facility->created_ts ?></div>
     <br style="clear:left" />
-	<div class="label"><strong>Last Updated:</strong></div>
+	<div class="label"><strong>Updated On:</strong></div>
 	<div class="value"><?= $facility->updated_ts ?></div>
     <br style="clear:left" />
     <br style="clear:left" />
