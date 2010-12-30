@@ -385,7 +385,7 @@ while (!$KILL) {
 				// clean the data
 				foreach ($post_data as $key => $val) {
 					$post_data[$key] = is_string($post_data[$key]) ? trim($val) : $post_data[$key];
-					if ( strpos($key, "phone") || strpos($key, "fax") )
+					if ( strpos($key, "phone") !== false || strpos($key, "fax") !== false )
 						$post_data[$key] = format_phone( $post_data[$key] );
 				}
 				
@@ -429,6 +429,187 @@ while (!$KILL) {
 			$s = new Scrapper();
 			$scrapper = $s->GetItemObj($_GET['scrapper_id']);
 			$scrapper->getUsers();
+			
+			//the layout file
+			require($ss_path."views/layouts/manager_shell.php");
+			$KILL = true;
+		break;
+
+		case 'broker-manager':
+			
+			$PAGE_TITLE 		= "Broker Manager";								/* Title text for this page */
+			$SECTION_HEADER 	= "Broker List";								/* Header text for this page */
+			$PAGE_BODY 			= $ss_path."views/manager/broker_manager.php";	/* which file to pull into the template */
+			
+			$b = new Broker();
+			$brokers = $b->getAllItemsObj();
+			
+			// make array of objects to useful simple array
+			$broker_array = array();
+			
+			foreach ($brokers as $obj) {
+				$obj->getUsers();
+				$obj->email = $obj->join_user[0]['email'];
+				$obj->logged_in = $obj->join_user[0]['logged_in'];
+				$obj->last_login_ts = $obj->join_user[0]['last_login_ts'];
+				$broker_array[] = (array) $obj;
+			}
+			
+			$brokers = $broker_array;
+			
+			//the layout file
+			require($ss_path."views/layouts/manager_shell.php");
+			$KILL = true;
+		break;
+		
+		case 'broker-update':
+			
+			$PAGE_TITLE 		= "Broker Manager";									/* Title text for this page */
+			$SECTION_HEADER 	= "Update Broker";									/* Header text for this page */
+			$PAGE_BODY 			= $ss_path."views/manager/broker_update.php";		/* which file to pull into the template */
+			
+			if(isset($_POST['submitted'])){
+				$error_messages = array();
+				$post_data = $_POST;
+
+				// clean the data
+				foreach ($post_data as $key => $val) {
+					$post_data[$key] = is_string($post_data[$key]) ? trim($val) : $post_data[$key];
+					if ( strpos($key, "phone") !== false || strpos($key, "fax") !== false )
+						$post_data[$key] = format_phone( $post_data[$key] );
+				}
+				
+				// update broker
+				$b = new Broker();
+				$broker = $b->GetItemObj($post_data['broker_id']);
+				
+				// update broker's user
+				$u = new User();
+				$user = $u->GetItemObj($post_data['user_id']);
+				
+				// check user data: email & password are good to go
+				$post_data['email'] = strtolower($post_data['email']);
+				if ( $user->email != $post_data['email'] ) {
+					$users = $u->GetItemsObjByPropertyValue( 'email', $post_data['email'] );
+					if( $post_data['email'] == "" )
+						$error_messages[] = "Email field cannot be left empty.";
+					elseif( !isValidEmail($post_data['email']) )
+						$error_messages[] = "Email field must contain a valid email address.";
+					elseif( count($users) > 0 )
+						$error_messages[] = "Email is already being used.";
+				}
+				if( count($error_messages) > 0 ){
+					$message = implode("<br />", $error_messages);
+					$error = true;
+					unset($_POST); // so we don't loop forever...
+					$_GET['broker_id'] = $post_data['broker_id'];
+					$method = "broker-update";
+					break;
+				}
+				if( $user->UpdateItem($post_data) && $broker->UpdateItem($post_data) ) {
+					$message = "Broker updated successfully.";
+				} else {
+					$message = "There was a problem updating the broker.";
+					$error = true;	
+				}
+				$method = "broker-manager";
+				break;
+			}
+			
+			$b = new Broker();
+			$broker = $b->GetItemObj($_GET['broker_id']);
+			$broker->getUsers();
+			
+			//the layout file
+			require($ss_path."views/layouts/manager_shell.php");
+			$KILL = true;
+		break;
+		
+		case 'broker-add':
+			
+			$PAGE_TITLE 		= "Broker Manager";								/* Title text for this page */
+			$SECTION_HEADER 	= "Add Broker";									/* Header text for this page */
+			$PAGE_BODY 			= $ss_path."views/manager/broker_add.php";		/* which file to pull into the template */
+			
+			if(isset($_POST['submitted'])){
+				$post_data = $_POST;
+				$error_messages = array();
+				
+				// check for required fields
+				$required_fields = array(
+											array("company","Company Name cannot be left empty"),
+											array("address_1","Address cannot be left empty"),
+											array("city","City cannot be left empty"),
+											array("state_province","State/Province cannot be left empty"),
+											array("zip_postal_code","Zip Code cannot be left empty"),
+//											array("country","Country cannot be left empty"),
+											array("","")
+				);
+				
+				// clean the data
+				foreach ($post_data as $key => $val) {
+					$post_data[$key] = is_string($post_data[$key]) ? trim($val) : $post_data[$key];
+					if ( strpos($key, "phone") !== false || strpos($key, "fax") !== false )
+						$post_data[$key] = format_phone( $post_data[$key] );
+				}
+				
+				// check for valid email/password before going on
+				$post_data['email'] = strtolower($post_data['email']);
+				$u = new User();
+				$users = $u->GetItemsObjByPropertyValue( 'email', $post_data['email'] );
+				if( $post_data['email'] == "" )
+					$error_messages[] = "Email field cannot be left empty.";
+				elseif( !isValidEmail($post_data['email']) )
+					$error_messages[] = "Email field must contain a valid email address.";
+				elseif( count($users) > 0 )
+					$error_messages[] = "Email is already being used. Enter a different email address.";
+				if( $post_data['password'] == "" )
+					$error_messages[] = "Password field cannot be left empty.";
+				if( $post_data['verify_password'] != $post_data['password'] )
+					$error_messages[] = "Verify Password does not match Password field.";
+				
+				if ( !empty($error_messages) ) {
+					$message = implode("<br />", $error_messages);
+					$error = true;
+					unset($_POST); // so we don't loop forever...
+					$method = "broker-add";
+					break;
+				} else {
+					// fix state/province country data
+					$state = substr($post_data['state_province'], -2);
+					$country = substr($post_data['state_province'], 0, 2);
+					$post_data['state_province'] = $state;
+					if ( $country == "US" ) {
+						$post_data['country'] = "United States";
+					} elseif ( $country == "MX" ) {
+						$post_data['country'] = "Mexico";
+					} else {
+						$post_data['country'] = "Canada";
+					}
+					// create the user
+					$user = $u->CreateItem($post_data);
+					// create the broker
+					$b = new Broker();
+					$broker = $b->CreateItem($post_data);
+					// join the user to the broker
+					$broker->addUser($user->id);
+					
+					if ( empty($user->id) || empty($broker->id) ) {
+						$message = "There was a problem adding the broker.";
+					} else {
+						$message = "Broker added succesfully.";
+					}
+					$method = "broker-manager";
+					break;
+				}
+				
+			} elseif( !isset($post_data) ) {
+				$b = new Broker();
+				foreach($b as $key => $val) {
+					$post_data[$key] = "";
+				}
+				$post_data['email'] = "";
+			}
 			
 			//the layout file
 			require($ss_path."views/layouts/manager_shell.php");
