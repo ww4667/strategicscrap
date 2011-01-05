@@ -220,7 +220,11 @@ class Crud {
 	public function UpdateItem( $itemData = null ) {
 		if ( is_null($itemData) )
 			$itemData = (array) $this;
-		$itemId = $itemData['id'];
+		if ( !isset($itemData['id']) ) {
+			$itemId = $this->id;
+		} else {
+			$itemId = $itemData['id'];
+		}
 		$objectProperties = $this->_OBJECT_PROPERTIES;
 		$properties = $this->_GetValuesByObjectId( $itemId );
 		if ( count($properties) > 0) {
