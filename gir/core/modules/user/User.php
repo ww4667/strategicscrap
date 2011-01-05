@@ -16,6 +16,7 @@ class User extends Crud {
 	protected $_OBJECT_NAME_ID = "";
 	protected $_OBJECT_PROPERTIES = array(	array("type"=>"text","label"=>"E-mail","field"=>"email"),
 											array("type"=>"text","label"=>"Password","field"=>"password"),
+											array("type"=>"text","label"=>"Salt","field"=>"salt"),
 											array("type"=>"text","label"=>"Validation","field"=>"validation"),
 											array("type"=>"number","label"=>"Logged In","field"=>"logged_in"),
 											array("type"=>"date","label"=>"Last Login","field"=>"last_login_ts")
@@ -42,6 +43,14 @@ class User extends Crud {
 	public function Logout() {
 		return $this->_logout();
 	}
+	
+	public function GetSalt( $email ) {
+		return $this->_getSalt( $email );
+	}
+	
+	public function SetPassword( $password, $salt ) {
+		return $this->_setPassword( $password, $salt );
+	}
     
 	/*
 	 * PRIVATE FUNCTIONS
@@ -54,6 +63,9 @@ class User extends Crud {
 			$u = new User();
 			$users = array();
 			$users = $u->GetItemsObjByPropertyValue( $propertyName, $username );
+			// prep password first
+			$salt = $users[0]->salt;
+			$password = $u->SetPassword($password, $salt);
 			if( count($users) > 0 && $users[0]->password == $password ) {
 				// authenticate and set session vars...
 	//			$item = new User();
@@ -83,7 +95,7 @@ class User extends Crud {
 		return false;
 	}
 	
-    private function _emailCheck($email) {
+    private function _emailCheck( $email ) {
         ;
     }
     
@@ -91,7 +103,7 @@ class User extends Crud {
         ;
     }
     
-    private function _forgotPassword($email) {
+    private function _forgotPassword( $email ) {
         // check if email exists
 		if($this->_emailCheck($email)) {
 			// create unique random key ie. difference of current timestamp and created_ts MD5'd
@@ -108,9 +120,13 @@ class User extends Crud {
 		}
     }
     
-    private function _setPassword($password) {
-    	// stored password = MD5(MD5(password) + SomeSuperCoolSecretGirThing + MD5(created_ts))
-        ;
+    private function _getSalt( $email ) {
+		$time = time();
+		return sha1("--".$time."--".$email."--");
+	}
+    
+    private function _setPassword( $password, $salt ) {
+		return sha1("--".$password."--".$salt."--");
     }
     
     private function _resetPassword($email,$key) {

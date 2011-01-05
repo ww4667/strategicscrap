@@ -586,6 +586,8 @@ while (!$KILL) {
 					} else {
 						$post_data['country'] = "Canada";
 					}
+					$post_data['salt'] = $u->GetSalt($post_data['email']);
+					$post_data['password'] = $u->SetPassword($post_data['password'], $post_data['salt']);
 					// create the user
 					$user = $u->CreateItem($post_data);
 					// create the broker
