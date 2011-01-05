@@ -8,8 +8,7 @@ class Request extends Crud {
 	 
 	protected $_OBJECT_NAME = "request";
 	protected $_OBJECT_NAME_ID = "";
-	protected $_OBJECT_PROPERTIES = array(	array("type"=>"text","label"=>"Bid Type","field"=>"bid_type"),
-											array("type"=>"date","label"=>"Arrive Date","field"=>"arrive_date"),
+	protected $_OBJECT_PROPERTIES = array(	array("type"=>"date","label"=>"Arrive Date","field"=>"arrive_date"),
 											array("type"=>"date","label"=>"Ship Date","field"=>"ship_date"),
 											array("type"=>"date","label"=>"Expiration Date","field"=>"expiration_date"),
 											array("type"=>"text","label"=>"Transportation Type","field"=>"transportation_type"),
@@ -162,7 +161,8 @@ class Request extends Crud {
 	}
 	
 	private function _getBids(){
-		return $this->ReadForeignJoins( new Bid() );
+		$foreignObj = new Bid();
+		return $foreignObj->ReadForeignJoins( $this );
 	}
 }
 ?>

@@ -626,6 +626,8 @@ require_once($_SERVER['DOCUMENT_ROOT']."/gir/index.php");
 					$error_messages[] = "Zip Code cannot be empty.";
 				// setup the new user!
 				if(count($error_messages) == 0) {
+					$post_data['salt'] = $u->GetSalt($post_data['email']);
+					$post_data['password'] = $u->SetPassword($post_data['password'], $post_data['salt']);
 					$u = new User();
 					$newUser = $u->CreateItem($post_data); 
 					if ( $newUser && !isset($_GET['broker']) ) {
@@ -674,15 +676,40 @@ require_once($_SERVER['DOCUMENT_ROOT']."/gir/index.php");
 				$item = new $group();
 				$joins = $item->ReadForeignJoins( $user );
 				$item->GetItemObj( $joins[0]['id'] );
+				
 				// check for update submit
 				if ( isset($_POST['AccountUpdate']) ) {
+					$error_messages = array();
 					$post_data = $_POST;
+					// clean post data
 					foreach ($post_data as $key => $val) {
 						$post_data[$key] = is_string($post_data[$key]) ? trim($val) : $post_data[$key];
 						if ( strpos($key, "phone") || strpos($key, "fax") )
 							$post_data[$key] = format_phone( $post_data[$key] );
 					}
-					if ( $item->UpdateItem( $post_data ) ) {
+					// check user data: email & password are good to go
+					$post_data['email'] = strtolower($post_data['email']);
+					if ( $user->email != $post_data['email'] ) {
+						$u = new User();
+						$users = $u->GetItemsObjByPropertyValue( 'email', $post_data['email'] );
+						if( $post_data['email'] == "" )
+							$error_messages[] = "Email field cannot be left empty.";
+						elseif( !isValidEmail($post_data['email']) )
+							$error_messages[] = "Email field must contain a valid email address.";
+						elseif( count($users) > 0 )
+							$error_messages[] = "Email is already being used.";
+					}
+					if ( $post_data['password'] != "" ) {
+						if( $post_data['password'] == "" )
+							$error_messages[] = "Password field cannot be left empty.";
+						if( $post_data['verify_password'] != $post_data['password'] )
+							$error_messages[] = "Verify Password does not match Password field.";
+					}
+					if ( count($error_messages) > 0 ) {
+						flash( $error_messages, "bad" );
+						redirect_to('/my-account');
+					}
+					if ( $item->UpdateItem( $post_data ) && $user->UpdateItem( $post_data ) ) {
 						flash( array("Your Account has been updated successfully.") );
 						redirect_to('/my-account');
 					} else {

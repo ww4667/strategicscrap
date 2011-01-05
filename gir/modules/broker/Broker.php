@@ -10,11 +10,13 @@ class Broker extends User {
 	protected $_OBJECT_NAME = "broker";
 	protected $_OBJECT_NAME_ID = "";
 	protected $_OBJECT_PROPERTIES = array(	array("type"=>"join","label"=>"User Join","field"=>"join_user"),
+											array("type"=>"text","label"=>"Company","field"=>"company"),
 											array("type"=>"text","label"=>"First Name","field"=>"first_name"),
 											array("type"=>"text","label"=>"Last Name","field"=>"last_name"),
 											array("type"=>"text","label"=>"Mobile Phone","field"=>"mobile_phone"),
 											array("type"=>"text","label"=>"Home Phone","field"=>"home_phone"),
 											array("type"=>"text","label"=>"Work Phone","field"=>"work_phone"),
+											array("type"=>"text","label"=>"Fax Number","field"=>"fax_number"),
 											array("type"=>"text","label"=>"Address 1","field"=>"address_1"),
 											array("type"=>"text","label"=>"Address 2","field"=>"address_2"),
 											array("type"=>"text","label"=>"City","field"=>"city"),
@@ -61,6 +63,15 @@ class Broker extends User {
 			$item = $this->GetCurrentItem();
 			$this->RemoveValueJoin($item['id'], $userId);
 		}
+	}
+		
+	public function getUsers( $itemId = null ) {
+		// get materials by "itemId" and join type "material_join"
+		$item = $this->GetCurrentItem();
+		$itemId = $item['id'];
+		$user = new User();
+		$joins = $this->ReadJoins( $user );
+		$this->join_user = $joins;
 	}
 	
 	public function getBrokersByUserId( $userId ) {
