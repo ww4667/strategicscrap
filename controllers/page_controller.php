@@ -698,12 +698,18 @@ require_once($_SERVER['DOCUMENT_ROOT']."/gir/index.php");
 							$error_messages[] = "Email field must contain a valid email address.";
 						elseif( count($users) > 0 )
 							$error_messages[] = "Email is already being used.";
+					} else {
+						unset($post_data['email']);
 					}
 					if ( $post_data['password'] != "" ) {
 						if( $post_data['password'] == "" )
 							$error_messages[] = "Password field cannot be left empty.";
 						if( $post_data['verify_password'] != $post_data['password'] )
 							$error_messages[] = "Verify Password does not match Password field.";
+						$salt = $user->salt;
+						$post_data['password'] = $user->SetPassword($post_data['password'], $salt);
+					} else {
+						unset($post_data['password']);
 					}
 					if ( count($error_messages) > 0 ) {
 						flash( $error_messages, "bad" );
