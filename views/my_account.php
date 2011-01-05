@@ -1,6 +1,6 @@
 <p>Update your account information below.</p>
 <form action"" class="clearfix" method="post">
-<input name="id" type="hidden" value="<?=$item->id?>" />
+<!-- <input name="id" type="hidden" value="<?=$item->id?>" /> -->
 <fieldset>
 <legend>Personal Information:</legend>							
 <ul class="form">
@@ -12,6 +12,7 @@
 <li><label>Home Phone:</label><input name="home_phone" type="text" value="<?=$item->home_phone?>" /></li>
 <li><label>Fax Number:</label><input name="fax_number" type="text" value="<?=$item->fax_number?>" /></li>
 <li><hr style="width:369px" /></li>
+<li><label>Company:</label><input name="company" type="text" value="<?=$item->company?>" /></li>
 <li><label>Address 1:</label><input name="address_1" type="text" value="<?=$item->address_1?>" /></li>
 <li><label>Address 2:</label><input name="address_2" type="text" value="<?=$item->address_2?>" /></li>
 <li><label>City:</label><input name="city" type="text" value="<?=$item->city?>" /></li>
