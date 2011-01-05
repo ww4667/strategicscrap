@@ -156,6 +156,7 @@ class Request extends Crud {
 		return $requestReturnArray;
 	}
 	
+	
 	public function GetBids(){
 		return $this->_getBids();
 	}

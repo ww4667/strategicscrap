@@ -272,7 +272,7 @@ function updateMarkers(){
 	});
 
 	
-	$.getJSON("/controllers/remote_controller.php?method=filter-material&val=" + val_string, function(json) { 
+	$.getJSON("/controllers/remote/?method=filter-material&mats=" + val_string, function(json) { 
 		
 		if (json.locations.length>0) { 
 		  for (i=0; i<json.locations.length; i++) { 

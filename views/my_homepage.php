@@ -1,3 +1,4 @@
+					
 				<div class="leftCol">
 					<div class="lowerArea">
 						<div id="marketData" class="twoColMod"><div class="moduleTop"><!-- IE hates empty elements --></div>
@@ -144,70 +145,87 @@
 								<h3>Transportation Requests</h3>
 								<hr style="margin-bottom:0" />
 								<table>
-								<thead><tr class="row2">
-								    <th>EXPIRATION</th>
-								    <th>DESCRIPTION</th>
-								    <th>REQUEST DATE</th>
-								    <th>STATUS</th>
-								</tr>
-								</thead>
-								<tbody id="requests_table">
-								<!-- 
-								<tr>
-								    <td>05/15/2010</td>
-								    <td><strong>Ship to:</strong> Demo Steel Company<br><strong>Material:</strong> No. 1 Machinery Cast<br><strong>Quantity (tons):</strong> 550<br><strong>Delivery Date:</strong> 05/13/2010</td>
-								    <td>04/30/2010</td>
-								    <td><span style="text-decoration:underline;">view bids (4)</span></td>
-								</tr>
-								<tr class="row2">
-								    <td>06/10/2010</td>
-								    <td><strong>Ship to:</strong> Demo Steel Company<br><strong>Material:</strong> No. 1 Machinery Cast<br><strong>Quantity (tons):</strong> 550<br><strong>Delivery Date:</strong> 05/10/2010</td>
-								    <td>05/03/2010</td>
-								    <td><span style="text-decoration:underline;">view bids (1)</span></td>
-								</tr>
-								<tr>
-								    <td>06/08/2010</td>
-								    <td><strong>Ship to:</strong> Demo Steel Company<br><strong>Material:</strong> No. 1 Machinery Cast<br><strong>Quantity (tons):</strong> 550<br><strong>Delivery Date:</strong> 05/10/2010</td>
-								    <td>05/04/2010</td>
-								    <td>waiting</td>
-								</tr>
-								 -->
-							</tbody></table>
-							<script type="text/javascript">
-								$(document).ready(function(){
-									$.getJSON("/controllers/remote_controller.php?method=getRequests&uid=<?=$_SESSION['user']['id'] ?>", function(json) { 
-										var tableRows = $("requests_table"), html = '', off=false, item=null;
+									<thead>
+										<tr class="row2">
+										    <th>EXPIRATION</th>
+										    <th>DESCRIPTION</th>
+										    <th>REQUEST DATE</th>
+										    <th>STATUS</th>
+										</tr>
+									</thead>
+									<tbody id="requests_table">
+										<?php
+										//$recent_requests = file_get_contents( $pageURL."/controllers/remote/?method=getRequests&uid=".$_SESSION['user']['id']."&type=html&sessionid=" . session_id() );
+										$_controller_remote_included = true;
 										
-										if ( json.length > 0 ) { 
-											for ( i=0; i < json.length; i++ ) {
-												item = json[i];
-												
-												html += '<tr '+ ( off ? 'class="row2"' : '' ) +'>' + 
-												'	<td>'+item.expiration_date+'</td>'+
-												'	<td><strong>Ship to:</strong> '+item.join_facility[0].company+'<br>'+
-												'		<strong>Material:</strong>'+item.join_material[0].name+'<br>'+
-												'		<strong>Quantity (tons):</strong> '+item.volume+'<br>'+
-												'		<strong>Delivery Date:</strong> '+item.arrive_date+''+
-												'	</td>'+
-												'	<td>'+item.created_ts+'</td>'+
-												'	<td style="'+( item['bid_unread'] && item['bid_unread'] != 0 ? 'font-weight: 900;' : '' )+'">'+ 
-												'		' + ( item['bid_count'] && item['bid_count'] != 0 ? '(' + item['bid_count'] + ')' : 'waiting' ) +
-												'	</td>'+
-												'</tr>';
-												
-												off=!off;
-												
-											}
-										    
-										    $("#requests_table").append( html );
-										    
+										require_once($_SERVER['DOCUMENT_ROOT']."/controllers/remote_controller.php");
+							
+										controller_remote( 'getRequests', 'html', null, $_SESSION['user']['id'], null, $_controller_remote_included );
+										
+										/*if ($recent_requests !== false) {
+										   print $recent_requests;
 										} else {
-										    modData = []; 
-										}
+										   print "Error loading requests data.";
+										}*/
+										?>
+									<!-- 
+									<tr>
+									    <td>05/15/2010</td>
+									    <td><strong>Ship to:</strong> Demo Steel Company<br><strong>Material:</strong> No. 1 Machinery Cast<br><strong>Quantity (tons):</strong> 550<br><strong>Delivery Date:</strong> 05/13/2010</td>
+									    <td>04/30/2010</td>
+									    <td><span style="text-decoration:underline;">view bids (4)</span></td>
+									</tr>
+									<tr class="row2">
+									    <td>06/10/2010</td>
+									    <td><strong>Ship to:</strong> Demo Steel Company<br><strong>Material:</strong> No. 1 Machinery Cast<br><strong>Quantity (tons):</strong> 550<br><strong>Delivery Date:</strong> 05/10/2010</td>
+									    <td>05/03/2010</td>
+									    <td><span style="text-decoration:underline;">view bids (1)</span></td>
+									</tr>
+									<tr>
+									    <td>06/08/2010</td>
+									    <td><strong>Ship to:</strong> Demo Steel Company<br><strong>Material:</strong> No. 1 Machinery Cast<br><strong>Quantity (tons):</strong> 550<br><strong>Delivery Date:</strong> 05/10/2010</td>
+									    <td>05/04/2010</td>
+									    <td>waiting</td>
+									</tr>
+									 -->
+									</tbody>
+								</table>
+								<!--<script type="text/javascript">
+									$(document).ready(function(){
+										$.getJSON("/controllers/remote/?method=getRequests&uid=<?=$_SESSION['user']['id'] ?>", function(json) { 
+											var tableRows = $("requests_table"), html = '', off=false, item=null;
+											
+											if ( json.length > 0 ) { 
+												for ( i=0; i < json.length; i++ ) {
+													item = json[i];
+													
+													html += '<tr '+ ( off ? 'class="row2"' : '' ) +'>' + 
+													'	<td>'+item.expiration_date+'</td>'+
+													'	<td><strong>Ship to:</strong> '+item.join_facility[0].company+'<br>'+
+													'		<strong>Material:</strong>'+item.join_material[0].name+'<br>'+
+													'		<strong>Quantity (tons):</strong> '+item.volume+'<br>'+
+													'		<strong>Delivery Date:</strong> '+item.arrive_date+''+
+													'	</td>'+
+													'	<td>'+item.created_ts+'</td>'+
+													'	<td style="'+( item['bid_unread'] && item['bid_unread'] != 0 ? 'font-weight: 900;' : '' )+'">'+ 
+													'		' + ( item['bid_count'] && item['bid_count'] != 0 ? '(' + item['bid_count'] + ')' : 'waiting' ) +
+													'	</td>'+
+													'</tr>';
+													
+													off=!off;
+													
+												}
+											    
+											    $("#requests_table").append( html );
+											    
+											} else {
+											    modData = []; 
+											}
+										});
 									});
-								});
-							</script>
-							</div><div class="moduleBottom"><!-- IE hates empty elements --></div>	
+								</script>
+							--></div>
+							<div class="moduleBottom"><!-- IE hates empty elements --></div>	
 						</div>
 					</div>
 					
@@ -267,3 +285,4 @@
 					</div><div class="moduleBottom"><!-- IE hates empty elements --></div>
 					</div>
 				</div>
+				

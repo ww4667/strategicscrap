@@ -5,6 +5,9 @@ ini_set('log_errors', 1);
 //ini_set('error_log', dirname(__FILE__) . '/error_log.txt'); 
 error_reporting(E_ALL);
 
+
+
+
 if(!isset($_SESSION)) session_start();
 
 require_once($_SERVER['DOCUMENT_ROOT']."/gir/index.php");
@@ -14,92 +17,121 @@ require_once($_SERVER['DOCUMENT_ROOT']."/gir/index.php");
 //	return false;
 //}
 
-$method = isset( $_GET['method'] ) ? trim( $_GET['method'] ) : null;
-$type = isset( $_GET['type'] ) ? trim( $_GET['type'] ) : 'json';
-//$key = $_GET['key'];
-//$_SESSION[$key]
 /**
- * TODO: Add Keys for these cases so people cant access them outside without proper permissions
+ * If you are loading this via a url, pass the parameters via GET
+ * If you are loading this through an include, then set the $_controller_remote_included to true,
+ * 	set the other paramters needed through the variables listed below and include this file
  */
+if( empty( $_controller_remote_included ) ) controller_remote();
 
-	switch($method){
+function controller_remote( $_controller_remote_method = null, 
+							$_controller_remote_type = null, 
+							$_controller_remote_materialArray = null, 
+							$_controller_remote_userId = null, 
+							$_controller_remote_brokerId = null, 
+							$_controller_remote_included = null ){
+								
+	if( empty( $_controller_remote_included ) ){
+	
+		$_controller_remote_method = isset( $_GET['method'] ) ? trim( $_GET['method'] ) : null;
+		$_controller_remote_type = isset( $_GET['type'] ) ? trim( $_GET['type'] ) : 'json';
+		$_controller_remote_materialArray = ( isset($_GET['mats']) ) ? $_GET['mats'] : null;
+		$_controller_remote_userId = ( isset( $_GET['uid'] ) ) ? $_GET['uid'] : null;
+		$_controller_remote_brokerId = ( isset( $_GET['buid'] ) ) ? $_GET['buid'] : null;
+	
+	}
+	
+	//$key = $_GET['key'];
+	//$_SESSION[$key]
+	/**
+	 * TODO: Add Keys for these cases so people cant access them outside without proper permissions
+	 */
+	switch($_controller_remote_method){
 		
 		/* SCRAP EXCHANGE DATA CALL **************************************** */
 		case 'filter-material':
-			$val = ( isset($_GET['val']) ) ? $_GET['val'] : null;
-			if($val=='||') {
-				echo json_encode(array("locations"=>array())); 
-			} else {
-				$vals = explode('||', trim($val,"||"));
-				$tmp = array();
-				foreach ($vals as $v) {
-					$f = new Facility();
-	//				 get Facilities that have material $val
-					$facilities = $f->getFacilitiesByMaterialId( $v );
-					foreach ($facilities as $f) {
-						$tmp[] = serialize(array(	'company' =>$f['company'], 
-													'first_name' =>$f['first_name'], 
-													'last_name' =>$f['last_name'], 
-													'email' =>$f['email'], 
-													'job_title' =>$f['job_title'], 
-													'business_phone' =>$f['business_phone'], 
-													'home_phone' =>$f['home_phone'], 
-													'mobile_phone' =>$f['mobile_phone'], 
-													'fax_number' =>$f['fax_number'], 
-													'address_1' =>$f['address_1'], 
-													'address_2' =>$f['address_2'], 
-													'city' =>$f['city'], 
-													'state_province' =>$f['state_province'], 
-													'zip_postal_code' =>$f['zip_postal_code'], 
-													'region' =>$f['region'], 
-													'country' =>$f['country'], 
-													'website' =>$f['website'], 
-													'attachments' =>$f['attachments'], 
-													'broker_exclusive' =>$f['broker_exclusive'], 					
-													'category' =>$f['category'], 					
-													'lat' =>$f['lat'], 
-													'lon' =>$f['lon'], 
-													'id' =>$f['id'])); 
+			if( $_controller_remote_materialArray ){
+				if( $_controller_remote_materialArray == '||' ) {
+					print json_encode(array("locations"=>array())); 
+				} else {
+					$vals = explode( '||', trim( $_controller_remote_materialArray, "||" ) );
+					$tmp = array();
+					foreach ($vals as $v) {
+						$f = new Facility();
+		//				 get Facilities that have material $val
+						$facilities = $f->getFacilitiesByMaterialId( $v );
+						foreach ($facilities as $f) {
+							$tmp[] = serialize(array(	'company' =>$f['company'], 
+														'first_name' =>$f['first_name'], 
+														'last_name' =>$f['last_name'], 
+														'email' =>$f['email'], 
+														'job_title' =>$f['job_title'], 
+														'business_phone' =>$f['business_phone'], 
+														'home_phone' =>$f['home_phone'], 
+														'mobile_phone' =>$f['mobile_phone'], 
+														'fax_number' =>$f['fax_number'], 
+														'address_1' =>$f['address_1'], 
+														'address_2' =>$f['address_2'], 
+														'city' =>$f['city'], 
+														'state_province' =>$f['state_province'], 
+														'zip_postal_code' =>$f['zip_postal_code'], 
+														'region' =>$f['region'], 
+														'country' =>$f['country'], 
+														'website' =>$f['website'], 
+														'attachments' =>$f['attachments'], 
+														'broker_exclusive' =>$f['broker_exclusive'], 					
+														'category' =>$f['category'], 					
+														'lat' =>$f['lat'], 
+														'lon' =>$f['lon'], 
+														'id' =>$f['id'])); 
+						}
 					}
+		
+					if( count($tmp) < 1) {
+						echo json_encode(array("locations"=>array()));
+						exit;
+					}
+					$tmp = array_unique($tmp);
+					$op = array();
+					foreach ($tmp as $o) {
+						$op[] = unserialize($o);
+					}
+					foreach ( $op as $key => $row ) {
+					    $names[$key]  = $row['company']; 
+					    // of course, replace 0 with whatever is the date field's index
+					}
+					
+					array_multisort($names, SORT_ASC, $op);
+					
+					print json_encode(array("locations"=>$op)); 
 				}
-	
-				if( count($tmp) < 1) {
-					echo json_encode(array("locations"=>array()));
-					exit;
-				}
-				$tmp = array_unique($tmp);
-				$op = array();
-				foreach ($tmp as $o) {
-					$op[] = unserialize($o);
-				}
-				foreach ( $op as $key => $row ) {
-				    $names[$key]  = $row['company']; 
-				    // of course, replace 0 with whatever is the date field's index
-				}
-				
-				array_multisort($names, SORT_ASC, $op);
-				
-				print json_encode(array("locations"=>$op)); 
+				exit; 
 			}
-			exit; 
 			
 			break;
-		
+			
+		/* returns requests */
 		case 'getRequests':
-			$val = ( isset($_GET['uid']) ) ? $_GET['uid'] : null;
-			$brokerId = ( isset($_GET['buid']) ) ? $_GET['buid'] : null;
+			/* determines if the user is for a user or not */
+			$scrapperId = $_controller_remote_userId;
+			
+			/* determines if the user is for a broker or not */
+			$brokerId = $_controller_remote_brokerId;
+			/*  */
+			/* request return array */
 			$requestReturnArray = array();
 			$requestClass = null;
 			
-			if($val){
+			/* if we have a user of scrapper then we will do this... broker is further down */
+			if( $scrapperId ){
 				$scrapperClass = new Scrapper();
-				$scrapperByUserId = $scrapperClass->getScrappersByUserId( $val );
+				$scrapperByUserId = $scrapperClass->getScrappersByUserId( $scrapperId );
 				
 				if( count( $scrapperByUserId ) > 0 ){
 					$scrapperClass->GetItemObj( $scrapperByUserId[0]['id'] );
 					
 					$requestReturnArray = $scrapperClass->getRequests();
-					 
+					
 					// sorting object array by created_ts date DESC
 					$dates = array();					
 					foreach ( (array) $requestReturnArray as $key => $row ) {
@@ -109,57 +141,112 @@ $type = isset( $_GET['type'] ) ? trim( $_GET['type'] ) : 'json';
 					array_multisort($dates, SORT_DESC, $requestReturnArray);
 				}
 				
-				print json_encode( $requestReturnArray ); 
-			} else {
-				$requestClass = new Request();
-				$requestReturnArray = $requestClass->getAllRequests();
-				
-				if( $brokerId  ){
-					$brokerClass = new Broker();
-					$brokerByUserId = $brokerClass->getBrokersByUserId( $brokerId );
-					
-					if( count( $brokerByUserId ) > 0 ){
-						$brokerClass->GetItemObj( $brokerByUserId[0]['id'] );
-						
-						$bidReturnArray = $brokerClass->getBids();
-						
-						$counter = 0; 
-						$counter2 = 0;
-						$count = count( $bidReturnArray );
-						$count2 = count( $requestReturnArray );
-						$currentBid = null;
-						$bidId = null;
-						$currentRequest = null;
-						$arrayOfIdsToRemove = array();
-						$arrayOfBids = array();
-						
-						/* get bids from current user - build temp array */
-						while( $counter < $count ){
-							$currentBid = $bidReturnArray[ $counter ];
-							$arrayOfBids[ $currentBid->join_request[0]['id'] ] = true;
-							$counter++; 
-						}
-						
-						$counter2 = 0;
-						$count2 = count($requestReturnArray);
-						
-						/* remove items the broker already has bidded on */
-						while( $counter2 < $count2 ){
-							
-							if(isset($requestReturnArray[$counter2])){
-								$currentRequest = $requestReturnArray[$counter2];
-								
-								if( isset($arrayOfBids[ $currentRequest->id ] ) ){
-									unset($requestReturnArray[$counter2]); 
-								}	
+				switch( $_controller_remote_type ) {
+					case 'html':
+							$counter = 0;
+							$count = count( $requestReturnArray );
+							$output = "";
+							$off = false;
+							$outputArray = array();
+							foreach( $requestReturnArray as $request ){
+								$outputArray[] = $request;
+								$output .= 	'<tr class="' . ( $off ? 'row2' : '' ) . ' scrapQuote" id="request_' . $counter. '" requestCount="'.$counter.'" requestId="' . $request->id . '">' . 
+											"	<td>" .
+											( !empty( $request->expiration_date ) ? $request->expiration_date : 'not set' ) . '<br />'  .
+											"	</td>" .
+											"	<td>" .
+											( 	$request->join_facility && 
+												$request->join_facility != '' && 
+												count( $request->join_facility ) > 0 ?
+													'<strong>Ship to:</strong> ' . $request->join_facility[0]['company'] . '<br>' : 
+													'<strong>Ship to:</strong><br>' ) . 
+											( 	$request->join_material && 
+												$request->join_material != '' && 
+												count( $request->join_material ) > 0 ?
+													'<strong>Material:</strong> ' . $request->join_material[0]['name'] . '<br>' : 
+													'<strong>Material:</strong><br>' ) . 
+											'<strong>Volume: </strong>' . ( !empty( $request->volume ) ? $request->volume : '0' ) . '<br />' .
+											'<strong>Delivery Date: </strong>' . ( !empty( $request->arrive_date ) ? $request->arrive_date : 'not set' ) . '<br />' .
+											"	</td>" .
+											"	<td>" .
+											$request->created_ts . '<br />' .
+											"	</td>" .
+											( $request->bid_unread && $request->bid_unread != 0 ? '<td style="font-weight: 900;">' : '<td>' ) . 
+											'	' . ( $request->bid_unread && $request->bid_unread != 0 ? '(' . $request->bid_count . ')' : 'waiting' ) . 
+											"	</td>" .
+											"</tr>";
+								$off = !$off;
+								$counter++;
 							}
-							$counter2++;
-						}
-					}
-					
+							
+							/* add output to session */
+							$_SESSION['user']['requests'] = $outputArray ;
+							
+							print $output;
+							
+						break;
+					default:
+						$_SESSION['user']['requests'] = $requestReturnArray ;
+						print json_encode( $requestReturnArray ); 
 				}
 				
-				switch( $type ) {
+			/* the following is for a broker */
+			} elseif( $brokerId ) {
+				
+				$requestClass = new Request();
+				$requestReturnArray = $requestClass->getAllRequests();
+			
+				$brokerClass = new Broker();
+				$brokerByUserId = $brokerClass->getBrokersByUserId( $brokerId );
+				
+				if( count( $brokerByUserId ) > 0 ){
+					$brokerClass->GetItemObj( $brokerByUserId[0]['id'] );
+					
+					$bidReturnArray = $brokerClass->getBids();
+					
+					$counter = 0; 
+					$counter2 = 0;
+					$count = count( $bidReturnArray );
+					$count2 = count( $requestReturnArray );
+					$currentBid = null;
+					$bidId = null;
+					$currentRequest = null;
+					$arrayOfIdsToRemove = array();
+					$arrayOfBids = array();
+					
+					/* get bids from current user - build temp array */
+					while( $counter < $count ){
+						$currentBid = $bidReturnArray[ $counter ];
+						$arrayOfBids[ $currentBid->join_request[0]['id'] ] = true;
+						$counter++; 
+					}
+					
+					$counter2 = 0;
+					$count2 = count($requestReturnArray);
+					
+					/* remove items the broker already has bidded on */
+					while( $counter2 < $count2 ){
+						
+						if(isset($requestReturnArray[$counter2])){
+							$currentRequest = $requestReturnArray[$counter2];
+							
+							if( isset($arrayOfBids[ $currentRequest->id ] ) ){
+								unset($requestReturnArray[$counter2]); 
+							}	
+						}
+						$counter2++;
+					}
+				}
+				 
+				// sorting object array by created_ts date DESC
+				$dates = array();					
+				foreach ( (array) $requestReturnArray as $key => $row ) {
+				    $dates[$key] = $row->created_ts;
+				}
+				
+				array_multisort($dates, SORT_DESC, $requestReturnArray);
+				
+				switch( $_controller_remote_type ) {
 					case 'html':
 							$counter = 0;
 							$count = count( $requestReturnArray );
@@ -197,11 +284,17 @@ $type = isset( $_GET['type'] ) ? trim( $_GET['type'] ) : 'json';
 								$counter++;
 							}
 							$output .= '<script type="text/javascript"> var request_object = ' . json_encode( $outputArray ) . ';</script>';
+							
+							$_SESSION['user']['requests'] = $outputArray ;
+							
 							print $output;
 						break;
 					default:
+						$_SESSION['user']['requests'] = $requestReturnArray ;
 						print json_encode( $requestReturnArray ); 
 				}
+					
+				
 			}
 			
 			break;
@@ -258,9 +351,11 @@ $type = isset( $_GET['type'] ) ? trim( $_GET['type'] ) : 'json';
 			}
 			
 			break;
+			
+		/* return all bids */
 		case 'getBids': 
 	
-			$val = ( isset($_GET['uid']) ) ? $_GET['uid'] : null;
+			$val = $_controller_remote_userId;
 			$bidReturnArray = array();
 			$bidClass = null;
 			
@@ -287,7 +382,7 @@ $type = isset( $_GET['type'] ) ? trim( $_GET['type'] ) : 'json';
 				$bidReturnArray = $bidClass->getAllBids();
 			}
 			
-			switch( $type ) {
+			switch( $_controller_remote_type ) {
 				case 'html':
 						$counter = 0;
 						$count = count( $bidReturnArray );
@@ -324,11 +419,24 @@ $type = isset( $_GET['type'] ) ? trim( $_GET['type'] ) : 'json';
 							$off = !$off;
 							
 						}
+						
+						$_SESSION['user']['bids'] = $bidReturnArray ;
+						
 						print $output;
 					break;
 				default:
-					print json_encode( $requestReturnArray ); 
+					$_SESSION['user']['bids'] = $bidReturnArray ;
+					print json_encode( $bidReturnArray ); 
 			}
 			break;
+		case 'sessionDump':
+			print session_id();
+			print "<pre>";
+			print_r( $_SESSION );
+			print "</pre>";
+			break;
 	}
+}
+
+
 ?>

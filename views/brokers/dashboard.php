@@ -1,22 +1,12 @@
-<?php 
 
-	 $pageURL = 'http' . 
-	 			( $_SERVER["HTTPS"] == "on" ? "s" : "" ) . 
-	 			"://" . 
-	 			($_SERVER["SERVER_PORT"] != "80" ? 
-	  				$_SERVER["SERVER_NAME"].":".$_SERVER["SERVER_PORT"] :
-	  				$_SERVER["SERVER_NAME"] );
-?>
 
 
 		<script type="text/javascript"><!--
 			var requestInterval = 0, bidInterval = 0, reqObject = {}, current_request = -1, iii = 0;
-
-
 		
 			function getRequests(){
 
-			    $('#recent_requests').load("/controllers/remote_controller.php?method=getRequests&buid=<?=$_SESSION['user']['id'] ?>&type=html", function() {
+			    $('#recent_requests').load("/controllers/remote/?method=getRequests&buid=<?=$_SESSION['user']['id'] ?>&type=html", function() {
 //			    	  alert('Load was performed.');
 						$('#scroll-pane2').jScrollPane();
 					    $(".scrapQuote").colorbox({	width:"550", inline:true, href:"#quoteForm", 
@@ -30,7 +20,7 @@
 			
 			function getBids(){
 				
-				$('#recent_bids').load("/controllers/remote_controller.php?method=getBids&uid=<?=$_SESSION['user']['id'] ?>&type=html", function() {
+				$('#recent_bids').load("/controllers/remote/?method=getBids&uid=<?=$_SESSION['user']['id'] ?>&type=html", function() {
 						$('#scroll-pane1').jScrollPane();
 				});
 				//bidInterval = setTimeout("getBids();",20000);
@@ -172,14 +162,26 @@
 				<table class="stripes">
 					<tbody id="recent_bids">
 						<?php 
-		 
-						$recent_bids = file_get_contents($pageURL."/controllers/remote_controller.php?method=getBids&uid=".$_SESSION['user']['id'] ."&type=html");
+		 /*
+						$recent_bids = file_get_contents($pageURL."/controllers/remote/?method=getBids&uid=".$_SESSION['user']['id'] ."&type=html");
 										
 						if ($recent_bids !== false) {
 						   print $recent_bids;
 						} else {
 						   print "Error loading bid data.";
-						}
+						}*/
+						
+						$_controller_remote_included = true;
+						
+						require_once($_SERVER['DOCUMENT_ROOT']."/controllers/remote_controller.php");
+						
+						controller_remote( 	'getBids', 
+											'html', 
+											null, 
+											$_SESSION['user']['id'], 
+											null, 
+											$_controller_remote_included );
+						
 						?>
 					</tbody>
 				</table>
@@ -206,13 +208,25 @@
 				<table class="stripes">
 					<tbody id="recent_requests">
 						<?php 
-						$recent_requests = file_get_contents( $pageURL."/controllers/remote_controller.php?method=getRequests&buid=".$_SESSION['user']['id']."&type=html" );
+						/*$recent_requests = file_get_contents( $pageURL."/controllers/remote/?method=getRequests&buid=".$_SESSION['user']['id']."&type=html" );
 		
 						if ($recent_requests !== false) {
 						   print $recent_requests;
 						} else {
 						   print "Error loading requests data.";
-						}
+						}*/
+						
+						$_controller_remote_included = true;
+						
+						require_once($_SERVER['DOCUMENT_ROOT']."/controllers/remote_controller.php");
+						
+						controller_remote( 	'getRequests', 
+											'html', 
+											null, 
+											null, 
+											$_SESSION['user']['id'], 
+											$_controller_remote_included );
+						
 						?>
 						
 					</tbody>
@@ -316,7 +330,7 @@
 <script type="text/javascript">
 
 	var colorboxTimeOut = 0;
-//http://demo.strategicscrap.com/controllers/remote_controller.php?method=addBid&transport_cost=123.00&material_price=3.00&ship_date=2011-12-03%2003:22:12&arrival_date=2011-12-23%2007:22:12&notes=This%20is%20a%20note&join_request=146&join_transportation_type=154&join_broker=93
+//http://demo.strategicscrap.com/controllers/remote/?method=addBid&transport_cost=123.00&material_price=3.00&ship_date=2011-12-03%2003:22:12&arrival_date=2011-12-23%2007:22:12&notes=This%20is%20a%20note&join_request=146&join_transportation_type=154&join_broker=93
 	$("#submitQuote").click(function() {
 		if ( $("#transport_cost").val() != "" && 
 			 $("#material_price").val() != "" && 
@@ -327,7 +341,7 @@
 			 $("#join_material").val() != "" && 
 			 $("#notes").val() != "" ) {
 
-				$.post("/controllers/remote_controller.php?method=addBid", 
+				$.post("/controllers/remote/?method=addBid", 
 						'transport_cost=' + $("#transport_cost").val() +
 						'&material_price=' + $("#material_price").val() +
 						'&ship_date=' + $("#ship_date").val() +
