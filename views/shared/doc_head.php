@@ -32,6 +32,7 @@
       
       <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.7/jquery-ui.min.js" type="text/javascript"></script>  
       <script src="/resources/js/jquery.dataTables.min.js" type="text/javascript"></script>
+      <script src="/resources/js/vertical-slider.js" type="text/javascript"></script>
         <style type="text/css">
             #tabs-equipClass {margin: 0; padding: 0;}
          </style>
