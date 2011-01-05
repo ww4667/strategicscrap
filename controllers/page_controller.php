@@ -626,6 +626,8 @@ require_once($_SERVER['DOCUMENT_ROOT']."/gir/index.php");
 					$error_messages[] = "Zip Code cannot be empty.";
 				// setup the new user!
 				if(count($error_messages) == 0) {
+					$post_data['salt'] = $u->GetSalt($post_data['email']);
+					$post_data['password'] = $u->SetPassword($post_data['password'], $post_data['salt']);
 					$u = new User();
 					$newUser = $u->CreateItem($post_data); 
 					if ( $newUser && !isset($_GET['broker']) ) {
