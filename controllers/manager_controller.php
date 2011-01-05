@@ -596,6 +596,7 @@ while (!$KILL) {
 					
 					if ( empty($user->id) || empty($broker->id) ) {
 						$message = "There was a problem adding the broker.";
+						$error = true;
 					} else {
 						$message = "Broker added succesfully.";
 					}
@@ -610,6 +611,77 @@ while (!$KILL) {
 				}
 				$post_data['email'] = "";
 			}
+			
+			//the layout file
+			require($ss_path."views/layouts/manager_shell.php");
+			$KILL = true;
+		break;
+
+		case 'request-manager':
+			
+			$PAGE_TITLE 		= "Request Manager";								/* Title text for this page */
+			$SECTION_HEADER 	= "Request List";									/* Header text for this page */
+			$PAGE_BODY 			= $ss_path."views/manager/request_manager.php";		/* which file to pull into the template */
+			
+			$r = new Request();
+			$requests = $r->getAllItemsObj();
+			
+			// make array of objects to useful simple array
+			$request_array = array();
+			
+			foreach ($requests as $obj) {
+				$joinObject = new Scrapper();
+				$obj->join_scrapper = $obj->ReadJoins($joinObject);
+				$joinObject = new Facility();
+				$obj->join_facility = $obj->ReadJoins($joinObject);
+				$joinObject = new Material();
+				$obj->join_material = $obj->ReadJoins($joinObject);
+				$request_array[] = (array) $obj;
+			}
+			
+			$requests = $request_array;
+
+//			print "<pre>";
+//			print_r($requests);
+//			print "</pre>";
+			
+			//the layout file
+			require($ss_path."views/layouts/manager_shell.php");
+			$KILL = true;
+		break;
+
+		case 'request-details':
+			
+			$PAGE_TITLE 		= "Request Manager";								/* Title text for this page */
+			$SECTION_HEADER 	= "Request Details";									/* Header text for this page */
+			$PAGE_BODY 			= $ss_path."views/manager/request_details.php";		/* which file to pull into the template */
+			
+			if (isset($_GET['request_id'])) {
+				$itemId = $_GET['request_id'];
+				// retrieved request object
+				$r = new Request();
+				$request = $r->GetItemObj($itemId);
+				$request->join_scrapper = $request->ReadJoins( new Scrapper() );
+				$request->join_facility = $request->ReadJoins( new Facility() );
+				$request->join_material = $request->ReadJoins( new Material() );
+				// retrieve bid objects in an array
+				$bids = $request->GetBids();
+				$bids_array = array();
+				foreach ($bids as $key => $val) {
+					$b = new Bid();
+					$bid = $b->GetItemObj($val['id']);
+					$bid->join_broker = $b->ReadJoins( new Broker() );
+					$bids_array[] = $bid;
+				}
+				
+				$bids = $bids_array;
+			} else {
+				$message = "Your request id was not found in the system.";
+				$error = true;
+				$method = "request-manager";
+				break;
+			}
+			
 			
 			//the layout file
 			require($ss_path."views/layouts/manager_shell.php");
