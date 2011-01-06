@@ -1,3 +1,79 @@
+  <?
+  
+  $use_ui = $_GET["use_ui"];
+  
+  ?>
+  
+  <? if ($use_ui == "true"){ ?>
+  <script type="text/javascript">
+  $(document).ready(function() {
+            $('#equipClassifieds').tabs();
+  });
+  </script>
+  
+  <div id="equipClassifieds" class="classifiedListing">
+              
+  <ul id="tabs-equipClass">
+    <li><a href="#tabs-1"><span>Sell Equipment</span></a></li>
+    <li><a href="#tabs-2"><span>Buy Equipment</span></a></li>
+  </ul><!-- tabs-equipClass -->
+     
+    <div id="tabs-1">
+        <div class="equipListing row1">
+          <strong>GENSCO WT-2260 SHREDDER</strong>
+          <dl class="clearfix">
+            <dt>Single shaft shredder, 25 hp, processes approx. 450-900 pounds per hour.</dt>
+            <dt><a class="scrapDesc1" href="#">Description and Contact Information</a></dt>
+          </dl>
+        </div><!-- equipListing row1 -->
+        
+        <div class="equipListing row2">
+          <strong>SWEED 517AE SCRAP CHOPPER</strong>
+          <dl class="clearfix">
+            <dt>3 hp, 3 inch pieces at 60 feet per minute. Comes with spare blades and on casters</dt>
+            <dt><a class="scrapDesc1" href="#">Description and Contact Information</a></dt>
+          </dl>
+        </div><!-- equipListing row2 -->
+
+        <div class="equipListing row1">
+          <strong>LGI SCRAP HANDLING MAGNET 58 inch</strong>
+          <dl>
+            <dt>Lifting capacity, 24,000 pounds. 230 volts DC. Chains included. 1 year warranty.</dt>
+            <dt><a class="scrapDesc1" href="#">Description and Contact Information</a></dt>
+          </dl>
+        </div><!-- equipListing row1 -->
+        
+        <div class="equipListing row2">
+          <strong>TGS 57 used Harris bailer</strong>
+          <dl>
+            <dt>140 bails per hour. Charging box size, 90”x34”x24”</dt>
+            <dt><a class="scrapDesc1" href="#">Description and Contact Information</a></dt>
+          </dl>
+        </div><!-- equipListing row2 -->
+
+        <div class="equipListing row1">
+          <strong>1450E used SSI SHEAR SHREDDER</strong>
+          <dl>
+            <dt>42”x32” opening. 75 hp. Mounted on steel base. Control panel included.</dt>
+            <dt><a class="scrapDesc1" href="#">Description and Contact Information</a></dt>
+          </dl>
+        </div><!-- equipListing row1 -->
+        
+    </div><!-- tab1 -->
+    
+    <div id="tabs-2">
+        <!-- white background -->
+        <div class="scrapListing row1">
+          <strong>Classifieds data is currently not available.</strong>
+        </div><!-- scrapListing row1 -->
+        
+    </div><!-- tab2 -->
+    
+</div><!-- equipClassifieds -->
+
+  
+  <?} else {?>
+
 <div id="equipClassifieds" class="classifiedListing">
 					  	
 	<ul id="tabs-equipClass">
@@ -67,6 +143,8 @@
 	</div><!-- tabBox -->
 	
 </div><!-- equipClassifieds -->
+
+<? } // enduse_ui check ?>
 
 <!-- This contains the hidden content for inline calls --> 
 <div style="display:none"> 

@@ -335,9 +335,10 @@ function controller_remote( $_controller_remote_method = null,
 					
 					$requestClass = new Request();
 					
-					$bidCount = (int) $requestClass->GetValueNumber( $post_data['join_request'], $requestClass->ReadPropertyByName("bid_count") );
-
 					$bidCountProperty = $requestClass->ReadPropertyByName("bid_count");
+
+					$bidCount = (int) $requestClass->GetValueNumber( $post_data['join_request'], $bidCountProperty['id'] );
+
 					if( isset( $bidCountProperty['id'] ) ){
 						if( !$requestClass->UpdateValueNumber( $post_data['join_request'], $bidCountProperty['id'], $bidCount+1  ) ){
 							$requestClass->AddValueNumber( $post_data['join_request'], $bidCountProperty['id'], $bidCount+1  );
