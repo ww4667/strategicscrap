@@ -157,11 +157,16 @@
 										<?php
 										//$recent_requests = file_get_contents( $pageURL."/controllers/remote/?method=getRequests&uid=".$_SESSION['user']['id']."&type=html&sessionid=" . session_id() );
 										$_controller_remote_included = true;
-										
+
 										require_once($_SERVER['DOCUMENT_ROOT']."/controllers/remote_controller.php");
-							
-										controller_remote( 'getRequests', 'html', null, $_SESSION['user']['id'], null, $_controller_remote_included );
-										
+
+										controller_remote( 	'getRequests', 
+															'html', 
+															null, 
+															$_SESSION['user']['id'], 
+															null, 
+															$_controller_remote_included );
+
 										/*if ($recent_requests !== false) {
 										   print $recent_requests;
 										} else {
@@ -285,4 +290,24 @@
 					</div><div class="moduleBottom"><!-- IE hates empty elements --></div>
 					</div>
 				</div>
-				
+				<script type="text/javascript">
+				$( "#modal_request" ).dialog({
+					autoOpen: false,
+					height: 300,
+					width: 350,
+					modal: true,
+					buttons: {
+						"Create an account": function() {
+							console.log("hi there");
+						},
+						Cancel: function() {
+							$( this ).dialog( "close" );
+						}
+					},
+					close: function() {
+						allFields.val( "" ).removeClass( "ui-state-error" );
+					}
+				});
+
+				</script>
+				<div id="modal_request" style="display:none;">This is a modal.</div>

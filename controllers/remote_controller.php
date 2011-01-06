@@ -6,12 +6,15 @@ ini_set('log_errors', 1);
 error_reporting(E_ALL);
 
 
+require_once($_SERVER['DOCUMENT_ROOT']."/gir/core/models/crud/Crud.php");
+require_once($_SERVER['DOCUMENT_ROOT']."/gir/modules/request/Request.php");
+require_once($_SERVER['DOCUMENT_ROOT']."/gir/modules/bid/Bid.php");
 
 
+if( !empty($_GET['session_id']) ) session_id($_GET['session_id']);
 if(!isset($_SESSION)) session_start();
 
 require_once($_SERVER['DOCUMENT_ROOT']."/gir/index.php");
-
 // Check if called from the application or not
 //if ($_SESSION['app'] != "app name") {
 //	return false;
@@ -434,6 +437,32 @@ function controller_remote( $_controller_remote_method = null,
 			print "<pre>";
 			print_r( $_SESSION );
 			print "</pre>";
+			break;
+		case 'getRequestsFromSession':
+			$requestId = empty( $_controller_remote_request_id ) ? empty( $_GET['request_id'] ) ? null : $_GET['request_id'] : $_controller_remote_request_id;
+
+			if(!empty($requestId)){
+				foreach( $_SESSION['user']['requests'] as $request ){
+					
+					if($request->id == $requestId) break;
+				}
+				print json_encode( $request );
+			} else { 
+				print json_encode( $_SESSION['user']['requests'] );
+			} 
+			break;
+		case 'getBidsFromSession':
+			$bidId = empty( $_controller_remote_bid_id ) ? empty( $_GET['bid_id'] ) ? null : $_GET['bid_id'] : $_controller_remote_bid_id;
+			
+			if(!empty($bidId)){
+				foreach( $_SESSION['user']['bids'] as $bid ){
+					
+					if($bid->id == $bidId) break;
+				}
+				print json_encode( $bid );
+			} else { 
+				print json_encode( $_SESSION['user']['bids'] );
+			} 
 			break;
 	}
 }
