@@ -677,6 +677,12 @@ require_once($_SERVER['DOCUMENT_ROOT']."/gir/index.php");
 				$joins = $item->ReadForeignJoins( $user );
 				$item->GetItemObj( $joins[0]['id'] );
 				
+				if ($group == 'Scrapper') {
+					$redirect_url = "/scrap-exchange";
+				} else {
+					$redirect_url = "/broker-admin";
+				}
+				
 				// check for update submit
 				if ( isset($_POST['AccountUpdate']) ) {
 					$error_messages = array();
@@ -717,7 +723,7 @@ require_once($_SERVER['DOCUMENT_ROOT']."/gir/index.php");
 					}
 					if ( $item->UpdateItem( $post_data ) && $user->UpdateItem( $post_data ) ) {
 						flash( array("Your Account has been updated successfully.") );
-						redirect_to('/my-account');
+						redirect_to($redirect_url);
 					} else {
 						flash( array("There was a problem updating your account."), "bad" );
 						redirect_to('/my-account');
