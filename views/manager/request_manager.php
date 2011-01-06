@@ -24,7 +24,7 @@
 			<td><?php echo $request['volume']; ?></td>
 			<td><?php echo $request['transportation_type']; ?></td>
 			<td><?php echo (empty($request['bid_count'])) ? '0' : $request['bid_count'] ?></td>
-			<td><?php echo date("Y-m-d", strtotime($request['created_ts'])) ?><br /><?php echo date("H:i:s", strtotime($request['created_ts'])) ?></td>
+			<td><?php echo date("Y-m-d", strtotime($request['expiration_date'])) ?><br /><?php echo date("H:i:s", strtotime($request['expiration_date'])) ?></td>
 			<td><?php echo date("Y-m-d", strtotime($request['created_ts'])) ?><br /><?php echo date("H:i:s", strtotime($request['created_ts'])) ?></td>
 		</tr>
 		<?php } ?>

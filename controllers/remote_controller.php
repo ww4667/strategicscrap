@@ -175,7 +175,7 @@ function controller_remote( $_controller_remote_method = null,
 											$request->created_ts . '<br />' .
 											"	</td>" .
 											( $request->bid_unread && $request->bid_unread != 0 ? '<td style="font-weight: 900;">' : '<td>' ) . 
-											'	' . ( $request->bid_unread && $request->bid_unread != 0 ? '(' . $request->bid_count . ')' : 'waiting' ) . 
+											'	' . ( !empty($request->bid_count) ? '(' . $request->bid_count . ')' : 'waiting' ) . 
 											"	</td>" .
 											"</tr>";
 								$off = !$off;
@@ -355,6 +355,53 @@ function controller_remote( $_controller_remote_method = null,
 			}
 			
 			break;
+			
+		/* set bid as accepted */
+		case 'acceptBid':
+			$bidId = !isset( $_controller_remote_bid_id ) ? !isset( $_GET['bid_id'] ) ? null : $_GET['bid_id'] : $_controller_remote_bid_id;
+			if ($bidId != null) {
+				$b = new Bid();
+				$bid = $b->GetItemObj($bidId);
+				// check for expiration of request
+				if ( $request->expiration_date > date("Y-m-d H:i:s") ) {
+					// set bid status to accepted
+					
+					// set all other bids to rejected
+				} else {
+					// lock request since it was expired
+				}
+			}
+			break;
+			
+		/* return bids by request id */
+		case 'getBidsByRequestId':
+			$requestId = !isset( $_controller_remote_request_id ) ? !isset( $_GET['request_id'] ) ? null : $_GET['request_id'] : $_controller_remote_request_id;
+			if ($requestId != null) {
+				$r = new Request();
+				$request = $r->GetItemObj($requestId);
+				$request->bid_unread = 0;
+				$request->UpdateItem();
+				// check for expiration of request
+				if ( !$request->IsExpired() ) {
+					$bids = $request->getBids();
+					// weed out expired bids due to ship date
+					foreach ($bids as $key => $val) {
+						$b = new Bid();
+						$bid = $b->GetItemObj($val['id']);
+						$expireTS = strtotime("-2 days", strtotime($val['ship_date']));
+						$nowTS = time();
+						if (!$expireTS > $nowTS) {
+							unset($bids[$key]);
+							$bid->status = "expired";
+						}
+						$bid->read = 1;
+						$bid->UpdateItem();
+					}
+					if (!empty($bids))
+						print json_encode( $bids );
+				}
+			}
+			break; 
 			
 		/* return all bids */
 		case 'getBids': 
