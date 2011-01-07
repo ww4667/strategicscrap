@@ -1,12 +1,17 @@
+
+    <style type="text/css">
+    .dataTables_scroll{background: #ebebeb;}
+    </style>
+
 <div class="brokerDashboard">
 <div class="leftCol">
 <div class="lowerArea">
 	<div class="twoColMod" id="recentResponses"><div class="moduleTop"><!-- IE hates empty elements --></div>
-		<div class="moduleContent">
+		<div class="moduleContent clearfix">
 	    	<h3>ADVANCED QUOTE MANAGER</h3>
 			<div class="more"><a href="[~21~]">back to dashboard</a></div>
 			<hr />
-			<div class="filter">
+			<!-- <div class="filter">
 				<div style="float:right">search results: 50 matches</div>
 				<div id="filter1" class="cloned">
 	                <select name="filter[0][field]">
@@ -23,19 +28,16 @@
 				<a class="add btnAdd" href="#" title="add another filter" style="display:inline-block;margin-top:7px;margin-bottom:-7px">add</a>
 				<a class="minus btnRemove" href="#" title="remove filter" style="display:none;margin-top:7px;margin-bottom:-7px">remove</a>
 				</div>
-				<div style="clear:both;float:none"><!-- IE hates empty elemenets --></div>
-			</div>
-			<table>
-			<tbody><tr class="row2">
+				<div style="clear:both;float:none"><!-- IE hates empty elemenets -- ></div>
+			</div> -->
+			<table id="data_table_1" class="quotes stripes" style ="width: 559px;">
+			<thead><tr class="">
 			    <th style="width:100px">STATUS</th>
 			    <th style="width:220px">DESCRIPTION</th>
 			    <th style="width:100px">QUOTE DATE</th>
 			    <th>&nbsp;</th>
 			</tr>
-			</tbody>
-			</table>
-			<div id="scroll-pane3" class="jScrollPaneContainer" tabindex="0">
-			<table class="quotes stripes">
+			</thead>
 			<tbody>
 			<tr class="accepted">
 			    <td class="status" style="width:100px"><strong>Accepted</strong></td>
@@ -43,7 +45,7 @@
 			    <td style="width:100px">04/30/2010</td>
 			    <td><a class="archive" href="" title="archive this quote">archive</a></td>
 			</tr>
-			<tr class="row2 waiting">
+			<tr class=" waiting">
 			    <td class="status"><strong>Waiting</strong></td>
 			    <td><strong>Ship to:</strong> Demo Steel Company<br><strong>Material:</strong> No. 1 Machinery Cast<br><strong>Quantity (tons):</strong> 550<br><strong>Delivery Date:</strong> 05/10/2010</td>
 			    <td>05/03/2010</td>
@@ -55,7 +57,7 @@
 			    <td>05/04/2010</td>
 			    <td><a class="archive" href="#" title="archive this quote">archive</a></td>
 			</tr>
-			<tr class="row2 rejected">
+			<tr class=" rejected">
 			    <td class="status"><strong>Rejected</strong></td>
 			    <td><strong>Ship to:</strong> Demo Steel Company<br><strong>Material:</strong> No. 1 Machinery Cast<br><strong>Quantity (tons):</strong> 550<br><strong>Delivery Date:</strong> 05/10/2010</td>
 			    <td>05/03/2010</td>
@@ -67,20 +69,55 @@
 			    <td>05/04/2010</td>
 			    <td><a class="archive" href="#" title="archive this quote">archive</a></td>
 			</tr>
-			<tr class="row2 expired">
-			    <td class="status"><strong>Expired</strong></td>
-			    <td><strong>Ship to:</strong> Demo Steel Company<br><strong>Material:</strong> No. 1 Machinery Cast<br><strong>Quantity (tons):</strong> 550<br><strong>Delivery Date:</strong> 05/10/2010</td>
-			    <td>05/03/2010</td>
-			    <td><a class="archive" href="#" title="archive this quote">archive</a></td>
-			</tr>
-			<tr class="rejected">
-			    <td class="status"><strong>Rejected</strong></td>
-			    <td><strong>Ship to:</strong> Demo Steel Company<br><strong>Material:</strong> No. 1 Machinery Cast<br><strong>Quantity (tons):</strong> 550<br><strong>Delivery Date:</strong> 05/10/2010</td>
-			    <td>05/04/2010</td>
-			    <td><a class="archive" href="#" title="archive this quote">archive</a></td>
-			</tr>
+      <tr class=" expired">
+          <td class="status"><strong>Expired</strong></td>
+          <td><strong>Ship to:</strong> Demo Steel Company<br><strong>Material:</strong> No. 1 Machinery Cast<br><strong>Quantity (tons):</strong> 550<br><strong>Delivery Date:</strong> 05/10/2010</td>
+          <td>05/03/2010</td>
+          <td><a class="archive" href="#" title="archive this quote">archive</a></td>
+      </tr>
+      <tr class="rejected">
+          <td class="status"><strong>Rejected</strong></td>
+          <td><strong>Ship to:</strong> Demo Steel Company<br><strong>Material:</strong> No. 1 Machinery Cast<br><strong>Quantity (tons):</strong> 550<br><strong>Delivery Date:</strong> 05/10/2010</td>
+          <td>05/04/2010</td>
+          <td><a class="archive" href="#" title="archive this quote">archive</a></td>
+      </tr>
+      <tr class=" expired">
+          <td class="status"><strong>Expired</strong></td>
+          <td><strong>Ship to:</strong> Demo Steel Company<br><strong>Material:</strong> No. 1 Machinery Cast<br><strong>Quantity (tons):</strong> 550<br><strong>Delivery Date:</strong> 05/10/2010</td>
+          <td>05/03/2010</td>
+          <td><a class="archive" href="#" title="archive this quote">archive</a></td>
+      </tr>
+      <tr class="rejected">
+          <td class="status"><strong>Rejected</strong></td>
+          <td><strong>Ship to:</strong> Demo Steel Company<br><strong>Material:</strong> No. 1 Machinery Cast<br><strong>Quantity (tons):</strong> 550<br><strong>Delivery Date:</strong> 05/10/2010</td>
+          <td>05/04/2010</td>
+          <td><a class="archive" href="#" title="archive this quote">archive</a></td>
+      </tr>
+      <tr class=" expired">
+          <td class="status"><strong>Expired</strong></td>
+          <td><strong>Ship to:</strong> Demo Steel Company<br><strong>Material:</strong> No. 1 Machinery Cast<br><strong>Quantity (tons):</strong> 550<br><strong>Delivery Date:</strong> 05/10/2010</td>
+          <td>05/03/2010</td>
+          <td><a class="archive" href="#" title="archive this quote">archive</a></td>
+      </tr>
+      <tr class="rejected">
+          <td class="status"><strong>Rejected</strong></td>
+          <td><strong>Ship to:</strong> Demo Steel Company<br><strong>Material:</strong> No. 1 Machinery Cast<br><strong>Quantity (tons):</strong> 550<br><strong>Delivery Date:</strong> 05/10/2010</td>
+          <td>05/04/2010</td>
+          <td><a class="archive" href="#" title="archive this quote">archive</a></td>
+      </tr>
+      <tr class=" expired">
+          <td class="status"><strong>Expired</strong></td>
+          <td><strong>Ship to:</strong> Demo Steel Company<br><strong>Material:</strong> No. 1 Machinery Cast<br><strong>Quantity (tons):</strong> 550<br><strong>Delivery Date:</strong> 05/10/2010</td>
+          <td>05/03/2010</td>
+          <td><a class="archive" href="#" title="archive this quote">archive</a></td>
+      </tr>
+      <tr class="rejected">
+          <td class="status"><strong>Rejected</strong></td>
+          <td><strong>Ship to:</strong> Demo Steel Company<br><strong>Material:</strong> No. 1 Machinery Cast<br><strong>Quantity (tons):</strong> 550<br><strong>Delivery Date:</strong> 05/10/2010</td>
+          <td>05/04/2010</td>
+          <td><a class="archive" href="#" title="archive this quote">archive</a></td>
+      </tr>
 		</tbody></table>
-		</div>
 		</div><div class="moduleBottom"><!-- IE hates empty elements --></div>	
 	</div>
 </div>
@@ -151,5 +188,21 @@
 			if(num-1==1)$('.filter').find('a.minus').hide();
 			return false;
 		});
+		
+		$('#data_table_1').dataTable( {
+      "sScrollY": "527px",
+      "bPaginate": false,
+      "bFilter": true,
+      "bInfo": true,
+      "fnInfoCallback": function( oSettings, iStart, iEnd, iMax, iTotal, sPre ) {
+        $("#data_tables_info").remove();
+        var info = "<span id='data_tables_info' style='float: right; margin-right: 10px;'>Found " + iEnd +" of "+ iMax + "</span>";
+        $("#data_table_1_filter").append(info);
+        console.dir($("#data_table_1_filter"));
+        }
+    });
+
+    sw.quoteManagerSlider = new sw.app.verticalSlider('#recentResponses', '.dataTables_scrollBody','#data_table_1',{overflow: "hidden", float: "left"}, {position: "relative"} );
+    
 	});
 </script>
