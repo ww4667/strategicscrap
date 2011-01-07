@@ -20,7 +20,7 @@
 	<div id="tryit_wrapper" class="content">
 	    <p>Boost your profits by tapping into the most powerful and comprehensive tool the scrap  metal industry has ever seen. Pricing, market data, transportation hub and more! <strong style="color:#000">Sign up for your free trial today!</strong></p>
 		<div class="form_wrapper">
-			<form action="/scrap-registration" method="post">
+			<form action="https://<?= $_SERVER['HTTP_HOST'] ?>/scrap-registration" method="post">
 				<input type="hidden" name="try_it" />
 				<ul>
 					<li>
