@@ -90,8 +90,29 @@
 
   
   <?} else {?>
+  <script type="text/javascript">
+  $(document).ready(function() {
+			
+	$('#watch_video').hover(function(){ 
+       $(this).attr('src', '/resources/images/buttons/watch_video_hover.png'); 
+	}, function(){ 
+       $(this).attr('src', '/resources/images/buttons/watch_video.png'); 
+	});
+	$('#post_a_classified').hover(function(){ 
+       $(this).attr('src', '/resources/images/buttons/post_a_classified_hover.png'); 
+	}, function(){ 
+       $(this).attr('src', '/resources/images/buttons/post_a_classified.png'); 
+	});
+			
+  });
+  </script>
 
 <div id="equipClassifieds" class="classifiedListing">
+	<div>
+		<div style="float:left"><a href="#"><img src="/resources/images/buttons/watch_video.png" alt="watch a video" id="watch_video" /></a></div>
+		<div style="float:left;margin-left:20px"><a href="#"><img src="/resources/images/buttons/post_a_classified.png" alt="post a classified"  id="post_a_classified" /></a></div>
+		<div style="clear:both;padding:20px 0">If you would like us to post your classified, please call us at 866-796-7272 or email us at classifieds@strategicscrap.com</div>
+	</div>
 					  	
 	<ul id="tabs-equipClass">
 		<li><a href="#tab1"><span>Sell Equipment</span></a></li>
