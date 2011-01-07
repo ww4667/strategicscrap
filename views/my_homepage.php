@@ -290,24 +290,142 @@
 					</div><div class="moduleBottom"><!-- IE hates empty elements --></div>
 					</div>
 				</div>
-				<script type="text/javascript">
-				$( "#modal_request" ).dialog({
-					autoOpen: false,
-					height: 300,
-					width: 350,
-					modal: true,
-					buttons: {
-						"Create an account": function() {
-							console.log("hi there");
-						},
-						Cancel: function() {
-							$( this ).dialog( "close" );
-						}
-					},
-					close: function() {
-						allFields.val( "" ).removeClass( "ui-state-error" );
-					}
-				});
 
-				</script>
-				<div id="modal_request" style="display:none;">This is a modal.</div>
+<script type="text/javascript">
+$(".scrapQuote").colorbox({ width:"550", inline:true, href:"#quoteForm", 
+    onComplete:function(){ 
+    	current_request = $( this ).attr( "requestid" ); 
+    	$("#request_loading").show();
+    	$("#request_data").hide();
+    	$.colorbox.resize();
+    	$.getJSON(
+    	    	'/controllers/remote_controller.php',
+    	    	{	"method":"getRequestsFromSession",
+        	    	"session_id":"<?=session_id();?>",
+					"request_id": current_request },
+				function(data){
+						var from = 	data.join_scrapper[0].address_1 + '<br />' + 
+						( data.join_scrapper[0].address_2 != '' ? data.join_scrapper[0].address_2 + '<br />' : '' ) + 
+						data.join_scrapper[0].city + ', ' + 
+						data.join_scrapper[0].state_province + ' ' + 
+						data.join_scrapper[0].postal_code;
+						$("#bid_request_ship_from").html( from );
+						
+						var to = 	data.join_facility[0].address_1 + '<br />' + 
+						( data.join_facility[0].address_2 != '' ? data.join_facility[0].address_2 + '<br />' : '' ) + 
+						data.join_facility[0].city + ', ' + 
+						data.join_facility[0].state_province + ' ' + 
+						data.join_facility[0].postal_code;
+						$("#bid_request_ship_to").html( to );
+						
+						var material = 	data.join_material[0].name;
+						$("#bid_request_material").html( material );
+						
+						var volume = 	data.volume;
+						$("#bid_request_quantity").html( volume );
+						
+						var delivery_date = 	data.arrive_date;
+						$("#bid_request_delivery_date").html( delivery_date );
+						
+						var transportation = 	data.transportation_type;
+						$("#bid_request_preferred_transporation").html( transportation );
+
+						$("#bid_data").html('');
+						
+						$.getJSON(
+				    	    	'/controllers/remote_controller.php',
+				    	    	{	"method":"getBidsByRequestId",
+				        	    	"session_id":"<?=session_id();?>",
+									"request_id": current_request },
+								function(data){
+
+										var transport_cost, material_price, ship_date, arrival_date, notes, i=0;
+
+										if( data ){
+											
+											for( i; i<data.length; i++ ){
+
+												bid_id 			=	data[i].id;
+												transport_cost 	=	data[i].transport_cost;
+												material_price 	=	data[i].material_price;
+												ship_date 		=	data[i].ship_date;
+												arrival_date 	=	data[i].arrival_date;
+												notes 			=	data[i].notes;
+												
+												$("#bid_data").append('<div class="bid" style="display:table;padding:5px 5px 5px 10px;border:3px solid #ccc;cursor:pointer;">' + 
+																	'	<div style="float:left;width:329px;">' + 
+																	'		<strong>Cost:</strong> '+transport_cost+'<br />' + 
+																	'		<strong>Material Price:</strong>'+material_price+' <br />'+
+																	'		<strong>Ship Date:</strong>'+ship_date+' <br />'+
+																	'		<strong>Arrival Date:</strong>'+arrival_date+' <br />'+
+																	'		<strong>Notes:</strong>'+notes+' <br />'+
+																	'	</div>' + 
+																	'	<div style="float:left;width:100px;" id="bidButtons_'+bid_id+'" >' + 
+																	'		<button type="button" class="acceptButton" id="accept_'+bid_id+'" bidid='+bid_id+' >Accept</button>' + 
+																	'		<button type="button" class="sureButton" id="sure_'+bid_id+'" bidid='+bid_id+' >Are you Sure?</button>' + 
+																	'		<button type="button" class="cancelButton" id="cancel_'+bid_id+'" bidid='+bid_id+' >Cancel</button>' + 
+																	'	</div>' + 
+																	'</div>');
+												
+												
+											}
+												
+	
+											$('.acceptButton').click(function(){
+																		var bidId = $(this).attr('bidid');
+																		$('#accept_'+bidId).hide();
+																		$('#sure_'+bidId).show();
+																		$('#cancel_'+bidId).show();}); 
+											
+											$('.sureButton').click(function(){
+												var bidId = $(this).attr('bidid');
+												$.getJSON(
+										    	    	'/controllers/remote_controller.php',
+										    	    	{	"method":"acceptBid",
+										        	    	"session_id":"<?=session_id();?>",
+															"bid_id": bidId },
+														function(data){$.colorbox.close();});
+											}).hide();
+											
+											$('.cancelButton').click(function(){
+																	var bidId = $(this).attr('bidid');
+																	$('#accept_'+bidId).show();
+																	$('#sure_'+bidId).hide();
+																	$('#cancel_'+bidId).hide(); }).hide();
+										
+										}
+
+								    	$("#request_loading").hide();
+								    	$("#request_data").show(500, function(){ $.colorbox.resize();  });
+								});
+						
+				}); 
+	} 
+});
+</script>
+				
+<div style="display:none">
+  <div id="quoteForm" style="padding:20px; background:#fff;">
+    <div id="bidForm">
+      <h2>REQUEST</h2>
+      <hr />
+      <div id="request_data">
+		<strong>Ship from:</strong><br /><span id="bid_request_ship_from" style="display:block;padding: 0 0 0 10px;"><!--  --></span> <br />
+		<strong>Ship to:</strong><br /><span id="bid_request_ship_to" style="display:block;padding: 0 0 0 10px;"><!--  --></span><br />
+		<strong>Material:</strong> <span id="bid_request_material"><!--  --></span><br />
+		<strong>Volume (tons):</strong> <span id="bid_request_quantity"><!--  --></span><br />
+		<strong>Delivery Date:</strong> <span id="bid_request_delivery_date"><!--  --></span><br />
+		<strong>Preferred Transporation:</strong> <span id="bid_request_preferred_transporation"><!--  --></span>
+		<br />
+      	<hr />
+		<h2>BIDS</h2>
+		<div id="bid_data">
+			
+		</div>
+      </div>
+      <div id="request_loading">Loading Request</div>
+      <hr />
+      
+    </div>
+  </div>
+</div>
