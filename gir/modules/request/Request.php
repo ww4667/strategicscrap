@@ -160,9 +160,27 @@ class Request extends Crud {
 		return $this->_getBids();
 	}
 	
+	public function IsExpired(){
+		return $this->_isExpired();
+	}
+	
 	private function _getBids(){
 		$foreignObj = new Bid();
 		return $foreignObj->ReadForeignJoins( $this );
+	}
+	
+	private function _isExpired(){
+		$createdTS = strtotime($this->created_ts);
+		$shipTS = strtotime($this->ship_date);
+		$expiration = strtotime("+14 days",$createdTS);
+		$nowTS = time();
+		if ( $expiration > $nowTS && $shipTS > $nowTS ) {
+			return true; 
+		} else {
+			$this->locked = 1;
+			$this->UpdateItem();
+			return false;
+		}
 	}
 }
 ?>

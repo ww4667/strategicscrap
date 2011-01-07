@@ -33,6 +33,8 @@ if(!$gir->auth->authenticate()){
 				$r = new Request();
 				$r->CreateItem($post_data);
 				$request = $r->GetItemObj($r->newId);
+				$request->expiration_date = (strtotime("+14 days", strtotime($request->created_ts)) > strtotime("-2 days", strtotime($request->ship_date))) ? date("Y-m-d H:i:s", strtotime("-2 days", strtotime($request->ship_date))) : date("Y-m-d H:i:s", strtotime("+14 days", strtotime($request->created_ts)));
+				$request->UpdateItem();
 				// attach facility, scrapper and material to the request
 				$request->addFacility($post_data['facility_id']);
 				// we have the user id so... technically this is attaching a user id not a scrapper id

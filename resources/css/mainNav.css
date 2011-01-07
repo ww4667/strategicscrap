@@ -15,7 +15,7 @@
 /* ----[Top Level Links]---- */
 #mainnav li.li-top 						{float:left; display:block;}
 /* #mainnav li.li-top a.mainItem {float:left;color:#fff;line-height:35px;font-size:14px;text-transform:uppercase;padding:0 11px;} */ /* <---- Adjust width of buttons with this */
-#mainnav li.li-top a.mainItem 			{float:left;color:#fff;line-height:35px;font-size:13px;text-transform:uppercase;padding:0 14px;/* <---- Adjust width of buttons with this */}
+#mainnav li.li-top a.mainItem 			{float:left;color:#fff;line-height:35px;font-size:13px;text-transform:uppercase;padding:0 35px;/* <---- Adjust width of buttons with this */}
 #mainnav li.li-top a.mainItem img		{padding:1px 0;}
 
     /* Top Level Link, No Dropdown - Hover */
@@ -23,6 +23,9 @@
 	
 	/* Top Level Link, No Dropdown - IE6 Hover */
 	#mainnav li a.mainItem:hover 		{position:relative;color:#F96C14;}
+
+/* ----[Top Level Home Link]---- */
+#mainnav li.li-top.home a.mainItem 			{float:left;color:#fff;line-height:35px;font-size:13px;text-transform:uppercase;padding:0 20px;/* <---- Adjust width of buttons with this */}
 
 /* ----[Current Page Top Level Link]---- */	
 #mainnav li.current a.mainItem			{color:#F96C14;background:#000 url(../images/bg/nav_on.png) repeat-x;border:1px solid #000;line-height:33px;}
@@ -43,17 +46,17 @@
 	/* Top Level Link, With Dropdown - Hover */
 	#mainnav li.li-top:hover ul 			{margin-top:35px;}
 	#mainnav li.li-top:hover 				{position:relative;}
-	#mainnav li.li-top:hover > a 			{padding:0 13px;color:#F96C14;background:#000 url(../images/bg/nav_on.png) repeat-x;border:1px solid #000;line-height:33px;} /* Dropdown Menu */
+	#mainnav li.li-top:hover > a 			{padding:0 34px;color:#F96C14;background:#000 url(../images/bg/nav_on.png) repeat-x;border:1px solid #000;line-height:33px;} /* Dropdown Menu */
 	#mainnav li.li-top:hover a.mainItem img	{padding:0;}
-	#mainnav li.current:hover > a 			{padding:0 14px;color:#F96C14;} /* Dropdown Menu for "On" state */
+	#mainnav li.current:hover > a 			{padding:0 35px;color:#F96C14;} /* Dropdown Menu for "On" state */
 	
 	/* Top Level Link, With Dropdown - IE6 Hover */
 	#mainnav li.li-top a.mainItem:hover 	{color:#F96C14;position:relative;}
 	#mainnav li.current a.mainItem:hover 	{color:#F96C14;position:relative;}
 
 	/* Home icon instead of text */
-	#mainnav li.home a,#mainnav li.home a:visited { background:url("/resources/images/home.png") no-repeat scroll 14px 2px transparent; text-indent:-5000px; width:17px; padding-right:13px; border-right:none; }
-	#mainnav li.home a:hover 	{ background:url("/resources/images/bg/home-hover.png") repeat-x scroll 2px 0 transparent; text-indent:-5000px; padding-right:13px; border:1px solid #000000; }
-	#mainnav li.home.current a 	{ background:url("/resources/images/bg/home-hover.png") repeat-x scroll 2px 0 transparent; text-indent:-5000px; padding-right:13px; border:1px solid #000000; }
+	#mainnav li.li-top.home a,#mainnav li.li-top.home a:visited { background:url("/resources/images/home.png") no-repeat scroll 20px 2px transparent; text-indent:-5000px; width:17px; padding-right:20px; border-right:none; }
+	#mainnav li.li-top.home a:hover 	{ background:url("/resources/images/bg/home-hover.png") repeat-x scroll 8px 0 transparent; text-indent:-5000px; padding-right:18px; border:1px solid #000000;line-height:33px; }
+	#mainnav li.li-top.home.current a 	{ background:url("/resources/images/bg/home-hover.png") repeat-x scroll 8px 0 transparent; text-indent:-5000px; padding-right:18px; border:1px solid #000000;line-height:33px; }
 
 /*	#mainnav li ul li.home a,#mainnav li ul li.home a:visited,#mainnav li ul li.home a:hover { background:none; border:none; padding-right:10px; } */
