@@ -130,7 +130,7 @@ ul.regionBullets li{float:left;width:210px;}
 		#register_form_inner input#register_btn	{margin:25px 90px 0 0;padding:0;width:168px;height:46px;}
 
 /* ----[5 & 6. Scrap & Equipment Classifieds]---- */
-.row2{background-color:#EBEBEB;}
+.even, .row2{background-color:#EBEBEB;}
 .classifiedListing strong{text-transform:uppercase;display:block;padding-bottom:10px;}
 .classifiedListing p{padding-bottom:10px;}
 .classifiedListing a, .classifiedListing a:visited, .classifiedListing a:hover{text-decoration:underline;}
@@ -140,7 +140,7 @@ ul.regionBullets li{float:left;width:210px;}
 	.listingDescBox strong{font-size:15px;}
 	.listingDescBox dt{float:left;width:75px;}
 	.listingDescBox dd{float:left;width:310px;margin:0;}
-	.listingDescBox p.description{padding-bottom:20px;}
+	.listingDescBox p.description{padding-bottom:20px;}  
 	.listingDescBox p.contactInfo{font-size:15px;}
 
 .scrapListing{padding:20px 30px;}
@@ -148,7 +148,7 @@ ul.regionBullets li{float:left;width:210px;}
 	.scrapListing dt{float:left;width:70px;}
 	.scrapListing dt.col1{clear:both;width:50px;}
 	.scrapListing dt.colspan2{width:300px;}
-	.scrapListing dd{float:left;width:100px;margin:0;}
+	.scrapListing dd{float:left;width:120px;margin:0;}
 
 .equipListing			{padding:30px;}
 	.equipListing dl 	{margin:0;}
@@ -157,8 +157,8 @@ ul.regionBullets li{float:left;width:210px;}
 .brokerDashboard .moduleContent h3{float:left;}
 .brokerDashboard .leftCol hr{margin-bottom:0;}
 .brokerDashboard .more{float:right;margin:10px 20px 0 0;text-decoration:underline;}
-.brokerDashboard .filter{background:#777;color:#fff;line-height:40px;padding-left:20px}
-.brokerDashboard .filter div{float:left;margin-right:20px;}
+.brokerDashboard .filter, .dataTables_filter{background:#777;color:#fff;line-height:40px;padding-left:20px}
+.brokerDashboard .filter div, .dataTables_filter div{float:left;margin-right:20px;}
 .brokerDashboard .expired{color:#CCC;font-weight:700;}
 .brokerDashboard .status{font-weight:700}
 .brokerDashboard a.archive{width:22px;height:22px;display:block;background:url(/resources/images/buttons/dashboard_action.png) 0px 0px;text-indent:-5000px}
