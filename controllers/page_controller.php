@@ -377,7 +377,7 @@ require_once($_SERVER['DOCUMENT_ROOT']."/gir/index.php");
 			// page 'template variables'
 //			$PAGE_BODY = "views/intro_screen.php";  	/* which file to pull into the template */
 //			if(isset($_GET['new']))
-			$PAGE_BODY = "views/intro_screen_new.php";  	/* which file to pull into the template */			
+			$PAGE_BODY = "views/intro_screen_newer.php";  	/* which file to pull into the template */			
 						
 			//the layout file  -  THIS PART NEEDS TO BE LAST
 			require($_SERVER['DOCUMENT_ROOT']."/views/layouts/shell.php");
