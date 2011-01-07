@@ -27,7 +27,6 @@
   <script type="text/javascript">
  
   var sw = {"app":{}};
-
   
 </script>
 
@@ -41,8 +40,6 @@
       #slider-vertical{position:relative;height:100%; width: 16px;}
       .ui-slider-handle{width:16px;height:10px;margin:0 auto;background-color:#0d0d0d;display:block;position:absolute}
 
-
-      #tabs-equipClass, #tabs-scrapClass {margin: 0; padding: 0;}
       #tabs-equipClass, #tabs-scrapClass {margin: 0; padding: 0;}
 	  .classifiedListing ul li {margin-left:0}
     </style>

@@ -197,8 +197,7 @@
       "fnInfoCallback": function( oSettings, iStart, iEnd, iMax, iTotal, sPre ) {
         $("#data_tables_info").remove();
         var info = "<span id='data_tables_info' style='float: right; margin-right: 10px;'>Found " + iEnd +" of "+ iMax + "</span>";
-        $("#data_table_1_filter").append(info);
-        console.dir($("#data_table_1_filter"));
+        $("#data_table_1_filter").append(info); 
         }
     });
 
