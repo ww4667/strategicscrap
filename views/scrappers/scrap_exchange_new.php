@@ -15,6 +15,7 @@ tr.details td{padding:0}
 .fullCol .moduleContent td:first-child{font-weight:normal;}
 #map_container{width:auto; height: 480px; margin:10px}
 #geo_progress{background-color:#ff6600;}
+.facility_details{display:none;}
 </style>
 
 <script type="text/javascript">
@@ -33,7 +34,7 @@ tr.details td{padding:0}
 				if( !initLoad ) loadMarkers();
 			});
 
-			$("#mapForm input:checkbox").click(function(item){
+			$("#mapForm input:radio").click(function(item){
 				if( !addingItems && !removingItems ) updateMarkers();
 			});
 	});
@@ -91,7 +92,7 @@ tr.details td{padding:0}
 			        baseIcon.shadowSize = new GSize(0, 0);
 			        baseIcon.iconAnchor = new GPoint(0, 0);
 			        baseIcon.infoWindowAnchor = new GPoint(0, 0);
-			        baseIcon.image = "http://demo.strategicscrap.com/lib/map/orange_dot.png";
+			        baseIcon.image = "/lib/map/orange_dot.png";
 				
 				googleMap = new google.maps.Map2(document.getElementById("map_container"));
 				//googleMap.enableGoogleBar();
@@ -209,7 +210,7 @@ for (var i=0; i<mt.length; i++) {
 			//Set up url template
 			var filterName = $("#filter_selector").val();
 			var mapType = $("input[name=mapType]:checked").val();
-			var tileUrlTemplate = 'http://demo.strategicscrap.com/lib/map/tile.php?x={X}&y={Y}&zoom={Z}&f=Grayscale&m=' + mapType + '&args=';
+			var tileUrlTemplate = '/lib/map/tile.php?x={X}&y={Y}&zoom={Z}&f=Grayscale&m=' + mapType + '&args=';
 			//All filters parameters are in the 'args' url parameter separated by a comma
 			if("Swap_Color" == filterName){
 				$(".color").each(function(i){
@@ -260,11 +261,11 @@ var points = [];
 function updateMarkers(){
 	
 	
-	$("#mapForm input:checkbox").attr('disabled','disabled');
+	$("#mapForm input:radio").attr('disabled','disabled');
 
 	
 	modData = [];
-	var checkedItems = $("#mapForm input:checkbox:checked");
+	var checkedItems = $("#mapForm input:radio:checked");
     var val_string = "||";
 	
 	$.each(checkedItems, function() {
@@ -289,7 +290,7 @@ function updateMarkers(){
 	if(checkedItems.length < 1) {
 		modData = [];
 		updatePageData();
-		$("#mapForm input:checkbox").removeAttr('disabled');
+		$("#mapForm input:radio").removeAttr('disabled');
 		$('.moduleContent h3 span:first').text(modData.length);
 	}
 
@@ -301,30 +302,47 @@ function updatePageData( json ){
 	if(!json) return false; 
 	updateFilters = true;
 	removeMarkers();
-	$("#mapForm input:checkbox").removeAttr('disabled');
+	$("#mapForm input:radio").removeAttr('disabled');
 	$('.moduleContent h3 span:first').text(modData.length);
 
 	var pageData = "", i = 0, l = json.length,cur = null, highlight = true;
 	
 	for(i;i<l;i++){
 		cur = json[i];
-		pageData += '<tr class="' + ( highlight ? 'row1' : 'row2' ) + '" >';
-		pageData += '	<td style="width:30px"><a class="scrapQuote quote" href="#" title="view details">details</a></td>';
+		pageData += '<tr class="' + ( highlight ? 'row1' : 'row2' ) + ' scrapRow" rowId="facility_'+i+'" >';
+		pageData += '	<td style="width:30px"><a class="scrapQuote quote" title="view details">details</a></td>';
 		pageData += '	<td style="width:130px">'+cur.company+'</td>';
 		pageData += '	<td style="width:60px">'+cur.category+'</td>';
 		pageData += '	<td style="width:200px">'+cur.address_1+ (cur.address_2 != '' ? '<br />' + cur.address_2 : '') + '<br />' + cur.city+', ' +cur.state_province+' '+ cur.zip_postal_code+'</td>';
 		pageData += '	<td style="width:60px">'+cur.state_province+'</td>';
-		pageData += '	<td style="width:110px">'+cur.first_name+' '+cur.last_name+'</td>';
-		pageData += '	<td><a href="/transportation-hub?id='+cur.id+'">shipping quote</a></td>';
+		pageData += '	<td style="width:110px">'+cur.first_name+' '+cur.last_name+'';
+		pageData += '	'+(cur.business_phone != '' ? 'Business: ' + cur.business_phone : '')+'</td>';
+		pageData += '	<td><a trans_id="'+cur.id+'" class="ship_quote_button">shipping quote</a></td>';
 		pageData += '</tr>';
-		pageData += '<tr style="display:none;" id="facility_'+i+'" class="details ' + ( highlight ? 'row1' : 'row2' ) + ' ">';
-		pageData += '	<td colspan="7"><div>details go here</div></td>';
+		pageData += '<tr id="facility_'+i+'" class="facility_details ' + ( highlight ? 'row1' : 'row2' ) + ' ">';
+		pageData += '	<td colspan="7">';
+		pageData += '	'+( cur.home_phone != '' ? 'Home: ' + cur.home_phone + '<br />' : '' );
+		pageData += '	'+( cur.fax_number != '' ? 'Fax: ' + cur.fax_number + '<br />' : '' );
+		pageData += '	'+( cur.website != '' ? 'Website: <a href="' + cur.website + '" target="_blank">' + cur.website + '</a><br />' : '' );
+		pageData += '	'+( cur.attachments != '' ? 'Attachment: <a href="' + cur.attachments + '" target="_blank">' + cur.attachments + '</a><br />' : '' );
+		pageData += '	'+( cur.notes != '' ? 'Notes: <blockquote>'+cur.notes+'<blockquote><br />' : '' );
+		pageData += '	</td>';
 		pageData += '</tr>';
 		highlight = !highlight;
 	}
 	highlight = true;
 	$("#scrollData").html(pageData);
     $('#scroll-pane1').jScrollPane();
+	
+	$('.scrapRow').click(function(){
+		var rowId = $(this).attr("rowId");
+		$('#' + rowId).slideToggle();
+	});
+	
+	$('.ship_quote_button').click(function(){
+		var trans_id = $(this).attr("trans_id");
+		$('#transport_form').load('/views/scrappers/transport_material.php?id=' + trans_id);
+	});
 }
 
 function loadMarkers(){ 
@@ -341,7 +359,7 @@ function addIcon(icon) {
 	icon.shadowSize = new GSize(0, 0);
 	icon.iconAnchor = new GPoint(0, 0);
 	icon.infoWindowAnchor = new GPoint(0, 0);
-	icon.image = "http://demo.strategicscrap.com/lib/map/orange_dot.png";
+	icon.image = "/lib/map/orange_dot.png";
 }
 
 
@@ -349,7 +367,7 @@ function createMarkers(){
 	var data = modData;
 
 	var icon = new GIcon();
-	icon.image = "http://demo.strategicscrap.com/lib/map/orange_dot.png";
+	icon.image = "/lib/map/orange_dot.png";
 	addIcon(icon);
 
 	for(var i = 0; i < data.length; i++) {
@@ -364,11 +382,16 @@ function createMarkers(){
         data[i].state_province + ' ' + 
         data[i].zip_postal_code + 
         "<hr />" + 
-        ( data[i].home_phone != "" ? "<br />Home Phone: " + data[i].home_phone : "" ) + 
-        ( data[i].mobile_phone != "" ? "<br />Mobile Phone: " + data[i].mobile_phone : "" ) + 
-        ( data[i].fax_number != "" ? "<br />Fax: " + data[i].fax_number : "" ) + 
+        ( data[i].business_phone != "" ? "Business Phone: " + data[i].business_phone + "<br />" : "" ) + 
+        ( data[i].home_phone != "" ? "Home Phone: " + data[i].home_phone + "<br />" : "" ) + 
+        ( data[i].mobile_phone != "" ? "Mobile Phone: " + data[i].mobile_phone + "<br />" : "" ) + 
+        ( data[i].fax_number != "" ? "Fax: " + data[i].fax_number + "<br />" : "" ) + 
         "<hr />Website: <a href='" + data[i].website + "' target='_blank'>click here</a>" +
-        "<hr />Get Quote: <a href='/transportation-hub?id="+data[i].id+"'>click here</a>" +
+        "<hr />Get Quote: <a trans_id='"+data[i].id+"' class='ship_quote_button'>click here</a>" +
+       	( data[i].attachments != "" ?
+        "<hr />Attachment: <a href='"+data[i].attachments+"'>"+data[i].attachments+"</a>" : "" ) +
+       	( data[i].notes != "" ?
+        "<hr />Notes: <blockquote>"+data[i].notes+"</blockquote>" : "" ) +
         "<\/div>";
         
 		gmarkers[i].content = html;
@@ -400,6 +423,11 @@ function onMarkersCreated(){
 	num = 0;
 	initLoad = true;
 	addingItems = false;
+	
+	$('.ship_quote_button').click(function(){
+		var trans_id = $(this).attr("trans_id");
+		$('#transport_form').load('/views/scrappers/transport_material.php?id=' + trans_id+'&session_id=<?=session_id();?>');
+	});
 }
 
 function removeMarkers(){  
@@ -434,7 +462,7 @@ function onMarkersRemoved(){
 		<? if ($perCol == $i) { ?>
 		<div style="width:200px;float:left;">
 		<? } ?>
-			<input type="checkbox" id="mat_<?=$mat->id?>" value="<?=$mat->id?>" /><span><?= $mat->name ?></span><br />
+			<input type="radio" name="material" id="mat_<?=$mat->id?>" value="<?=$mat->id?>" /><span><?= $mat->name ?></span><br />
 		<? if ($i == 1 || $ii == count($materials)) { ?>
 		</div>
 		<? } ?>
@@ -521,4 +549,6 @@ function onMarkersRemoved(){
 			</div> 
 		</div> 
 	</div> 
-</div>
+</div> 
+<?=session_id();?>
+<div id="transport_form"></div>
