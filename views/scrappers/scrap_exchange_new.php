@@ -67,7 +67,8 @@ tr.details td{padding:0}
 		var existingPaletteColors = new Array();
 		var originalColors = '';		
 		var progressBar;
-		var markerOptions;
+		var markerOptions; 
+		var popupEventsAdded = false; 
 
         var baseIcon;
 		
@@ -116,6 +117,10 @@ for (var i=0; i<mt.length; i++) {
 						        // Add a move listener to restrict the bounds range
 							      GEvent.addListener(googleMap, "move", function() {
 							        checkBounds();
+							      });
+
+							      GEvent.addListener(googleMap, "click", function() {
+								    	  addTransportFormEvent();
 							      });
 							 
 							      // The allowed region which the whole map must be within
@@ -338,11 +343,8 @@ function updatePageData( json ){
 		var rowId = $(this).attr("rowId");
 		$('#' + rowId).slideToggle();
 	});
-	
-	$('.ship_quote_button').click(function(){
-		var trans_id = $(this).attr("trans_id");
-		$('#transport_form').load('/views/scrappers/transport_material.php?id=' + trans_id);
-	});
+
+	addTransportFormEvent();
 }
 
 function loadMarkers(){ 
@@ -387,7 +389,7 @@ function createMarkers(){
         ( data[i].mobile_phone != "" ? "Mobile Phone: " + data[i].mobile_phone + "<br />" : "" ) + 
         ( data[i].fax_number != "" ? "Fax: " + data[i].fax_number + "<br />" : "" ) + 
         "<hr />Website: <a href='" + data[i].website + "' target='_blank'>click here</a>" +
-        "<hr />Get Quote: <a trans_id='"+data[i].id+"' class='ship_quote_button'>click here</a>" +
+        "<hr />Get Quote: <a style='cursor:pointer;' trans_id='"+data[i].id+"' class='ship_quote_button'>click here</a>" +
        	( data[i].attachments != "" ?
         "<hr />Attachment: <a href='"+data[i].attachments+"'>"+data[i].attachments+"</a>" : "" ) +
        	( data[i].notes != "" ?
@@ -418,16 +420,11 @@ function addClickevent( marker ) {
 
 
 function onMarkersCreated(){
-	
 	progressBar.remove();    
 	num = 0;
 	initLoad = true;
 	addingItems = false;
 	
-	$('.ship_quote_button').click(function(){
-		var trans_id = $(this).attr("trans_id");
-		$('#transport_form').load('/views/scrappers/transport_material.php?id=' + trans_id+'&session_id=<?=session_id();?>');
-	});
 }
 
 function removeMarkers(){  
@@ -439,7 +436,7 @@ function removeMarkers(){
 }
 
 function onMarkersRemoved(){
-	
+	popupEventsAdded = false;
 	progressBar.remove();
 	removingItems = false;
 	if( updateFilters ) {
@@ -447,6 +444,30 @@ function onMarkersRemoved(){
 		loadMarkers();
 	}
 }
+
+function addTransportFormEvent( ){
+	
+	$(".ship_quote_button").colorbox({ width:"550", inline:true, href:"#trannyForm", 
+	    onComplete:function(){ 
+			trans_id = $( this ).attr( "trans_id" ); 
+	    	$("#transport_loading").show();
+	    	$("#transport_form").hide();
+	    	$("#transport_success").hide();
+	    	$("#transport_error").hide();
+	    	$.colorbox.resize();
+	    	$('#transport_form').load(
+	    		'/views/scrappers/transport_material.php?session_id=<?=session_id();?>&id=' + trans_id,
+				function(){
+			    	$("#transport_loading").hide();
+			    	$("#transport_form").show();
+			    	$.colorbox.resize();
+				}
+			); 
+		} 
+	});
+
+}
+
 /* ]]> */
 </script>
 	
@@ -505,7 +526,7 @@ function onMarkersRemoved(){
 			<div id="scroll-pane1">
 				<table>
 					<tbody id="scrollData">
-						<tr><td>Please select a check box.</td></tr>
+						<tr><td>Please select a material above.</td></tr>
 					</tbody>
 				</table>
 			</div><!-- scroll-pane1 -->
@@ -550,5 +571,24 @@ function onMarkersRemoved(){
 		</div> 
 	</div> 
 </div> 
-<?=session_id();?>
-<div id="transport_form"></div>
+
+<div style="display:none">
+  <div id="trannyForm" style="padding:20px; background:#fff;">
+    <div>
+      <h2>Transportation Request</h2>
+      <hr />
+      <div id="transport_form">
+      </div>
+      <div id="transport_loading">Loading Transport Form</div>
+      <div id="transport_success">
+      	Your request has been submitted and added to your dshboard.<br />
+      	This window can be closed or will be scrapped in 10 seconds.
+      </div>
+      <div id="transport_error">
+      	Your request has an error.
+      </div>
+      <hr />
+      
+    </div>
+  </div>
+</div>
