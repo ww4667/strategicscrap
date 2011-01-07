@@ -132,27 +132,19 @@
           
       });
     --></script>
+    
+    <style type="text/css">
+    .dataTables_scroll{background: #ebebeb;}
+    </style>
 
 <div class="brokerDashboard">
 <div class="leftCol">
 <div class="lowerArea">
   <div class="twoColMod" id="recentResponses">
     <div class="moduleTop"><!-- IE hates empty elements --></div>
-    <div class="moduleContent clearfix">
-    <? if ($use_ui == "true"){ ?>
-    
-    <style type="text/css">
-      #scroll-pane { float:left;overflow: auto; width: 535px; height:300px;position:relative;border:1px solid gray;margin-left:0;margin-bottom:0;display:inline}
-      #scroll-content {position:absolute;top:0;left:0}
-      .scroll-content-item {background-color:#fcfcfc;color:#003366;width:100px;height:100px;float:left;margin:10px;font-size:3em;line-height:96px;text-align:center;border:1px solid gray;display:inline;}
-      #slider-wrap{float:right;background-color:#ccc;width:16px;border:none;}
-      #slider-vertical{position:relative;height:100%; width: 16px;}
-      .ui-slider-handle{width:16px;height:10px;margin:0 auto;background-color:#0d0d0d;display:block;position:absolute}
-
-
-    </style>
+    <div class="moduleContent clearfix">    
       
-        <h3>QUOTE MANAGER - using UI</h3>
+        <h3>QUOTE MANAGER</h3>
         <div class="more"><a href="[~27~]">advanced</a></div>
         <hr />
         <div class="filter">
@@ -162,17 +154,17 @@
           <div><input type="checkbox" name="filter_waiting" checked="checked" value="waiting" /> waiting</div>
           <div style="clear:both;float:none"><!-- IE hates empty elemenets --></div>
         </div>
-        <table id="data_table_1">
+        <table id="data_table_1" style = "width: 559px;" >
           <thead>
             <tr class="row2">
                 <th style="width:100px">STATUS</th>
-                <th style="width:220px">DESCRIPTION</th>
+                <th style="">DESCRIPTION</th>
                 <th style="width:100px">QUOTE DATE</th>
             </tr>
           </thead>  
           <tbody id="recent_bids">
             <?php 
-     /*
+            /*
             $recent_bids = file_get_contents($pageURL."/controllers/remote/?method=getBids&uid=".$_SESSION['user']['id'] ."&type=html");
                     
             if ($recent_bids !== false) {
@@ -194,78 +186,26 @@
             
             ?>
           </tbody>
-              </table>
-    <? } else {?>
-
-        <h3>QUOTE MANAGER</h3>
-      <div class="more"><a href="[~27~]">advanced</a></div>
-      <hr />
-      <div class="filter">
-        <div><input type="checkbox" name="filter_accepted" checked="checked" value="accepted" /> accepted</div>
-        <div><input type="checkbox" name="filter_expired" checked="checked" value="expired" /> expired</div>
-        <div><input type="checkbox" name="filter_rejected" checked="checked" value="rejected" /> rejected</div>
-        <div><input type="checkbox" name="filter_waiting" checked="checked" value="waiting" /> waiting</div>
-        <div style="clear:both;float:none"><!-- IE hates empty elemenets --></div>
-      </div>
-      <table>
-        <tbody>
-          <tr class="row2">
-              <th style="width:100px">STATUS</th>
-              <th style="width:220px">DESCRIPTION</th>
-              <th style="width:100px">QUOTE DATE</th>
-              <th>&nbsp;</th>
-          </tr>
-        </tbody>
       </table>
-      <div id="scroll-pane1" class="jScrollPaneContainer" tabindex="0">
-        <table class="stripes">
-          <tbody id="recent_bids">
-            <?php 
-     /*
-            $recent_bids = file_get_contents($pageURL."/controllers/remote/?method=getBids&uid=".$_SESSION['user']['id'] ."&type=html");
-                    
-            if ($recent_bids !== false) {
-               print $recent_bids;
-            } else {
-               print "Error loading bid data.";
-            }*/
-            
-            $_controller_remote_included = true;
-            
-            require_once($_SERVER['DOCUMENT_ROOT']."/controllers/remote_controller.php");
-            
-            controller_remote(  'getBids', 
-                      'html', 
-                      null, 
-                      $_SESSION['user']['id'], 
-                      null, 
-                      $_controller_remote_included );
-            
-            ?>
-          </tbody>
-        </table>
-      </div>
-    <?} //end use_ui ?>
+    
     </div>
     <div class="moduleBottom"><!-- IE hates empty elements --></div>  
   </div>
   <div class="twoColMod" id="recentRequests">
     <div class="moduleTop"><!-- IE hates empty elements --></div>
-    <div class="moduleContent">
+    <div class="moduleContent clearfix">
         <h3>Recent Requests</h3>
       <div class="more"><a href="[~22~]">advanced</a></div>
       <hr />
-      <table>
-        <tbody>
-          <tr class="row2"  >
+      <table id="data_table_2" style = "width: 559px;" >
+        <thead>
+          <tr class="row2">
               <th style="width:100px">EXPIRATION DATE</th>
               <th style="width:220px">DESCRIPTION</th>
               <th style="width:100px">REQUEST DATE</th>
+              <th></th>
           </tr>
-        </tbody>
-      </table>
-      <div id="scroll-pane2" class="jScrollPaneContainer" tabindex="0">
-        <table class="stripes">
+        </thead>
           <tbody id="recent_requests">
             <?php 
             /*$recent_requests = file_get_contents( $pageURL."/controllers/remote/?method=getRequests&buid=".$_SESSION['user']['id']."&type=html" );
@@ -292,7 +232,6 @@
           </tbody>
         </table>
       </div>
-    </div>
     <div class="moduleBottom"><!-- IE hates empty elements --></div>  
   </div>
 </div>
@@ -440,54 +379,6 @@
     
     return false;
   });
-
-  <? if($use_ui == "true"){ ?> 
-  
-  function verticalSlider(pane, content){
-  $(function() {
-    //change the main div to overflow-hidden as we can use the slider now
-    $(pane).css({overflow: 'hidden',
-                                      float: 'left',
-                                      width: '541px'});
-    $(content).css('position', 'relative');
-    
-    //calculate the height that the scrollbar handle should be
-    var difference = $(content).height()-$(pane).height();//eg it's 200px longer 
-    
-    if(difference>0)//if the scrollbar is needed, set it up...
-    {
-       var proportion = difference / $(content).height();//eg 200px/500px
-       var handleHeight = Math.round((1-proportion)*$(pane).height());//set the proportional height - round it to make sure everything adds up correctly later on
-       handleHeight -= handleHeight%2; //ensure the handle height is exactly divisible by two
-    
-       $(pane).after('<\div id="slider-wrap"><\div id="slider-vertical"><\/div><\/div>');//append the necessary divs so they're only there if needed
-       $("#slider-wrap").height($(pane).height());//set the height of the slider bar to that of the scroll pane
-    
-    
-       //set up the slider 
-       $('#slider-vertical').slider({
-          orientation: 'vertical',
-          range: 'max',
-          min: 0,
-          max: 100,
-          value: 100,
-          slide: function(event, ui) {
-             var topValue = -((100-ui.value)*difference/100);
-             $(content).css({top:topValue});//move the top up (negative value) by the percentage the slider has been moved times the difference in height
-          }
-       });
-    
-       //set the handle height and bottom margin so the middle of the handle is in line with the slider
-       $(".ui-slider-handle").css({height:handleHeight,'margin-bottom':-0.5*handleHeight});
-      
-       var origSliderHeight = $("#slider-vertical").height();//read the original slider height
-       var sliderHeight = origSliderHeight - handleHeight ;//the height through which the handle can move needs to be the original height minus the handle height
-       var sliderMargin =  (origSliderHeight - sliderHeight)*0.5;//so the slider needs to have both top and bottom margins equal to half the difference
-       $(".ui-slider").css({height:sliderHeight,'margin-top':sliderMargin});//set the slider height and margins
-    }//end if
-    });
-  
-  }
   
       $(document).ready(function(){   
         $('#data_table_1').dataTable( {
@@ -495,14 +386,21 @@
           "bPaginate": false,
           "bFilter": false,
           "bInfo": false
-
-        } );
-        
-   
-        verticalSlider('.dataTables_scrollBody','#data_table_1');
         });
       
-  <?}?>
+        $('#data_table_2').dataTable( {
+          "sScrollY": "227px",
+          "bPaginate": false,
+          "bFilter": false,
+          "bInfo": false
+        });
+   
+        sw.quoteManagerSlider = new sw.app.verticalSlider('#recentResponses', '.dataTables_scrollBody','#data_table_1',{overflow: "hidden", float: "left"}, {position: "relative"} );
+   
+        sw.recentRequestsrSlider = new sw.app.verticalSlider('#recentRequests', '.dataTables_scrollBody','#data_table_2',{overflow: "hidden", float: "left"}, {position: "relative"} );
+        
+      });
+      
     $(".scrapQuote").colorbox({width:"550", inline:true, href:"#quoteForm"});
 
 </script>
