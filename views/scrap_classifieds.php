@@ -56,7 +56,7 @@
 		<div id="tab3">
     <div id="tab-3-pane">
       <div id="tab-3-content">
-		[[Ditto? &parents=`51`&orderBy=`publishedon ASC` &display=`500` &total=`500` &tpl=`scrap_row_white` &tplAlt=`scrap_row_gray`]]
+		[[Ditto? &parents=`51`&orderBy=`publishedon ASC` &display=`500` &total=`500` &tpl=`auction_row_white` &tplAlt=`auction_row_gray`]]
         </div><!-- tab3 conent -->
     </div><!-- tab3 pane -->
 		</div><!-- tab3 -->
@@ -64,7 +64,7 @@
 		<div id="tab4">
     <div id="tab-4-pane">
       <div id="tab-4-content">
-		[[Ditto? &parents=`53`&orderBy=`publishedon ASC` &display=`500` &total=`500` &tpl=`scrap_row_white` &tplAlt=`scrap_row_gray`]]
+		[[Ditto? &parents=`53`&orderBy=`publishedon ASC` &display=`500` &total=`500` &tpl=`job_row_white` &tplAlt=`job_row_gray`]]
         </div><!-- tab4 conent -->
     </div><!-- tab4 pane -->
 		</div><!-- tab4 -->
