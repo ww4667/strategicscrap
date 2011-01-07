@@ -27,3 +27,10 @@
 <li>You are signing up for a trial account. Pay Later!</li>
 </fieldset>
 </form>
+<script type="text/javascript">
+	$('#submitRegistration').hover(function(){ 
+	       $(this).attr('src', '/resources/images/buttons/submit_registration_hover.png'); 
+	}, function(){ 
+	       $(this).attr('src', '/resources/images/buttons/submit_registration.png'); 
+	}); 
+</script>

@@ -42,3 +42,10 @@
 </ul>
 </fieldset>
 </form>
+<script type="text/javascript">
+	$('#submitAccountUpdate').hover(function(){ 
+	       $(this).attr('src', '/resources/images/buttons/account_update_hover.png'); 
+	}, function(){ 
+	       $(this).attr('src', '/resources/images/buttons/account_update.png'); 
+	}); 
+</script>

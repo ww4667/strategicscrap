@@ -26,9 +26,9 @@
   <link href="/resources/css/RMSforms-v0.5.css" rel="stylesheet" type="text/css" />
   <script type="text/javascript">
  
-    var sw = {"app":{}};
-
-  </script>
+  var sw = {"app":{}};
+  
+</script>
 
 <!--   <link href="/resources/css/jquery-ui-1.8.6.custom.css" rel="stylesheet" type="text/css" />   -->
 <!-- css for verticalSlider -->
@@ -40,7 +40,8 @@
       #slider-vertical{position:relative;height:100%; width: 16px;}
       .ui-slider-handle{width:16px;height:10px;margin:0 auto;background-color:#0d0d0d;display:block;position:absolute}
 
-      #tabs-equipClass {margin: 0; padding: 0;}
+      #tabs-equipClass, #tabs-scrapClass {margin: 0; padding: 0;}
+	  .classifiedListing ul li {margin-left:0}
     </style>
     
 <? if($_SERVER["HTTPS"] != "on") { ?>

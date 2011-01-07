@@ -1,8 +1,33 @@
+  <script type="text/javascript">
+  $(document).ready(function() {
+        $('#scrapClassifieds').tabs();
+			
+		$('#watch_video').hover(function(){ 
+	       $(this).attr('src', '/resources/images/buttons/watch_video_hover.png'); 
+		}, function(){ 
+	       $(this).attr('src', '/resources/images/buttons/watch_video.png'); 
+		});
+		$('#post_a_classified').hover(function(){ 
+	       $(this).attr('src', '/resources/images/buttons/post_a_classified_hover.png'); 
+		}, function(){ 
+	       $(this).attr('src', '/resources/images/buttons/post_a_classified.png'); 
+		});
+			
+  });
+  </script>
+
 <div id="scrapClassifieds" class="classifiedListing">
+	<div>
+		<div style="float:left"><a href="#"><img src="/resources/images/buttons/watch_video.png" alt="watch a video" id="watch_video" /></a></div>
+		<div style="float:left;margin-left:20px"><a href="#"><img src="/resources/images/buttons/post_a_classified.png" alt="post a classified"  id="post_a_classified" /></a></div>
+		<div style="clear:both;padding:20px 0">If you would like us to post your classified, please call us at 866-796-7272 or email us at classifieds@strategicscrap.com</div>
+	</div>
 					  	
 	<ul id="tabs-scrapClass">
 		<li><a href="#tab1"><span>Sell Scrap</span></a></li>
 		<li><a href="#tab2"><span>Buy Scrap</span></a></li>
+		<li><a href="#tab3"><span>Auctions</span></a></li>
+		<li><a href="#tab4"><span>Jobs</span></a></li>
 	</ul>
 	
 	<div class="tabBox">
@@ -21,6 +46,21 @@
 												
 			</div><!-- scroll-pane2 -->
 		</div><!-- tab2 -->
+		<div id="tab3">
+			<div id="scroll-pane3">
+				
+				[[Ditto? &parents=`51`&orderBy=`publishedon ASC` &display=`500` &total=`500` &tpl=`scrap_row_white` &tplAlt=`scrap_row_gray`]]
+				
+			</div><!-- scroll-pane1 -->
+		</div><!-- tab3 -->
+		
+		<div id="tab4">
+			<div id="scroll-pane4">
+
+				[[Ditto? &parents=`53`&orderBy=`publishedon ASC` &display=`500` &total=`500` &tpl=`scrap_row_white` &tplAlt=`scrap_row_gray`]]
+												
+			</div><!-- scroll-pane2 -->
+		</div><!-- tab4 -->
 			
 	</div><!-- tabBox -->
 </div>

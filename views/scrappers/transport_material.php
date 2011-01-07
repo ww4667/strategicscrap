@@ -1,4 +1,17 @@
 <?php 
+
+if( !session_id() ) {
+	require_once($_SERVER['DOCUMENT_ROOT']."/gir/core/models/crud/Crud.php");
+	require_once($_SERVER['DOCUMENT_ROOT']."/gir/modules/request/Request.php");
+	require_once($_SERVER['DOCUMENT_ROOT']."/gir/modules/bid/Bid.php");
+	
+	if( !empty($_GET['session_id']) ) session_id($_GET['session_id']);
+	if(!isset($_SESSION)) session_start();
+	
+	require_once($_SERVER['DOCUMENT_ROOT']."/gir/index.php");
+}
+
+
 if(!$gir->auth->authenticate()){
 	?>
 	<p>You are not logged in. Please login or register to use this feature.</p>
