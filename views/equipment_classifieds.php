@@ -1,6 +1,7 @@
   <script type="text/javascript">
   $(document).ready(function() {
-            $('#equipClassifieds').tabs();
+  
+  $('#equipClassifieds').tabs();
 			
 	$('#watch_video').hover(function(){ 
        $(this).attr('src', '/resources/images/buttons/watch_video_hover.png'); 
@@ -13,6 +14,9 @@
        $(this).attr('src', '/resources/images/buttons/post_a_classified.png'); 
 	});
 			
+	 sw.tabOneSlider = new sw.app.verticalSlider('#tabs-1', '#tab-1-pane','#tab-1-content',{overflow: "hidden", float: "left", height: "559px", width: "547px"}, {position: "relative"} );
+   sw.tabTwoSlider = new sw.app.verticalSlider('#tabs-2', '#tab-2-pane','#tab-2-content',{overflow: "hidden", float: "left", height: "559px", width: "547px"}, {position: "relative"} );
+    
   });
   </script>
   
@@ -29,6 +33,8 @@
   </ul><!-- tabs-equipClass -->
      
     <div id="tabs-1">
+    <div id="tab-1-pane">
+      <div id="tab-1-content">
         <div class="equipListing row1">
           <strong>GENSCO WT-2260 SHREDDER</strong>
           <dl class="clearfix">
@@ -68,15 +74,374 @@
             <dt><a class="scrapDesc1" href="#">Description and Contact Information</a></dt>
           </dl>
         </div><!-- equipListing row1 -->
+        <div class="equipListing row1">
+          <strong>GENSCO WT-2260 SHREDDER</strong>
+          <dl class="clearfix">
+            <dt>Single shaft shredder, 25 hp, processes approx. 450-900 pounds per hour.</dt>
+            <dt><a class="scrapDesc1" href="#">Description and Contact Information</a></dt>
+          </dl>
+        </div><!-- equipListing row1 -->
+        
+        <div class="equipListing row2">
+          <strong>SWEED 517AE SCRAP CHOPPER</strong>
+          <dl class="clearfix">
+            <dt>3 hp, 3 inch pieces at 60 feet per minute. Comes with spare blades and on casters</dt>
+            <dt><a class="scrapDesc1" href="#">Description and Contact Information</a></dt>
+          </dl>
+        </div><!-- equipListing row2 -->
+
+        <div class="equipListing row1">
+          <strong>LGI SCRAP HANDLING MAGNET 58 inch</strong>
+          <dl>
+            <dt>Lifting capacity, 24,000 pounds. 230 volts DC. Chains included. 1 year warranty.</dt>
+            <dt><a class="scrapDesc1" href="#">Description and Contact Information</a></dt>
+          </dl>
+        </div><!-- equipListing row1 -->
+        
+        <div class="equipListing row2">
+          <strong>TGS 57 used Harris bailer</strong>
+          <dl>
+            <dt>140 bails per hour. Charging box size, 90”x34”x24”</dt>
+            <dt><a class="scrapDesc1" href="#">Description and Contact Information</a></dt>
+          </dl>
+        </div><!-- equipListing row2 -->
+
+        <div class="equipListing row1">
+          <strong>1450E used SSI SHEAR SHREDDER</strong>
+          <dl>
+            <dt>42”x32” opening. 75 hp. Mounted on steel base. Control panel included.</dt>
+            <dt><a class="scrapDesc1" href="#">Description and Contact Information</a></dt>
+          </dl>
+        </div><!-- equipListing row1 -->
+        <div class="equipListing row1">
+          <strong>GENSCO WT-2260 SHREDDER</strong>
+          <dl class="clearfix">
+            <dt>Single shaft shredder, 25 hp, processes approx. 450-900 pounds per hour.</dt>
+            <dt><a class="scrapDesc1" href="#">Description and Contact Information</a></dt>
+          </dl>
+        </div><!-- equipListing row1 -->
+        
+        <div class="equipListing row2">
+          <strong>SWEED 517AE SCRAP CHOPPER</strong>
+          <dl class="clearfix">
+            <dt>3 hp, 3 inch pieces at 60 feet per minute. Comes with spare blades and on casters</dt>
+            <dt><a class="scrapDesc1" href="#">Description and Contact Information</a></dt>
+          </dl>
+        </div><!-- equipListing row2 -->
+
+        <div class="equipListing row1">
+          <strong>LGI SCRAP HANDLING MAGNET 58 inch</strong>
+          <dl>
+            <dt>Lifting capacity, 24,000 pounds. 230 volts DC. Chains included. 1 year warranty.</dt>
+            <dt><a class="scrapDesc1" href="#">Description and Contact Information</a></dt>
+          </dl>
+        </div><!-- equipListing row1 -->
+        
+        <div class="equipListing row2">
+          <strong>TGS 57 used Harris bailer</strong>
+          <dl>
+            <dt>140 bails per hour. Charging box size, 90”x34”x24”</dt>
+            <dt><a class="scrapDesc1" href="#">Description and Contact Information</a></dt>
+          </dl>
+        </div><!-- equipListing row2 -->
+
+        <div class="equipListing row1">
+          <strong>1450E used SSI SHEAR SHREDDER</strong>
+          <dl>
+            <dt>42”x32” opening. 75 hp. Mounted on steel base. Control panel included.</dt>
+            <dt><a class="scrapDesc1" href="#">Description and Contact Information</a></dt>
+          </dl>
+        </div><!-- equipListing row1 -->
+        <div class="equipListing row1">
+          <strong>GENSCO WT-2260 SHREDDER</strong>
+          <dl class="clearfix">
+            <dt>Single shaft shredder, 25 hp, processes approx. 450-900 pounds per hour.</dt>
+            <dt><a class="scrapDesc1" href="#">Description and Contact Information</a></dt>
+          </dl>
+        </div><!-- equipListing row1 -->
+        
+        <div class="equipListing row2">
+          <strong>SWEED 517AE SCRAP CHOPPER</strong>
+          <dl class="clearfix">
+            <dt>3 hp, 3 inch pieces at 60 feet per minute. Comes with spare blades and on casters</dt>
+            <dt><a class="scrapDesc1" href="#">Description and Contact Information</a></dt>
+          </dl>
+        </div><!-- equipListing row2 -->
+
+        <div class="equipListing row1">
+          <strong>LGI SCRAP HANDLING MAGNET 58 inch</strong>
+          <dl>
+            <dt>Lifting capacity, 24,000 pounds. 230 volts DC. Chains included. 1 year warranty.</dt>
+            <dt><a class="scrapDesc1" href="#">Description and Contact Information</a></dt>
+          </dl>
+        </div><!-- equipListing row1 -->
+        
+        <div class="equipListing row2">
+          <strong>TGS 57 used Harris bailer</strong>
+          <dl>
+            <dt>140 bails per hour. Charging box size, 90”x34”x24”</dt>
+            <dt><a class="scrapDesc1" href="#">Description and Contact Information</a></dt>
+          </dl>
+        </div><!-- equipListing row2 -->
+
+        <div class="equipListing row1">
+          <strong>1450E used SSI SHEAR SHREDDER</strong>
+          <dl>
+            <dt>42”x32” opening. 75 hp. Mounted on steel base. Control panel included.</dt>
+            <dt><a class="scrapDesc1" href="#">Description and Contact Information</a></dt>
+          </dl>
+        </div><!-- equipListing row1 -->
+        <div class="equipListing row1">
+          <strong>GENSCO WT-2260 SHREDDER</strong>
+          <dl class="clearfix">
+            <dt>Single shaft shredder, 25 hp, processes approx. 450-900 pounds per hour.</dt>
+            <dt><a class="scrapDesc1" href="#">Description and Contact Information</a></dt>
+          </dl>
+        </div><!-- equipListing row1 -->
+        
+        <div class="equipListing row2">
+          <strong>SWEED 517AE SCRAP CHOPPER</strong>
+          <dl class="clearfix">
+            <dt>3 hp, 3 inch pieces at 60 feet per minute. Comes with spare blades and on casters</dt>
+            <dt><a class="scrapDesc1" href="#">Description and Contact Information</a></dt>
+          </dl>
+        </div><!-- equipListing row2 -->
+
+        <div class="equipListing row1">
+          <strong>LGI SCRAP HANDLING MAGNET 58 inch</strong>
+          <dl>
+            <dt>Lifting capacity, 24,000 pounds. 230 volts DC. Chains included. 1 year warranty.</dt>
+            <dt><a class="scrapDesc1" href="#">Description and Contact Information</a></dt>
+          </dl>
+        </div><!-- equipListing row1 -->
+        
+        <div class="equipListing row2">
+          <strong>TGS 57 used Harris bailer</strong>
+          <dl>
+            <dt>140 bails per hour. Charging box size, 90”x34”x24”</dt>
+            <dt><a class="scrapDesc1" href="#">Description and Contact Information</a></dt>
+          </dl>
+        </div><!-- equipListing row2 -->
+
+        <div class="equipListing row1">
+          <strong>1450E used SSI SHEAR SHREDDER</strong>
+          <dl>
+            <dt>42”x32” opening. 75 hp. Mounted on steel base. Control panel included.</dt>
+            <dt><a class="scrapDesc1" href="#">Description and Contact Information</a></dt>
+          </dl>
+        </div><!-- equipListing row1 -->
+        </div><!-- tab1 conent -->
+    </div><!-- tab1 pane -->
+      
         
     </div><!-- tab1 -->
     
     <div id="tabs-2">
-        <!-- white background -->
+    <div id="tab-2-pane">
+      <div id="tab-2-content">
+      
+        <div class="equipListing row1">
+          <strong>BUYGENSCO WT-2260 SHREDDER</strong>
+          <dl class="clearfix">
+            <dt>Single shaft shredder, 25 hp, processes approx. 450-900 pounds per hour.</dt>
+            <dt><a class="scrapDesc1" href="#">Description and Contact Information</a></dt>
+          </dl>
+        </div><!-- equipListing row1 -->
+        
+        <div class="equipListing row2">
+          <strong>BUYSWEED 517AE SCRAP CHOPPER</strong>
+          <dl class="clearfix">
+            <dt>3 hp, 3 inch pieces at 60 feet per minute. Comes with spare blades and on casters</dt>
+            <dt><a class="scrapDesc1" href="#">Description and Contact Information</a></dt>
+          </dl>
+        </div><!-- equipListing row2 -->
+
+        <div class="equipListing row1">
+          <strong>BUYLGI SCRAP HANDLING MAGNET 58 inch</strong>
+          <dl>
+            <dt>Lifting capacity, 24,000 pounds. 230 volts DC. Chains included. 1 year warranty.</dt>
+            <dt><a class="scrapDesc1" href="#">Description and Contact Information</a></dt>
+          </dl>
+        </div><!-- equipListing row1 -->
+        
+        <div class="equipListing row2">
+          <strong>BUYTGS 57 used Harris bailer</strong>
+          <dl>
+            <dt>140 bails per hour. Charging box size, 90”x34”x24”</dt>
+            <dt><a class="scrapDesc1" href="#">Description and Contact Information</a></dt>
+          </dl>
+        </div><!-- equipListing row2 -->
+
+        <div class="equipListing row1">
+          <strong>BUY1450E used SSI SHEAR SHREDDER</strong>
+          <dl>
+            <dt>42”x32” opening. 75 hp. Mounted on steel base. Control panel included.</dt>
+            <dt><a class="scrapDesc1" href="#">Description and Contact Information</a></dt>
+          </dl>
+        </div><!-- equipListing row1 -->
+        <div class="equipListing row1">
+          <strong>BUYGENSCO WT-2260 SHREDDER</strong>
+          <dl class="clearfix">
+            <dt>Single shaft shredder, 25 hp, processes approx. 450-900 pounds per hour.</dt>
+            <dt><a class="scrapDesc1" href="#">Description and Contact Information</a></dt>
+          </dl>
+        </div><!-- equipListing row1 -->
+        
+        <div class="equipListing row2">
+          <strong>BUYSWEED 517AE SCRAP CHOPPER</strong>
+          <dl class="clearfix">
+            <dt>3 hp, 3 inch pieces at 60 feet per minute. Comes with spare blades and on casters</dt>
+            <dt><a class="scrapDesc1" href="#">Description and Contact Information</a></dt>
+          </dl>
+        </div><!-- equipListing row2 -->
+
+        <div class="equipListing row1">
+          <strong>BUYLGI SCRAP HANDLING MAGNET 58 inch</strong>
+          <dl>
+            <dt>Lifting capacity, 24,000 pounds. 230 volts DC. Chains included. 1 year warranty.</dt>
+            <dt><a class="scrapDesc1" href="#">Description and Contact Information</a></dt>
+          </dl>
+        </div><!-- equipListing row1 -->
+        
+        <div class="equipListing row2">
+          <strong>BUYTGS 57 used Harris bailer</strong>
+          <dl>
+            <dt>140 bails per hour. Charging box size, 90”x34”x24”</dt>
+            <dt><a class="scrapDesc1" href="#">Description and Contact Information</a></dt>
+          </dl>
+        </div><!-- equipListing row2 -->
+
+        <div class="equipListing row1">
+          <strong>BUY1450E used SSI SHEAR SHREDDER</strong>
+          <dl>
+            <dt>42”x32” opening. 75 hp. Mounted on steel base. Control panel included.</dt>
+            <dt><a class="scrapDesc1" href="#">Description and Contact Information</a></dt>
+          </dl>
+        </div><!-- equipListing row1 -->
+        <div class="equipListing row1">
+          <strong>BUYGENSCO WT-2260 SHREDDER</strong>
+          <dl class="clearfix">
+            <dt>Single shaft shredder, 25 hp, processes approx. 450-900 pounds per hour.</dt>
+            <dt><a class="scrapDesc1" href="#">Description and Contact Information</a></dt>
+          </dl>
+        </div><!-- equipListing row1 -->
+        
+        <div class="equipListing row2">
+          <strong>BUYSWEED 517AE SCRAP CHOPPER</strong>
+          <dl class="clearfix">
+            <dt>3 hp, 3 inch pieces at 60 feet per minute. Comes with spare blades and on casters</dt>
+            <dt><a class="scrapDesc1" href="#">Description and Contact Information</a></dt>
+          </dl>
+        </div><!-- equipListing row2 -->
+
+        <div class="equipListing row1">
+          <strong>BUYLGI SCRAP HANDLING MAGNET 58 inch</strong>
+          <dl>
+            <dt>Lifting capacity, 24,000 pounds. 230 volts DC. Chains included. 1 year warranty.</dt>
+            <dt><a class="scrapDesc1" href="#">Description and Contact Information</a></dt>
+          </dl>
+        </div><!-- equipListing row1 -->
+        
+        <div class="equipListing row2">
+          <strong>BUYTGS 57 used Harris bailer</strong>
+          <dl>
+            <dt>140 bails per hour. Charging box size, 90”x34”x24”</dt>
+            <dt><a class="scrapDesc1" href="#">Description and Contact Information</a></dt>
+          </dl>
+        </div><!-- equipListing row2 -->
+
+        <div class="equipListing row1">
+          <strong>BUY1450E used SSI SHEAR SHREDDER</strong>
+          <dl>
+            <dt>42”x32” opening. 75 hp. Mounted on steel base. Control panel included.</dt>
+            <dt><a class="scrapDesc1" href="#">Description and Contact Information</a></dt>
+          </dl>
+        </div><!-- equipListing row1 -->
+        <div class="equipListing row1">
+          <strong>BUYGENSCO WT-2260 SHREDDER</strong>
+          <dl class="clearfix">
+            <dt>Single shaft shredder, 25 hp, processes approx. 450-900 pounds per hour.</dt>
+            <dt><a class="scrapDesc1" href="#">Description and Contact Information</a></dt>
+          </dl>
+        </div><!-- equipListing row1 -->
+        
+        <div class="equipListing row2">
+          <strong>BUYSWEED 517AE SCRAP CHOPPER</strong>
+          <dl class="clearfix">
+            <dt>3 hp, 3 inch pieces at 60 feet per minute. Comes with spare blades and on casters</dt>
+            <dt><a class="scrapDesc1" href="#">Description and Contact Information</a></dt>
+          </dl>
+        </div><!-- equipListing row2 -->
+
+        <div class="equipListing row1">
+          <strong>BUYLGI SCRAP HANDLING MAGNET 58 inch</strong>
+          <dl>
+            <dt>Lifting capacity, 24,000 pounds. 230 volts DC. Chains included. 1 year warranty.</dt>
+            <dt><a class="scrapDesc1" href="#">Description and Contact Information</a></dt>
+          </dl>
+        </div><!-- equipListing row1 -->
+        
+        <div class="equipListing row2">
+          <strong>BUYTGS 57 used Harris bailer</strong>
+          <dl>
+            <dt>140 bails per hour. Charging box size, 90”x34”x24”</dt>
+            <dt><a class="scrapDesc1" href="#">Description and Contact Information</a></dt>
+          </dl>
+        </div><!-- equipListing row2 -->
+
+        <div class="equipListing row1">
+          <strong>BUY1450E used SSI SHEAR SHREDDER</strong>
+          <dl>
+            <dt>42”x32” opening. 75 hp. Mounted on steel base. Control panel included.</dt>
+            <dt><a class="scrapDesc1" href="#">Description and Contact Information</a></dt>
+          </dl>
+        </div><!-- equipListing row1 -->
+        <div class="equipListing row1">
+          <strong>BUYGENSCO WT-2260 SHREDDER</strong>
+          <dl class="clearfix">
+            <dt>Single shaft shredder, 25 hp, processes approx. 450-900 pounds per hour.</dt>
+            <dt><a class="scrapDesc1" href="#">Description and Contact Information</a></dt>
+          </dl>
+        </div><!-- equipListing row1 -->
+        
+        <div class="equipListing row2">
+          <strong>BUYSWEED 517AE SCRAP CHOPPER</strong>
+          <dl class="clearfix">
+            <dt>3 hp, 3 inch pieces at 60 feet per minute. Comes with spare blades and on casters</dt>
+            <dt><a class="scrapDesc1" href="#">Description and Contact Information</a></dt>
+          </dl>
+        </div><!-- equipListing row2 -->
+
+        <div class="equipListing row1">
+          <strong>BUYLGI SCRAP HANDLING MAGNET 58 inch</strong>
+          <dl>
+            <dt>Lifting capacity, 24,000 pounds. 230 volts DC. Chains included. 1 year warranty.</dt>
+            <dt><a class="scrapDesc1" href="#">Description and Contact Information</a></dt>
+          </dl>
+        </div><!-- equipListing row1 -->
+        
+        <div class="equipListing row2">
+          <strong>BUYTGS 57 used Harris bailer</strong>
+          <dl>
+            <dt>140 bails per hour. Charging box size, 90”x34”x24”</dt>
+            <dt><a class="scrapDesc1" href="#">Description and Contact Information</a></dt>
+          </dl>
+        </div><!-- equipListing row2 -->
+
+        <div class="equipListing row1">
+          <strong>BUY1450E used SSI SHEAR SHREDDER</strong>
+          <dl>
+            <dt>42”x32” opening. 75 hp. Mounted on steel base. Control panel included.</dt>
+            <dt><a class="scrapDesc1" href="#">Description and Contact Information</a></dt>
+          </dl>
+        </div><!-- equipListing row1 -->
+        <!-- white background -- >
         <div class="scrapListing row1">
           <strong>Classifieds data is currently not available.</strong>
         </div><!-- scrapListing row1 -->
         
+        </div><!-- tab2 conent -->
+    </div><!-- tab2 pane -->
     </div><!-- tab2 -->
     
 </div><!-- equipClassifieds -->
