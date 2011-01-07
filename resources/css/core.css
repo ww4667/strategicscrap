@@ -148,7 +148,7 @@ ul.regionBullets li{float:left;width:210px;}
 	.scrapListing dt{float:left;width:70px;}
 	.scrapListing dt.col1{clear:both;width:50px;}
 	.scrapListing dt.colspan2{width:300px;}
-	.scrapListing dd{float:left;width:100px;margin:0;}
+	.scrapListing dd{float:left;width:120px;margin:0;}
 
 .equipListing			{padding:30px;}
 	.equipListing dl 	{margin:0;}
