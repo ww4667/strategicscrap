@@ -1,5 +1,6 @@
   <script type="text/javascript">
   $(document).ready(function() {
+        $('#scrapClassifieds').tabs();
 			
 		$('#watch_video').hover(function(){ 
 	       $(this).attr('src', '/resources/images/buttons/watch_video_hover.png'); 

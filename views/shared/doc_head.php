@@ -24,35 +24,48 @@
   <link href="/resources/css/jScrollPane.css" rel="stylesheet" type="text/css" />
   <link href="/resources/css/colorbox.css" rel="stylesheet" type="text/css" />
   <link href="/resources/css/RMSforms-v0.5.css" rel="stylesheet" type="text/css" />
-<!--   <link href="/resources/css/jquery-ui-1.8.6.custom.css" rel="stylesheet" type="text/css" />   -->
+  <script type="text/javascript">
+ 
+  var sw = {"app":{}};
 
+  
+</script>
+
+<!--   <link href="/resources/css/jquery-ui-1.8.6.custom.css" rel="stylesheet" type="text/css" />   -->
+<!-- css for verticalSlider -->
+    <style type="text/css">
+      #scroll-pane { float:left;overflow: auto; width: 535px; height:300px;position:relative;border:1px solid gray;margin-left:0;margin-bottom:0;display:inline}
+      #scroll-content {position:absolute;top:0;left:0}
+      .scroll-content-item {background-color:#fcfcfc;color:#003366;width:100px;height:100px;float:left;margin:10px;font-size:3em;line-height:96px;text-align:center;border:1px solid gray;display:inline;}
+      #slider-wrap{float:right;background-color:#ccc;width:16px;border:none;}
+      #slider-vertical{position:relative;height:100%; width: 16px;}
+      .ui-slider-handle{width:16px;height:10px;margin:0 auto;background-color:#0d0d0d;display:block;position:absolute}
+
+
+      #tabs-equipClass, #tabs-scrapClass {margin: 0; padding: 0;}
+      #tabs-equipClass, #tabs-scrapClass {margin: 0; padding: 0;}
+	  .classifiedListing ul li {margin-left:0}
+    </style>
+    
 <? if($_SERVER["HTTPS"] != "on") { ?>
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js" ></script>
-    <? if ($use_ui == "true"){ ?>
-      
-      <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.7/jquery-ui.min.js" type="text/javascript"></script>  
-      <script src="/resources/js/jquery.dataTables.min.js" type="text/javascript"></script>
-      <script src="/resources/js/vertical-slider.js" type="text/javascript"></script>
-        <style type="text/css">
-            #tabs-equipClass {margin: 0; padding: 0;}
-         </style>
-    <? } else { ?>    
-      <script src="/resources/js/jquery-ui-personalized-1.6rc4.min.js" type="text/javascript"></script>
-    <? } ?>
+  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js" ></script>
+  <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.7/jquery-ui.min.js" type="text/javascript"></script>  
+  <!-- <script src="/resources/js/jquery-ui-personalized-1.6rc4.min.js" type="text/javascript"></script> -->
 <? } else { ?>
   <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js" ></script>
-     <? if ($use_ui == "true"){ ?>
-       <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.6/jquery-ui.min.js" ></script>
-       <link href="/resources/css/jquery-ui-1.8.6.custom.css" rel="stylesheet" type="text/css" />
-     <? }  else { ?>   
-      <script src="/resources/js/jquery-ui-personalized-1.6rc4.min.js" type="text/javascript"></script>
-    <? } ?>
+  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.7/jquery-ui.min.js" ></script>
+  <!--
+  <link href="/resources/css/jquery-ui-1.8.6.custom.css" rel="stylesheet" type="text/css" />
+  <script src="/resources/js/jquery-ui-personalized-1.6rc4.min.js" type="text/javascript"></script> -->
   <!--<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.6/jquery-ui.min.js"></script>-->
 <? } ?>
+
   <script src="/resources/js/jquery.colorbox-min.js" type="text/javascript"></script>
   <script src="/resources/js/jquery.cookie.js" type="text/javascript"></script>
   <script src="/resources/js/jquery.mousewheel.js" type="text/javascript"></script>
   <script src="/resources/js/jScrollPane.js" type="text/javascript"></script>
+  <script src="/resources/js/jquery.dataTables.min.js" type="text/javascript"></script>
+  <script src="/resources/js/vertical-slider.js" type="text/javascript"></script>
 
   [*js_doc_ready*]
 
@@ -65,6 +78,7 @@
       return false; // return false to keep the actual link click from actuating
     });
   });
+    
 </script>
 
   <link href="/resources/css/tabs.css" rel="stylesheet" type="text/css" />
