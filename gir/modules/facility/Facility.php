@@ -84,5 +84,22 @@ class Facility extends Crud {
 		
 		return $region;
 	}
+	
+	public function downloadAttachment() {
+		return $this->_downloadAttachment();
+	}
+	
+	private function _downloadAttachment() {
+		$path = $_SERVER['DOCUMENT_ROOT'] . "/resources/files/attachments/";
+		$filename = $this->attachments;
+		$outputname = "specs_for_facility" . $this->id . ".pdf";
+		if (file_exists($path.$filename)) {
+			if ( function_exists( output_file ) ) {
+				output_file($path.$filename, $outputname);
+			}
+		} else {
+			return false;
+		}
+	}
 }
 ?>

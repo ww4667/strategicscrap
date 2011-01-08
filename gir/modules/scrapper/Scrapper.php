@@ -24,6 +24,7 @@ class Scrapper extends User {
 											array("type"=>"text","label"=>"Postal Code","field"=>"postal_code"),
 											array("type"=>"text","label"=>"Country","field"=>"country"),
 											array("type"=>"text","label"=>"Notes","field"=>"notes"),
+											array("type"=>"text","label"=>"Status","field"=>"status"),
 											array("type"=>"text","label"=>"Account Settings","field"=>"account_settings")
 										);
 	

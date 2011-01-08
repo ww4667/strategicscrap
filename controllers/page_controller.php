@@ -377,8 +377,8 @@ require_once($_SERVER['DOCUMENT_ROOT']."/gir/index.php");
 			// page 'template variables'
 //			$PAGE_BODY = "views/intro_screen.php";  	/* which file to pull into the template */
 //			if(isset($_GET['new']))
-			$PAGE_BODY = "views/intro_screen_newer.php";  	/* which file to pull into the template */			
-						
+			$PAGE_BODY = "views/intro_screen_newer.php";  	/* which file to pull into the template */
+			
 			//the layout file  -  THIS PART NEEDS TO BE LAST
 			require($_SERVER['DOCUMENT_ROOT']."/views/layouts/shell.php");
 		break;
@@ -734,6 +734,26 @@ require_once($_SERVER['DOCUMENT_ROOT']."/gir/index.php");
 				//the layout file  -  THIS PART NEEDS TO BE LAST
 				require($_SERVER['DOCUMENT_ROOT']."/views/layouts/shell.php");
 			}
+		break;
+
+		/* SPEC DOWNLOADER FOR FACILITIES **************************************** */
+		case 'spec-downloader':
+			if (isset($_GET['facility_id'])) {
+				$f = new Facility();
+				$facility = $f->GetItemObj($_GET['facility_id']);
+				if ( !empty($facility->attachments) ) {
+					if ( !$facility->downloadAttachment() ) {
+						flash( array("The download you requested is no longer available."), "bad" );
+						redirect_to('/scrap-exchange');
+					}
+				} else {
+					flash( array("The download you requested is no longer available."), "bad" );
+					redirect_to('/scrap-exchange');
+				}
+			} else {
+				flash( array("The download you requested is no longer available."), "bad" );
+				redirect_to('/scrap-exchange');
+			}		
 		break;
 	}
 //} // END WHILE $KILL
