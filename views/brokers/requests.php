@@ -37,88 +37,31 @@
 			    <th style="width:100px">DELIVERY DATE</th>
 			    <th style="width:220px">DESCRIPTION</th>
 			    <th style="width:100px">REQUEST DATE</th>
-			    <th>&nbsp;</th>
+              	<th></th>
 			</tr>
 			</thead>
-			<tbody>
-			<tr>
-			    <td style="width:100px">05/15/2010</td>
-			    <td style="width:220px"><strong>Ship from:</strong> Demo Scrap<br /><strong>Ship to:</strong> Demo Steel Company<br /><strong>Material:</strong> No. 1 Machinery Cast<br /><strong>Quantity (tons):</strong> 550<br /><strong>Transportation Type:</strong> Flatbed</td>
-			    <td style="width:100px">04/30/2010</td>
-			    <td><a class="scrapQuote quote" href="#" title="quote this request">quote</a></td>
-			</tr>
-			<tr class="">
-			    <td>2801-1207</td>
-			    <td><strong>Ship from:</strong> Demo Scrap<br /><strong>Ship to:</strong> Demo Steel Company<br /><strong>Material:</strong> No. 1 Machinery Cast<br /><strong>Quantity (tons):</strong> 550<br /><strong>Transportation Type:</strong> Dump</td>
-			    <td>05/03/2010</td>
-			    <td><a class="scrapQuote quote" href="#" title="quote this request">quote</a></td>
-			</tr>
-			<tr>
-			    <td>05/20/2010</td>
-			    <td><strong>Ship from:</strong> Demo Scrap<br /><strong>Ship to:</strong> Demo Steel Company<br /><strong>Material:</strong> No. 1 Machinery Cast<br /><strong>Quantity (tons):</strong> 550<br /><strong>Transportation Type:</strong> Flatbed</td>
-			    <td>05/04/2010</td>
-			    <td><a class="scrapQuote quote" href="#" title="quote this request">quote</a></td>
-			</tr>
-			<tr class="">
-			    <td>05/20/2010</td>
-			    <td><strong>Ship from:</strong> Demo Scrap<br /><strong>Ship to:</strong> Demo Steel Company<br /><strong>Material:</strong> No. 1 Machinery Cast<br /><strong>Quantity (tons):</strong> 550<br /><strong>Transportation Type:</strong> Flatbed</td>
-			    <td>05/03/2010</td>
-			    <td><a class="scrapQuote quote" href="#" title="quote this request">quote</a></td>
-			</tr>
-			<tr>
-			    <td>05/23/2010</td>
-			    <td><strong>Ship from:</strong> Demo Scrap<br /><strong>Ship to:</strong> Demo Steel Company<br /><strong>Material:</strong> No. 1 Machinery Cast<br /><strong>Quantity (tons):</strong> 550<br /><strong>Transportation Type:</strong> Dump</td>
-			    <td>05/04/2010</td>
-			    <td><a class="scrapQuote quote" href="#" title="quote this request">quote</a></td>
-			</tr>
-      <tr class="">
-          <td>05/12/2010</td>
-          <td><strong>Ship from:</strong> Demo Scrap<br /><strong>Ship to:</strong> Demo Steel Company<br /><strong>Material:</strong> No. 1 Machinery Cast<br /><strong>Quantity (tons):</strong> 550<br /><strong>Transportation Type:</strong> Flatbed</td>
-          <td>05/03/2010</td>
-          <td><a class="scrapQuote quote" href="#" title="quote this request">quote</a></td>
-      </tr>
-      <tr>
-          <td>06/02/2010</td>
-          <td><strong>Ship from:</strong> Demo Scrap<br /><strong>Ship to:</strong> Demo Steel Company<br /><strong>Material:</strong> No. 1 Machinery Cast<br /><strong>Quantity (tons):</strong> 550<br /><strong>Transportation Type:</strong> Dump</td>
-          <td>05/04/2010</td>
-          <td><a class="scrapQuote quote" href="#" title="quote this request">quote</a></td>
-      </tr>
-      <tr class="">
-          <td>05/12/2010</td>
-          <td><strong>Ship from:</strong> Demo Scrap<br /><strong>Ship to:</strong> Demo Steel Company<br /><strong>Material:</strong> No. 1 Machinery Cast<br /><strong>Quantity (tons):</strong> 550<br /><strong>Transportation Type:</strong> Flatbed</td>
-          <td>05/03/2010</td>
-          <td><a class="scrapQuote quote" href="#" title="quote this request">quote</a></td>
-      </tr>
-      <tr>
-          <td>06/02/2010</td>
-          <td><strong>Ship from:</strong> Demo Scrap<br /><strong>Ship to:</strong> Demo Steel Company<br /><strong>Material:</strong> No. 1 Machinery Cast<br /><strong>Quantity (tons):</strong> 550<br /><strong>Transportation Type:</strong> Dump</td>
-          <td>05/04/2010</td>
-          <td><a class="scrapQuote quote" href="#" title="quote this request">quote</a></td>
-      </tr>
-      <tr class="">
-          <td>05/12/2010</td>
-          <td><strong>Ship from:</strong> Demo Scrap<br /><strong>Ship to:</strong> Demo Steel Company<br /><strong>Material:</strong> No. 1 Machinery Cast<br /><strong>Quantity (tons):</strong> 550<br /><strong>Transportation Type:</strong> Flatbed</td>
-          <td>05/03/2010</td>
-          <td><a class="scrapQuote quote" href="#" title="quote this request">quote</a></td>
-      </tr>
-      <tr>
-          <td>06/02/2010</td>
-          <td><strong>Ship from:</strong> Demo Scrap<br /><strong>Ship to:</strong> Demo Steel Company<br /><strong>Material:</strong> No. 1 Machinery Cast<br /><strong>Quantity (tons):</strong> 550<br /><strong>Transportation Type:</strong> Dump</td>
-          <td>05/04/2010</td>
-          <td><a class="scrapQuote quote" href="#" title="quote this request">quote</a></td>
-      </tr>
-      <tr class="">
-          <td>05/12/2010</td>
-          <td><strong>Ship from:</strong> Demo Scrap<br /><strong>Ship to:</strong> Demo Steel Company<br /><strong>Material:</strong> No. 1 Machinery Cast<br /><strong>Quantity (tons):</strong> 550<br /><strong>Transportation Type:</strong> Flatbed</td>
-          <td>05/03/2010</td>
-          <td><a class="scrapQuote quote" href="#" title="quote this request">quote</a></td>
-      </tr>
-      <tr>
-          <td>06/02/2010</td>
-          <td><strong>Ship from:</strong> Demo Scrap<br /><strong>Ship to:</strong> Demo Steel Company<br /><strong>Material:</strong> No. 1 Machinery Cast<br /><strong>Quantity (tons):</strong> 550<br /><strong>Transportation Type:</strong> Dump</td>
-          <td>05/04/2010</td>
-          <td><a class="scrapQuote quote" href="#" title="quote this request">quote</a></td>
-      </tr>
+			<tbody id="recent_requests">
+            <?php 
+            /*$recent_requests = file_get_contents( $pageURL."/controllers/remote/?method=getRequests&buid=".$_SESSION['user']['id']."&type=html" );
+    
+            if ($recent_requests !== false) {
+               print $recent_requests;
+            } else {
+               print "Error loading requests data.";
+            }*/
+            
+            $_controller_remote_included = true;
+            
+            require_once($_SERVER['DOCUMENT_ROOT']."/controllers/remote_controller.php");
+            
+            controller_remote(  'getRequests', 
+                      'html', 
+                      null, 
+                      null, 
+                      $_SESSION['user']['id'], 
+                      $_controller_remote_included );
+            
+            ?>
 		</tbody></table>
 		</div><div class="moduleBottom"><!-- IE hates empty elements --></div>	
 	</div>
@@ -166,56 +109,53 @@
 </div>
 
 <div style="display:none">
-	<div id="quoteForm" style="padding:20px; background:#fff;">
-		<div>
-			<h2>QUOTE THIS REQUEST</h2>
-			<hr />
-			<strong>Ship from:</strong> Demo Scrap, 123 N 1st, City, State Zip<br />
-			<strong>Ship to:</strong> Demo Scrap, 123 N 1st, City, State Zip<br />
-			<strong>Material:</strong> No. 1 Machinery Cast<br />
-			<strong>Quantity (tons):</strong> 550<br />
-			<strong>Delivery Date:</strong> 05/13/2010<br />
-			<strong>Preferred Transporation:</strong> Flat Bed
-			<hr />
-			<form action="" method="post">
-				<ul class="form">
-					<li>
-						<label><strong>Transport Type:</strong></label>
-						<select name="transport_type">
-							<option value="">Select Transportation Type</option>
-							<option value="truck">Truck</option>
-							<option value="rail">Rail</option>
-							<option value="water">Water</option>
-							<option value="mixed">Mixed</option>
-						</select>
-					</li>
-					<li>
-						<label><strong>Transport Cost:</strong></label>
-						<input name="transport_cost" type="text" />
-					</li>
-					<li>
-						<label><strong>Price (per/GT):</strong></label>
-						<input name="material_price" type="text" />
-					</li>
-					<li>
-						<label><strong>Ship Date:</strong></label>
-						<input name="ship_date" type="text" />
-					</li>
-					<li>
-						<label><strong>Arrival Date:</strong></label>
-						<input name="ship_date" type="text" />
-					</li>
-					<li>
-						<label><strong>Additional Notes:</strong></label>
-						<textarea name="notes" cols="4" rows="30" style="width:273px;height:40px"></textarea>
-					</li>
-				</ul>
-				<div class="submitButton" style="text-align:left">
-				<input id="submitQuote" alt="Submit Quote" name="submitQuote" src="resources/images/buttons/submit_quote.png" type="image" />
-				</div>
-			</form>
-		</div>
-	</div>
+  <div id="quoteForm" style="padding:20px; background:#fff;">
+    <div id="bidForm">
+      <h2>QUOTE THIS REQUEST</h2>
+      <hr />
+      <strong>Ship from:</strong> <span id="bid_request_ship_from">Demo Scrap, 123 N 1st, City, State Zip</span> <br />
+      <strong>Ship to:</strong> <span id="bid_request_ship_to">Demo Scrap, 123 N 1st, City, State Zip</span><br />
+      <strong>Material:</strong> <span id="bid_request_material">No. 1 Machinery Cast</span><br />
+      <strong>Volume (tons):</strong> <span id="bid_request_quantity">550</span><br />
+      <strong>Delivery Date:</strong> <span id="bid_request_delivery_date">05/13/2010</span><br />
+      <strong>Preferred Transporation:</strong> <span id="bid_request_preferred_transporation">Flat Bed</span>
+      <hr />
+      <form id="quoteForm">
+        <input name="join_broker" id="join_broker" type="hidden" value="<?=$_SESSION['user']['id']?>" />
+        <input name="join_transportation_type" id="join_transportation_type" type="hidden" value="" />
+        <input name="join_request" id="join_request" type="hidden" value="" />
+        
+        <input name="join_scrapper" id="join_scrapper" type="hidden" value="" />
+        <input name="join_facility" id="join_facility" type="hidden" value="" />
+        <input name="join_material" id="join_material" type="hidden" value="" />
+          
+        <ul class="form">
+          <li>
+            <label><strong>Transport Cost:</strong></label>
+            <input name="transport_cost" id="transport_cost" type="text" />
+          </li>
+          <li>
+            <label><strong>Price (per/GT):</strong></label>
+            <input name="material_price" id="material_price" type="text" />
+          </li>
+          <li>
+            <label><strong>Ship Date:</strong></label>
+            <input name="ship_date" id="ship_date" type="text" />
+          </li>
+          <li>
+            <label><strong>Arrival Date:</strong></label>
+            <input name="arrival_date" id="arrival_date" type="text" />
+          </li>
+          <li>
+            <label><strong>Additional Notes:</strong></label>
+            <textarea name="notes" id="notes" style="width:273px; height:40px;"></textarea>
+          </li>
+        </ul>
+        <div class="submitButton" id="submitQuote" style="cursor: pointer; text-align:left; background: #fff url(resources/images/buttons/submit_quote.png) no-repeat; padding: 3px; width:177px; height: 46px;"><!--  --></div>
+      </form>
+    </div>
+    <div id="bidResult" style=""></div>
+  </div>
 </div>
 
 </div>
@@ -245,21 +185,202 @@
 			return false;
 		});
         $(".scrapQuote").colorbox({width:"550", inline:true, href:"#quoteForm"});
-        
-    $('#data_table_1').dataTable( {
-      "sScrollY": "527px",
-      "bPaginate": false,
-      "bFilter": true,
-      "bInfo": true,
-      "fnInfoCallback": function( oSettings, iStart, iEnd, iMax, iTotal, sPre ) {
-        $("#data_tables_info").remove();
-        var info = "<span id='data_tables_info' style='float: right; margin-right: 10px;'>Found " + iEnd +" of "+ iMax + "</span>";
-        $("#data_table_1_filter").append(info);
-        }
-    });
-
-    sw.quoteManagerSlider = new sw.app.verticalSlider('#recentRequests', '.dataTables_scrollBody','#data_table_1',{overflow: "hidden", float: "left"}, {position: "relative"} );
     
-	
+        broker_page_setup();
 	});
+
+	function broker_page_setup(){
+	    
+		$('#data_table_1').dataTable( {
+	      "sScrollY": "527px",
+	      "bPaginate": false,
+	      "bFilter": true,
+	      "bInfo": true,
+	      "bDestroy": true,
+	      "fnInfoCallback": function( oSettings, iStart, iEnd, iMax, iTotal, sPre ) {
+	        $("#data_tables_info").remove();
+	        var info = "<span id='data_tables_info' style='float: right; margin-right: 10px;'>Found " + iEnd +" of "+ iMax + "</span>";
+	        $("#data_table_1_filter").append(info);
+	        }
+	    });
+
+	    sw.quoteManagerSlider = new sw.app.verticalSlider('#recentRequests', '.dataTables_scrollBody','#data_table_1',{overflow: "hidden", float: "left"}, {position: "relative"} );
+	}
+
+  var colorboxTimeOut = 0;
+//http://demo.strategicscrap.com/controllers/remote/?method=addBid&transport_cost=123.00&material_price=3.00&ship_date=2011-12-03%2003:22:12&arrival_date=2011-12-23%2007:22:12&notes=This%20is%20a%20note&join_request=146&join_transportation_type=154&join_broker=93
+  $("#submitQuote").click(function() {
+    if ( $("#transport_cost").val() != "" && 
+       $("#material_price").val() != "" && 
+       $("#ship_date").val() != "" && 
+       $("#arrival_date").val() != "" && 
+       $("#join_scrapper").val() != "" && 
+       $("#join_facility").val() != "" && 
+       $("#join_material").val() != "" && 
+       $("#notes").val() != "" ) {
+
+        $.post("/controllers/remote/?method=addBid", 
+            'transport_cost=' + $("#transport_cost").val() +
+            '&material_price=' + $("#material_price").val() +
+            '&ship_date=' + $("#ship_date").val() +
+            '&arrival_date=' + $("#arrival_date").val() +
+            '&join_broker=' + $("#join_broker").val() +
+            '&join_transportation_type=' + $("#join_transportation_type").val() +
+            '&join_request=' + $("#join_request").val() +
+            
+            '&join_scrapper=' + $("#join_scrapper").val() +
+            '&join_facility=' + $("#join_facility").val() +
+            '&join_material=' + $("#join_material").val() +
+
+            '&notes=' + $("#notes").val(),
+           function(data){
+             $("#transport_cost").val(''); 
+           $("#material_price").val(''); 
+           $("#ship_date").val(''); 
+           $("#arrival_date").val(''); 
+           $("#notes").val('');
+           $("#join_scrapper").val('');
+           $("#join_facility").val('');
+           $("#join_material").val('');
+
+           //
+           $("#bidForm").hide();
+           $("#bidResult").html('<h2>Success!</h2><p>Your bid has been submitted.</p>').show();
+           $(".scrapQuote").colorbox.resize();
+
+            getRequests();
+           colorboxTimeOut = setTimeout( function(){ clearTimeout(colorboxTimeOut); $(".scrapQuote").colorbox.close(); }, 5000 );
+           }, "json");
+         
+        return false;
+    }
+    
+    return false;
+  });
+  
+      
+    $(".scrapQuote").colorbox({width:"550", inline:true, href:"#quoteForm"});
+
+
+      var requestInterval = 0, bidInterval = 0, reqObject = {}, current_request = -1, iii = 0;
+    
+      function getRequests(){
+
+          $('#recent_requests').load("/controllers/remote/?method=getRequests&buid=<?=$_SESSION['user']['id'] ?>&type=html", function() {
+//              alert('Load was performed.');
+            broker_page_setup();
+              $(".scrapQuote").colorbox({ width:"550", inline:true, href:"#quoteForm", 
+                onComplete:function(){ current_request = $( this ).attr( "requestCount" ); loadBidForm(); $.colorbox.resize();  } 
+              });
+          });
+        //requestInterval = setTimeout("getRequests",20000);
+      }
+
+
+      function loadBidForm(  ){
+
+         $("#bidForm").show();
+         $("#bidResult").hide();
+        var item = request_object[ current_request ]; 
+        
+        
+        var scrapperData = "", facilityData = "";
+          
+        if( item['join_scrapper'] && item['join_scrapper'][0] ){ 
+          $("#join_scrapper").val( item['join_scrapper'][0]['id'] );
+        } 
+
+        if( item['join_scrapper'] && item['join_scrapper'][0]['company'] ){ 
+            scrapperData += item['join_scrapper'][0]['company'] + '<br />';
+        } 
+        
+        if( item['join_scrapper'] && item['join_scrapper'][0]['address_1'] ){ 
+            scrapperData += item['join_scrapper'][0]['address_1'] + '<br />';
+        } 
+        
+        if( item['join_scrapper'] && item['join_scrapper'][0]['address_2'] ){ 
+            scrapperData += item['join_scrapper'][0]['address_2'] + '<br />';
+        } 
+        
+        if( item['join_scrapper'] && item['join_scrapper'][0]['city'] ){ 
+            scrapperData += item['join_scrapper'][0]['city'] + ', ';
+        } 
+        
+        if( item['join_scrapper'] && item['join_scrapper'][0]['state_province'] ){ 
+            scrapperData += item['join_scrapper'][0]['state_province'] + ' ';
+        } 
+        
+        if( item['join_scrapper'] && item['join_scrapper'][0]['zip_postal_code'] ){ 
+            scrapperData += item['join_scrapper'][0]['zip_postal_code'] + ' ';
+        } 
+
+        if( scrapperData.length > 0 ){
+          $("#bid_request_ship_from").html( scrapperData );
+        } else {
+          alert("This bid cannot happen because there is no Scrapper.");
+        }
+
+
+        if( item['id'] ) 
+          $("#join_request").val(item['id']);
+        
+
+        if( item['join_facility'] && item['join_facility'][0] ) 
+          $("#join_facility").val( item['join_facility'][0]['id'] );
+        
+
+        if( item['join_facility'] && item['join_facility'][0]['company'] )
+          facilityData += item['join_facility'][0]['company'] + '<br />';
+        
+        
+        if( item['join_facility'] && item['join_facility'][0]['address_1'] )
+          facilityData += item['join_facility'][0]['address_1'] + '<br />';
+        
+        
+        if( item['join_facility'] && item['join_facility'][0]['address_2'] )
+          facilityData += item['join_facility'][0]['address_2'] + '<br />';
+        
+        
+        if( item['join_facility'] && item['join_facility'][0]['city'] )
+          facilityData += item['join_facility'][0]['city'] + ', ';
+        
+        
+        if( item['join_facility'] && item['join_facility'][0]['state_province'] )
+          facilityData += item['join_facility'][0]['state_province'] + ' ';
+        
+        
+        if( item['join_facility'] && item['join_facility'][0]['zip_postal_code'] )
+          facilityData += item['join_facility'][0]['zip_postal_code'] + ' ';
+        
+
+        if( facilityData.length > 0 ){
+          $("#bid_request_ship_to").html( facilityData );
+        } else {
+          alert("This bid cannot happen because there is no Facility.");
+        }
+
+        if( item['join_material'] && item['join_material'][0] ){
+          $("#bid_request_material").html( item['join_material'][0]['name'] );
+          $("#join_material").val( item['join_material'][0]['id'] );
+        } else {
+          alert("This bid cannot happen because there is no Material.");
+        }
+
+
+        $("#bid_request_quantity").html( item['volume'] );
+        $("#bid_request_delivery_date").html( item['arrive_date'] );
+        $("#bid_request_preferred_transporation").html( item['transportation_type'] );
+        
+      }
+      
+      $(document).ready(function(){
+        $("#bidResult").hide();
+        //getRequests();
+        //getBids();
+          $(".scrapQuote").colorbox({ width:"550", inline:true, href:"#quoteForm", 
+            onComplete:function(){ current_request = $( this ).attr( "requestCount" ); loadBidForm(); $.colorbox.resize();  } 
+          });
+          
+      });
+
 </script>
