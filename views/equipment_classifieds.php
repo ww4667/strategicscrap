@@ -16,7 +16,11 @@
 			
 	 sw.tabOneSlider = new sw.app.verticalSlider('#tabs-1', '#tab-1-pane','#tab-1-content',{overflow: "hidden", float: "left", height: "645px", width: "547px"}, {position: "relative"} );
    sw.tabTwoSlider = new sw.app.verticalSlider('#tabs-2', '#tab-2-pane','#tab-2-content',{overflow: "hidden", float: "left", height: "645px", width: "547px"}, {position: "relative"} );
-    
+
+
+   $('.classifiedLink').colorbox({ width: "550", inline:true, href:"#listingDescription1", 
+       onComplete:function(){ var hidden_div = $( this ).attr( "ssclass" ); var html = $('#'+hidden_div).html(); $("#listingDescription1").html(html); $.colorbox.resize();  } 
+     });
   });
   </script>
   
@@ -58,20 +62,7 @@
 <div style="display:none"> 
  
 	<div id="listingDescription1" style="padding:10px; background:#fff;">
-	    <div class="detail_img" style="float:left">
-	        <img src="http://dummyimage.com/135x180/000/fff&text=image+not+available" alt="detial image" />
-	    </div>
-        <div style="float:left;padding-left:20px;width:320px;">
-			<strong>SAMPLE DATA DETAILS/DESCRIPTION</strong>
-			<dl>
-				<dt style="clear:left;float:left;width:60px;">Unit:</dt><dd style="float:left">Tons</dd>
-				<dt style="clear:left;float:left;width:60px;">Quantity:</dt><dd style="float:left">2,800</dd>
-				<dt style="clear:left;float:left;width:60px;">Price:</dt><dd style="float:left">$367</dd>
-			</dl>
-			<div style="clear:left;padding-top:10px">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, nisl ut aliquip ex ea commodo consequat.</div>
-			<div style="clear:left;padding-top:10px">John Doe<br />johndoe@email.com<br />phone: 1-800-555-XXXX</div>
-			
-        </div>
-		<div style="clear:both"><!--not empty--></div>
-	</div> 
+	    
+	</div>
+	 
 </div> 

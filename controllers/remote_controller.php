@@ -186,7 +186,7 @@ function controller_remote( $_controller_remote_method = null,
 							$outputArray = array();
 							foreach( $requestReturnArray as $request ){
 								$outputArray[] = $request;
-								$output .= 	'<tr class="' . ( $off ? 'row2' : '' ) . ' scrapQuote" id="request_' . $counter. '" requestCount="'.$counter.'" requestId="' . $request->id . '">' . 
+								$output .= 	'<tr class="scrapQuote" id="request_' . $counter. '" requestCount="'.$counter.'" requestId="' . $request->id . '">' . 
 											"	<td>" .
 											( !empty( $request->expiration_date ) ? $request->expiration_date : 'not set' ) . '<br />'  .
 											"	</td>" .
@@ -291,7 +291,7 @@ function controller_remote( $_controller_remote_method = null,
 							$outputArray = array();
 							foreach( $requestReturnArray as $request ){
 								$outputArray[] = $request;
-								$output .= 	'<tr class="' . ( $off ? 'row2' : '' ) . ' scrapQuote" id="request_' . $counter. '" requestCount="'.$counter.'" requestId="' . $request->id . '">' . 
+								$output .= 	'<tr class="scrapQuote" id="request_' . $counter. '" requestCount="'.$counter.'" requestId="' . $request->id . '">' . 
 											"	<td>" .
 											( !empty( $request->expiration_date ) ? $request->expiration_date : 'not set' ) . '<br />'  .
 											"	</td>" .
@@ -473,7 +473,7 @@ function controller_remote( $_controller_remote_method = null,
 						$output = "";
 						$off = false;
 						foreach( $bidReturnArray as $bid ){
-							$output .= 	'<tr class="' . ( $off ? 'row2' : '' ) . ' scrapBid" requestId="' . $bid->id . '">' . 
+							$output .= 	'<tr class="scrapBid" requestId="' . $bid->id . '">' . 
 										"	<td>" .
 										( !empty( $bid->status ) ? $bid->status : 'waiting' ) . '<br />'  .
 										"	</td>" .
