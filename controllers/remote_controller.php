@@ -118,7 +118,9 @@ function controller_remote( $_controller_remote_method = null,
 			
 		/* add requests */
 		case 'addRequest':
-			
+			/**\
+			 * TODO: add error handling
+			 */
 			if ( isset( $_POST['ship_date'] ) ) {
 				
 				$post_data = $_POST;
