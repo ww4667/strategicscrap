@@ -17,6 +17,7 @@ class User extends Crud {
 	protected $_OBJECT_PROPERTIES = array(	array("type"=>"text","label"=>"E-mail","field"=>"email"),
 											array("type"=>"text","label"=>"Password","field"=>"password"),
 											array("type"=>"text","label"=>"Salt","field"=>"salt"),
+											array("type"=>"text","label"=>"Password Reset","field"=>"password_reset"),
 											array("type"=>"text","label"=>"Validation","field"=>"validation"),
 											array("type"=>"number","label"=>"Logged In","field"=>"logged_in"),
 											array("type"=>"date","label"=>"Last Login","field"=>"last_login_ts")
@@ -32,16 +33,20 @@ class User extends Crud {
 	/*
 	 * PUBLIC FUNCTIONS
 	 */
-	public function ForgotPassword($email) {
-		return $this->_forgotPassword($email);
-	}
-	
 	public function Login( $username, $password ) {
 		return $this->_login( $username, $password );
 	}
 	
 	public function Logout() {
 		return $this->_logout();
+	}
+	
+	public function ForgotPassword( $email ) {
+		return $this->_forgotPassword( $email );
+	}
+	
+	public function ResetPassword( $password, $key ) {
+		return $this->_resetPassword( $password, $key );
 	}
 	
 	public function GetSalt( $email ) {
@@ -71,6 +76,9 @@ class User extends Crud {
 	//			$item = new User();
 				$user = $users[0];
 	//			$_SESSION['user']['object'] = serialize($item);
+				$user->logged_in = 1;
+				if ( !empty($user->password_reset) )
+					$user->password_reset = '';
 				$user->logged_in = 1;
 				$user->last_login_ts = date("Y-m-d H:i:s");
 				$user->UpdateItem();
@@ -104,17 +112,14 @@ class User extends Crud {
     }
     
     private function _forgotPassword( $email ) {
+		$email = trim(strtolower($email));
         // check if email exists
-		if($this->_emailCheck($email)) {
-			// create unique random key ie. difference of current timestamp and created_ts MD5'd
-			$key = 'somethingsecret';
-			// store key to validation field
-			$this->validation = $key;
-//			$this->UpdateItem($itemData);
-			// send user an email with the secret key
-			// $mail = new Mailer();
-			// $message = "mail message with url in it";
-			// $mail->SendMessage($email,$message);
+		$users = $this->GetItemsObjByPropertyValue( 'email', $email );
+		if (!empty($users)) {
+			$user = $users[0];
+			$user->password_reset = sha1(time().'--'.rand(100,10000));
+			$user->UpdateItem();
+//			Mailer::password_reset_email($details);
 		} else {
 			return false;
 		}
@@ -129,8 +134,20 @@ class User extends Crud {
 		return sha1("--".$password."--".$salt."--");
     }
     
-    private function _resetPassword($email,$key) {
-        ;
+    private function _resetPassword( $password, $key ) {
+		$users = $this->GetItemsObjByPropertyValue( 'password_reset', $key );
+		if (!empty($users)) {
+			$user = $users[0];
+			$user->password_reset = '';
+			$user->password = $this->_setPassword( $password, $user->salt );
+			$user->UpdateItem();
+		} else {
+			return false;
+		}
     }
+	
+	private function _send_reset_password($email){
+	}
+		
 }
 ?>

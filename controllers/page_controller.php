@@ -563,10 +563,12 @@ require_once($_SERVER['DOCUMENT_ROOT']."/gir/index.php");
 		/* SCRAP LOGOUT **************************************** */
 		case 'scrap-logout':
 			$error_messages = array();
-			$u = new User();
-			if ( $u->Logout() ) {
-				$error_messages[] = "You have been logged out successfully.";
-				flash($error_messages);
+			if ($gir->auth->authenticate()) {
+				$u = new User();
+				if ( $u->Logout() ) {
+					$error_messages[] = "You have been logged out successfully.";
+					flash($error_messages);
+				}
 			}
 			header('Location: /');
 
