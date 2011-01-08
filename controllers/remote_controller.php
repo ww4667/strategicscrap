@@ -115,6 +115,37 @@ function controller_remote( $_controller_remote_method = null,
 			
 			break;
 			
+			
+		/* add requests */
+		case 'addRequest':
+			/**\
+			 * TODO: add error handling
+			 */
+			if ( isset( $_POST['ship_date'] ) ) {
+				
+				$post_data = $_POST;
+				// need to do some cleanup and validation first
+				// let's drop the data in the db
+				$r = new Request();
+				$r->CreateItem( $post_data );
+				$request = $r->GetItemObj( $r->newId );
+				$request->expiration_date = (strtotime("+14 days", strtotime($request->created_ts)) > strtotime("-2 days", strtotime($request->ship_date))) ? date("Y-m-d H:i:s", strtotime("-2 days", strtotime($request->ship_date))) : date("Y-m-d H:i:s", strtotime("+14 days", strtotime($request->created_ts)));
+				$request->UpdateItem();
+				// attach facility, scrapper and material to the request
+				$request->addFacility( $post_data['facility_id'] );
+				// we have the user id so... technically this is attaching a user id not a scrapper id
+				// will have to see how this affects the system
+				$request->addScrapper( $post_data['user_id'] );
+				$request->addMaterial( $post_data['material_id'] );
+				
+				print '{message:"The request was successful",success:true}';
+				
+			} else {
+				print '{message:"The information for the request is incomplete.",success:false}';
+			}
+			
+			break;
+			
 		/* returns requests */
 		case 'getRequests':
 			/* determines if the user is for a user or not */
