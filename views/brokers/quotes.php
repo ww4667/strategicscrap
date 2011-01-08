@@ -35,88 +35,31 @@
 			    <th style="width:100px">STATUS</th>
 			    <th style="width:220px">DESCRIPTION</th>
 			    <th style="width:100px">QUOTE DATE</th>
-			    <th>&nbsp;</th>
 			</tr>
 			</thead>
 			<tbody>
-			<tr class="accepted">
-			    <td class="status" style="width:100px"><strong>Accepted</strong></td>
-			    <td style="width:220px"><strong>Ship to:</strong> Demo Steel Company<br><strong>Material:</strong> No. 1 Machinery Cast<br><strong>Quantity (tons):</strong> 550<br><strong>Delivery Date:</strong> 05/13/2010</td>
-			    <td style="width:100px">04/30/2010</td>
-			    <td><a class="archive" href="" title="archive this quote">archive</a></td>
-			</tr>
-			<tr class=" waiting">
-			    <td class="status"><strong>Waiting</strong></td>
-			    <td><strong>Ship to:</strong> Demo Steel Company<br><strong>Material:</strong> No. 1 Machinery Cast<br><strong>Quantity (tons):</strong> 550<br><strong>Delivery Date:</strong> 05/10/2010</td>
-			    <td>05/03/2010</td>
-			    <td><a class="archive" href="#" title="archive this quote">archive</a></td>
-			</tr>
-			<tr class="expired">
-			    <td class="status"><strong>Expired</strong></td>
-			    <td><strong>Ship to:</strong> Demo Steel Company<br><strong>Material:</strong> No. 1 Machinery Cast<br><strong>Quantity (tons):</strong> 550<br><strong>Delivery Date:</strong> 05/10/2010</td>
-			    <td>05/04/2010</td>
-			    <td><a class="archive" href="#" title="archive this quote">archive</a></td>
-			</tr>
-			<tr class=" rejected">
-			    <td class="status"><strong>Rejected</strong></td>
-			    <td><strong>Ship to:</strong> Demo Steel Company<br><strong>Material:</strong> No. 1 Machinery Cast<br><strong>Quantity (tons):</strong> 550<br><strong>Delivery Date:</strong> 05/10/2010</td>
-			    <td>05/03/2010</td>
-			    <td><a class="archive" href="#" title="archive this quote">archive</a></td>
-			</tr>
-			<tr class="waiting">
-			    <td class="status"><strong>Waiting</strong></td>
-			    <td><strong>Ship to:</strong> Demo Steel Company<br><strong>Material:</strong> No. 1 Machinery Cast<br><strong>Quantity (tons):</strong> 550<br><strong>Delivery Date:</strong> 05/10/2010</td>
-			    <td>05/04/2010</td>
-			    <td><a class="archive" href="#" title="archive this quote">archive</a></td>
-			</tr>
-      <tr class=" expired">
-          <td class="status"><strong>Expired</strong></td>
-          <td><strong>Ship to:</strong> Demo Steel Company<br><strong>Material:</strong> No. 1 Machinery Cast<br><strong>Quantity (tons):</strong> 550<br><strong>Delivery Date:</strong> 05/10/2010</td>
-          <td>05/03/2010</td>
-          <td><a class="archive" href="#" title="archive this quote">archive</a></td>
-      </tr>
-      <tr class="rejected">
-          <td class="status"><strong>Rejected</strong></td>
-          <td><strong>Ship to:</strong> Demo Steel Company<br><strong>Material:</strong> No. 1 Machinery Cast<br><strong>Quantity (tons):</strong> 550<br><strong>Delivery Date:</strong> 05/10/2010</td>
-          <td>05/04/2010</td>
-          <td><a class="archive" href="#" title="archive this quote">archive</a></td>
-      </tr>
-      <tr class=" expired">
-          <td class="status"><strong>Expired</strong></td>
-          <td><strong>Ship to:</strong> Demo Steel Company<br><strong>Material:</strong> No. 1 Machinery Cast<br><strong>Quantity (tons):</strong> 550<br><strong>Delivery Date:</strong> 05/10/2010</td>
-          <td>05/03/2010</td>
-          <td><a class="archive" href="#" title="archive this quote">archive</a></td>
-      </tr>
-      <tr class="rejected">
-          <td class="status"><strong>Rejected</strong></td>
-          <td><strong>Ship to:</strong> Demo Steel Company<br><strong>Material:</strong> No. 1 Machinery Cast<br><strong>Quantity (tons):</strong> 550<br><strong>Delivery Date:</strong> 05/10/2010</td>
-          <td>05/04/2010</td>
-          <td><a class="archive" href="#" title="archive this quote">archive</a></td>
-      </tr>
-      <tr class=" expired">
-          <td class="status"><strong>Expired</strong></td>
-          <td><strong>Ship to:</strong> Demo Steel Company<br><strong>Material:</strong> No. 1 Machinery Cast<br><strong>Quantity (tons):</strong> 550<br><strong>Delivery Date:</strong> 05/10/2010</td>
-          <td>05/03/2010</td>
-          <td><a class="archive" href="#" title="archive this quote">archive</a></td>
-      </tr>
-      <tr class="rejected">
-          <td class="status"><strong>Rejected</strong></td>
-          <td><strong>Ship to:</strong> Demo Steel Company<br><strong>Material:</strong> No. 1 Machinery Cast<br><strong>Quantity (tons):</strong> 550<br><strong>Delivery Date:</strong> 05/10/2010</td>
-          <td>05/04/2010</td>
-          <td><a class="archive" href="#" title="archive this quote">archive</a></td>
-      </tr>
-      <tr class=" expired">
-          <td class="status"><strong>Expired</strong></td>
-          <td><strong>Ship to:</strong> Demo Steel Company<br><strong>Material:</strong> No. 1 Machinery Cast<br><strong>Quantity (tons):</strong> 550<br><strong>Delivery Date:</strong> 05/10/2010</td>
-          <td>05/03/2010</td>
-          <td><a class="archive" href="#" title="archive this quote">archive</a></td>
-      </tr>
-      <tr class="rejected">
-          <td class="status"><strong>Rejected</strong></td>
-          <td><strong>Ship to:</strong> Demo Steel Company<br><strong>Material:</strong> No. 1 Machinery Cast<br><strong>Quantity (tons):</strong> 550<br><strong>Delivery Date:</strong> 05/10/2010</td>
-          <td>05/04/2010</td>
-          <td><a class="archive" href="#" title="archive this quote">archive</a></td>
-      </tr>
+            <?php 
+            /*
+            $recent_bids = file_get_contents($pageURL."/controllers/remote/?method=getBids&uid=".$_SESSION['user']['id'] ."&type=html");
+                    
+            if ($recent_bids !== false) {
+               print $recent_bids;
+            } else {
+               print "Error loading bid data.";
+            }*/
+            
+            $_controller_remote_included = true;
+            
+            require_once($_SERVER['DOCUMENT_ROOT']."/controllers/remote_controller.php");
+            
+            controller_remote(  'getBids', 
+                      'html', 
+                      null, 
+                      $_SESSION['user']['id'], 
+                      null, 
+                      $_controller_remote_included );
+            
+            ?>
 		</tbody></table>
 		</div><div class="moduleBottom"><!-- IE hates empty elements --></div>	
 	</div>
