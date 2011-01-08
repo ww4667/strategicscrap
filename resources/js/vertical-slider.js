@@ -11,8 +11,10 @@ sw.app.verticalSlider = function(wrapper, pane, content, pane_css, content_css){
     $(pane).css(pane_css);
     $(wrapper + " " + content).css(content_css);
 
+
     /*calculate the height that the scrollbar handle should be*/
     var difference = $(content).height()-$(pane).height();//eg it's 200px longer
+    
     if(difference>0) {
        var proportion = difference / $(content).height();//eg 200px/500px
        var handleHeight = Math.round((1-proportion)*$(pane).height());//set the proportional height - round it to make sure everything adds up correctly later on
@@ -54,23 +56,24 @@ sw.app.verticalSlider = function(wrapper, pane, content, pane_css, content_css){
     function setupEventListeners(){
 
     }
+    
     //additional code for mousewheel
-  $(wrapper + " " + pane + "," + wrapper + " #slider-wrap").mousewheel(function(event, delta){
-      var speed = 5;
-      var sliderVal = $(wrapper + " #slider-vertical").slider("value");//read current value of the slider
-    
-      sliderVal += (delta*speed);//increment the current value
- 
-      $(wrapper + " #slider-vertical").slider("value", sliderVal);//and set the new value of the slider
-    
-    var topValue = -((100-sliderVal)*difference/100);//calculate the content top from the slider position
-    
-    if (topValue>0) topValue = 0;//stop the content scrolling down too much
-    if (Math.abs(topValue)>difference) topValue = (-1)*difference;//stop the content scrolling up too much
-    
-    $(wrapper + " " + content).css({top:topValue});//move the content to the new position
-      event.preventDefault();//stop any default behaviour
-  });
+    $(wrapper + " " + pane + "," + wrapper + " #slider-wrap").mousewheel(function(event, delta){
+        var speed = 5;
+        var sliderVal = $(wrapper + " #slider-vertical").slider("value");//read current value of the slider
+      
+        sliderVal += (delta*speed);//increment the current value
+   
+        $(wrapper + " #slider-vertical").slider("value", sliderVal);//and set the new value of the slider
+      
+      var topValue = -((100-sliderVal)*difference/100);//calculate the content top from the slider position
+      
+      if (topValue>0) topValue = 0;//stop the content scrolling down too much
+      if (Math.abs(topValue)>difference) topValue = (-1)*difference;//stop the content scrolling up too much
+      
+      $(wrapper + " " + content).css({top:topValue});//move the content to the new position
+        event.preventDefault();//stop any default behaviour
+    });
 
 
     /* ---[ RUN ]--- */

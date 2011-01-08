@@ -1,4 +1,8 @@
 					
+    <style type="text/css">
+    .dataTables_scroll{background: #ebebeb;}
+    </style>
+
 				<div class="leftCol">
 					<div class="lowerArea">
 						<div id="marketData" class="twoColMod"><div class="moduleTop"><!-- IE hates empty elements --></div>
@@ -118,10 +122,15 @@
 					</div>
 					<div class="upperRightCol">
 						<div id="transportAverages" class="oneColMod"><div class="moduleTop"><!-- IE hates empty elements --></div>
-							<div class="moduleContent">
+							<div class="moduleContent clearfix">
 								<h3>Strategic News</h3>
 								<hr />
-								<div id="twitterFeed"></div>
+								<div id ="twitter-wrapper">
+  								<div id="twitter-pane">
+  								   <div id="twitterFeed">
+                     </div>
+  								</div>
+								</div>
 							</div><div class="moduleBottom"><!-- IE hates empty elements --></div>
 						</div>
 						
@@ -141,10 +150,10 @@
 					</div>
 					<div class="lowerArea" style="clear:both">
 						<div class="twoColMod" id="transportRequest"><div class="moduleTop"><!-- IE hates empty elements --></div>
-							<div class="moduleContent">
+							<div class="moduleContent clearfix">
 								<h3>Transportation Requests</h3>
 								<hr style="margin-bottom:0" />
-								<table>
+								<table id = "data_table_1" style = "width: 559px;">
 									<thead>
 										<tr class="row2">
 										    <th>EXPIRATION</th>
@@ -259,7 +268,7 @@
 					</div>
 					
 					<div id="latestNews" class="oneColMod"><div class="moduleTop"><!-- IE hates empty elements --></div>
-						<div class="moduleContent">
+						<div class="moduleContent clearfix">
 						<h3>Latest News</h3>
 						<hr />
 					  	<ul id="tabs-news">
@@ -268,13 +277,17 @@
 						</ul>
 						<div class="tabBox">
 							<div id="tab1">
-								<div id="scroll-pane1">
-									<!-- IE hates empty elements -->
-								</div>
+							 <div id="pane1">
+								 <div id="content1">
+								  <!-- IE hates empty elements -->
+							   </div>
+							 </div>
 							</div>
 							<div id="tab2">
-								<div id="scroll-pane2">
-									<!-- IE hates empty elements -->
+               <div id="pane2">
+  								<div id="content2">
+  									<!-- IE hates empty elements -->
+  								</div>
 								</div>
 							</div>
 						</div>
@@ -402,6 +415,19 @@ $(".scrapQuote").colorbox({ width:"550", inline:true, href:"#quoteForm",
 				}); 
 	} 
 });
+
+$(document).ready(function(){   
+        $('#data_table_1').dataTable( {
+          "sScrollY": "380px",
+          "bPaginate": false,
+          "bFilter": false,
+          "bInfo": false
+        });
+         
+        sw.quoteManagerSlider = new sw.app.verticalSlider('#transportRequest', '.dataTables_scrollBody','#data_table_1',{overflow: "hidden", float: "left"}, {position: "relative"} );
+   
+        $('#latestNews').tabs();
+      });
 </script>
 				
 <div style="display:none">
