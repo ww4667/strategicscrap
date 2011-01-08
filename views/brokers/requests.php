@@ -258,7 +258,21 @@
     return false;
   });
   
-      
+
+  var dates = $( "#ship_date, #arrival_date" ).datepicker({
+  	defaultDate: "+2",
+  	changeMonth: true,
+  	numberOfMonths: 1,
+  	onSelect: function( selectedDate ) {
+  		var option = this.id == "ship_date" ? "minDate" : "maxDate",
+  			instance = $( this ).data( "datepicker" );
+  			date = $.datepicker.parseDate(
+  				instance.settings.dateFormat ||
+  				$.datepicker._defaults.dateFormat,
+  				selectedDate, instance.settings );
+  		dates.not( this ).datepicker( "option", option, date );
+  	}
+  });
     $(".scrapQuote").colorbox({width:"550", inline:true, href:"#quoteForm"});
 
 

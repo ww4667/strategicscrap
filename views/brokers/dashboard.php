@@ -326,8 +326,24 @@
   </div>
 </div>
 </div>
+<link href="/resources/css/jquery-ui-1.8.6.custom.css" rel="stylesheet" type="text/css" />
+				
 <script type="text/javascript">
 
+var dates = $( "#ship_date, #arrival_date" ).datepicker({
+	defaultDate: "+2",
+	changeMonth: true,
+	numberOfMonths: 1,
+	onSelect: function( selectedDate ) {
+		var option = this.id == "ship_date" ? "minDate" : "maxDate",
+			instance = $( this ).data( "datepicker" );
+			date = $.datepicker.parseDate(
+				instance.settings.dateFormat ||
+				$.datepicker._defaults.dateFormat,
+				selectedDate, instance.settings );
+		dates.not( this ).datepicker( "option", option, date );
+	}
+});
   var colorboxTimeOut = 0;
 //http://demo.strategicscrap.com/controllers/remote/?method=addBid&transport_cost=123.00&material_price=3.00&ship_date=2011-12-03%2003:22:12&arrival_date=2011-12-23%2007:22:12&notes=This%20is%20a%20note&join_request=146&join_transportation_type=154&join_broker=93
   $("#submitQuote").click(function() {

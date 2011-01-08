@@ -5,8 +5,8 @@ h3{color: #ff6600}
 .fullCol .moduleTop, .fullCol .moduleBottom{width:833px;height:6px}
 .fullCol .moduleTop{background:url(/resources/images/bg/module_full_top.png)}
 .fullCol .moduleBottom{background:url(/resources/images/bg/module_full_bottom.png)}
-.fullCol #scroll-pane1,
-.fullCol #scroll-pane2{width:831px;height:500px}
+.fullCol #scroll-pane1{width:831px;height:500px}
+.fullCol #scroll-pane2{width:831px;height:485px}
 .fullCol #tabs-scrapClass .first{margin-left:20px}
 a.quote{width:22px;height:22px;display:block;background:url(/resources/images/buttons/dashboard_action.png) 66px 0px;text-indent:-5000px}
 a.quote:hover{background-position: 66px -22px;}
@@ -15,13 +15,14 @@ tr.details td{padding:0}
 .fullCol .moduleContent td:first-child{font-weight:normal;}
 #map_container{width:auto; height: 480px; margin:10px}
 #geo_progress{background-color:#ff6600;}
-.facility_details{display:none;}
+.facility_details{display:none; position: absolute; width: 400px; top:5px; background: #fff; padding: 10px; border: 1px solid #000; z-index: 101;}    
+.dataTables_scroll{background: #ebebeb;}
+div.infoPop{display:block;}
 </style>
 
 <script type="text/javascript">
 	$(document).ready(function() {
             $('#scrapExchangeListings').tabs();
-            $('#scroll-pane1').jScrollPane();
             // $(".scrapDesc1").colorbox({width:"550", inline:true, href:"#listingDescription1"});
 			$('a.quote').click(function(){
 				$(this).parent().parent().next('tr').find('div').slideToggle('fast',function(){
@@ -35,7 +36,7 @@ tr.details td{padding:0}
 			});
 
 			$("#mapForm input:radio").click(function(item){
-				if( !addingItems && !removingItems ) updateMarkers();
+				if( !addingItems && !removingItems ) updateMarkers();	
 			});
 	});
 </script>
@@ -261,6 +262,7 @@ var removingItems = false;
 var addingItems = false;
 var gmarkers = [];
 var points = [];
+var selectedMaterial = null;
 
 
 function updateMarkers(){
@@ -274,6 +276,7 @@ function updateMarkers(){
     var val_string = "||";
 	
 	$.each(checkedItems, function() {
+		selectedMaterial = $(this).val();
 		val_string += $(this).val() + "||";
 	});
 
@@ -301,8 +304,7 @@ function updateMarkers(){
 
 }
 
-function updatePageData( json ){
-	
+function updatePageData( json ){	
 	
 	if(!json) return false; 
 	updateFilters = true;
@@ -314,8 +316,15 @@ function updatePageData( json ){
 	
 	for(i;i<l;i++){
 		cur = json[i];
-		pageData += '<tr class="' + ( highlight ? 'row1' : 'row2' ) + ' scrapRow" rowId="facility_'+i+'" >';
-		pageData += '	<td style="width:30px"><a class="scrapQuote quote" title="view details">details</a></td>';
+		pageData += '<tr class="scrapRow" rowId="facility_'+i+'" >';
+    pageData += ' <td style="width:30px;"><a class="scrapQuote quote" title="view details">details</a><div style="position:relative;">';
+    pageData += ' <div id="facility_'+i+'" class="facility_details">';
+    pageData += ' '+( cur.home_phone != '' ? 'Home: ' + cur.home_phone + '<br />' : '' );
+    pageData += ' '+( cur.fax_number != '' ? 'Fax: ' + cur.fax_number + '<br />' : '' );
+    pageData += ' '+( cur.website != '' ? 'Website: <a href="' + cur.website + '" target="_blank">' + cur.website + '</a><br />' : '' );
+    pageData += ' '+( cur.attachments != '' ? 'Attachment: <a href="' + cur.attachments + '" target="_blank">' + cur.attachments + '</a><br />' : '' );
+    pageData += ' '+( cur.notes != '' ? 'Notes: <blockquote>'+cur.notes+'<blockquote><br />' : '' );
+    pageData += ' </div></div></td>';
 		pageData += '	<td style="width:130px">'+cur.company+'</td>';
 		pageData += '	<td style="width:60px">'+cur.category+'</td>';
 		pageData += '	<td style="width:200px">'+cur.address_1+ (cur.address_2 != '' ? '<br />' + cur.address_2 : '') + '<br />' + cur.city+', ' +cur.state_province+' '+ cur.zip_postal_code+'</td>';
@@ -324,24 +333,45 @@ function updatePageData( json ){
 		pageData += '	'+(cur.business_phone != '' ? 'Business: ' + cur.business_phone : '')+'</td>';
 		pageData += '	<td><a trans_id="'+cur.id+'" class="ship_quote_button">shipping quote</a></td>';
 		pageData += '</tr>';
-		pageData += '<tr id="facility_'+i+'" class="facility_details ' + ( highlight ? 'row1' : 'row2' ) + ' ">';
-		pageData += '	<td colspan="7">';
-		pageData += '	'+( cur.home_phone != '' ? 'Home: ' + cur.home_phone + '<br />' : '' );
-		pageData += '	'+( cur.fax_number != '' ? 'Fax: ' + cur.fax_number + '<br />' : '' );
-		pageData += '	'+( cur.website != '' ? 'Website: <a href="' + cur.website + '" target="_blank">' + cur.website + '</a><br />' : '' );
-		pageData += '	'+( cur.attachments != '' ? 'Attachment: <a href="' + cur.attachments + '" target="_blank">' + cur.attachments + '</a><br />' : '' );
-		pageData += '	'+( cur.notes != '' ? 'Notes: <blockquote>'+cur.notes+'<blockquote><br />' : '' );
-		pageData += '	</td>';
-		pageData += '</tr>';
 		highlight = !highlight;
 	}
 	highlight = true;
-	$("#scrollData").html(pageData);
-    $('#scroll-pane1').jScrollPane();
 	
+	if ($("#data_table_1_wrapper").length == 0 ) {
+  $("#scrollData").html(pageData);
+	
+	   sw.sTable = $('#data_table_1').dataTable( {
+                                      "sScrollY": "470px",
+                                      "bPaginate": false,
+                                      "bFilter": false,
+                                      "bInfo": false
+                                    });
+    } else {
+      sw.sTable.fnDestroy();
+      
+      $("#scrollData").html("");
+      $("#scrollData").html(pageData);
+      
+      sw.sTable = $('#data_table_1').dataTable( {
+                                      "sScrollY": "470px",
+                                      "bPaginate": false,
+                                      "bFilter": false,
+                                      "bInfo": false
+                                    });
+  
+      }
+ 
+  sw.quoteManagerSlider = new sw.app.verticalSlider('#tab1', '.dataTables_scrollBody','#data_table_1',{overflow: "hidden", float: "left", width: "814px"}, {position: "relative"} );
+   
+	//$('.scrapRow').css({width: "810px", display: "block"});
 	$('.scrapRow').click(function(){
-		var rowId = $(this).attr("rowId");
-		$('#' + rowId).slideToggle();
+		 var rowId = $(this).attr("rowId");
+		 if($('#' + rowId).hasClass('infoPop')){
+        $('#' + rowId).removeClass('infoPop');
+		 } else {
+       $('.facility_details:visible').removeClass('infoPop');
+       $('#' + rowId).addClass('infoPop');
+     }
 	});
 
 	addTransportFormEvent();
@@ -456,7 +486,7 @@ function addTransportFormEvent( ){
 	    	$("#transport_error").hide();
 	    	$.colorbox.resize();
 	    	$('#transport_form').load(
-	    		'/views/scrappers/transport_material.php?session_id=<?=session_id();?>&id=' + trans_id,
+	    		'/views/scrappers/transport_material.php?session_id=<?=session_id();?>&id=' + trans_id + '&material_id=' + selectedMaterial,
 				function(){
 			    	$("#transport_loading").hide();
 			    	$("#transport_form").show();
@@ -497,7 +527,7 @@ function addTransportFormEvent( ){
 		
 		<div class="fullCol">
 			<div class="oneColMod"><div class="moduleTop"><!-- IE hates empty elements --></div>
-				<div class="moduleContent">
+				<div class="moduleContent clearfix">
 					<h3><span>0</span> Search Results</h3>
 					<hr />
 					
@@ -510,7 +540,7 @@ function addTransportFormEvent( ){
 	
 	<div class="tabBox">
 		<div id="tab1">
-				<table>
+				<table id="data_table_1" style = "width: 831px;">
 					<thead>
 						<tr class="row2">
 						    <th style="width:30px">&nbsp;</th>
@@ -522,14 +552,10 @@ function addTransportFormEvent( ){
 						    <th>&nbsp;</th>
 						</tr>
 					</thead>
-				</table>
-			<div id="scroll-pane1">
-				<table>
 					<tbody id="scrollData">
-						<tr><td>Please select a material above.</td></tr>
+						<tr><td colspan = "7">Please select a material above.</td></tr>
 					</tbody>
 				</table>
-			</div><!-- scroll-pane1 -->
 		</div><!-- tab1 -->
 		
 		<div id="tab2">
