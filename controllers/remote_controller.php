@@ -188,7 +188,7 @@ function controller_remote( $_controller_remote_method = null,
 								$outputArray[] = $request;
 								$output .= 	'<tr class="scrapQuote" id="request_' . $counter. '" requestCount="'.$counter.'" requestId="' . $request->id . '">' . 
 											"	<td>" .
-											( !empty( $request->expiration_date ) ? $request->expiration_date : 'not set' ) . '<br />'  .
+											( !empty( $request->expiration_date ) ? date ( 'Y-m-d', strtotime($request->expiration_date) ) : 'not set' ) . '<br />'  .
 											"	</td>" .
 											"	<td>" .
 											( 	$request->join_facility && 
@@ -202,10 +202,10 @@ function controller_remote( $_controller_remote_method = null,
 													'<strong>Material:</strong> ' . $request->join_material[0]['name'] . '<br>' : 
 													'<strong>Material:</strong><br>' ) . 
 											'<strong>Volume: </strong>' . ( !empty( $request->volume ) ? $request->volume : '0' ) . '<br />' .
-											'<strong>Delivery Date: </strong>' . ( !empty( $request->arrive_date ) ? $request->arrive_date : 'not set' ) . '<br />' .
+											'<strong>Delivery Date: </strong>' . ( !empty( $request->arrive_date ) ? date ( 'Y-m-d', strtotime($request->arrive_date) ) : 'not set' ) . '<br />' .
 											"	</td>" .
 											"	<td>" .
-											$request->created_ts . '<br />' .
+											date ( 'Y-m-d', strtotime($request->created_ts) ) . '<br />' .
 											"	</td>" .
 											( $request->bid_unread && $request->bid_unread != 0 ? '<td style="font-weight: 900;">' : '<td>' ) . 
 											'	' . ( !empty($request->bid_count) ? '(' . $request->bid_count . ')' : 'waiting' ) . 
@@ -293,7 +293,7 @@ function controller_remote( $_controller_remote_method = null,
 								$outputArray[] = $request;
 								$output .= 	'<tr class="scrapQuote" id="request_' . $counter. '" requestCount="'.$counter.'" requestId="' . $request->id . '">' . 
 											"	<td>" .
-											( !empty( $request->expiration_date ) ? $request->expiration_date : 'not set' ) . '<br />'  .
+											( !empty( $request->expiration_date ) ? date ( 'Y-m-d', strtotime($request->expiration_date) ) : 'not set' ) . '<br />'  .
 											"	</td>" .
 											"	<td>" .
 											( 	$request->join_facility && 
@@ -307,10 +307,10 @@ function controller_remote( $_controller_remote_method = null,
 													'<strong>Material:</strong> ' . $request->join_material[0]['name'] . '<br>' : 
 													'<strong>Material:</strong><br>' ) . 
 											'<strong>Volume: </strong>' . ( !empty( $request->volume ) ? $request->volume : '0' ) . '<br />' .
-											'<strong>Arrival Date: </strong>' . ( !empty( $request->arrive_date ) ? $request->arrive_date : 'not set' ) . '<br />' .
+											'<strong>Arrival Date: </strong>' . ( !empty( $request->arrive_date ) ? date ( 'Y-m-d', strtotime($request->arrive_date) ) : 'not set' ) . '<br />' .
 											"	</td>" .
 											"	<td>" .
-											$request->created_ts . '<br />' .
+											date ( 'Y-m-d', strtotime($request->created_ts) ) . '<br />' .
 											"	</td>" .
 											"	<td>" .
 											'		<a class="quote" href="#" title="quote this request" requestId="' . $request->id . '">quote</a>' .
@@ -493,11 +493,11 @@ function controller_remote( $_controller_remote_method = null,
 												'<strong>Material:</strong> ' . ( isset($bid->join_material[0] ) && isset( $bid->join_material[0]['name'] ) ? $bid->join_material[0]['name'] : 'material name' ) . '<br>' : 
 												'<strong>Material:</strong><br>' ) . 
 										'<strong>Volume: </strong>' . ( !empty( $bid->volume ) ? $bid->volume : '0' ) . '<br />' .
-										'<strong>Ship Date: </strong>' . ( !empty( $bid->ship_date ) ? $bid->ship_date : 'not set' ) . '<br />' .
-										'<strong>Arrival Date: </strong>' . ( !empty( $bid->arrive_date ) ? $bid->arrive_date : 'not set' ) . '<br />' .
+										'<strong>Ship Date: </strong>' . ( !empty( $bid->ship_date ) ? date ( 'Y-m-d', strtotime($bid->ship_date) ) : 'not set' ) . '<br />' .
+										'<strong>Arrival Date: </strong>' . ( !empty( $bid->arrive_date ) ? date ( 'Y-m-d', strtotime($bid->arrive_date) ) : 'not set' ) . '<br />' .
 										"	</td>" .
 										"	<td>" .
-										$bid->created_ts . '<br />' .
+										date ( 'Y-m-d', strtotime($bid->created_ts) ) . '<br />' .
 										"	</td>" .
 										"</tr>";
 							$off = !$off;
