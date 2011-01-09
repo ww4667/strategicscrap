@@ -64,6 +64,13 @@
   <script src="/resources/js/jquery.dataTables.min.js" type="text/javascript"></script>
   <script src="/resources/js/vertical-slider.js" type="text/javascript"></script>
 
+	<!-- DATE -->
+  	<link href="/resources/css/datePicker.css" rel="stylesheet" type="text/css" />
+  	<link href="/resources/css/datePicker.popup.css" rel="stylesheet" type="text/css" />
+  	
+	<script type="text/javascript" src="/resources/js/date.js"></script>
+	<script type="text/javascript" src="/resources/js/jquery.datePicker.js"></script>
+
   [*js_doc_ready*]
 
 <script type="text/javascript">
