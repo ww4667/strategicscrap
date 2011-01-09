@@ -84,5 +84,50 @@ class Bid extends Crud {
 		
 		return $bidReturnArray;
 	}
+	
+	public function updateStatus( $statusId ) {
+		return $this->_updateStatus( $statusId );
+	}
+	
+	public function getStatusArray() {
+		return $this->_getStatusArray();
+	}
+	
+	public function splitBidsByStatus( $bids_array ) {
+		return $this->_splitBidsByStatus( $bids_array );
+	}
+	
+	private function _splitBidsByStatus( $bids_array ) {
+		$split_array = array();
+		$status_array = $this->_getStatusArray();
+		foreach ($status_array as $key => $val) {
+			$split_array[$val] = array();
+			foreach ( $bids_array as $bid ) {
+				if ( intval($bid->status) == $key ) {
+					$split_array[$val][] = $bid;
+				}
+			}
+		}
+		return $split_array;
+	}
+	
+	private function _getStatusArray() {
+		$status_array = array(	"0" => "waiting",
+								"1" => "accepted",
+								"2" => "rejected",
+								"3" => "expired"
+		);
+		return $status_array;
+	}
+
+	private function _updateStatus( $statusId ) {
+		$status_array = $this->_getStatusArray();
+		foreach ($status_array as $key => $val) {
+			if ( isset($status_array[$statusId]) ) {
+				$this->status = $key;
+				$this->UpdateItem();
+			}
+		}
+	}
 }
 ?>

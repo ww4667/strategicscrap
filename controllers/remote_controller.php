@@ -442,6 +442,7 @@ function controller_remote( $_controller_remote_method = null,
 			$val = $_controller_remote_userId;
 			$bidReturnArray = array();
 			$bidClass = null;
+			$bidSplitArray = array();
 			
 			if($val){
 				$brokerClass = new Broker();
@@ -451,6 +452,8 @@ function controller_remote( $_controller_remote_method = null,
 					$brokerClass->GetItemObj( $brokerByUserId[0]['id'] );
 					
 					$bidReturnArray = $brokerClass->getBids();
+					$bids = new Bid();
+					$bidSplitArray = $bids->splitBidsByStatus( $bidReturnArray );
 					/*
 					// sorting object array by created_ts date DESC
 					$dates = array();					
@@ -467,7 +470,11 @@ function controller_remote( $_controller_remote_method = null,
 			}
 			
 			switch( $_controller_remote_type ) {
+				case 'tabs':
+					
+					break;
 				case 'html':
+						$bidReturnArray = $bidSplitArray['waiting'];
 						$counter = 0;
 						$count = count( $bidReturnArray );
 						$output = "";

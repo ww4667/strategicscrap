@@ -322,7 +322,7 @@ function updatePageData( json ){
     pageData += ' '+( cur.home_phone != '' ? 'Home: ' + cur.home_phone + '<br />' : '' );
     pageData += ' '+( cur.fax_number != '' ? 'Fax: ' + cur.fax_number + '<br />' : '' );
     pageData += ' '+( cur.website != '' ? 'Website: <a href="' + cur.website + '" target="_blank">' + cur.website + '</a><br />' : '' );
-    pageData += ' '+( cur.attachments != '' ? 'Attachment: <a href="' + cur.attachments + '" target="_blank">' + cur.attachments + '</a><br />' : '' );
+    pageData += ' '+( cur.attachments != '' ? 'Attachment: <a href="/downloader?facility_id=' + cur.id + '" target="_blank">download specs</a><br />' : '' );
     pageData += ' '+( cur.notes != '' ? 'Notes: <blockquote>'+cur.notes+'<blockquote><br />' : '' );
     pageData += ' </div></div></td>';
 		pageData += '	<td style="width:130px">'+cur.company+'</td>';
@@ -421,7 +421,7 @@ function createMarkers(){
         "<hr />Website: <a href='" + data[i].website + "' target='_blank'>click here</a>" +
         "<hr />Get Quote: <a style='cursor:pointer;' trans_id='"+data[i].id+"' class='ship_quote_button'>click here</a>" +
        	( data[i].attachments != "" ?
-        "<hr />Attachment: <a href='"+data[i].attachments+"'>"+data[i].attachments+"</a>" : "" ) +
+        "<hr />Attachment: <a href='/downloader?facility_id="+data[i].id+"'>download specs</a>" : "" ) +
        	( data[i].notes != "" ?
         "<hr />Notes: <blockquote>"+data[i].notes+"</blockquote>" : "" ) +
         "<\/div>";
@@ -613,7 +613,6 @@ function addTransportFormEvent( ){
       <div id="transport_error">
       	Your request has an error.
       </div>
-      <hr />
       
     </div>
   </div>
