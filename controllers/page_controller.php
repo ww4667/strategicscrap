@@ -14,6 +14,7 @@ require_once($_SERVER['DOCUMENT_ROOT']."/gir/index.php");
 		
 		/* HOMEPAGE FOR SCRAPPERS **************************************** */
 		case 'my-homepage':
+			require_ssl();
 			
 			// page 'template variables'
 			$PAGE_BODY = "views/my_homepage.php";  	/* which file to pull into the template */
@@ -209,6 +210,7 @@ require_once($_SERVER['DOCUMENT_ROOT']."/gir/index.php");
 
 		/* Regions */
 		case 'regions':
+			require_ssl();
 			// page 'template variables'
 			$PAGE_BODY = "views/regions.php";  	/* which file to pull into the template */			
 			
@@ -218,6 +220,7 @@ require_once($_SERVER['DOCUMENT_ROOT']."/gir/index.php");
 
 		/* Scrap Exchange */
 		case 'scrap-exchange':
+			require_ssl();
 			if(!$gir->auth->authenticate()){
 				$message = array();
 				$message[] = "You are not logged in. Please login or register to use this feature.";
@@ -342,6 +345,7 @@ require_once($_SERVER['DOCUMENT_ROOT']."/gir/index.php");
 
 		/* Transport Material */
 		case 'transport-material':
+			require_ssl();
 			// page 'template variables'
 			$PAGE_BODY = "views/scrappers/transport_material.php";  	/* which file to pull into the template */			
 			
@@ -352,6 +356,9 @@ require_once($_SERVER['DOCUMENT_ROOT']."/gir/index.php");
 
 		/* Registration (home) */
 		case 'register':
+			require_ssl();
+			//include_once($_SERVER['DOCUMENT_ROOT'].'/models/Mailer.php');
+
 			// page 'template variables'
 			$PAGE_BODY = "views/reg_form.php";  	/* which file to pull into the template */
 						
@@ -385,11 +392,21 @@ require_once($_SERVER['DOCUMENT_ROOT']."/gir/index.php");
 
 		/* Broker Dashboard */
 		case 'broker-dashboard':
+			require_ssl();
 			if( !$gir->auth->authenticate() || $_SESSION['user']['group'] != "broker" ){
 				$message = array();
 				$message[] = "You need to be logged in as a broker to use this feature.";
 				flash($message,'bad');
 			} else {
+				$brokerClass = new Broker();
+				$brokerByUserId = $brokerClass->getBrokersByUserId( $_SESSION['user']['id'] );
+				if( count( $brokerByUserId ) > 0 ){
+					$brokerClass->GetItemObj( $brokerByUserId[0]['id'] );
+					$bidsArray = $brokerClass->getSimpleBids();
+					$bidClass = new Bid();
+					$splitBids = array();
+					$splitBids = $bidClass->splitBidsByStatus($bidsArray);
+				}
 				// page 'template variables'
 				$PAGE_BODY = "views/brokers/dashboard.php";  	/* which file to pull into the template */
 				//the layout file  -  THIS PART NEEDS TO BE LAST
@@ -399,6 +416,16 @@ require_once($_SERVER['DOCUMENT_ROOT']."/gir/index.php");
 
 		/* Broker Dashboard :: quote manager */
 		case 'broker-quote-manager':
+			require_ssl();
+			$brokerClass = new Broker();
+			$brokerByUserId = $brokerClass->getBrokersByUserId( $_SESSION['user']['id'] );
+			if( count( $brokerByUserId ) > 0 ){
+				$brokerClass->GetItemObj( $brokerByUserId[0]['id'] );
+				$bidsArray = $brokerClass->getSimpleBids();
+				$bidClass = new Bid();
+				$splitBids = array();
+				$splitBids = $bidClass->splitBidsByStatus($bidsArray);
+			}
 			// page 'template variables'
 			$PAGE_BODY = "views/brokers/quotes.php";  	/* which file to pull into the template */
 						
@@ -408,6 +435,16 @@ require_once($_SERVER['DOCUMENT_ROOT']."/gir/index.php");
 
 		/* Broker Dashboard :: request manager */
 		case 'broker-request-manager':
+			require_ssl();
+			$brokerClass = new Broker();
+			$brokerByUserId = $brokerClass->getBrokersByUserId( $_SESSION['user']['id'] );
+			if( count( $brokerByUserId ) > 0 ){
+				$brokerClass->GetItemObj( $brokerByUserId[0]['id'] );
+				$bidsArray = $brokerClass->getSimpleBids();
+				$bidClass = new Bid();
+				$splitBids = array();
+				$splitBids = $bidClass->splitBidsByStatus($bidsArray);
+			}
 			// page 'template variables'
 			$PAGE_BODY = "views/brokers/requests.php";  	/* which file to pull into the template */
 						
@@ -417,6 +454,7 @@ require_once($_SERVER['DOCUMENT_ROOT']."/gir/index.php");
 
 		/* Pricing Form */
 		case 'pricing-form':
+			require_ssl();
 			// include any models that might be needed
 			include_once('models/Price.php');
 			// page 'template variables'
@@ -439,6 +477,7 @@ require_once($_SERVER['DOCUMENT_ROOT']."/gir/index.php");
 
 		/* Broker Pricing Form */
 		case 'broker-pricing-form':
+			require_ssl();
 			// include any models that might be needed
 			include_once('models/Price.php');
 			include_once('models/pricing/Broker.php');
@@ -452,7 +491,7 @@ require_once($_SERVER['DOCUMENT_ROOT']."/gir/index.php");
 
 			if(isset($_GET['logout'])){
 				unset($_SESSION['broker']);
-				header('Location: /broker-pricing-form');
+				redirect_to('/broker-pricing-form');
 			}
 
 			if(isset($_SESSION['broker'])) {
@@ -477,7 +516,7 @@ require_once($_SERVER['DOCUMENT_ROOT']."/gir/index.php");
 				$broker = PricingBroker::login($email,$password);
 				if($broker){
 					$_SESSION['broker'] = serialize($broker);
-					header('Location: /broker-pricing-form');
+					redirect_to('/broker-pricing-form');
 				} else {
 					$error=true;
 					$message="Your email/password combination could not be found. Try again.";
@@ -511,6 +550,7 @@ require_once($_SERVER['DOCUMENT_ROOT']."/gir/index.php");
 		
 		/* SCRAP LOGIN **************************************** */
 		case 'scrap-login':
+			require_ssl();
 			$error_messages = array();
 			
 			if ( (isset($_POST['username']) && $_POST['username'] != "") && (isset($_POST['password']) && $_POST['password'] != "") ) {
@@ -519,43 +559,46 @@ require_once($_SERVER['DOCUMENT_ROOT']."/gir/index.php");
 				// snag matching user(s)
 				$u = new User();
 				$users = $u->GetItemsObjByPropertyValue('email', $username);
-				$user = $users[0];
-				// get joins for users
-				$groups = array("Scrapper","Broker");
-				foreach ( $groups as $g ) {
-					$obj = new $g();
-					$joins = $obj->ReadForeignJoins( $user );
-					print_r($joins);
-					if( count($joins) > 0 ) {
-						$obj->Login( $username, $password );
+				if ( !empty($users) ) {
+					$user = $users[0];
+					// get joins for users
+					$groups = array("Scrapper","Broker");
+					foreach ( $groups as $g ) {
+						$obj = new $g();
+						$joins = $obj->ReadForeignJoins( $user );
+						print_r($joins);
+						if( count($joins) > 0 ) {
+							$obj->Login( $username, $password );
+							break;
+						}
+					}
+					// send to page based on obj type
+					switch ($_SESSION['user']['group']) {
+						case 'scrapper':
+							$error_messages[] = "Welcome!";
+							flash($error_messages);
+							redirect_to('/regions');
+						break;
+						
+						case 'broker':
+							$error_messages[] = "Welcome!";
+							flash($error_messages);
+							redirect_to('/broker-admin/dashboard');
+						break;
+						
+						default:
+							$error_messages[] = "Wrong username or password.";
+							$_SESSION['sign-in-error'] = true;
+							redirect_to('/');
 						break;
 					}
 				}
-				// send to page based on obj type
-				switch ($_SESSION['user']['group']) {
-					case 'scrapper':
-						$error_messages[] = "Welcome!";
-						flash($error_messages);
-						header('Location: /regions/northeast');
-					break;
-					
-					case 'broker':
-						$error_messages[] = "Welcome!";
-						flash($error_messages);
-						header('Location: /broker-admin/dashboard');
-					break;
-					
-					default:
-						$error_messages[] = "Wrong username or password.";
-						$_SESSION['sign-in-error'] = true;
-						header('Location: /');
-					break;
-				}
-			} else {
-						$error_messages[] = "Wrong username or password.";
-						$_SESSION['sign-in-error'] = true;
-						header('Location: /');
 			}
+			
+			$error_messages[] = "Wrong username or password.";
+			$_SESSION['sign-in-error'] = true;
+			redirect_to('/');
+			
 			//the layout file  -  THIS PART NEEDS TO BE LAST
 //			require($_SERVER['DOCUMENT_ROOT']."/views/layouts/shell.php");
 		break;
@@ -570,7 +613,7 @@ require_once($_SERVER['DOCUMENT_ROOT']."/gir/index.php");
 					flash($error_messages);
 				}
 			}
-			header('Location: /');
+			redirect_to('/');
 
 			//the layout file  -  THIS PART NEEDS TO BE LAST
 //			require($_SERVER['DOCUMENT_ROOT']."/views/layouts/shell.php");
@@ -578,6 +621,9 @@ require_once($_SERVER['DOCUMENT_ROOT']."/gir/index.php");
 		
 		/* REGISTER **************************************** */
 		case 'scrap-registration':
+			require_ssl();
+			//include_once($_SERVER['DOCUMENT_ROOT'].'/models/Mailer.php');
+
 			$PAGE_BODY = "views/registration/signup_form.php";  	/* which file to pull into the template */
 			if(isset($_SESSION['post_data_'.$controller_action])) {
 				$post_data = $_SESSION['post_data_'.$controller_action];
@@ -664,6 +710,7 @@ require_once($_SERVER['DOCUMENT_ROOT']."/gir/index.php");
 		
 		/* MY ACCOUNT SETTINGS **************************************** */
 		case 'my-account':
+			require_ssl();
 			if(!$gir->auth->authenticate()){
 				$message = array();
 				$message[] = "You need to login to update your account settings.";

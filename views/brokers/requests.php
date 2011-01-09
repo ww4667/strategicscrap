@@ -74,11 +74,11 @@
 			<div class="more"><a href="#">update</a></div>
 			<hr />
 			<div style="padding:10px">
-				<p><strong>Quote Summary:</strong></p>
-				<p>Accepted: 1<br />
-				Rejected: 1<br />
-				Waiting: 4<br />
-				Expired: 2</p>
+	        <p><strong>Quote Summary:</strong></p>
+	        <p>Accepted: <?= count($splitBids['accepted']) ?><br />
+	        Rejected: <?= count($splitBids['rejected']) ?><br />
+	        Waiting: <?= count($splitBids['waiting']) ?><br />
+	        Expired: <?= count($splitBids['expired']) ?></p>
 				<p>&nbsp;</p>
 				<p><strong>Alert Status:</strong></p>
 				<p>Hourly</p>
@@ -113,14 +113,53 @@
     <div id="bidForm">
       <h2>QUOTE THIS REQUEST</h2>
       <hr />
-      <strong>Ship from:</strong> <span id="bid_request_ship_from">Demo Scrap, 123 N 1st, City, State Zip</span> <br />
-      <strong>Ship to:</strong> <span id="bid_request_ship_to">Demo Scrap, 123 N 1st, City, State Zip</span><br />
-      <strong>Material:</strong> <span id="bid_request_material">No. 1 Machinery Cast</span><br />
-      <strong>Volume (tons):</strong> <span id="bid_request_quantity">550</span><br />
-      <strong>Delivery Date:</strong> <span id="bid_request_delivery_date">05/13/2010</span><br />
-      <strong>Preferred Transporation:</strong> <span id="bid_request_preferred_transporation">Flat Bed</span>
-      <hr />
-      <form id="quoteForm">
+		<div style="float: left; margin: 3px 0; padding: 5px; background:#ccc;width:490px;font-size:11px;">
+			<div style="width: 220px; float: left; margin: 3px;">
+				<strong>Ship From:</strong><br>
+				<div style="padding: 10px;" id="bid_request_ship_from">
+					<!-- empty -->
+				</div>
+			</div>
+			<div style="width: 220px; float: left; margin: 3px;">
+				<strong>Ship To:</strong><br>
+				<div style="padding: 10px;" id="bid_request_ship_to">
+					<!-- empty -->
+				</div>
+			</div>
+		</div>
+
+		<div style="float: left; margin: 3px 0; padding: 5px; background:#ccc;width:490px;font-size:11px;">
+			<strong>Material:</strong> <span id="bid_request_material">No. 1 Machinery Cast</span><br />
+			<strong>Volume in Tons:</strong> <span id="bid_request_quantity">550</span><br />
+			<strong>Delivery Date:</strong> <span id="bid_request_delivery_date">05/13/2010</span><br />
+			<strong>Preferred Transporation:</strong> <span id="bid_request_preferred_transporation">Flat Bed</span>
+		</div>
+
+		<fieldset style="width:475px;  padding:10px; margin:5px 0;">
+		
+			<div style="color: #000;clear:both;margin:3px 0;display:block;height: 20px;">
+				<div style="width:200px;float:left;font-weight: 900;">Transport Cost:</div>
+				<label style="color:#000;float:left;font-weight:0;"><input type="text"  id="transport_cost" name="transport_cost" /></label></div>
+	                                    
+		
+			<div style="color: #000;clear:both;margin:3px 0;display:block;height: 20px;">
+				<div style="width:200px;float:left;font-weight: 900;">Price (per/GT):</div>
+				<label style="color:#000;float:left;font-weight:0;"><input type="text"  id="material_price" name="material_price" /></label></div>
+		
+			<div style="color: #000;clear:both;margin:3px 0;display:block;height: 20px;">
+				<div style="width:200px;float:left;font-weight: 900;">Ship Date:</div>
+				<label style="color:#000;float:left;font-weight:0;"><input type="text"  id="ship_date" name="ship_date" class=date-pick /></label></div>
+		
+			<div style="color: #000;clear:both;margin:3px 0;display:block;height: 20px;">
+				<div style="width:200px;float:left;font-weight: 900;">Arrival Date:</div>
+				<label style="color:#000;float:left;font-weight:0;"><input type="text"  id="arrival_date" name="arrival_date" class="date-pick" /></label></div>
+		
+			<div style="color: #000;clear:both;margin:3px 0;display:block;height: 20px;">
+				<div style="width:200px;float:left;font-weight: 900;">Additional Notes:</div>
+				<label style="color:#000;float:left;font-weight:0;"><textarea id="notes" name="notes" style="width:200px;"></textarea></label></div>
+		
+		</fieldset>
+		
         <input name="join_broker" id="join_broker" type="hidden" value="<?=$_SESSION['user']['id']?>" />
         <input name="join_transportation_type" id="join_transportation_type" type="hidden" value="" />
         <input name="join_request" id="join_request" type="hidden" value="" />
@@ -128,31 +167,10 @@
         <input name="join_scrapper" id="join_scrapper" type="hidden" value="" />
         <input name="join_facility" id="join_facility" type="hidden" value="" />
         <input name="join_material" id="join_material" type="hidden" value="" />
-          
-        <ul class="form">
-          <li>
-            <label><strong>Transport Cost:</strong></label>
-            <input name="transport_cost" id="transport_cost" type="text" />
-          </li>
-          <li>
-            <label><strong>Price (per/GT):</strong></label>
-            <input name="material_price" id="material_price" type="text" />
-          </li>
-          <li>
-            <label><strong>Ship Date:</strong></label>
-            <input name="ship_date" id="ship_date" type="text" />
-          </li>
-          <li>
-            <label><strong>Arrival Date:</strong></label>
-            <input name="arrival_date" id="arrival_date" type="text" />
-          </li>
-          <li>
-            <label><strong>Additional Notes:</strong></label>
-            <textarea name="notes" id="notes" style="width:273px; height:40px;"></textarea>
-          </li>
-        </ul>
-        <div class="submitButton" id="submitQuote" style="cursor: pointer; text-align:left; background: #fff url(resources/images/buttons/submit_quote.png) no-repeat; padding: 3px; width:177px; height: 46px;"><!--  --></div>
-      </form>
+		
+		<div class="submitButton" style="clear:both;" >
+				<input type="image" id="submitQuote" alt="Submit Bid Request" name="submitBid" src="resources/images/buttons/submit_quote.png" />
+		</div>
     </div>
     <div id="bidResult" style=""></div>
   </div>
@@ -258,7 +276,6 @@
     return false;
   });
   
-      
     $(".scrapQuote").colorbox({width:"550", inline:true, href:"#quoteForm"});
 
 
@@ -383,4 +400,67 @@
           
       });
 
+  	$(function() {
+  	  				
+  		$('.date-pick')
+  		.datePicker({createButton:false})
+  		.bind(
+  			'focus',
+  			function(event, message)
+  			{
+  				if (message == $.dpConst.DP_INTERNAL_FOCUS) {
+  					return true;
+  				}
+  				var dp = this;
+  				var $dp = $(this);
+  				$dp.dpDisplay();
+  				$('*').bind(
+  					'focus.datePicker',
+  					function(event)
+  					{
+  						var $focused = $(this);
+  						if (!$focused.is('.dp-applied')) // don't close the focused date picker if we just opened a new one!
+  						{
+  							// if the newly focused element isn't inside the date picker and isn't the original element which triggered
+  							// the opening of the date picker
+
+  							if ($focused.parents('#dp-popup').length == 0 && this != dp && !($.browser.msie && this == document.body)) {
+  								$('*').unbind('focus.datePicker');
+  								$dp.dpClose();
+  							}
+  						}
+  					}
+  				);
+  				return false;
+  			}
+  		);
+
+  		
+  		$('#ship_date').bind(
+  			'dpClosed',
+  			function(e, selectedDates)
+  			{
+  				var d = selectedDates[0];
+  				if (d) {
+  					d = new Date(d);
+  					$('#arrival_date').dpSetStartDate(d.addDays(1).asString());
+  				}
+  				$('*').unbind('focus.datePicker');
+  			}
+  		);
+  		
+  		$('#arrival_date').bind(
+  			'dpClosed',
+  			function(e, selectedDates)
+  			{
+  				var d = selectedDates[0];
+  				if (d) {
+  					d = new Date(d);
+  					$('#ship_date').dpSetEndDate(d.addDays(-1).asString());
+  				}
+  				$('*').unbind('focus.datePicker');
+  			}
+  		);
+  		
+  	});
 </script>

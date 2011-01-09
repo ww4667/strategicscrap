@@ -72,12 +72,11 @@
 			<div class="more"><a href="#">update</a></div>
 			<hr />
 			<div style="padding:10px">
-				<p><strong>Quote Summary:</strong></p>
-				<p>Accepted: 1<br />
-				Rejected: 1<br />
-				Waiting: 4<br />
-				Expired: 2</p>
-				<p>&nbsp;</p>
+	        <p><strong>Quote Summary:</strong></p>
+	        <p>Accepted: <?= count($splitBids['accepted']) ?><br />
+	        Rejected: <?= count($splitBids['rejected']) ?><br />
+	        Waiting: <?= count($splitBids['waiting']) ?><br />
+	        Expired: <?= count($splitBids['expired']) ?></p>
 				<p><strong>Alert Status:</strong></p>
 				<p>Hourly</p>
 			</div>

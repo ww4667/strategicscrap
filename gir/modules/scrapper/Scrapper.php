@@ -25,6 +25,9 @@ class Scrapper extends User {
 											array("type"=>"text","label"=>"Country","field"=>"country"),
 											array("type"=>"text","label"=>"Notes","field"=>"notes"),
 											array("type"=>"text","label"=>"Status","field"=>"status"),
+											array("type"=>"date","label"=>"Subscription Start Date","field"=>"subscription_start_date"),
+											array("type"=>"date","label"=>"Subscription End Date","field"=>"subscription_end_date"),
+											array("type"=>"date","label"=>"Subscription Type","field"=>"subscription_type"),
 											array("type"=>"text","label"=>"Account Settings","field"=>"account_settings")
 										);
 	

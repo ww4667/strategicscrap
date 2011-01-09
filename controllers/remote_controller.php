@@ -395,13 +395,16 @@ function controller_remote( $_controller_remote_method = null,
 			if ($bidId != null) {
 				$b = new Bid();
 				$bid = $b->GetItemObj($bidId);
+				$b->PTS($b,'Bid');
 				// check for expiration of request
 				if ( $request->expiration_date > date("Y-m-d H:i:s") ) {
 					// set bid status to accepted
-					
+					print "bid is not expired";
 					// set all other bids to rejected
 				} else {
 					// lock request since it was expired
+					print "bid is invalid";
+//					$b->UpdateValueNumber($bidId,  ,1 );
 				}
 			}
 			break;
@@ -442,6 +445,7 @@ function controller_remote( $_controller_remote_method = null,
 			$val = $_controller_remote_userId;
 			$bidReturnArray = array();
 			$bidClass = null;
+			$bidSplitArray = array();
 			
 			if($val){
 				$brokerClass = new Broker();
@@ -451,6 +455,8 @@ function controller_remote( $_controller_remote_method = null,
 					$brokerClass->GetItemObj( $brokerByUserId[0]['id'] );
 					
 					$bidReturnArray = $brokerClass->getBids();
+					$bids = new Bid();
+					$bidSplitArray = $bids->splitBidsByStatus( $bidReturnArray );
 					/*
 					// sorting object array by created_ts date DESC
 					$dates = array();					
@@ -467,7 +473,11 @@ function controller_remote( $_controller_remote_method = null,
 			}
 			
 			switch( $_controller_remote_type ) {
+				case 'tabs':
+					
+					break;
 				case 'html':
+						$bidReturnArray = $bidSplitArray['waiting'];
 						$counter = 0;
 						$count = count( $bidReturnArray );
 						$output = "";

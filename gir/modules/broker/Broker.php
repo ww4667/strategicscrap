@@ -113,6 +113,11 @@ class Broker extends User {
 		
 		return $bidReturnArray;
 	}
+		
+	public function getSimpleBids(){
+		$foreignObj = new Bid();
+		return $foreignObj->ReadForeignJoins( $this );
+	}
     
 	/*
 	 * PRIVATE FUNCTIONS
