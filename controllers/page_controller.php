@@ -622,8 +622,10 @@ require_once($_SERVER['DOCUMENT_ROOT']."/gir/index.php");
 		/* REGISTER **************************************** */
 		case 'scrap-registration':
 			require_ssl();
+			include_once($_SERVER['DOCUMENT_ROOT'].'/models/Mailer.php');
 			//include_once($_SERVER['DOCUMENT_ROOT'].'/models/Mailer.php');
-
+			$SUBSCRIPTION_DURATION = "+1 year";
+			$PROMOTION = "+60 days";
 			$PAGE_BODY = "views/registration/signup_form.php";  	/* which file to pull into the template */
 			if(isset($_SESSION['post_data_'.$controller_action])) {
 				$post_data = $_SESSION['post_data_'.$controller_action];
@@ -679,11 +681,26 @@ require_once($_SERVER['DOCUMENT_ROOT']."/gir/index.php");
 					$u = new User();
 					$newUser = $u->CreateItem($post_data); 
 					if ( $newUser && !isset($_GET['broker']) ) {
+						$post_data['subscription_start_date'] = date("Y-m-d 00:00:00",strtotime("+1 day",time()));
+						// promotion check
+						if ( isset($PROMOTION) && !empty($PROMOTION) ) {
+							$post_data['subscription_type'] = $PROMOTION;
+							$post_data['subscription_end_date'] = date("Y-m-d 00:00:00",strtotime($PROMOTION,strtotime($post_data['subscription_start_date'])));
+						} else {
+							$post_data['subscription_type'] = $SUBSCRIPTION_DURATION;
+							$post_data['subscription_end_date'] = date("Y-m-d 00:00:00",strtotime($SUBSCRIPTION_DURATION,strtotime($post_data['subscription_start_date'])));
+						}
+						$post_date['status'] = 'ACTIVE';
 						// setup the new scrapper!
 						$s = new Scrapper();
 						$newScrapper = $s->CreateItem($post_data);
 						$scrapper = $s->GetItemObj($newScrapper->newId);
 						$scrapper->addUser($newUser->newId);
+						// send welcome email to user
+						$object['fname'] = $scrapper->first_name;
+						$object['lname'] = $scrapper->last_name;
+						$object['email'] = $newUser->email;
+						Mailer::welcome_email($object);
 						flash("Welcome to Strategic Scrap! You have successfully been registered. Use the sign-in form above to get started.");
 						redirect_to('/');
 //						die(print_r($scrapper));

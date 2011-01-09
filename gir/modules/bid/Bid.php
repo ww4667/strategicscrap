@@ -97,13 +97,55 @@ class Bid extends Crud {
 		return $this->_splitBidsByStatus( $bids_array );
 	}
 	
+	public function acceptBid( $bidId = null ) {
+		 return $this->_acceptBid( $bidId );	
+	}
+	
+	private function _acceptBid( $bidId = null ) {
+		// get related request
+		if ( is_null($bidId) ) {
+			$bid_id = $this->id;
+		} else {
+			$bid_id = $bidId;
+		}
+		// get this bid using the id
+		$accepted_bid = $this->GetItemObj( $bidId );
+		// get the request via ReadJoins
+		$requestClass = new Request();
+		$requests = $accepted_bid->ReadJoins( $requestClass );
+		$accepted_bid->join_request = ''; // so update doesn't blow up!
+		// make it all happen if we have a request!
+		if ( count($requests) == 1 ) {
+			$request = $requestClass->GetItemObj( $requests[0]['id'] );
+			// set request as locked
+			$request->locked = "1";
+//			$request->status = "COMPLETE";
+			$request->UpdateItem();
+			// get related bids
+			$related_bids = $requestClass->GetBids();
+			// set this bid as accepted
+			$accepted_bid->updateStatus( 1 );
+			// set others as rejected
+			foreach ($related_bids as $rb) {
+				if ($rb['id'] != $bid_id) {
+					$bidClass = new Bid();
+					$bidObj = $bidClass->GetItemObj($rb['id']);
+					$bidObj->updateStatus( 2 );
+				}
+			}
+			return true;	
+		}
+		return false;
+	}
+	
 	private function _splitBidsByStatus( $bids_array ) {
 		$split_array = array();
 		$status_array = $this->_getStatusArray();
 		foreach ($status_array as $key => $val) {
 			$split_array[$val] = array();
-			foreach ( $bids_array as $bid ) {
-				if ( intval($bid->status) == $key ) {
+			foreach ( $bids_array as $item ) {
+				$bid = (array) $item;
+				if ( intval($bid['status']) == $key ) {
 					$split_array[$val][] = $bid;
 				}
 			}
@@ -122,11 +164,9 @@ class Bid extends Crud {
 
 	private function _updateStatus( $statusId ) {
 		$status_array = $this->_getStatusArray();
-		foreach ($status_array as $key => $val) {
-			if ( isset($status_array[$statusId]) ) {
-				$this->status = $key;
-				$this->UpdateItem();
-			}
+		if ( isset($status_array[$statusId]) ) {
+			$this->status = $key;
+			$this->UpdateItem();
 		}
 	}
 }

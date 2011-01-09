@@ -27,7 +27,7 @@ class Scrapper extends User {
 											array("type"=>"text","label"=>"Status","field"=>"status"),
 											array("type"=>"date","label"=>"Subscription Start Date","field"=>"subscription_start_date"),
 											array("type"=>"date","label"=>"Subscription End Date","field"=>"subscription_end_date"),
-											array("type"=>"date","label"=>"Subscription Type","field"=>"subscription_type"),
+											array("type"=>"text","label"=>"Subscription Type","field"=>"subscription_type"),
 											array("type"=>"text","label"=>"Account Settings","field"=>"account_settings")
 										);
 	
@@ -91,6 +91,10 @@ class Scrapper extends User {
 		}
 	}
 	
+	public function getScrappersUpForRenewal( $compare_date, $days_out='30' ) {
+		return $this->_getScrappersUpForRenewal( $compare_date, $days_out );
+	}
+	
 	/**
 	 * Returns array of all Requests made by the scrapper
 	 * @return Object
@@ -130,5 +134,48 @@ class Scrapper extends User {
 	 */
     private function _privateFunction() {
     }
+		
+	private function _getScrappersUpForRenewal( $compare_date, $days_out ) {
+		$scrappers_array = array();
+		
+		$query_date = date("Y-m-d 00:00:00",strtotime("+" . $days_out . " days",strtotime($compare_date)));
+		
+		$objectNameId = $this->_OBJECT_NAME_ID;
+		
+		$properties = $this->_OBJECT_PROPERTIES;
+		$fields = ""; 
+		foreach ($properties as $p) {
+			if ($fields == "") {
+				$fields .= " MAX(IF(pn.label='".$p['field']."', v.value, '')) AS `".$p['field']."`";
+			} else {
+				$fields .= ", MAX(IF(pn.label='".$p['field']."', v.value, '')) AS `".$p['field']."`";
+			}
+		}
+		$query = "SELECT * FROM (SELECT o.id, o.created_ts, o.updated_ts, o.object_name_id,";
+		$query .= $fields;
+		$query .= " FROM " . $this->_TABLE_PREFIX.constant('Crud::_ITEMS') . " as o";
+		$query .= " LEFT JOIN " . $this->_TABLE_PREFIX.constant('Crud::_OBJECT_DEFINITIONS') . " as od on od.object_name_id = o.object_name_id";
+		$query .= " LEFT JOIN " . $this->_TABLE_PREFIX.constant('Crud::_PROPERTY_NAMES') . " as pn on pn.id = od.property_name_id";
+		$query .= " LEFT JOIN 	(SELECT * FROM " . $this->_TABLE_PREFIX.constant('Crud::_VALUES_TABLE_DATES') . " UNION SELECT * FROM " . $this->_TABLE_PREFIX.constant('Crud::_VALUES_TABLE_NUMBERS') . " UNION SELECT * FROM " . $this->_TABLE_PREFIX.constant('Crud::_VALUES_TABLE_TEXT') . ") as v on v.property_name_id = od.property_name_id AND v.item_id = o.id";
+		$query .= " WHERE o.object_name_id = $objectNameId";
+		$query .= " GROUP BY o.id) as tbl";
+		$query .= " WHERE subscription_end_date = '$query_date'";
+		$query .= " AND (status = '' OR status = 'active')";
+		
+		$scrappers_array = $this->Query( $query, true );
+		
+		$output_array = array();
+		foreach ($scrappers_array as $scrapper) {
+			$s = new Scrapper();
+			$s->GetItemObj($scrapper['id']);
+			$user = new User();
+			$users = $s->ReadJoins( $user );
+			$s->join_user = '';
+			$s->email = $users[0]['email'];
+			$output_array[] = $s;
+		}
+		
+		return $output_array;
+	}
 }
 ?>
