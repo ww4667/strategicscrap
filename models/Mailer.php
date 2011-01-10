@@ -78,5 +78,36 @@ class Mailer{
 		$mail->send();
 	}
 
+	static function accepted_bid_alert($i_object){
+		$mail = new Zend_Mail();
+		$mail->setFrom('do_not_reply@strategicscrap.com', 'Strategic Scrap');
+
+		$mail->setSubject("Your Transportation Bid has been accepted!");
+		$mail->setBodyText("Use your broker dashboard to see your accepted bid so you can get it processed. Login at http://strategicscrap.com to see the details.");
+		$mail->addTo($i_object['email'], $i_object['fname'] . " " . $i_object['lname']);
+		
+		//include_user_message_body(TEMPLATE_TO_USE, BODY_FILE_TO_USE, OBJECT_FOR_POPULATING_EMAIL_CONTENTS)
+		$message = Mailer::include_user_message_body("base_template","accepted_bid",$i_object); //the template to use from /views/mailer (minus the ".php")
+		
+		//setting both bodyText AND bodyHtml sends a multipart message for people with text vs. html
+		$mail->setBodyHtml($message);
+		$mail->send();
+	}
+
+	static function added_bid_alert($i_object){
+		$mail = new Zend_Mail();
+		$mail->setFrom('do_not_reply@strategicscrap.com', 'Strategic Scrap');
+
+		$mail->setSubject("A bid has been submitted to your transportation request!");
+		$mail->setBodyText("Visit your regional homepage to see your requests and view your unread bids. Login at http://strategicscrap.com to see the details.");
+		$mail->addTo($i_object['email'], $i_object['fname'] . " " . $i_object['lname']);
+		
+		//include_user_message_body(TEMPLATE_TO_USE, BODY_FILE_TO_USE, OBJECT_FOR_POPULATING_EMAIL_CONTENTS)
+		$message = Mailer::include_user_message_body("base_template","added_bid",$i_object); //the template to use from /views/mailer (minus the ".php")
+		
+		//setting both bodyText AND bodyHtml sends a multipart message for people with text vs. html
+		$mail->setBodyHtml($message);
+		$mail->send();
+	}
 }
 ?>

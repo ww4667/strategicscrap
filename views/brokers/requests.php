@@ -8,7 +8,7 @@
 <div class="lowerArea">
 	<div class="twoColMod" id="recentRequests"><div class="moduleTop"><!-- IE hates empty elements --></div>
 		<div class="moduleContent clearfix">
-	    	<h3>ADVANCED REQUEST MANAGER</h3>
+	    	<h3 id="reloadRequests">ADVANCED REQUEST MANAGER</h3>
 			<div class="more"><a href="[~21~]">back to dashboard</a></div>
 			<hr />
 			<!-- 
@@ -50,16 +50,16 @@
                print "Error loading requests data.";
             }*/
             
-            $_controller_remote_included = true;
+           // $_controller_remote_included = true;
             
-            require_once($_SERVER['DOCUMENT_ROOT']."/controllers/remote_controller.php");
+            //require_once($_SERVER['DOCUMENT_ROOT']."/controllers/remote_controller.php");
             
-            controller_remote(  'getRequests', 
-                      'html', 
-                      null, 
-                      null, 
-                      $_SESSION['user']['id'], 
-                      $_controller_remote_included );
+          //  controller_remote(  'getRequests', 
+            //          'html', 
+              //        null, 
+                //      null, 
+                  //    $_SESSION['user']['id'], 
+                    //  $_controller_remote_included );
             
             ?>
 		</tbody></table>
@@ -177,8 +177,88 @@
 </div>
 
 </div>
+
 <script type="text/javascript">
-	$(document).ready(function() {
+
+
+  function activateScrapQuote(){
+    $(".scrapQuote").colorbox({ width:"550", inline:true, href:"#quoteForm", 
+      onComplete:function(){ current_request = $( this ).attr( "requestCount" ); loadBidForm(); $.colorbox.resize();  } 
+    });
+  }
+  
+  $.fn.dataTableExt.oApi.fnReloadAjax = function ( oSettings, sNewSource, fnCallback ){
+    
+      //console.log("table refreshing");
+    if ( typeof sNewSource != 'undefined' ){
+      oSettings.sAjaxSource = sNewSource;
+    }
+    this.oApi._fnProcessingDisplay( oSettings, true );
+    var that = this;
+    
+    oSettings.fnServerData( oSettings.sAjaxSource, null, function(json) {
+      /* Clear the old information from the table */
+      that.oApi._fnClearTable( oSettings );
+      //console.dir(json);
+      request_object = json.request_object[0];
+      //console.log("table refreshed");
+      /* Got the data - add it to the table */
+      for ( var i=0 ; i<json.aaData.length ; i++ ){
+        that.oApi._fnAddData( oSettings, json.aaData[i] );
+      }
+      oSettings.aiDisplay = oSettings.aiDisplayMaster.slice();
+      that.fnDraw( that );
+      that.oApi._fnProcessingDisplay( oSettings, false );
+      
+      activateScrapQuote();
+      sw.recentRequestsrSlider = new sw.app.verticalSlider('#recentRequests', '.dataTables_scrollBody','#data_table_2',{overflow: "hidden", float: "left", width: "541px"}, {position: "relative"} );
+               
+      /* Callback user function - for event handlers etc */
+      if ( typeof fnCallback == 'function' ){
+        fnCallback( oSettings );
+      }
+    });
+  }
+
+  var oTable;  
+  $(document).ready(function() {  
+      
+      $("#reloadRequests").click(function(){
+      
+        oTable.fnReloadAjax("/controllers/remote/?type=data_tables&method=getRequests&buid=<?= $_SESSION['user']['id']  ?>");
+      
+      });
+
+      
+      $.ajax( {
+        "dataType": 'json', 
+        "type": "GET", 
+        "url": "/controllers/remote/?type=data_tables&method=getRequests&buid=<?= $_SESSION['user']['id']  ?>", 
+        "success": function (json) {
+          request_object = json.request_object[0];
+          console.dir(request_object);
+          oTable = $('#data_table_1').dataTable({
+            "aaData": json.aaData,
+            "sScrollY": "527px",
+              "bPaginate": false,
+              "bFilter": false,
+              "bInfo": false ,
+              "fnRowCallback": function( nRow, aData, iDisplayIndex ) {
+                    $(nRow).addClass('scrapQuote');
+                    $(nRow).attr('requestId', $(aData[0]).attr("requestId") );
+                    $(nRow).attr('id', "request_" + iDisplayIndex );
+                    $(nRow).attr('requestCount', iDisplayIndex );
+                  return nRow;
+                },
+              "fnInitComplete": function() {
+                activateScrapQuote();
+        $(".dataTables_scrollHead").css({width: "559px"});
+                sw.recentRequestsrSlider = new sw.app.verticalSlider('#recentRequests', '.dataTables_scrollBody','#data_table_1',{overflow: "hidden", float: "left", width: "541px"}, {position: "relative"} );
+                }
+            });
+          }
+        });  
+        
 		$('.btnAdd').click(function() {
 			var num		= $('.cloned').length;	// how many "duplicatable" input fields we currently have
 			var newNum	= new Number(num + 1);		// the numeric ID of the new input field being added
@@ -204,25 +284,12 @@
 		});
         $(".scrapQuote").colorbox({width:"550", inline:true, href:"#quoteForm"});
     
-        broker_page_setup();
+        //broker_page_setup();
 	});
 
 	function broker_page_setup(){
 	    
-		$('#data_table_1').dataTable( {
-	      "sScrollY": "527px",
-	      "bPaginate": false,
-	      "bFilter": true,
-	      "bInfo": true,
-	      "bDestroy": true,
-	      "fnInfoCallback": function( oSettings, iStart, iEnd, iMax, iTotal, sPre ) {
-	        $("#data_tables_info").remove();
-	        var info = "<span id='data_tables_info' style='float: right; margin-right: 10px;'>Found " + iEnd +" of "+ iMax + "</span>";
-	        $("#data_table_1_filter").append(info);
-	        }
-	    });
-
-	    sw.quoteManagerSlider = new sw.app.verticalSlider('#recentRequests', '.dataTables_scrollBody','#data_table_1',{overflow: "hidden", float: "left"}, {position: "relative"} );
+        oTable.fnReloadAjax("/controllers/remote/?type=data_tables&method=getRequests&buid=<?= $_SESSION['user']['id']  ?>");
 	}
 
   var colorboxTimeOut = 0;
@@ -281,18 +348,18 @@
 
       var requestInterval = 0, bidInterval = 0, reqObject = {}, current_request = -1, iii = 0;
     
-      function getRequests(){
+     /* function getRequests(){
 
           $('#recent_requests').load("/controllers/remote/?method=getRequests&buid=<?=$_SESSION['user']['id'] ?>&type=html", function() {
-//              alert('Load was performed.');
-            broker_page_setup();
-              $(".scrapQuote").colorbox({ width:"550", inline:true, href:"#quoteForm", 
-                onComplete:function(){ current_request = $( this ).attr( "requestCount" ); loadBidForm(); $.colorbox.resize();  } 
-              });
-          });
+            // alert('Load was performed.');
+            //broker_page_setup();
+              //$(".scrapQuote").colorbox({ width:"550", inline:true, href:"#quoteForm", 
+               // onComplete:function(){ current_request = $( this ).attr( "requestCount" ); loadBidForm(); $.colorbox.resize();  } 
+             // });
+         // });
         //requestInterval = setTimeout("getRequests",20000);
-      }
-
+      //}
+*/
 
       function loadBidForm(  ){
 

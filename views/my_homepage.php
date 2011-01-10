@@ -152,29 +152,33 @@
 						<div class="twoColMod" id="transportRequest"><div class="moduleTop"><!-- IE hates empty elements --></div>
 							<div class="moduleContent clearfix">
 								<h3>Transportation Requests</h3>
+						      <div class="more">
+						        <a id="reloadRequests">refresh</a>&nbsp;
+						      </div>
 								<hr style="margin-bottom:0" />
 								<table id = "data_table_1" style = "width: 559px;">
 									<thead>
 										<tr class="row2">
 										    <th>EXPIRATION</th>
 										    <th>DESCRIPTION</th>
-										    <th>REQUEST DATE</th>
+										    <th>CREATED</th>
 										    <th>STATUS</th>
+										    <th>BIDS</th>
 										</tr>
 									</thead>
 									<tbody id="requests_table">
 										<?php
 										//$recent_requests = file_get_contents( $pageURL."/controllers/remote/?method=getRequests&uid=".$_SESSION['user']['id']."&type=html&sessionid=" . session_id() );
-										$_controller_remote_included = true;
+										//$_controller_remote_included = true;
 
-										require_once($_SERVER['DOCUMENT_ROOT']."/controllers/remote_controller.php");
+										//require_once($_SERVER['DOCUMENT_ROOT']."/controllers/remote_controller.php");
 
-										controller_remote( 	'getRequests', 
-															'html', 
-															null, 
-															$_SESSION['user']['id'], 
-															null, 
-															$_controller_remote_included );
+//										controller_remote( 	'getRequests', 
+	//														'html', 
+		//													null, 
+			//												$_SESSION['user']['id'], 
+				//											null, 
+					//										$_controller_remote_included );
 
 										/*if ($recent_requests !== false) {
 										   print $recent_requests;
@@ -182,63 +186,10 @@
 										   print "Error loading requests data.";
 										}*/
 										?>
-									<!-- 
-									<tr>
-									    <td>05/15/2010</td>
-									    <td><strong>Ship to:</strong> Demo Steel Company<br><strong>Material:</strong> No. 1 Machinery Cast<br><strong>Quantity (tons):</strong> 550<br><strong>Delivery Date:</strong> 05/13/2010</td>
-									    <td>04/30/2010</td>
-									    <td><span style="text-decoration:underline;">view bids (4)</span></td>
-									</tr>
-									<tr class="row2">
-									    <td>06/10/2010</td>
-									    <td><strong>Ship to:</strong> Demo Steel Company<br><strong>Material:</strong> No. 1 Machinery Cast<br><strong>Quantity (tons):</strong> 550<br><strong>Delivery Date:</strong> 05/10/2010</td>
-									    <td>05/03/2010</td>
-									    <td><span style="text-decoration:underline;">view bids (1)</span></td>
-									</tr>
-									<tr>
-									    <td>06/08/2010</td>
-									    <td><strong>Ship to:</strong> Demo Steel Company<br><strong>Material:</strong> No. 1 Machinery Cast<br><strong>Quantity (tons):</strong> 550<br><strong>Delivery Date:</strong> 05/10/2010</td>
-									    <td>05/04/2010</td>
-									    <td>waiting</td>
-									</tr>
-									 -->
+
 									</tbody>
 								</table>
-								<!--<script type="text/javascript">
-									$(document).ready(function(){
-										$.getJSON("/controllers/remote/?method=getRequests&uid=<?=$_SESSION['user']['id'] ?>", function(json) { 
-											var tableRows = $("requests_table"), html = '', off=false, item=null;
-											
-											if ( json.length > 0 ) { 
-												for ( i=0; i < json.length; i++ ) {
-													item = json[i];
-													
-													html += '<tr '+ ( off ? 'class="row2"' : '' ) +'>' + 
-													'	<td>'+item.expiration_date+'</td>'+
-													'	<td><strong>Ship to:</strong> '+item.join_facility[0].company+'<br>'+
-													'		<strong>Material:</strong>'+item.join_material[0].name+'<br>'+
-													'		<strong>Quantity (tons):</strong> '+item.volume+'<br>'+
-													'		<strong>Delivery Date:</strong> '+item.arrive_date+''+
-													'	</td>'+
-													'	<td>'+item.created_ts+'</td>'+
-													'	<td style="'+( item['bid_unread'] && item['bid_unread'] != 0 ? 'font-weight: 900;' : '' )+'">'+ 
-													'		' + ( item['bid_count'] && item['bid_count'] != 0 ? '(' + item['bid_count'] + ')' : 'waiting' ) +
-													'	</td>'+
-													'</tr>';
-													
-													off=!off;
-													
-												}
-											    
-											    $("#requests_table").append( html );
-											    
-											} else {
-											    modData = []; 
-											}
-										});
-									});
-								</script>
-							--></div>
+								</div>
 							<div class="moduleBottom"><!-- IE hates empty elements --></div>	
 						</div>
 					</div>
@@ -266,7 +217,6 @@
 					
 						<? //<a href="http://alineironandmetals.com" title="A-Line Iron & Metals"><img src="resources/images/ad/a-line.png" /></a> ?>
 					</div>
-					
 					<div id="latestNews" class="oneColMod"><div class="moduleTop"><!-- IE hates empty elements --></div>
 						<div class="moduleContent clearfix">
 						<h3>Latest News</h3>
@@ -305,42 +255,51 @@
 				</div>
 
 <script type="text/javascript">
+var scrapQuoteTimeout = null;
+
+
+function activateScrapQuote(){
+
 $(".scrapQuote").colorbox({ width:"550", inline:true, href:"#quoteForm", 
+	onClosed:function(){if( scrapQuoteTimeout ) clearTimeout( scrapQuoteTimeout );},
     onComplete:function(){ 
     	current_request = $( this ).attr( "requestid" ); 
     	$("#request_loading").show();
     	$("#request_data").hide();
+    	$("#request_success").hide();
+    	$("#request_error").hide();
     	$.colorbox.resize();
     	$.getJSON(
     	    	'/controllers/remote_controller.php',
     	    	{	"method":"getRequestsFromSession",
         	    	"session_id":"<?=session_id();?>",
 					"request_id": current_request },
-				function(data){
-						var from = 	data.join_scrapper[0].address_1 + '<br />' + 
-						( data.join_scrapper[0].address_2 != '' ? data.join_scrapper[0].address_2 + '<br />' : '' ) + 
-						data.join_scrapper[0].city + ', ' + 
-						data.join_scrapper[0].state_province + ' ' + 
-						data.join_scrapper[0].postal_code;
+				function(get_requests_data){
+						
+						var from = 	get_requests_data.join_scrapper[0].address_1 + '<br />' + 
+						( get_requests_data.join_scrapper[0].address_2 != '' ? get_requests_data.join_scrapper[0].address_2 + '<br />' : '' ) + 
+						get_requests_data.join_scrapper[0].city + ', ' + 
+						get_requests_data.join_scrapper[0].state_province + ' ' + 
+						get_requests_data.join_scrapper[0].postal_code;
 						$("#bid_request_ship_from").html( from );
 						
-						var to = 	data.join_facility[0].address_1 + '<br />' + 
-						( data.join_facility[0].address_2 != '' ? data.join_facility[0].address_2 + '<br />' : '' ) + 
-						data.join_facility[0].city + ', ' + 
-						data.join_facility[0].state_province + ' ' + 
-						data.join_facility[0].postal_code;
+						var to = 	get_requests_data.join_facility[0].address_1 + '<br />' + 
+						( get_requests_data.join_facility[0].address_2 != '' ? get_requests_data.join_facility[0].address_2 + '<br />' : '' ) + 
+						get_requests_data.join_facility[0].city + ', ' + 
+						get_requests_data.join_facility[0].state_province + ' ' + 
+						get_requests_data.join_facility[0].postal_code;
 						$("#bid_request_ship_to").html( to );
 						
-						var material = 	data.join_material[0].name;
+						var material = 	get_requests_data.join_material[0].name;
 						$("#bid_request_material").html( material );
 						
-						var volume = 	data.volume;
+						var volume = 	get_requests_data.volume;
 						$("#bid_request_quantity").html( volume );
 						
-						var delivery_date = 	data.arrive_date;
+						var delivery_date = 	get_requests_data.arrive_date;
 						$("#bid_request_delivery_date").html( delivery_date );
 						
-						var transportation = 	data.transportation_type;
+						var transportation = 	get_requests_data.transportation_type;
 						$("#bid_request_preferred_transporation").html( transportation );
 
 						$("#bid_data").html('');
@@ -350,61 +309,98 @@ $(".scrapQuote").colorbox({ width:"550", inline:true, href:"#quoteForm",
 				    	    	{	"method":"getBidsByRequestId",
 				        	    	"session_id":"<?=session_id();?>",
 									"request_id": current_request },
-								function(data){
+								function(bid_data){
+										var transport_cost, material_price, ship_date, arrival_date, notes, status, 
+											complete = false, bid_output = '', bid_selected_output = '', bid_op = '', i=0;
 
-										var transport_cost, material_price, ship_date, arrival_date, notes, i=0;
+										if( bid_data ){
+											if( bid_data.length < 1 ){
 
-										if( data ){
-											
-											for( i; i<data.length; i++ ){
-
-												bid_id 			=	data[i].id;
-												transport_cost 	=	data[i].transport_cost;
-												material_price 	=	data[i].material_price;
-												ship_date 		=	data[i].ship_date;
-												arrival_date 	=	data[i].arrival_date;
-												notes 			=	data[i].notes;
-												
-												$("#bid_data").append('<div class="bid" style="display:table;padding:5px 5px 5px 10px;border:3px solid #ccc;cursor:pointer;">' + 
-																	'	<div style="float:left;width:329px;">' + 
-																	'		<strong>Cost:</strong> '+transport_cost+'<br />' + 
-																	'		<strong>Material Price:</strong>'+material_price+' <br />'+
-																	'		<strong>Ship Date:</strong>'+ship_date+' <br />'+
-																	'		<strong>Arrival Date:</strong>'+arrival_date+' <br />'+
-																	'		<strong>Notes:</strong>'+notes+' <br />'+
+												bid_output = '<div class="bid" style="display:table;padding:5px 5px 5px 10px;">' + 
+																	'	<div style="float:left;width:429px;">' + 
+																	'		<strong>There are no bids at this time.</strong>' + 
 																	'	</div>' + 
-																	'	<div style="float:left;width:100px;" id="bidButtons_'+bid_id+'" >' + 
-																	'		<button type="button" class="acceptButton" id="accept_'+bid_id+'" bidid='+bid_id+' >Accept</button>' + 
-																	'		<button type="button" class="sureButton" id="sure_'+bid_id+'" bidid='+bid_id+' >Are you Sure?</button>' + 
-																	'		<button type="button" class="cancelButton" id="cancel_'+bid_id+'" bidid='+bid_id+' >Cancel</button>' + 
-																	'	</div>' + 
-																	'</div>');
-												
-												
+																	'</div>';
 											}
+
+											if( get_requests_data.status > 1 ) complete = true;
+											
+											for( i; i<bid_data.length; i++ ){
+
+												bid_id 			=	bid_data[i].id;
+												transport_cost 	=	bid_data[i].transport_cost;
+												material_price 	=	bid_data[i].material_price;
+												ship_date 		=	bid_data[i].ship_date;
+												arrival_date 	=	bid_data[i].arrival_date;
+												notes 			=	bid_data[i].notes;
+												status 			=	bid_data[i].status;
+
 												
+												bid_op = ( get_requests_data.status < 2 ?  
+																'<div class="bid" style="display:table;padding:5px 5px 5px 10px;border:3px solid #ccc;cursor:pointer;">' +
+																'	<div style="float:left;width:329px;">' : 
+																'<div class="bid" style="display:table;padding:5px 5px 5px 10px;border:3px solid #ccc;">' +
+																'	<div style="float:left;width:429px;">' ) +
+															'		<strong>Cost:</strong> '+transport_cost+'<br />' + 
+															'		<strong>Material Price:</strong>'+material_price+' <br />'+
+															'		<strong>Ship Date:</strong>'+ship_date+' <br />'+
+															'		<strong>Arrival Date:</strong>'+arrival_date+' <br />'+
+															'		<strong>Notes:</strong>'+notes+' <br />'+
+															'	</div>' + 
+															( get_requests_data.status < 2 ? 
+																'	<div style="float:left;width:100px;" id="bidButtons_'+bid_id+'" >' + 
+																'		<button type="button" class="acceptButton" id="accept_'+bid_id+'" bidid='+bid_id+' >Accept this Bid</button>' + 
+																'		<button type="button" class="sureButton" id="sure_'+bid_id+'" bidid='+bid_id+' >Click to Accept</button>' + 
+																'		<button type="button" class="cancelButton" id="cancel_'+bid_id+'" bidid='+bid_id+' >Click to Cancel</button>' + 
+																'	</div>' : 
+																'' ) + 
+															'</div>';
+												if( complete && status == 1 ){
+													bid_selected_output = '<strong>Selected Bid</strong><br />' + bid_op + '<hr /><br />' + '<strong>Not Selected</strong><br />';
+												} else {
+													bid_output += bid_op;
+												}
+											}
+											console.log(bid_selected_output + bid_output);
+											$("#bid_data").html( bid_selected_output + bid_output );
 	
 											$('.acceptButton').click(function(){
-																		var bidId = $(this).attr('bidid');
-																		$('#accept_'+bidId).hide();
-																		$('#sure_'+bidId).show();
-																		$('#cancel_'+bidId).show();}); 
+												var bidId = $(this).attr('bidid');
+												$('#accept_'+bidId).hide();
+												$('#sure_'+bidId).show();
+												$('#cancel_'+bidId).show(0, function(){ $.colorbox.resize();  });}); 
 											
 											$('.sureButton').click(function(){
 												var bidId = $(this).attr('bidid');
+												
 												$.getJSON(
 										    	    	'/controllers/remote_controller.php',
 										    	    	{	"method":"acceptBid",
 										        	    	"session_id":"<?=session_id();?>",
 															"bid_id": bidId },
-														function(data){$.colorbox.close();});
+														function(accept_bid_response){
+																console.log('accept_bid_response: ' + accept_bid_response);
+															if( accept_bid_response ){
+
+														    	$("#request_loading").hide();
+														    	$("#request_data").hide();
+														    	$("#request_error").hide();
+														    	$("#request_success").show(500, function(){ $.colorbox.resize(); scrapQuoteTimeout = setTimeout(function(){ clearTimeout( scrapQuoteTimeout );$.colorbox.close();},5000); });
+														    	reloadRequests();
+															} else {
+														    	$("#request_loading").hide();
+														    	$("#request_data").hide();
+														    	$("#request_success").hide();
+														    	$("#request_error").show(500, function(){ $.colorbox.resize();  });
+															}
+														});
 											}).hide();
 											
 											$('.cancelButton').click(function(){
-																	var bidId = $(this).attr('bidid');
-																	$('#accept_'+bidId).show();
-																	$('#sure_'+bidId).hide();
-																	$('#cancel_'+bidId).hide(); }).hide();
+												var bidId = $(this).attr('bidid');
+												$('#accept_'+bidId).show();
+												$('#sure_'+bidId).hide();
+												$('#cancel_'+bidId).hide(0, function(){ $.colorbox.resize();  }); }).hide();
 										
 										}
 
@@ -415,17 +411,85 @@ $(".scrapQuote").colorbox({ width:"550", inline:true, href:"#quoteForm",
 				}); 
 	} 
 });
+}
 
-$(document).ready(function(){   
-        $('#data_table_1').dataTable( {
-          "sScrollY": "380px",
-          "bPaginate": false,
-          "bFilter": false,
-          "bInfo": false
-        });
+  
+  $.fn.dataTableExt.oApi.fnReloadAjax = function ( oSettings, sNewSource, fnCallback ){
+    
+      //console.log("table refreshing");
+    if ( typeof sNewSource != 'undefined' ){
+      oSettings.sAjaxSource = sNewSource;
+    }
+    this.oApi._fnProcessingDisplay( oSettings, true );
+    var that = this;
+    
+    oSettings.fnServerData( oSettings.sAjaxSource, null, function(json) {
+      /* Clear the old information from the table */
+      that.oApi._fnClearTable( oSettings );
+      //console.dir(json);
+      //console.log("table refreshed");
+      /* Got the data - add it to the table */
+      for ( var i=0 ; i<json.aaData.length ; i++ ){
+        that.oApi._fnAddData( oSettings, json.aaData[i] );
+      }
+      oSettings.aiDisplay = oSettings.aiDisplayMaster.slice();
+      that.fnDraw( that );
+      that.oApi._fnProcessingDisplay( oSettings, false );
+             
+      /* Callback user function - for event handlers etc */
+      if ( typeof fnCallback == 'function' ){
+        fnCallback( oSettings );
+      }
+    });
+  }
+
+  var oTable;
+function reloadRequests(){
+
+    oTable.fnReloadAjax("/controllers/remote/?type=data_tables&method=getRequests&uid=<?= $_SESSION['user']['id']  ?>", function(json){        
+    
+      //request_object = json.request_object[0];
+      activateScrapQuote();
+      sw.recentRequestsrSlider = new sw.app.verticalSlider('#transportRequest', '.dataTables_scrollBody','#data_table_1',{overflow: "hidden", float: "left", width: "541px"}, {position: "relative"} );
+            
+    });
+}
+    $(document).ready(function(){   
+      
+      $("#reloadRequests").click(function(){
+      
+    	  reloadRequests();
+      });
+      
+             
+      $.ajax( {
+        "dataType": 'json', 
+        "type": "GET", 
+        "url": "/controllers/remote_controller.php?type=data_tables&method=getRequests&uid=<?= $_SESSION['user']['id']  ?>",
+        "session_id":"<?=session_id();?>", 
+        "success": function (json) {
+          //request_object = json.request_object[0];
+          //console.dir(request_object);
+          oTable = $('#data_table_1').dataTable({
+            "aaData": json.aaData,
+            "sScrollY": "380px",
+              "bPaginate": false,
+              "bFilter": false,
+              "bInfo": false ,
+              "fnRowCallback": function( nRow, aData, iDisplayIndex ) {
+                    $(nRow).addClass('scrapQuote');
+                    $(nRow).attr('requestId', $(aData[0]).attr("requestId") );
+                  return nRow;
+                },
+              "fnInitComplete": function() {
+                activateScrapQuote();
+                 sw.quoteManagerSlider = new sw.app.verticalSlider('#transportRequest', '.dataTables_scrollBody','#data_table_1',{overflow: "hidden", float: "left", width: "541px"}, {position: "relative"} );
+              }
+            });
+          }
+        }); 
          
-        sw.quoteManagerSlider = new sw.app.verticalSlider('#transportRequest', '.dataTables_scrollBody','#data_table_1',{overflow: "hidden", float: "left", width: "541px"}, {position: "relative"} );
-   
+       
         $('#latestNews').tabs();
       });
 </script>
@@ -450,6 +514,8 @@ $(document).ready(function(){
 		</div>
       </div>
       <div id="request_loading">Loading Request</div>
+      <div id="request_success">The bid was accepted.</div>
+      <div id="request_error">There was an error.</div>
       <hr />
       
     </div>

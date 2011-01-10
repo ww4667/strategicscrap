@@ -10,7 +10,8 @@
           $('#recent_requests').load("/controllers/remote/?method=getRequests&buid=<?=$_SESSION['user']['id'] ?>&type=html", function() {
 //              alert('Load was performed.');
             $('#scroll-pane2').jScrollPane();
-              $(".scrapQuote").colorbox({ width:"550", inline:true, href:"#quoteForm", 
+              $(".scrapQuote").colorbox({ width:"550", inline:true, href:"#quoteForm",
+                onClosed:function(){clearTimeout(colorboxTimeOut);}, 
                 onComplete:function(){ current_request = $( this ).attr( "requestCount" ); loadBidForm(); $.colorbox.resize();  } 
               });
           });
@@ -125,10 +126,10 @@
       $(document).ready(function(){
         $("#bidResult").hide();
         //getRequests();
-        //getBids();
-          $(".scrapQuote").colorbox({ width:"550", inline:true, href:"#quoteForm", 
-            onComplete:function(){ current_request = $( this ).attr( "requestCount" ); loadBidForm(); $.colorbox.resize();  } 
-          });
+
+          // $(".scrapQuote").colorbox({ width:"550", inline:true, href:"#quoteForm", 
+          // onComplete:function(){ current_request = $( this ).attr( "requestCount" ); loadBidForm(); $.colorbox.resize();  } 
+          // });
           
       });
     --></script>
@@ -145,7 +146,10 @@
     <div class="moduleContent clearfix">    
       
         <h3>QUOTE MANAGER</h3>
-        <div class="more"><a href="[~27~]">advanced</a></div>
+        <div class="more">
+        	<a id="reloadQuotes">refresh</a>&nbsp;
+        	<a href="[~27~]">advanced</a>
+        </div>
         <hr />
         <div class="filter">
           <div><input type="checkbox" name="filter_accepted" checked="checked" value="accepted" /> accepted</div>
@@ -154,7 +158,7 @@
           <div><input type="checkbox" name="filter_waiting" checked="checked" value="waiting" /> waiting</div>
           <div style="clear:both;float:none"><!-- IE hates empty elemenets --></div>
         </div>
-        <table id="data_table_1" style = "width: 559px;" >
+        <table id="data_table_1" style = "width: 541px;" >
           <thead>
             <tr class="row2">
                 <th style="width:100px">STATUS</th>
@@ -173,16 +177,19 @@
                print "Error loading bid data.";
             }*/
             
-            $_controller_remote_included = true;
             
-            require_once($_SERVER['DOCUMENT_ROOT']."/controllers/remote_controller.php");
+            // $_controller_remote_included = true;
+            // 
+            // require_once($_SERVER['DOCUMENT_ROOT']."/controllers/remote_controller.php");
+            // 
+            //  controller_remote(  'getBids', 
+            //            'html', 
+            //            null, 
+            //            $_SESSION['user']['id'], 
+            //            null, 
+            //            $_controller_remote_included );
             
-             controller_remote(  'getBids', 
-                       'html', 
-                       null, 
-                       $_SESSION['user']['id'], 
-                       null, 
-                       $_controller_remote_included );
+             
              
             ?>
           </tbody>
@@ -195,14 +202,17 @@
     <div class="moduleTop"><!-- IE hates empty elements --></div>
     <div class="moduleContent clearfix">
         <h3>Recent Requests</h3>
-      <div class="more"><a href="[~22~]">advanced</a></div>
+      <div class="more">
+        <a id="reloadRequests">refresh</a>&nbsp;
+      	<a href="[~22~]">advanced</a>
+      </div>
       <hr />
       <table id="data_table_2" style = "width: 559px;" >
         <thead>
           <tr class="row2">
-              <th style="width:100px">EXPIRATION DATE</th>
+              <th style="width:100px">EXPIRATION</th>
               <th style="width:220px">DESCRIPTION</th>
-              <th style="width:100px">REQUEST DATE</th>
+              <th style="width:100px">CREATED</th>
               <th></th>
           </tr>
         </thead>
@@ -216,17 +226,17 @@
                print "Error loading requests data.";
             }*/
             
-            $_controller_remote_included = true;
-            
-            require_once($_SERVER['DOCUMENT_ROOT']."/controllers/remote_controller.php");
-            
-            controller_remote(  'getRequests', 
-                      'html', 
-                      null, 
-                      null, 
-                      $_SESSION['user']['id'], 
-                      $_controller_remote_included );
-            
+             // $_controller_remote_included = true;
+             // 
+             // require_once($_SERVER['DOCUMENT_ROOT']."/controllers/remote_controller.php");
+             // 
+             // controller_remote(  'getRequests', 
+             //           'html', 
+             //           null, 
+             //           null, 
+             //           $_SESSION['user']['id'], 
+             //           $_controller_remote_included );
+             // 
             ?>
             
           </tbody>
@@ -337,7 +347,7 @@
         <input name="join_material" id="join_material" type="hidden" value="" />
 		
 		<div class="submitButton" style="clear:both;" >
-				<input type="image" id="submitQuote" alt="Submit Bid Request" name="submitBid" src="resources/images/buttons/submit_quote.png" />
+				<input type="image" id="submitQuote" alt="Submit Bid Request" name="submitQuote" src="resources/images/buttons/submit_quote.png" />
 		</div>
     </div>
     <div id="bidResult" style=""></div>
@@ -345,87 +355,178 @@
 </div>
 </div>
 <script type="text/javascript">
+var request_object;
 
   var colorboxTimeOut = 0;
+  
 //http://demo.strategicscrap.com/controllers/remote/?method=addBid&transport_cost=123.00&material_price=3.00&ship_date=2011-12-03%2003:22:12&arrival_date=2011-12-23%2007:22:12&notes=This%20is%20a%20note&join_request=146&join_transportation_type=154&join_broker=93
-  $("#submitQuote").click(function() {
-    if ( $("#transport_cost").val() != "" && 
-       $("#material_price").val() != "" && 
-       $("#ship_date").val() != "" && 
-       $("#arrival_date").val() != "" && 
-       $("#join_scrapper").val() != "" && 
-       $("#join_facility").val() != "" && 
-       $("#join_material").val() != "" && 
-       $("#notes").val() != "" ) {
 
-        $.post("/controllers/remote/?method=addBid", 
-            'transport_cost=' + $("#transport_cost").val() +
-            '&material_price=' + $("#material_price").val() +
-            '&ship_date=' + $("#ship_date").val() +
-            '&arrival_date=' + $("#arrival_date").val() +
-            '&join_broker=' + $("#join_broker").val() +
-            '&join_transportation_type=' + $("#join_transportation_type").val() +
-            '&join_request=' + $("#join_request").val() +
-            
-            '&join_scrapper=' + $("#join_scrapper").val() +
-            '&join_facility=' + $("#join_facility").val() +
-            '&join_material=' + $("#join_material").val() +
+	function reloadRequestsTable(){
 
-            '&notes=' + $("#notes").val(),
-           function(data){
-             $("#transport_cost").val(''); 
-           $("#material_price").val(''); 
-           $("#ship_date").val(''); 
-           $("#arrival_date").val(''); 
-           $("#notes").val('');
-           $("#join_scrapper").val('');
-           $("#join_facility").val('');
-           $("#join_material").val('');
+        oTable.fnReloadAjax("/controllers/remote/?type=data_tables&method=getRequests&buid=<?= $_SESSION['user']['id']  ?>", function(json){        
 
-           //
-           $("#bidForm").hide();
-           $("#bidResult").html('<h2>Success!</h2><p>Your bid has been submitted.</p>').show();
-           $(".scrapQuote").colorbox.resize();
+          request_object = json.request_object[0];
+          sw.recentRequestsrSlider = new sw.app.verticalSlider('#recentRequests', '.dataTables_scrollBody','#data_table_2',{overflow: "hidden", float: "left", width: "541px"}, {position: "relative"} );
 
-            getRequests();
-            getBids();
-           colorboxTimeOut = setTimeout( function(){ clearTimeout(colorboxTimeOut); $(".scrapQuote").colorbox.close(); }, 5000 );
-           }, "json");
-         
-        return false;
-    }
-    
-    return false;
-  });
-  
-  
+          activateScrapQuote();
+        });
+	}
 
-      $(document).ready(function(){   
-      /* add this line to enable ajaxSource 
-          "sAjaxSource": "/controllers/remote/?type=data_tables&method=getBids&uid=<?= $_SESSION['user']['id']  ?>"
+	function reloadQuotesTable(){
+
+        qTable.fnReloadAjax("/controllers/remote/?type=data_tables&method=getBids&uid=<?= $_SESSION['user']['id']  ?>", function(){
           
-          */
-        $('#data_table_1').dataTable( {
-          "sScrollY": "200px",
-          "bPaginate": false,
-          "bFilter": false,
-          "bInfo": false
+          sw.quoteManagerSlider = new sw.app.verticalSlider('#recentResponses', '.dataTables_scrollBody','#data_table_1',{overflow: "hidden", float: "left", width: "541px"}, {position: "relative"} );
+          
         });
+	}
+  
+  function activateScrapQuote(){
+    $(".scrapQuote").colorbox({ width:"550", inline:true, href:"#quoteForm", 
+        onClosed:function(){clearTimeout(colorboxTimeOut);}, 
+      onComplete:function(){ current_request = $( this ).attr( "requestCount" ); loadBidForm(); $.colorbox.resize();  } 
+    });
+  }
+  
+  $.fn.dataTableExt.oApi.fnReloadAjax = function ( oSettings, sNewSource, fnCallback ){
+    
+      //console.log("table refreshing");
+    if ( typeof sNewSource != 'undefined' ){
+      oSettings.sAjaxSource = sNewSource;
+    }
+    this.oApi._fnProcessingDisplay( oSettings, true );
+    var that = this;
+    
+    oSettings.fnServerData( oSettings.sAjaxSource, null, function(json) {
+      /* Clear the old information from the table */
+      that.oApi._fnClearTable( oSettings );
+      //console.dir(json);
+      //console.log("table refreshed");
+      /* Got the data - add it to the table */
+      for ( var i=0 ; i<json.aaData.length ; i++ ){
+        that.oApi._fnAddData( oSettings, json.aaData[i] );
+      }
+      oSettings.aiDisplay = oSettings.aiDisplayMaster.slice();
+      that.fnDraw( that );
+      that.oApi._fnProcessingDisplay( oSettings, false );
+             
+      /* Callback user function - for event handlers etc */
+      if ( typeof fnCallback == 'function' ){
+        fnCallback( oSettings );
+      }
+    });
+  }
+
+  var oTable;
+  var qTable;  
+
+
+    $(document).ready(function(){   
+
+      $("#reloadRequests").click(function(){
+    	  reloadRequestsTable();
       
-        $('#data_table_2').dataTable( {
-          "sScrollY": "227px",
-          "bPaginate": false,
-          "bFilter": false,
-          "bInfo": false
-        });
-   
-        sw.quoteManagerSlider = new sw.app.verticalSlider('#recentResponses', '.dataTables_scrollBody','#data_table_1',{overflow: "hidden", float: "left", width: "541px"}, {position: "relative"} );
-   
-        sw.recentRequestsrSlider = new sw.app.verticalSlider('#recentRequests', '.dataTables_scrollBody','#data_table_2',{overflow: "hidden", float: "left", width: "541px"}, {position: "relative"} );
-        
       });
       
-    $(".scrapQuote").colorbox({width:"550", inline:true, href:"#quoteForm"});
+      $("#reloadQuotes").click(function(json){
+    	  reloadQuotesTable();
+      
+      });
+      
+      qTable = $('#data_table_1').dataTable( {
+        "sScrollY": "200px",
+        "bPaginate": false,
+        "bFilter": false,
+        "bInfo": false,
+        "sAjaxSource": "/controllers/remote/?type=data_tables&method=getBids&uid=<?= $_SESSION['user']['id']  ?>",
+        "fnInitComplete": function() {
+          sw.quoteManagerSlider = new sw.app.verticalSlider('#recentResponses', '.dataTables_scrollBody','#data_table_1',{overflow: "hidden", float: "left", width: "541px"}, {position: "relative"} );
+ 
+        }
+      });
+      
+      $.ajax( {
+        "dataType": 'json', 
+        "type": "GET", 
+        "url": "/controllers/remote/?type=data_tables&method=getRequests&buid=<?= $_SESSION['user']['id']  ?>", 
+        "success": function (json) {
+          request_object = json.request_object[0];
+          //console.dir(request_object);
+          oTable = $('#data_table_2').dataTable({
+            "aaData": json.aaData,
+            "sScrollY": "227px",
+              "bPaginate": false,
+              "bFilter": false,
+              "bInfo": false ,
+              "fnRowCallback": function( nRow, aData, iDisplayIndex ) {
+                    $(nRow).addClass('scrapQuote');
+                    $(nRow).attr('requestId', $(aData[0]).attr("requestId") );
+                    $(nRow).attr('id', $(aData[0]).attr("id") );
+                    $(nRow).attr('requestCount', $(aData[0]).attr("requestCount") );
+                  return nRow;
+                },
+              "fnInitComplete": function() {
+                activateScrapQuote();
+                sw.recentRequestsrSlider = new sw.app.verticalSlider('#recentRequests', '.dataTables_scrollBody','#data_table_2',{overflow: "hidden", float: "left", width: "541px"}, {position: "relative"} );
+                }
+            });
+          }
+        });
+
+      $("#submitQuote").click(function() {
+
+          console.log("submitQuote");
+    	    if ( $("#transport_cost").val() != "" && 
+    	       $("#material_price").val() != "" && 
+    	       $("#ship_date").val() != "" && 
+    	       $("#arrival_date").val() != "" && 
+    	       $("#join_scrapper").val() != "" && 
+    	       $("#join_facility").val() != "" && 
+    	       $("#join_material").val() != "" && 
+    	       $("#notes").val() != "" ) {
+
+    	        $.post("/controllers/remote/?method=addBid", 
+    	            {transport_cost : $("#transport_cost").val(),
+    	             material_price : $("#material_price").val(),
+    	             ship_date : $("#ship_date").val(),
+    	             arrival_date : $("#arrival_date").val(),
+    	             join_broker : $("#join_broker").val(),
+    	             join_transportation_type : $("#join_transportation_type").val(),
+    	             join_request : $("#join_request").val(),
+    	             join_scrapper : $("#join_scrapper").val(),
+    	             join_facility : $("#join_facility").val(),
+    	             join_material : $("#join_material").val(),
+    	             notes : $("#notes").val()
+    	            },
+					function(data){
+						console.log('i am back!');
+						$("#transport_cost").val(''); 
+						$("#material_price").val(''); 
+						$("#ship_date").val(''); 
+						$("#arrival_date").val(''); 
+						$("#notes").val('');
+						$("#join_scrapper").val('');
+						$("#join_facility").val('');
+						$("#join_material").val('');
+
+						$("#bidForm").hide();
+						$("#bidResult").html('<h2>Success!</h2><p>Your bid has been submitted.</p>').show();
+						$(".scrapQuote").colorbox.resize();
+						
+						reloadQuotesTable();
+						reloadRequestsTable();
+
+						colorboxTimeOut = setTimeout( function(){ clearTimeout(colorboxTimeOut); $(".scrapQuote").colorbox.close(); }, 5000 );
+    	           });
+    	         
+    	        return false;
+    	    }
+    	    
+    	    return false;
+    	  });
+      });
+      
+    //$(".scrapQuote").colorbox({width:"550", inline:true, href:"#quoteForm"});
 
 		$(function() {
 		  				
@@ -491,4 +592,3 @@
 			
 		});
 </script>
-
