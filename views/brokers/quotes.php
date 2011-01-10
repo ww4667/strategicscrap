@@ -8,7 +8,7 @@
 <div class="lowerArea">
 	<div class="twoColMod" id="recentResponses"><div class="moduleTop"><!-- IE hates empty elements --></div>
 		<div class="moduleContent clearfix">
-	    	<h3>ADVANCED QUOTE MANAGER</h3>
+	    	<h3 id = "reloadQuotes">ADVANCED QUOTE MANAGER</h3>
 			<div class="more"><a href="[~21~]">back to dashboard</a></div>
 			<hr />
 			<!-- <div class="filter">
@@ -32,21 +32,21 @@
 			</div> -->
 			<table id="data_table_1" class="quotes stripes" style ="width: 559px;">
 			<thead><tr class="">
-			    <th style="width:100px">STATUS</th>
-			    <th style="width:220px">DESCRIPTION</th>
-			    <th style="width:100px">QUOTE DATE</th>
+			    <th style="width:124px">STATUS</th>
+			    <th style="width:191px">DESCRIPTION</th>
+			    <th style="width:183px">QUOTE DATE</th>
 			</tr>
 			</thead>
 			<tbody>
             <?php 
             /*
-            $recent_bids = file_get_contents($pageURL."/controllers/remote/?method=getBids&uid=".$_SESSION['user']['id'] ."&type=html");
+            $recent_bids = file_get_contents($pageURL."/controllers/remote/?metdod=getBids&uid=".$_SESSION['user']['id'] ."&type=html");
                     
             if ($recent_bids !== false) {
                print $recent_bids;
             } else {
                print "Error loading bid data.";
-            }*/
+            }
             
             $_controller_remote_included = true;
             
@@ -58,7 +58,7 @@
                       $_SESSION['user']['id'], 
                       null, 
                       $_controller_remote_included );
-            
+            */
             ?>
 		</tbody></table>
 		</div><div class="moduleBottom"><!-- IE hates empty elements --></div>	
@@ -106,6 +106,39 @@
 </div>
 </div>
 <script type="text/javascript">
+
+
+  
+  $.fn.dataTableExt.oApi.fnReloadAjax = function ( oSettings, sNewSource, fnCallback ){
+    
+      //console.log("table refreshing");
+    if ( typeof sNewSource != 'undefined' ){
+      oSettings.sAjaxSource = sNewSource;
+    }
+    this.oApi._fnProcessingDisplay( oSettings, true );
+    var that = this;
+    
+    oSettings.fnServerData( oSettings.sAjaxSource, null, function(json) {
+      /* Clear the old information from the table */
+      that.oApi._fnClearTable( oSettings );
+      //console.dir(json);
+      //console.log("table refreshed");
+      /* Got the data - add it to the table */
+      for ( var i=0 ; i<json.aaData.length ; i++ ){
+        that.oApi._fnAddData( oSettings, json.aaData[i] );
+      }
+      oSettings.aiDisplay = oSettings.aiDisplayMaster.slice();
+      that.fnDraw( that );
+      that.oApi._fnProcessingDisplay( oSettings, false );
+             
+      /* Callback user function - for event handlers etc */
+      if ( typeof fnCallback == 'function' ){
+        fnCallback( oSettings );
+      }
+    });
+  }
+  
+  var qTable;
 	$(document).ready(function() {
 		$('.btnAdd').click(function() {
 			var num		= $('.cloned').length;	// how many "duplicatable" input fields we currently have
@@ -131,19 +164,42 @@
 			return false;
 		});
 		
-		$('#data_table_1').dataTable( {
-      "sScrollY": "527px",
-      "bPaginate": false,
-      "bFilter": true,
-      "bInfo": true,
-      "fnInfoCallback": function( oSettings, iStart, iEnd, iMax, iTotal, sPre ) {
-        $("#data_tables_info").remove();
-        var info = "<span id='data_tables_info' style='float: right; margin-right: 10px;'>Found " + iEnd +" of "+ iMax + "</span>";
-        $("#data_table_1_filter").append(info); 
+      $("#reloadQuotes").click(function(){
+      
+          qTable.fnReloadAjax("/controllers/remote/?type=data_tables&method=getBids&uid=<?= $_SESSION['user']['id']  ?>", function(){
+          
+          //console.log("reloading quotes");
+          sw.quoteManagerSlider = new sw.app.verticalSlider('#recentResponses', '.dataTables_scrollBody','#data_table_1',{overflow: "hidden", float: "left", width: "541px"}, {position: "relative"} );
+          //console.log("after slider");
+        });
+      
+      });
+      
+      qTable = $('#data_table_1').dataTable( {
+        "sScrollY": "527px",
+        "bPaginate": false,
+        "bFilter": true,
+        "bInfo": true,
+        "bAutoWidth": false,
+        "aoColumns": [
+                      {"sWidth": "124px"} ,
+                      {"sWidth": "191px"},
+                      {"sWidth": "183px"}
+                      ],
+        "aaSorting": [ [0,'asc'] ],
+        "fnInfoCallback": function( oSettings, iStart, iEnd, iMax, iTotal, sPre ) {
+          $("#data_tables_info").remove();
+          var info = "<span id='data_tables_info' style='float: right; margin-right: 10px;'>Found " + iEnd +" of "+ iMax + "</span>";
+          $("#data_table_1_filter").append(info); 
+          },
+        "sAjaxSource": "/controllers/remote/?type=data_tables&method=getBids&uid=<?= $_SESSION['user']['id']  ?>",
+        "fnInitComplete": function() {
+        $(".dataTables_scrollHead").css({width: "559px"});
+          sw.quoteManagerSlider = new sw.app.verticalSlider('#recentResponses', '.dataTables_scrollBody','#data_table_1',{overflow: "hidden", float: "left", width: "541px"}, {position: "relative"} );
+ 
         }
-    });
-
-    sw.quoteManagerSlider = new sw.app.verticalSlider('#recentResponses', '.dataTables_scrollBody','#data_table_1',{overflow: "hidden", float: "left"}, {position: "relative"} );
-    
+      }); 
+      qTable.fnSort( [ [2,'asc'] ]);
+     
 	});
 </script>

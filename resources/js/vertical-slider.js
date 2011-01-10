@@ -19,7 +19,8 @@ sw.app.verticalSlider = function(wrapper, pane, content, pane_css, content_css){
        var proportion = difference / $(content).height();//eg 200px/500px
        var handleHeight = Math.round((1-proportion)*$(pane).height());//set the proportional height - round it to make sure everything adds up correctly later on
        handleHeight -= handleHeight%2; //ensure the handle height is exactly divisible by two
-
+       
+       $(wrapper + " #slider-wrap").remove();
        $(wrapper + " " + pane).after('<\div id="slider-wrap"><\div id="slider-vertical"><\/div><\/div>');//append the necessary divs so they're only there if needed
        $(wrapper + " #slider-wrap").height($(wrapper + " " + pane).height());//set the height of the slider bar to that of the scroll pane
 
@@ -44,6 +45,11 @@ sw.app.verticalSlider = function(wrapper, pane, content, pane_css, content_css){
        var sliderHeight = origSliderHeight - handleHeight ;//the height through which the handle can move needs to be the original height minus the handle height
        var sliderMargin =  (origSliderHeight - sliderHeight)*0.5;//so the slider needs to have both top and bottom margins equal to half the difference
        $(wrapper + " .ui-slider").css({height:sliderHeight,'margin-top':sliderMargin});//set the slider height and margins
+    } else {
+      /* extend body to right edge */
+    // console.log("setting pane.width()  - " + $(wrapper + " " + pane).width() + " - "+ $(wrapper).width()); 
+      $(wrapper + " " + pane).width(($(wrapper).width() - 1));
+     //console.log("set pane.width()  - " + $(wrapper + " " + pane).width()); 
     }
 
     /* ---[ CONSTRUCTOR ]--- */

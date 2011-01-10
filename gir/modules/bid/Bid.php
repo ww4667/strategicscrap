@@ -101,6 +101,45 @@ class Bid extends Crud {
 		 return $this->_acceptBid( $bidId );	
 	}
 	
+	public function getUser( $bidId = null ){
+
+		// get related request
+		if ( is_null($bidId) ) {
+			$bid_id = $this->id;
+		} else {
+			$bid_id = $bidId;
+		}
+		// get this bid using the id
+		$bidObj = new Bid();
+		$bid = $bidObj->GetItemObj( $bid_id );
+		$brokerObj = new Broker();
+		$broker_array = $bid->ReadJoins( $brokerObj );
+		$brokerObj->GetItemObj($broker_array[0]['id']);
+		$user = new User();
+		$user_array = $brokerObj->ReadJoins( $user );
+		return $user->GetItemObj($user_array[0]['id']);
+	}
+	
+	public function getBroker( $bidId = null ){
+		// get related request
+		if ( is_null($bidId) ) {
+			$bid_id = $this->id;
+		} else {
+			$bid_id = $bidId;
+		}
+		// get this bid using the id
+		$bidObj = new Bid();
+		$bid = $bidObj->GetItemObj( $bid_id );
+		$brokerObj = new Broker();
+		$broker_array = $bid->ReadJoins( $brokerObj );
+		return $brokerObj->GetItemObj($broker_array[0]['id']);
+	}
+		
+	public function expired() {
+		$this->status = 3;
+		$this->UpdateItem();
+	}
+	
 	private function _acceptBid( $bidId = null ) {
 		// get related request
 		if ( is_null($bidId) ) {
@@ -109,7 +148,7 @@ class Bid extends Crud {
 			$bid_id = $bidId;
 		}
 		// get this bid using the id
-		$accepted_bid = $this->GetItemObj( $bidId );
+		$accepted_bid = $this->GetItemObj( $bid_id );
 		// get the request via ReadJoins
 		$requestClass = new Request();
 		$requests = $accepted_bid->ReadJoins( $requestClass );
@@ -118,11 +157,11 @@ class Bid extends Crud {
 		if ( count($requests) == 1 ) {
 			$request = $requestClass->GetItemObj( $requests[0]['id'] );
 			// set request as locked
+			$request->status = "2";
 			$request->locked = "1";
-//			$request->status = "COMPLETE";
 			$request->UpdateItem();
 			// get related bids
-			$related_bids = $requestClass->GetBids();
+			$related_bids = $request->GetBids();
 			// set this bid as accepted
 			$accepted_bid->updateStatus( 1 );
 			// set others as rejected
@@ -133,6 +172,14 @@ class Bid extends Crud {
 					$bidObj->updateStatus( 2 );
 				}
 			}
+			// email the broker that a bid has been accepted!
+			include_once($_SERVER['DOCUMENT_ROOT'].'/models/Mailer.php');
+			$user = $accepted_bid->getUser();
+			$broker = $accepted_bid->getBroker();
+			$object['fname'] = $broker->first_name;
+			$object['lname'] = $broker->last_name;
+			$object['email'] = $user->email;
+			Mailer::accepted_bid_alert($object);
 			return true;	
 		}
 		return false;
@@ -165,7 +212,7 @@ class Bid extends Crud {
 	private function _updateStatus( $statusId ) {
 		$status_array = $this->_getStatusArray();
 		if ( isset($status_array[$statusId]) ) {
-			$this->status = $key;
+			$this->status = $statusId;
 			$this->UpdateItem();
 		}
 	}

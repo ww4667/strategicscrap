@@ -74,6 +74,7 @@
   [*js_doc_ready*]
 
 <script type="text/javascript">
+  	Date.format = 'yyyy/mm/dd';
     $(document).ready(function(){
     $("#twitter_badge a")
     .addClass("external")

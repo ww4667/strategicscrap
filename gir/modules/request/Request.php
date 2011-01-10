@@ -18,6 +18,7 @@ class Request extends Crud {
 											array("type"=>"text","label"=>"Facility Join","field"=>"join_facility"),
 											array("type"=>"text","label"=>"Material Join","field"=>"join_material"),
 											array("type"=>"number","label"=>"Locked","field"=>"locked"),
+											array("type"=>"number","label"=>"Status","field"=>"status"),
 											array("type"=>"number","label"=>"Bid Count","field"=>"bid_count"),
 											array("type"=>"number","label"=>"Bid Unread","field"=>"bid_unread")
 										);
@@ -155,13 +156,88 @@ class Request extends Crud {
 		return $requestReturnArray;
 	}
 	
-	
 	public function GetBids(){
 		return $this->_getBids();
 	}
 	
 	public function IsExpired(){
 		return $this->_isExpired();
+	}
+		
+	public function updateStatus( $statusId ) {
+		return $this->_updateStatus( $statusId );
+	}
+	
+	public function getStatusArray() {
+		return $this->_getStatusArray();
+	}
+	
+	public function sendBidAlert( $scrapperId = null ) {
+		include_once($_SERVER['DOCUMENT_ROOT'].'/models/Mailer.php');
+		// get related request
+		if ( is_null($scrapperId) ) {
+			$scrapper_id = $this->id;
+		} else {
+			$scrapper_id = $scrapperId;
+		}
+		// get this request using the id
+		$s = new Scrapper();
+		$scrapper = $s->GetItemObj( $scrapper_id );
+		$scrapper->getUsers();
+		// email the scrapper that a bid has been added!
+		$object['fname'] = $scrapper->first_name;
+		$object['lname'] = $scrapper->last_name;
+		$object['email'] = $scrapper->join_user[0]['email'];
+		Mailer::added_bid_alert($object);
+	}
+	
+	public function getRequestsReadyToExpire( $date ) {
+		return $this->_getRequestsReadyToExpire( $date );
+	}
+	
+	public function expired() {
+		$this->locked = 1;
+		$this->status = 3;
+		$this->UpdateItem();
+	}
+	
+	private function _getRequestsReadyToExpire( $date ) {
+		$request_array = array();
+		
+		$query_date = date("Y-m-d 00:00:00",strtotime($date));
+		
+		$objectNameId = $this->_OBJECT_NAME_ID;
+		
+		$properties = $this->_OBJECT_PROPERTIES;
+		$fields = ""; 
+		foreach ($properties as $p) {
+			if ($fields == "") {
+				$fields .= " MAX(IF(pn.label='".$p['field']."', v.value, '')) AS `".$p['field']."`";
+			} else {
+				$fields .= ", MAX(IF(pn.label='".$p['field']."', v.value, '')) AS `".$p['field']."`";
+			}
+		}
+		$query = "SELECT * FROM (SELECT o.id, o.created_ts, o.updated_ts, o.object_name_id,";
+		$query .= $fields;
+		$query .= " FROM " . $this->_TABLE_PREFIX.constant('Crud::_ITEMS') . " as o";
+		$query .= " LEFT JOIN " . $this->_TABLE_PREFIX.constant('Crud::_OBJECT_DEFINITIONS') . " as od on od.object_name_id = o.object_name_id";
+		$query .= " LEFT JOIN " . $this->_TABLE_PREFIX.constant('Crud::_PROPERTY_NAMES') . " as pn on pn.id = od.property_name_id";
+		$query .= " LEFT JOIN 	(SELECT * FROM " . $this->_TABLE_PREFIX.constant('Crud::_VALUES_TABLE_DATES') . " UNION SELECT * FROM " . $this->_TABLE_PREFIX.constant('Crud::_VALUES_TABLE_NUMBERS') . " UNION SELECT * FROM " . $this->_TABLE_PREFIX.constant('Crud::_VALUES_TABLE_TEXT') . ") as v on v.property_name_id = od.property_name_id AND v.item_id = o.id";
+		$query .= " WHERE o.object_name_id = $objectNameId";
+		$query .= " GROUP BY o.id) as tbl";
+		$query .= " WHERE expiration_date <= '$query_date'";
+		$query .= " AND (status <> '3' AND status <> '2') ";
+		
+		$request_array = $this->Query( $query, true );
+		
+		$output_array = array();
+		foreach ($request_array as $request) {
+			$requestObj = new Request();
+			$requestObj->GetItemObj($request['id']);
+			$output_array[] = $requestObj;
+		}
+		
+		return $output_array;
 	}
 	
 	private function _getBids(){
@@ -175,11 +251,29 @@ class Request extends Crud {
 		$expiration = strtotime("+14 days",$createdTS);
 		$nowTS = time();
 		if ( $expiration > $nowTS && $shipTS > $nowTS ) {
-			return true; 
+			return false; 
 		} else {
 			$this->locked = 1;
+			$this->status = 3;
 			$this->UpdateItem();
-			return false;
+			return true;
+		}
+	}
+	
+	private function _getStatusArray() {
+		$status_array = array(	"0" => "waiting",
+								"1" => "active",
+								"2" => "complete",
+								"3" => "expired"
+		);
+		return $status_array;
+	}
+
+	private function _updateStatus( $statusId ) {
+		$status_array = $this->_getStatusArray();
+		if ( isset($status_array[$statusId]) ) {
+			$this->status = $statusId;
+			$this->UpdateItem();
 		}
 	}
 }
