@@ -33,7 +33,7 @@
 #mainnav li.current a.mainItem:hover	{color:#F96C14;}
 	
 /* ----[Dropdown]---- */
-#mainnav ul.ul-sub 	{background:transparent url(../images/bg/nav_ddown.png);padding:0 10px;min-width:70px;}
+#mainnav ul.ul-sub 	{background:transparent url(../images/bg/nav_ddown.png);padding:0 30px;min-width:70px;}
 
 	/* Dropdown link */
 /*	#mainnav ul.ul-sub a{color:#fff;font-size:12px;font-weight:normal;padding:0 10px 0 15px;display:block;text-decoration:none;line-height:31px;} */
