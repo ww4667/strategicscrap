@@ -1,4 +1,4 @@
-<table width="600" border="0" align="center" cellpadding="0" cellspacing="0" bgcolor="#FFFFFF">
+<table width="600" border="0" align="left" cellpadding="0" cellspacing="0" bgcolor="#FFFFFF">
   <tr>
     <td colspan="3"><img src="http://demo.strategicscrap.com/resources/images/strategic_scrap.png" width="350" height="56" alt="Strategic Scrap"></td>
   </tr>
@@ -10,7 +10,7 @@
       <tr>
         <td style="font-size:12px;font-family:Arial, Helvetica, sans-serif;color:#666666;line-height:20px">
 			<? include($email_contents_file); ?>
-          </td>
+        </td>
       </tr>
     </table></td>
   </tr>
