@@ -171,3 +171,10 @@ ul.regionBullets li{float:left;width:210px;}
 .brokerDashboard a.minus:hover{background-position: 22px -22px;}
 
 #twitter-wrapper{margin-top: -10px;}
+
+#transportRequest .dataTables_wrapper{width:558px;overflow-x:hidden}
+
+#recentResponses .moduleContent{width:558px}
+#recentRequests .moduleContent{width:558px}
+#recentResponses .moduleContent table{width:558px}
+#recentRequests .moduleContent table{width:558px}
