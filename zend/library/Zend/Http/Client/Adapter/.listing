@@ -1,0 +1,9 @@
+drwx---r-x   2 gituser  silversilos     4096 Jan  8 20:20 .
+drwx---r-x   3 gituser  silversilos     4096 Jan  8 20:20 ..
+-rw-r--r--   1 gituser  silversilos    16712 Jan  8 20:20 Curl.php
+-rw-r--r--   1 gituser  silversilos     1239 Jan  8 20:20 Exception.php
+-rw-r--r--   1 gituser  silversilos     2244 Jan  8 20:20 Interface.php
+-rw-r--r--   1 gituser  silversilos     9040 Jan  8 20:20 Proxy.php
+-rw-r--r--   1 gituser  silversilos    18501 Jan  8 20:20 Socket.php
+-rw-r--r--   1 gituser  silversilos     1468 Jan  8 20:20 Stream.php
+-rw-r--r--   1 gituser  silversilos     6566 Jan  8 20:20 Test.php

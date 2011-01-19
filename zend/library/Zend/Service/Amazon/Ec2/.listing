@@ -1,0 +1,15 @@
+drwx---r-x   3 gituser  silversilos     4096 Jan  8 20:20 .
+drwx---r-x   5 gituser  silversilos     4096 Jan  8 20:20 ..
+-rw-r--r--   1 gituser  silversilos     8668 Jan  8 20:20 Abstract.php
+-rw-r--r--   1 gituser  silversilos     2562 Jan  8 20:20 Availabilityzones.php
+-rw-r--r--   1 gituser  silversilos    17799 Jan  8 20:20 CloudWatch.php
+-rw-r--r--   1 gituser  silversilos    13455 Jan  8 20:20 Ebs.php
+-rw-r--r--   1 gituser  silversilos     4938 Jan  8 20:20 Elasticip.php
+-rw-r--r--   1 gituser  silversilos     1584 Jan  8 20:20 Exception.php
+-rw-r--r--   1 gituser  silversilos    14729 Jan  8 20:20 Image.php
+drwx---r-x   2 gituser  silversilos     4096 Jan  8 20:20 Instance
+-rw-r--r--   1 gituser  silversilos    21594 Jan  8 20:20 Instance.php
+-rw-r--r--   1 gituser  silversilos     4391 Jan  8 20:20 Keypair.php
+-rw-r--r--   1 gituser  silversilos     2501 Jan  8 20:20 Region.php
+-rw-r--r--   1 gituser  silversilos     4016 Jan  8 20:20 Response.php
+-rw-r--r--   1 gituser  silversilos    12489 Jan  8 20:20 Securitygroups.php

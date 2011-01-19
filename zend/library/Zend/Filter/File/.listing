@@ -1,0 +1,7 @@
+drwx---r-x   2 gituser  silversilos     4096 Jan  8 20:22 .
+drwx---r-x   6 gituser  silversilos     4096 Jan  8 20:22 ..
+-rw-r--r--   1 gituser  silversilos     3144 Jan  8 20:22 Decrypt.php
+-rw-r--r--   1 gituser  silversilos     3144 Jan  8 20:22 Encrypt.php
+-rw-r--r--   1 gituser  silversilos     2555 Jan  8 20:22 LowerCase.php
+-rw-r--r--   1 gituser  silversilos     9200 Jan  8 20:22 Rename.php
+-rw-r--r--   1 gituser  silversilos     2555 Jan  8 20:22 UpperCase.php

@@ -1,0 +1,6 @@
+drwx---r-x   2 gituser  silversilos     4096 Jan  8 20:21 .
+drwx---r-x  15 gituser  silversilos     4096 Jan  8 20:21 ..
+-rw-r--r--   1 gituser  silversilos     3257 Jan  8 20:21 Cmyk.php
+-rw-r--r--   1 gituser  silversilos     2216 Jan  8 20:21 GrayScale.php
+-rw-r--r--   1 gituser  silversilos    16282 Jan  8 20:21 Html.php
+-rw-r--r--   1 gituser  silversilos     2924 Jan  8 20:21 Rgb.php

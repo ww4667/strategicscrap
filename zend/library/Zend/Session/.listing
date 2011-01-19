@@ -1,0 +1,7 @@
+drwx---r-x   4 gituser  silversilos     4096 Jan  8 20:21 .
+drwx---r-x  63 gituser  silversilos     4096 Jan  8 20:23 ..
+-rw-r--r--   1 gituser  silversilos     6044 Jan  8 20:21 Abstract.php
+-rw-r--r--   1 gituser  silversilos     2312 Jan  8 20:21 Exception.php
+-rw-r--r--   1 gituser  silversilos    16808 Jan  8 20:21 Namespace.php
+drwx---r-x   2 gituser  silversilos     4096 Jan  8 20:21 SaveHandler
+drwx---r-x   2 gituser  silversilos     4096 Jan  8 20:21 Validator

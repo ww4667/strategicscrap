@@ -500,10 +500,11 @@ require_once($_SERVER['DOCUMENT_ROOT']."/gir/index.php");
 				$broker = unserialize($_SESSION['broker']);
 				
 				$facilities = PricingFacility::getByBrokerId($broker->id);
-				$facilities = PricingFacility::getByBrokerId($broker->id);
 				//bolt on materials to facility objects
 				foreach ($facilities as $f) {
-					$materials = PricingMaterial::getMaterialsByFacilityId($f->id);
+					$materials = PricingMaterial::getRecentMaterialsByFacilityIdAndBrokerId($f->id, $broker->id);
+					if (!$materials)
+						$materials = PricingMaterial::getMaterialsByFacilityId($f->id);
 					$f->materials = $materials;
 				}
 				$materials = PricingMaterial::retrieve_all();
@@ -667,13 +668,13 @@ require_once($_SERVER['DOCUMENT_ROOT']."/gir/index.php");
 					$error_messages[] = "Password field cannot be left empty.";
 				if( $post_data['verify_password'] != $post_data['password'] )
 					$error_messages[] = "Verify Password does not match Password field.";
-				$post_data['work_phone'] = format_phone($post_data['work_phone']);
-				if( strlen($post_data['work_phone']) != 14 )
-					$error_messages[] = "Phone field must have 10 digits.";
-				if( $post_data['state_province'] == "" )
-					$error_messages[] = "State/Province selection missing.";
-				if( !isZip($post_data['postal_code']) )
-					$error_messages[] = "Zip Code cannot be empty.";
+//				$post_data['work_phone'] = format_phone($post_data['work_phone']);
+//				if( strlen($post_data['work_phone']) != 14 )
+//					$error_messages[] = "Phone field must have 10 digits.";
+//				if( $post_data['state_province'] == "" )
+//					$error_messages[] = "State/Province selection missing.";
+//				if( !isZip($post_data['postal_code']) )
+//					$error_messages[] = "Zip Code cannot be empty.";
 				// setup the new user!
 				if(count($error_messages) == 0) {
 					$post_data['salt'] = $u->GetSalt($post_data['email']);

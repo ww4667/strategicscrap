@@ -1,0 +1,7 @@
+drwx---r-x   4 gituser  silversilos     4096 Jan  8 20:21 .
+drwx---r-x   4 gituser  silversilos     4096 Jan  8 20:21 ..
+-rw-r--r--   1 gituser  silversilos     3010 Jan  8 20:21 ActiveDirectory.php
+drwx---r-x   2 gituser  silversilos     4096 Jan  8 20:21 AttributeType
+-rw-r--r--   1 gituser  silversilos     3739 Jan  8 20:21 Item.php
+drwx---r-x   2 gituser  silversilos     4096 Jan  8 20:21 ObjectClass
+-rw-r--r--   1 gituser  silversilos    14934 Jan  8 20:21 OpenLdap.php

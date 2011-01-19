@@ -1,0 +1,17 @@
+drwx---r-x   3 gituser  silversilos     4096 Jan  8 20:21 .
+drwx---r-x   5 gituser  silversilos     4096 Jan  8 20:21 ..
+-rw-r--r--   1 gituser  silversilos     6514 Jan  8 20:21 Batch.php
+-rw-r--r--   1 gituser  silversilos     6132 Jan  8 20:21 BatchStorageAbstract.php
+drwx---r-x   2 gituser  silversilos     4096 Jan  8 20:21 Blob
+-rw-r--r--   1 gituser  silversilos    54955 Jan  8 20:21 Blob.php
+-rw-r--r--   1 gituser  silversilos     2876 Jan  8 20:21 BlobContainer.php
+-rw-r--r--   1 gituser  silversilos     4025 Jan  8 20:21 BlobInstance.php
+-rw-r--r--   1 gituser  silversilos     6183 Jan  8 20:21 DynamicTableEntity.php
+-rw-r--r--   1 gituser  silversilos    19919 Jan  8 20:21 Queue.php
+-rw-r--r--   1 gituser  silversilos     2707 Jan  8 20:21 QueueInstance.php
+-rw-r--r--   1 gituser  silversilos     3383 Jan  8 20:21 QueueMessage.php
+-rw-r--r--   1 gituser  silversilos     3143 Jan  8 20:21 SignedIdentifier.php
+-rw-r--r--   1 gituser  silversilos    29994 Jan  8 20:21 Table.php
+-rw-r--r--   1 gituser  silversilos     9329 Jan  8 20:21 TableEntity.php
+-rw-r--r--   1 gituser  silversilos     7939 Jan  8 20:21 TableEntityQuery.php
+-rw-r--r--   1 gituser  silversilos     2767 Jan  8 20:21 TableInstance.php

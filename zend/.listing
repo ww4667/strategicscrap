@@ -1,0 +1,7 @@
+drwx---r-x   4 gituser  silversilos     4096 Jan  8 20:20 .
+drwx--xr-x  14 gituser  silversilos     4096 Jan  9 02:25 ..
+-rw-r--r--   1 gituser  silversilos     3438 Jan  8 20:20 INSTALL.txt
+-rw-r--r--   1 gituser  silversilos     1548 Jan  8 20:20 LICENSE.txt
+-rw-r--r--   1 gituser  silversilos     3170 Jan  8 20:20 README.txt
+drwx---r-x   2 gituser  silversilos     4096 Jan  8 20:20 bin
+drwx---r-x   3 gituser  silversilos     4096 Jan  8 20:20 library

@@ -1,0 +1,9 @@
+drwx---r-x   4 gituser  silversilos     4096 Jan  8 20:21 .
+drwx---r-x   6 gituser  silversilos     4096 Jan  8 20:21 ..
+-rw-r--r--   1 gituser  silversilos    11975 Jan  8 20:21 Abstract.php
+-rw-r--r--   1 gituser  silversilos     4567 Jan  8 20:21 ChildrenIterator.php
+-rw-r--r--   1 gituser  silversilos     1854 Jan  8 20:21 Collection.php
+drwx---r-x   2 gituser  silversilos     4096 Jan  8 20:21 RootDse
+-rw-r--r--   1 gituser  silversilos     4522 Jan  8 20:21 RootDse.php
+drwx---r-x   4 gituser  silversilos     4096 Jan  8 20:21 Schema
+-rw-r--r--   1 gituser  silversilos     3599 Jan  8 20:21 Schema.php

@@ -1,0 +1,7 @@
+drwx---r-x   3 gituser  silversilos     4096 Jan  8 20:21 .
+drwx---r-x  10 gituser  silversilos     4096 Jan  8 20:21 ..
+-rw-r--r--   1 gituser  silversilos     1485 Jan  8 20:21 ByteArray.php
+-rw-r--r--   1 gituser  silversilos     5284 Jan  8 20:21 MessageBody.php
+-rw-r--r--   1 gituser  silversilos     2071 Jan  8 20:21 MessageHeader.php
+drwx---r-x   2 gituser  silversilos     4096 Jan  8 20:21 Messaging
+-rw-r--r--   1 gituser  silversilos     3518 Jan  8 20:21 TraitsInfo.php

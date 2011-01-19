@@ -1,0 +1,12 @@
+drwx---r-x   2 gituser  silversilos     4096 Jan  8 20:21 .
+drwx---r-x   3 gituser  silversilos     4096 Jan  8 20:21 ..
+-rw-r--r--   1 gituser  silversilos     2973 Jan  8 20:21 AdapterAbstract.php
+-rw-r--r--   1 gituser  silversilos     2610 Jan  8 20:21 AdapterInterface.php
+-rw-r--r--   1 gituser  silversilos     2954 Jan  8 20:21 Amf0.php
+-rw-r--r--   1 gituser  silversilos     2955 Jan  8 20:21 Amf3.php
+-rw-r--r--   1 gituser  silversilos     3119 Jan  8 20:21 Igbinary.php
+-rw-r--r--   1 gituser  silversilos     2897 Jan  8 20:21 Json.php
+-rw-r--r--   1 gituser  silversilos     2118 Jan  8 20:21 PhpCode.php
+-rw-r--r--   1 gituser  silversilos     2920 Jan  8 20:21 PhpSerialize.php
+-rw-r--r--   1 gituser  silversilos    42142 Jan  8 20:21 PythonPickle.php
+-rw-r--r--   1 gituser  silversilos     3619 Jan  8 20:21 Wddx.php

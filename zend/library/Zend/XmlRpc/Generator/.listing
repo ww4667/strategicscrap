@@ -1,0 +1,5 @@
+drwx---r-x   2 gituser  silversilos     4096 Jan  8 20:21 .
+drwx---r-x   8 gituser  silversilos     4096 Jan  8 20:21 ..
+-rw-r--r--   1 gituser  silversilos     2501 Jan  8 20:21 DomDocument.php
+-rw-r--r--   1 gituser  silversilos     3456 Jan  8 20:21 GeneratorAbstract.php
+-rw-r--r--   1 gituser  silversilos     2201 Jan  8 20:21 XmlWriter.php

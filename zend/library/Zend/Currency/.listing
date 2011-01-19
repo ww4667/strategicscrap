@@ -1,0 +1,4 @@
+drwx---r-x   2 gituser  silversilos     4096 Jan  8 20:21 .
+drwx---r-x  63 gituser  silversilos     4096 Jan  8 20:23 ..
+-rw-r--r--   1 gituser  silversilos     1287 Jan  8 20:21 CurrencyInterface.php
+-rw-r--r--   1 gituser  silversilos     1127 Jan  8 20:21 Exception.php

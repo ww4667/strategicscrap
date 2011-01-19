@@ -1,0 +1,9 @@
+drwx---r-x   2 gituser  silversilos     4096 Jan  8 20:21 .
+drwx---r-x   3 gituser  silversilos     4096 Jan  8 20:21 ..
+-rw-r--r--   1 gituser  silversilos     1799 Jan  8 20:21 Abstract.php
+-rw-r--r--   1 gituser  silversilos     1609 Jan  8 20:21 AnyType.php
+-rw-r--r--   1 gituser  silversilos     5058 Jan  8 20:21 ArrayOfTypeComplex.php
+-rw-r--r--   1 gituser  silversilos     5256 Jan  8 20:21 ArrayOfTypeSequence.php
+-rw-r--r--   1 gituser  silversilos     5695 Jan  8 20:21 Composite.php
+-rw-r--r--   1 gituser  silversilos     3067 Jan  8 20:21 DefaultComplexType.php
+-rw-r--r--   1 gituser  silversilos     1437 Jan  8 20:21 Interface.php

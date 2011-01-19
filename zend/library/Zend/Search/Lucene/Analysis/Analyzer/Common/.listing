@@ -1,0 +1,10 @@
+drwx---r-x   6 gituser  silversilos     4096 Jan  8 20:21 .
+drwx---r-x   3 gituser  silversilos     4096 Jan  8 20:21 ..
+drwx---r-x   2 gituser  silversilos     4096 Jan  8 20:21 Text
+-rw-r--r--   1 gituser  silversilos     2696 Jan  8 20:21 Text.php
+drwx---r-x   2 gituser  silversilos     4096 Jan  8 20:21 TextNum
+-rw-r--r--   1 gituser  silversilos     2704 Jan  8 20:21 TextNum.php
+drwx---r-x   2 gituser  silversilos     4096 Jan  8 20:21 Utf8
+-rw-r--r--   1 gituser  silversilos     3997 Jan  8 20:21 Utf8.php
+drwx---r-x   2 gituser  silversilos     4096 Jan  8 20:21 Utf8Num
+-rw-r--r--   1 gituser  silversilos     4011 Jan  8 20:21 Utf8Num.php

@@ -1,0 +1,14 @@
+drwx---r-x   4 gituser  silversilos     4096 Jan  8 20:21 .
+drwx---r-x   7 gituser  silversilos     4096 Jan  8 20:21 ..
+-rw-r--r--   1 gituser  silversilos    10497 Jan  8 20:21 DictionaryLoader.php
+-rw-r--r--   1 gituser  silversilos     2267 Jan  8 20:21 DocsFilter.php
+-rw-r--r--   1 gituser  silversilos     1633 Jan  8 20:21 FieldInfo.php
+-rw-r--r--   1 gituser  silversilos    74722 Jan  8 20:21 SegmentInfo.php
+-rw-r--r--   1 gituser  silversilos     9103 Jan  8 20:21 SegmentMerger.php
+drwx---r-x   2 gituser  silversilos     4096 Jan  8 20:21 SegmentWriter
+-rw-r--r--   1 gituser  silversilos    20444 Jan  8 20:21 SegmentWriter.php
+-rw-r--r--   1 gituser  silversilos     3734 Jan  8 20:21 Term.php
+-rw-r--r--   1 gituser  silversilos     2121 Jan  8 20:21 TermInfo.php
+-rw-r--r--   1 gituser  silversilos     1626 Jan  8 20:21 TermsPriorityQueue.php
+drwx---r-x   2 gituser  silversilos     4096 Jan  8 20:21 TermsStream
+-rw-r--r--   1 gituser  silversilos    33640 Jan  8 20:21 Writer.php

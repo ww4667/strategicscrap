@@ -1,0 +1,8 @@
+drwx---r-x   3 gituser  silversilos     4096 Jan  8 20:21 .
+drwx---r-x  15 gituser  silversilos     4096 Jan  8 20:21 ..
+-rw-r--r--   1 gituser  silversilos     4854 Jan  8 20:21 Ascii85.php
+-rw-r--r--   1 gituser  silversilos     4462 Jan  8 20:21 AsciiHex.php
+drwx---r-x   2 gituser  silversilos     4096 Jan  8 20:21 Compression
+-rw-r--r--   1 gituser  silversilos    15623 Jan  8 20:21 Compression.php
+-rw-r--r--   1 gituser  silversilos     1432 Jan  8 20:21 Interface.php
+-rw-r--r--   1 gituser  silversilos     3690 Jan  8 20:21 RunLength.php

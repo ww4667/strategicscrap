@@ -1,0 +1,6 @@
+drwx---r-x   2 gituser  silversilos     4096 Jan  8 20:21 .
+drwx---r-x   3 gituser  silversilos     4096 Jan  8 20:21 ..
+-rw-r--r--   1 gituser  silversilos     2063 Jan  8 20:21 AlignCenter.php
+-rw-r--r--   1 gituser  silversilos     2158 Jan  8 20:21 Blockize.php
+-rw-r--r--   1 gituser  silversilos     2542 Jan  8 20:21 Colorizer.php
+-rw-r--r--   1 gituser  silversilos     1785 Jan  8 20:21 Indention.php

@@ -1,0 +1,13 @@
+drwx---r-x  10 gituser  silversilos     4096 Jan  8 20:20 .
+drwx---r-x  11 gituser  silversilos     4096 Jan  8 20:21 ..
+-rw-r--r--   1 gituser  silversilos     3346 Jan  8 20:20 BaseType.php
+drwx---r-x   2 gituser  silversilos     4096 Jan  8 20:20 BaseUserService
+drwx---r-x   2 gituser  silversilos     4096 Jan  8 20:20 ConferenceCall
+-rw-r--r--   1 gituser  silversilos     1282 Jan  8 20:20 Exception.php
+drwx---r-x   2 gituser  silversilos     4096 Jan  8 20:20 IpLocation
+drwx---r-x   2 gituser  silversilos     4096 Jan  8 20:20 LocalSearch
+-rw-r--r--   1 gituser  silversilos     2734 Jan  8 20:20 ResponseAbstract.php
+drwx---r-x   2 gituser  silversilos     4096 Jan  8 20:20 SecurityTokenServer
+drwx---r-x   2 gituser  silversilos     4096 Jan  8 20:20 SendSms
+drwx---r-x   2 gituser  silversilos     4096 Jan  8 20:20 SmsValidation
+drwx---r-x   2 gituser  silversilos     4096 Jan  8 20:20 VoiceButler

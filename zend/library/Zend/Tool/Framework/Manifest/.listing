@@ -1,0 +1,9 @@
+drwx---r-x   2 gituser  silversilos     4096 Jan  8 20:21 .
+drwx---r-x  10 gituser  silversilos     4096 Jan  8 20:21 ..
+-rw-r--r--   1 gituser  silversilos     1444 Jan  8 20:21 ActionManifestable.php
+-rw-r--r--   1 gituser  silversilos     1177 Jan  8 20:21 Exception.php
+-rw-r--r--   1 gituser  silversilos     1309 Jan  8 20:21 Indexable.php
+-rw-r--r--   1 gituser  silversilos     1994 Jan  8 20:21 Interface.php
+-rw-r--r--   1 gituser  silversilos     1472 Jan  8 20:21 MetadataManifestable.php
+-rw-r--r--   1 gituser  silversilos     1468 Jan  8 20:21 ProviderManifestable.php
+-rw-r--r--   1 gituser  silversilos    10790 Jan  8 20:21 Repository.php

@@ -1,0 +1,13 @@
+drwx---r-x   3 gituser  silversilos     4096 Jan  8 20:21 .
+drwx---r-x   7 gituser  silversilos     4096 Jan  8 20:21 ..
+-rw-r--r--   1 gituser  silversilos    27641 Jan  8 20:21 Boolean.php
+-rw-r--r--   1 gituser  silversilos     3761 Jan  8 20:21 Empty.php
+-rw-r--r--   1 gituser  silversilos    19610 Jan  8 20:21 Fuzzy.php
+-rw-r--r--   1 gituser  silversilos     3816 Jan  8 20:21 Insignificant.php
+-rw-r--r--   1 gituser  silversilos    20341 Jan  8 20:21 MultiTerm.php
+-rw-r--r--   1 gituser  silversilos    18270 Jan  8 20:21 Phrase.php
+drwx---r-x   2 gituser  silversilos     4096 Jan  8 20:21 Preprocessing
+-rw-r--r--   1 gituser  silversilos     4087 Jan  8 20:21 Preprocessing.php
+-rw-r--r--   1 gituser  silversilos    12316 Jan  8 20:21 Range.php
+-rw-r--r--   1 gituser  silversilos     6318 Jan  8 20:21 Term.php
+-rw-r--r--   1 gituser  silversilos    12029 Jan  8 20:21 Wildcard.php

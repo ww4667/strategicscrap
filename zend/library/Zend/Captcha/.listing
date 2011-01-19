@@ -1,0 +1,10 @@
+drwx---r-x   2 gituser  silversilos     4096 Jan  8 20:20 .
+drwx---r-x  63 gituser  silversilos     4096 Jan  8 20:23 ..
+-rw-r--r--   1 gituser  silversilos     2046 Jan  8 20:20 Adapter.php
+-rw-r--r--   1 gituser  silversilos     4090 Jan  8 20:20 Base.php
+-rw-r--r--   1 gituser  silversilos     1590 Jan  8 20:20 Dumb.php
+-rw-r--r--   1 gituser  silversilos     1137 Jan  8 20:20 Exception.php
+-rw-r--r--   1 gituser  silversilos     2219 Jan  8 20:20 Figlet.php
+-rw-r--r--   1 gituser  silversilos    14835 Jan  8 20:20 Image.php
+-rw-r--r--   1 gituser  silversilos     6494 Jan  8 20:20 ReCaptcha.php
+-rw-r--r--   1 gituser  silversilos     9187 Jan  8 20:20 Word.php

@@ -1,0 +1,5 @@
+drwx---r-x   3 gituser  silversilos     4096 Jan  8 20:21 .
+drwx---r-x   6 gituser  silversilos     4096 Jan  8 20:21 ..
+drwx---r-x   2 gituser  silversilos     4096 Jan  8 20:21 Connection
+-rw-r--r--   1 gituser  silversilos     7754 Jan  8 20:21 Connection.php
+-rw-r--r--   1 gituser  silversilos     2808 Jan  8 20:21 ConnectionInterface.php

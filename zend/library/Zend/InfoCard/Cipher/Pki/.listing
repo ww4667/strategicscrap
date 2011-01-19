@@ -1,0 +1,5 @@
+drwx---r-x   4 gituser  silversilos     4096 Jan  8 20:21 .
+drwx---r-x   4 gituser  silversilos     4096 Jan  8 20:21 ..
+drwx---r-x   2 gituser  silversilos     4096 Jan  8 20:21 Adapter
+-rw-r--r--   1 gituser  silversilos     1146 Jan  8 20:21 Interface.php
+drwx---r-x   2 gituser  silversilos     4096 Jan  8 20:21 Rsa

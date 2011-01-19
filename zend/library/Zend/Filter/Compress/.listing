@@ -1,0 +1,10 @@
+drwx---r-x   2 gituser  silversilos     4096 Jan  8 20:22 .
+drwx---r-x   6 gituser  silversilos     4096 Jan  8 20:22 ..
+-rw-r--r--   1 gituser  silversilos     4891 Jan  8 20:22 Bz2.php
+-rw-r--r--   1 gituser  silversilos     2416 Jan  8 20:22 CompressAbstract.php
+-rw-r--r--   1 gituser  silversilos     1578 Jan  8 20:22 CompressInterface.php
+-rw-r--r--   1 gituser  silversilos     6123 Jan  8 20:22 Gz.php
+-rw-r--r--   1 gituser  silversilos     2431 Jan  8 20:22 Lzf.php
+-rw-r--r--   1 gituser  silversilos     6564 Jan  8 20:22 Rar.php
+-rw-r--r--   1 gituser  silversilos     6877 Jan  8 20:22 Tar.php
+-rw-r--r--   1 gituser  silversilos    11148 Jan  8 20:22 Zip.php

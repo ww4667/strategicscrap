@@ -1,0 +1,4 @@
+drwx---r-x   2 gituser  silversilos     4096 Jan  8 20:21 .
+drwx---r-x  15 gituser  silversilos     4096 Jan  8 20:21 ..
+-rw-r--r--   1 gituser  silversilos     1944 Jan  8 20:21 Generator.php
+-rw-r--r--   1 gituser  silversilos     3676 Jan  8 20:21 Keeper.php

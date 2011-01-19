@@ -1,0 +1,10 @@
+drwx---r-x   5 gituser  silversilos     4096 Jan  8 20:21 .
+drwx---r-x  10 gituser  silversilos     4096 Jan  8 20:21 ..
+drwx---r-x   2 gituser  silversilos     4096 Jan  8 20:21 Amf0
+drwx---r-x   2 gituser  silversilos     4096 Jan  8 20:21 Amf3
+-rw-r--r--   1 gituser  silversilos     2120 Jan  8 20:21 Deserializer.php
+-rw-r--r--   1 gituser  silversilos     1379 Jan  8 20:21 InputStream.php
+-rw-r--r--   1 gituser  silversilos     1542 Jan  8 20:21 OutputStream.php
+drwx---r-x   2 gituser  silversilos     4096 Jan  8 20:21 Resource
+-rw-r--r--   1 gituser  silversilos     1754 Jan  8 20:21 Serializer.php
+-rw-r--r--   1 gituser  silversilos     7640 Jan  8 20:21 TypeLoader.php

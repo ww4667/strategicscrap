@@ -1,0 +1,13 @@
+drwx---r-x  11 gituser  silversilos     4096 Jan  8 20:22 .
+drwx---r-x   6 gituser  silversilos     4096 Jan  8 20:22 ..
+drwx---r-x   2 gituser  silversilos     4096 Jan  8 20:22 Atom
+drwx---r-x   2 gituser  silversilos     4096 Jan  8 20:22 Content
+drwx---r-x   2 gituser  silversilos     4096 Jan  8 20:22 CreativeCommons
+drwx---r-x   2 gituser  silversilos     4096 Jan  8 20:22 DublinCore
+-rw-r--r--   1 gituser  silversilos     4624 Jan  8 20:22 EntryAbstract.php
+-rw-r--r--   1 gituser  silversilos     4034 Jan  8 20:22 FeedAbstract.php
+drwx---r-x   2 gituser  silversilos     4096 Jan  8 20:22 Podcast
+drwx---r-x   2 gituser  silversilos     4096 Jan  8 20:22 Slash
+drwx---r-x   2 gituser  silversilos     4096 Jan  8 20:22 Syndication
+drwx---r-x   2 gituser  silversilos     4096 Jan  8 20:22 Thread
+drwx---r-x   2 gituser  silversilos     4096 Jan  8 20:22 WellFormedWeb

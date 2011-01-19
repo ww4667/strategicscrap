@@ -1,0 +1,11 @@
+drwx---r-x   3 gituser  silversilos     4096 Jan  8 20:21 .
+drwx---r-x   4 gituser  silversilos     4096 Jan  8 20:21 ..
+-rw-r--r--   1 gituser  silversilos    16013 Jan  8 20:21 DbTable.php
+-rw-r--r--   1 gituser  silversilos     6377 Jan  8 20:21 Digest.php
+-rw-r--r--   1 gituser  silversilos     1152 Jan  8 20:21 Exception.php
+drwx---r-x   3 gituser  silversilos     4096 Jan  8 20:21 Http
+-rw-r--r--   1 gituser  silversilos    28795 Jan  8 20:21 Http.php
+-rw-r--r--   1 gituser  silversilos     8223 Jan  8 20:21 InfoCard.php
+-rw-r--r--   1 gituser  silversilos     1362 Jan  8 20:21 Interface.php
+-rw-r--r--   1 gituser  silversilos    17213 Jan  8 20:21 Ldap.php
+-rw-r--r--   1 gituser  silversilos     8404 Jan  8 20:21 OpenId.php

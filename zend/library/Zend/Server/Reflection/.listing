@@ -1,0 +1,11 @@
+drwx---r-x   3 gituser  silversilos     4096 Jan  8 20:22 .
+drwx---r-x   4 gituser  silversilos     4096 Jan  8 20:22 ..
+-rw-r--r--   1 gituser  silversilos     5086 Jan  8 20:22 Class.php
+-rw-r--r--   1 gituser  silversilos     1188 Jan  8 20:22 Exception.php
+drwx---r-x   2 gituser  silversilos     4096 Jan  8 20:22 Function
+-rw-r--r--   1 gituser  silversilos     1280 Jan  8 20:22 Function.php
+-rw-r--r--   1 gituser  silversilos     3184 Jan  8 20:22 Method.php
+-rw-r--r--   1 gituser  silversilos     4770 Jan  8 20:22 Node.php
+-rw-r--r--   1 gituser  silversilos     3851 Jan  8 20:22 Parameter.php
+-rw-r--r--   1 gituser  silversilos     2825 Jan  8 20:22 Prototype.php
+-rw-r--r--   1 gituser  silversilos     2757 Jan  8 20:22 ReturnValue.php

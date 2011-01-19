@@ -1,0 +1,16 @@
+drwx---r-x   7 gituser  silversilos     4096 Jan  8 20:22 .
+drwx---r-x  63 gituser  silversilos     4096 Jan  8 20:23 ..
+-rw-r--r--   1 gituser  silversilos     7302 Jan  8 20:22 Abstract.php
+-rw-r--r--   1 gituser  silversilos    13759 Jan  8 20:22 Atom.php
+drwx---r-x   3 gituser  silversilos     4096 Jan  8 20:22 Builder
+-rw-r--r--   1 gituser  silversilos    18034 Jan  8 20:22 Builder.php
+-rw-r--r--   1 gituser  silversilos    12212 Jan  8 20:22 Element.php
+drwx---r-x   2 gituser  silversilos     4096 Jan  8 20:22 Entry
+-rw-r--r--   1 gituser  silversilos     1183 Jan  8 20:22 Exception.php
+drwx---r-x   5 gituser  silversilos     4096 Jan  8 20:22 Pubsubhubbub
+-rw-r--r--   1 gituser  silversilos     4306 Jan  8 20:22 Pubsubhubbub.php
+drwx---r-x   6 gituser  silversilos     4096 Jan  8 20:22 Reader
+-rw-r--r--   1 gituser  silversilos    22749 Jan  8 20:22 Reader.php
+-rw-r--r--   1 gituser  silversilos    20143 Jan  8 20:22 Rss.php
+drwx---r-x   6 gituser  silversilos     4096 Jan  8 20:22 Writer
+-rw-r--r--   1 gituser  silversilos     8498 Jan  8 20:22 Writer.php

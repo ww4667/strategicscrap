@@ -1,0 +1,7 @@
+drwx---r-x   2 gituser  silversilos     4096 Jan  8 20:20 .
+drwx---r-x  10 gituser  silversilos     4096 Jan  8 20:20 ..
+-rw-r--r--   1 gituser  silversilos     1808 Jan  8 20:20 GetValidatedNumbersResponse.php
+-rw-r--r--   1 gituser  silversilos     1341 Jan  8 20:20 InvalidateResponse.php
+-rw-r--r--   1 gituser  silversilos     1365 Jan  8 20:20 SendValidationKeywordResponse.php
+-rw-r--r--   1 gituser  silversilos     1341 Jan  8 20:20 ValidateResponse.php
+-rw-r--r--   1 gituser  silversilos     1636 Jan  8 20:20 ValidatedNumber.php

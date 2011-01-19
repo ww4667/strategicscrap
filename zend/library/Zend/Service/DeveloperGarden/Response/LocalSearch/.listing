@@ -1,0 +1,4 @@
+drwx---r-x   2 gituser  silversilos     4096 Jan  8 20:20 .
+drwx---r-x  10 gituser  silversilos     4096 Jan  8 20:20 ..
+-rw-r--r--   1 gituser  silversilos     2826 Jan  8 20:20 LocalSearchResponse.php
+-rw-r--r--   1 gituser  silversilos     1452 Jan  8 20:20 LocalSearchResponseType.php

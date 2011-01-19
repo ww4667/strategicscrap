@@ -1,0 +1,12 @@
+drwx---r-x   2 gituser  silversilos     4096 Jan  8 20:22 .
+drwx---r-x   3 gituser  silversilos     4096 Jan  8 20:22 ..
+-rw-r--r--   1 gituser  silversilos     1784 Jan  8 20:22 Creator.php
+-rw-r--r--   1 gituser  silversilos     1840 Jan  8 20:22 Date.php
+-rw-r--r--   1 gituser  silversilos     1742 Jan  8 20:22 Description.php
+-rw-r--r--   1 gituser  silversilos     1794 Jan  8 20:22 Format.php
+-rw-r--r--   1 gituser  silversilos     1818 Jan  8 20:22 Identifier.php
+-rw-r--r--   1 gituser  silversilos     1732 Jan  8 20:22 Language.php
+-rw-r--r--   1 gituser  silversilos     1792 Jan  8 20:22 Publisher.php
+-rw-r--r--   1 gituser  silversilos     1784 Jan  8 20:22 Rights.php
+-rw-r--r--   1 gituser  silversilos     1722 Jan  8 20:22 Subject.php
+-rw-r--r--   1 gituser  silversilos     1724 Jan  8 20:22 Title.php

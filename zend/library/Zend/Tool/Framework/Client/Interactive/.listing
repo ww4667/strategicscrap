@@ -1,0 +1,7 @@
+drwx---r-x   2 gituser  silversilos     4096 Jan  8 20:21 .
+drwx---r-x   6 gituser  silversilos     4096 Jan  8 20:21 ..
+-rw-r--r--   1 gituser  silversilos     2855 Jan  8 20:21 InputHandler.php
+-rw-r--r--   1 gituser  silversilos     1560 Jan  8 20:21 InputInterface.php
+-rw-r--r--   1 gituser  silversilos     1469 Jan  8 20:21 InputRequest.php
+-rw-r--r--   1 gituser  silversilos     1396 Jan  8 20:21 InputResponse.php
+-rw-r--r--   1 gituser  silversilos     1098 Jan  8 20:21 OutputInterface.php

@@ -1,0 +1,15 @@
+drwx---r-x   5 gituser  silversilos     4096 Jan  8 20:21 .
+drwx---r-x  15 gituser  silversilos     4096 Jan  8 20:21 ..
+-rw-r--r--   1 gituser  silversilos     3720 Jan  8 20:21 Array.php
+-rw-r--r--   1 gituser  silversilos     1967 Jan  8 20:21 Boolean.php
+-rw-r--r--   1 gituser  silversilos     4749 Jan  8 20:21 Dictionary.php
+-rw-r--r--   1 gituser  silversilos     4199 Jan  8 20:21 Name.php
+-rw-r--r--   1 gituser  silversilos     1707 Jan  8 20:21 Null.php
+-rw-r--r--   1 gituser  silversilos     2319 Jan  8 20:21 Numeric.php
+drwx---r-x   2 gituser  silversilos     4096 Jan  8 20:21 Object
+-rw-r--r--   1 gituser  silversilos     5671 Jan  8 20:21 Object.php
+drwx---r-x   2 gituser  silversilos     4096 Jan  8 20:21 Reference
+-rw-r--r--   1 gituser  silversilos     6801 Jan  8 20:21 Reference.php
+-rw-r--r--   1 gituser  silversilos     2539 Jan  8 20:21 Stream.php
+drwx---r-x   2 gituser  silversilos     4096 Jan  8 20:21 String
+-rw-r--r--   1 gituser  silversilos     7920 Jan  8 20:21 String.php

@@ -1,0 +1,8 @@
+drwx---r-x   2 gituser  silversilos     4096 Jan  8 20:20 .
+drwx---r-x  10 gituser  silversilos     4096 Jan  8 20:20 ..
+-rw-r--r--   1 gituser  silversilos     1874 Jan  8 20:20 CityType.php
+-rw-r--r--   1 gituser  silversilos     1728 Jan  8 20:20 GeoCoordinatesType.php
+-rw-r--r--   1 gituser  silversilos     3631 Jan  8 20:20 IPAddressLocationType.php
+-rw-r--r--   1 gituser  silversilos     3223 Jan  8 20:20 LocateIPResponse.php
+-rw-r--r--   1 gituser  silversilos     1550 Jan  8 20:20 LocateIPResponseType.php
+-rw-r--r--   1 gituser  silversilos     1948 Jan  8 20:20 RegionType.php

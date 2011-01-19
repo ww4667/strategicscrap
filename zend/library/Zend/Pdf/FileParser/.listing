@@ -1,0 +1,6 @@
+drwx---r-x   4 gituser  silversilos     4096 Jan  8 20:21 .
+drwx---r-x  15 gituser  silversilos     4096 Jan  8 20:21 ..
+drwx---r-x   3 gituser  silversilos     4096 Jan  8 20:21 Font
+-rw-r--r--   1 gituser  silversilos     6216 Jan  8 20:21 Font.php
+drwx---r-x   2 gituser  silversilos     4096 Jan  8 20:21 Image
+-rw-r--r--   1 gituser  silversilos     1772 Jan  8 20:21 Image.php

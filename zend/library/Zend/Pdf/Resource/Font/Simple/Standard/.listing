@@ -1,0 +1,16 @@
+drwx---r-x   2 gituser  silversilos     4096 Jan  8 20:21 .
+drwx---r-x   4 gituser  silversilos     4096 Jan  8 20:21 ..
+-rw-r--r--   1 gituser  silversilos    18515 Jan  8 20:21 Courier.php
+-rw-r--r--   1 gituser  silversilos    18547 Jan  8 20:21 CourierBold.php
+-rw-r--r--   1 gituser  silversilos    18701 Jan  8 20:21 CourierBoldOblique.php
+-rw-r--r--   1 gituser  silversilos    18702 Jan  8 20:21 CourierOblique.php
+-rw-r--r--   1 gituser  silversilos    19226 Jan  8 20:21 Helvetica.php
+-rw-r--r--   1 gituser  silversilos    19305 Jan  8 20:21 HelveticaBold.php
+-rw-r--r--   1 gituser  silversilos    19475 Jan  8 20:21 HelveticaBoldOblique.php
+-rw-r--r--   1 gituser  silversilos    19413 Jan  8 20:21 HelveticaOblique.php
+-rw-r--r--   1 gituser  silversilos    26520 Jan  8 20:21 Symbol.php
+-rw-r--r--   1 gituser  silversilos    19180 Jan  8 20:21 TimesBold.php
+-rw-r--r--   1 gituser  silversilos    19314 Jan  8 20:21 TimesBoldItalic.php
+-rw-r--r--   1 gituser  silversilos    19267 Jan  8 20:21 TimesItalic.php
+-rw-r--r--   1 gituser  silversilos    19232 Jan  8 20:21 TimesRoman.php
+-rw-r--r--   1 gituser  silversilos    28621 Jan  8 20:21 ZapfDingbats.php

@@ -1,0 +1,7 @@
+drwx---r-x   3 gituser  silversilos     4096 Jan  8 20:22 .
+drwx---r-x   7 gituser  silversilos     4096 Jan  8 20:22 ..
+-rw-r--r--   1 gituser  silversilos     7869 Jan  8 20:22 Entry.php
+-rw-r--r--   1 gituser  silversilos     1153 Jan  8 20:22 Exception.php
+drwx---r-x   2 gituser  silversilos     4096 Jan  8 20:22 Header
+-rw-r--r--   1 gituser  silversilos    12064 Jan  8 20:22 Header.php
+-rw-r--r--   1 gituser  silversilos     1585 Jan  8 20:22 Interface.php

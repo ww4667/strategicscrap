@@ -1,0 +1,15 @@
+drwx---r-x   3 gituser  silversilos     4096 Jan  8 20:22 .
+drwx---r-x   6 gituser  silversilos     4096 Jan  8 20:22 ..
+-rw-r--r--   1 gituser  silversilos     1305 Jan  8 20:22 CamelCaseToDash.php
+-rw-r--r--   1 gituser  silversilos     1758 Jan  8 20:22 CamelCaseToSeparator.php
+-rw-r--r--   1 gituser  silversilos     1328 Jan  8 20:22 CamelCaseToUnderscore.php
+-rw-r--r--   1 gituser  silversilos     1305 Jan  8 20:22 DashToCamelCase.php
+-rw-r--r--   1 gituser  silversilos     1337 Jan  8 20:22 DashToSeparator.php
+-rw-r--r--   1 gituser  silversilos     1363 Jan  8 20:22 DashToUnderscore.php
+drwx---r-x   2 gituser  silversilos     4096 Jan  8 20:22 Separator
+-rw-r--r--   1 gituser  silversilos     1861 Jan  8 20:22 SeparatorToCamelCase.php
+-rw-r--r--   1 gituser  silversilos     1428 Jan  8 20:22 SeparatorToDash.php
+-rw-r--r--   1 gituser  silversilos     3671 Jan  8 20:22 SeparatorToSeparator.php
+-rw-r--r--   1 gituser  silversilos     1317 Jan  8 20:22 UnderscoreToCamelCase.php
+-rw-r--r--   1 gituser  silversilos     1363 Jan  8 20:22 UnderscoreToDash.php
+-rw-r--r--   1 gituser  silversilos     1419 Jan  8 20:22 UnderscoreToSeparator.php

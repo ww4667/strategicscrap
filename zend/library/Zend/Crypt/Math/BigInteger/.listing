@@ -1,0 +1,6 @@
+drwx---r-x   2 gituser  silversilos     4096 Jan  8 20:21 .
+drwx---r-x   3 gituser  silversilos     4096 Jan  8 20:21 ..
+-rw-r--r--   1 gituser  silversilos     5351 Jan  8 20:21 Bcmath.php
+-rw-r--r--   1 gituser  silversilos     1158 Jan  8 20:21 Exception.php
+-rw-r--r--   1 gituser  silversilos     5274 Jan  8 20:21 Gmp.php
+-rw-r--r--   1 gituser  silversilos     1893 Jan  8 20:21 Interface.php

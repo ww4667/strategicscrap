@@ -1,0 +1,5 @@
+drwx---r-x   2 gituser  silversilos     4096 Jan  8 20:21 .
+drwx---r-x  10 gituser  silversilos     4096 Jan  8 20:21 ..
+-rw-r--r--   1 gituser  silversilos     3764 Jan  8 20:21 Auth.php
+-rw-r--r--   1 gituser  silversilos     3253 Jan  8 20:21 DbInspector.php
+-rw-r--r--   1 gituser  silversilos     9102 Jan  8 20:21 Introspector.php

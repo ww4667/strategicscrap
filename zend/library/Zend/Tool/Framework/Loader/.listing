@@ -1,0 +1,7 @@
+drwx---r-x   3 gituser  silversilos     4096 Jan  8 20:21 .
+drwx---r-x  10 gituser  silversilos     4096 Jan  8 20:21 ..
+-rw-r--r--   1 gituser  silversilos     4862 Jan  8 20:21 Abstract.php
+-rw-r--r--   1 gituser  silversilos     4708 Jan  8 20:21 BasicLoader.php
+drwx---r-x   2 gituser  silversilos     4096 Jan  8 20:21 IncludePathLoader
+-rw-r--r--   1 gituser  silversilos     4672 Jan  8 20:21 IncludePathLoader.php
+-rw-r--r--   1 gituser  silversilos     1254 Jan  8 20:21 Interface.php

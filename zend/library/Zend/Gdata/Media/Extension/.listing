@@ -1,0 +1,16 @@
+drwx---r-x   2 gituser  silversilos     4096 Jan  8 20:23 .
+drwx---r-x   3 gituser  silversilos     4096 Jan  8 20:23 ..
+-rw-r--r--   1 gituser  silversilos     4526 Jan  8 20:23 MediaCategory.php
+-rw-r--r--   1 gituser  silversilos    12832 Jan  8 20:23 MediaContent.php
+-rw-r--r--   1 gituser  silversilos     3328 Jan  8 20:23 MediaCopyright.php
+-rw-r--r--   1 gituser  silversilos     4081 Jan  8 20:23 MediaCredit.php
+-rw-r--r--   1 gituser  silversilos     3352 Jan  8 20:23 MediaDescription.php
+-rw-r--r--   1 gituser  silversilos    15179 Jan  8 20:23 MediaGroup.php
+-rw-r--r--   1 gituser  silversilos     3394 Jan  8 20:23 MediaHash.php
+-rw-r--r--   1 gituser  silversilos     1520 Jan  8 20:23 MediaKeywords.php
+-rw-r--r--   1 gituser  silversilos     4649 Jan  8 20:23 MediaPlayer.php
+-rw-r--r--   1 gituser  silversilos     3406 Jan  8 20:23 MediaRating.php
+-rw-r--r--   1 gituser  silversilos     4195 Jan  8 20:23 MediaRestriction.php
+-rw-r--r--   1 gituser  silversilos     5378 Jan  8 20:23 MediaText.php
+-rw-r--r--   1 gituser  silversilos     5358 Jan  8 20:23 MediaThumbnail.php
+-rw-r--r--   1 gituser  silversilos     3380 Jan  8 20:23 MediaTitle.php

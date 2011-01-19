@@ -148,6 +148,41 @@ class PricingMaterial {
 	}
 	
 	/** 
+	* retrieve PricingMaterial objects
+	* @param $i_facility_id int of PricingFacility id
+	* @param $i_broker_id int of PricingBroker id
+	* @return {PricingMaterials} returns PricingMaterial objects
+	*/
+	static function getRecentMaterialsByFacilityIdAndBrokerId($i_facility_id,$i_broker_id){
+		global $modx;
+		
+		$sql =  "SELECT pm.*";
+		$sql .= " FROM scrap_pricing_entries AS pe";
+		$sql .= " LEFT JOIN scrap_pricing_materials AS pm ON pm.id = pe.material_id";
+		$sql .= " LEFT JOIN (SELECT * FROM scrap_pricing_entries WHERE broker_id = $i_broker_id AND facility_id = $i_facility_id ORDER BY entry_timestamp DESC LIMIT 1) AS ped ON ped.entry_timestamp = pe.entry_timestamp";
+		$sql .= " WHERE pe.facility_id = $i_facility_id";
+		$sql .= " AND pe.broker_id = $i_broker_id";
+		$sql .= " AND pe.entry_timestamp = ped.entry_timestamp";
+		$sql .= " ORDER BY pm.name ASC";
+
+		$query = $modx->db->query($sql);
+		
+		if ($modx->db->getRecordCount($query) > 0) {
+			$materials = array();
+			while ($p = mysql_fetch_object($query)) {
+				$material = new PricingMaterial();
+				foreach ($p as $key => $val) {
+					$material->$key = $val;
+				}
+				$materials[] = $material;
+			}
+			return $materials;
+		} else {
+			return FALSE;
+		}
+	}
+	
+	/** 
 	* return a region based on state abreviation
 	*/
 	static function set_region($i_state){

@@ -1,0 +1,10 @@
+drwx---r-x   6 gituser  silversilos     4096 Jan  8 20:22 .
+drwx---r-x   7 gituser  silversilos     4096 Jan  8 20:22 ..
+-rw-r--r--   1 gituser  silversilos     5869 Jan  8 20:22 Deleted.php
+-rw-r--r--   1 gituser  silversilos    21956 Jan  8 20:22 Entry.php
+drwx---r-x   2 gituser  silversilos     4096 Jan  8 20:22 Exception
+drwx---r-x   9 gituser  silversilos     4096 Jan  8 20:22 Extension
+drwx---r-x   2 gituser  silversilos     4096 Jan  8 20:22 Feed
+-rw-r--r--   1 gituser  silversilos     7633 Jan  8 20:22 Feed.php
+drwx---r-x   4 gituser  silversilos     4096 Jan  8 20:22 Renderer
+-rw-r--r--   1 gituser  silversilos     1112 Jan  8 20:22 Source.php

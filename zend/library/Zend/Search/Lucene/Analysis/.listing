@@ -1,0 +1,7 @@
+drwx---r-x   4 gituser  silversilos     4096 Jan  8 20:21 .
+drwx---r-x   7 gituser  silversilos     4096 Jan  8 20:21 ..
+drwx---r-x   3 gituser  silversilos     4096 Jan  8 20:21 Analyzer
+-rw-r--r--   1 gituser  silversilos     5383 Jan  8 20:21 Analyzer.php
+-rw-r--r--   1 gituser  silversilos     4245 Jan  8 20:21 Token.php
+drwx---r-x   2 gituser  silversilos     4096 Jan  8 20:21 TokenFilter
+-rw-r--r--   1 gituser  silversilos     1549 Jan  8 20:21 TokenFilter.php

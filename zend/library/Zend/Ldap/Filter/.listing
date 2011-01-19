@@ -1,0 +1,10 @@
+drwx---r-x   2 gituser  silversilos     4096 Jan  8 20:21 .
+drwx---r-x   6 gituser  silversilos     4096 Jan  8 20:21 ..
+-rw-r--r--   1 gituser  silversilos     5023 Jan  8 20:21 Abstract.php
+-rw-r--r--   1 gituser  silversilos     1425 Jan  8 20:21 And.php
+-rw-r--r--   1 gituser  silversilos     1137 Jan  8 20:21 Exception.php
+-rw-r--r--   1 gituser  silversilos     2997 Jan  8 20:21 Logical.php
+-rw-r--r--   1 gituser  silversilos     1847 Jan  8 20:21 Mask.php
+-rw-r--r--   1 gituser  silversilos     1913 Jan  8 20:21 Not.php
+-rw-r--r--   1 gituser  silversilos     1419 Jan  8 20:21 Or.php
+-rw-r--r--   1 gituser  silversilos     1687 Jan  8 20:21 String.php

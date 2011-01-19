@@ -201,7 +201,7 @@
 					<!--/* OpenX Javascript Tag v2.4.5 */-->
 
 <script type='text/javascript'><!--//<![CDATA[
-   var m3_u = (location.protocol=='https:'?'https://www.strategicscrap.com/openads/www/delivery/ajs.php':'http://www.strategicscrap.com/openads/www/delivery/ajs.php');
+   var m3_u = (location.protocol=='https:'?'https://strategicscrap.com/openads/www/delivery/ajs.php':'http://strategicscrap.com/openads/www/delivery/ajs.php');
    var m3_r = Math.floor(Math.random()*99999999999);
    if (!document.MAX_used) document.MAX_used = ',';
    document.write ("<scr"+"ipt type='text/javascript' src='"+m3_u);
@@ -213,7 +213,7 @@
    if (document.context) document.write ("&context=" + escape(document.context));
    if (document.mmm_fo) document.write ("&amp;mmm_fo=1");
    document.write ("'><\/scr"+"ipt>");
-//]]>--></script><noscript><a href='http://www.strategicscrap.com/openads/www/delivery/ck.php?n=a64c18ab&amp;cb=INSERT_RANDOM_NUMBER_HERE' target='_blank'><img src='http://www.strategicscrap.com/openads/www/delivery/avw.php?zoneid=5&amp;n=a64c18ab' border='0' alt='' /></a></noscript>
+//]]>--></script><noscript><a href='http://strategicscrap.com/openads/www/delivery/ck.php?n=a64c18ab&amp;cb=INSERT_RANDOM_NUMBER_HERE' target='_blank'><img src='https://strategicscrap.com/openads/www/delivery/avw.php?zoneid=5&amp;n=a64c18ab' border='0' alt='' /></a></noscript>
 					
 						<? //<a href="http://alineironandmetals.com" title="A-Line Iron & Metals"><img src="resources/images/ad/a-line.png" /></a> ?>
 					</div>
@@ -248,7 +248,7 @@
 						<h3>Quick Vote</h3>
 						<hr />
 					  	<div id="scrapPoll">
-					<iframe src="http://www.surveygizmo.com/s3/iframe/373002/0a8278693451" frameborder="0" width="260" height="280" style="overflow:hidden" scrolling="no"></iframe>
+					<iframe src="https://www.surveygizmo.com/s3/iframe/373002/0a8278693451" frameborder="0" width="260" height="280" style="overflow:hidden" scrolling="no"></iframe>
 					  	</div>
 					</div><div class="moduleBottom"><!-- IE hates empty elements --></div>
 					</div>

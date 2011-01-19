@@ -1,0 +1,13 @@
+drwx---r-x   2 gituser  silversilos     4096 Jan  8 20:23 .
+drwx---r-x   3 gituser  silversilos     4096 Jan  8 20:23 ..
+-rw-r--r--   1 gituser  silversilos     1745 Jan  8 20:23 Distance.php
+-rw-r--r--   1 gituser  silversilos     1745 Jan  8 20:23 Exposure.php
+-rw-r--r--   1 gituser  silversilos     1730 Jan  8 20:23 FStop.php
+-rw-r--r--   1 gituser  silversilos     1730 Jan  8 20:23 Flash.php
+-rw-r--r--   1 gituser  silversilos     1760 Jan  8 20:23 FocalLength.php
+-rw-r--r--   1 gituser  silversilos     1770 Jan  8 20:23 ImageUniqueId.php
+-rw-r--r--   1 gituser  silversilos     1720 Jan  8 20:23 Iso.php
+-rw-r--r--   1 gituser  silversilos     1725 Jan  8 20:23 Make.php
+-rw-r--r--   1 gituser  silversilos     1730 Jan  8 20:23 Model.php
+-rw-r--r--   1 gituser  silversilos    16856 Jan  8 20:23 Tags.php
+-rw-r--r--   1 gituser  silversilos     1725 Jan  8 20:23 Time.php

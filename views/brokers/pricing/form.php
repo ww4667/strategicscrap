@@ -1,4 +1,4 @@
-<script src="http://ajax.microsoft.com/ajax/jquery.validate/1.7/jquery.validate.min.js"></script>
+<script src="https://ajax.microsoft.com/ajax/jquery.validate/1.7/jquery.validate.min.js"></script>
 <style type="text/css">
 	#register_now{display:none;}
 	.brokerPricing label{font-weight:700}

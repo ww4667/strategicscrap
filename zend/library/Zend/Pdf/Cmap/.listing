@@ -1,0 +1,6 @@
+drwx---r-x   3 gituser  silversilos     4096 Jan  8 20:21 .
+drwx---r-x  15 gituser  silversilos     4096 Jan  8 20:21 ..
+drwx---r-x   2 gituser  silversilos     4096 Jan  8 20:21 ByteEncoding
+-rw-r--r--   1 gituser  silversilos    22845 Jan  8 20:21 ByteEncoding.php
+-rw-r--r--   1 gituser  silversilos    15169 Jan  8 20:21 SegmentToDelta.php
+-rw-r--r--   1 gituser  silversilos     7879 Jan  8 20:21 TrimmedTable.php

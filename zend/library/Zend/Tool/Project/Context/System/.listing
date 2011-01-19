@@ -1,0 +1,8 @@
+drwx---r-x   2 gituser  silversilos     4096 Jan  8 20:21 .
+drwx---r-x   6 gituser  silversilos     4096 Jan  8 20:21 ..
+-rw-r--r--   1 gituser  silversilos     1229 Jan  8 20:21 Interface.php
+-rw-r--r--   1 gituser  silversilos     1241 Jan  8 20:21 NotOverwritable.php
+-rw-r--r--   1 gituser  silversilos     3881 Jan  8 20:21 ProjectDirectory.php
+-rw-r--r--   1 gituser  silversilos     3029 Jan  8 20:21 ProjectProfileFile.php
+-rw-r--r--   1 gituser  silversilos     2645 Jan  8 20:21 ProjectProvidersDirectory.php
+-rw-r--r--   1 gituser  silversilos     1251 Jan  8 20:21 TopLevelRestrictable.php

@@ -1,0 +1,11 @@
+drwx---r-x   2 gituser  silversilos     4096 Jan  8 20:21 .
+drwx---r-x   3 gituser  silversilos     4096 Jan  8 20:21 ..
+-rw-r--r--   1 gituser  silversilos     2408 Jan  8 20:21 Array.php
+-rw-r--r--   1 gituser  silversilos     3752 Jan  8 20:21 Csv.php
+-rw-r--r--   1 gituser  silversilos     5690 Jan  8 20:21 Gettext.php
+-rw-r--r--   1 gituser  silversilos     2321 Jan  8 20:21 Ini.php
+-rw-r--r--   1 gituser  silversilos     5180 Jan  8 20:21 Qt.php
+-rw-r--r--   1 gituser  silversilos     5689 Jan  8 20:21 Tbx.php
+-rw-r--r--   1 gituser  silversilos     8453 Jan  8 20:21 Tmx.php
+-rw-r--r--   1 gituser  silversilos     8490 Jan  8 20:21 Xliff.php
+-rw-r--r--   1 gituser  silversilos     4608 Jan  8 20:21 XmlTm.php

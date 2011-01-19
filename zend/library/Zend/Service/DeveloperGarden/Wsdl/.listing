@@ -1,0 +1,15 @@
+drwx---r-x   2 gituser  silversilos     4096 Jan  8 20:20 .
+drwx---r-x  11 gituser  silversilos     4096 Jan  8 20:21 ..
+-rw-r--r--   1 gituser  silversilos     3322 Jan  8 20:20 IPLocation.wsdl
+-rw-r--r--   1 gituser  silversilos     3378 Jan  8 20:20 IPLocation.xsd
+-rw-r--r--   1 gituser  silversilos     3579 Jan  8 20:20 ODGBaseUserService.wsdl
+-rw-r--r--   1 gituser  silversilos     2485 Jan  8 20:20 ODGBaseUserService.xsd
+-rw-r--r--   1 gituser  silversilos     4732 Jan  8 20:20 SmsService.wsdl
+-rw-r--r--   1 gituser  silversilos     7340 Jan  8 20:20 SmsValidationUserService.wsdl
+-rw-r--r--   1 gituser  silversilos    13281 Jan  8 20:20 TokenService.wsdl
+-rw-r--r--   1 gituser  silversilos     5614 Jan  8 20:20 VoiceButlerService.wsdl
+-rw-r--r--   1 gituser  silversilos     9184 Jan  8 20:20 VoiceButlerService.xsd
+-rw-r--r--   1 gituser  silversilos    18595 Jan  8 20:20 ccsPort.wsdl
+-rw-r--r--   1 gituser  silversilos    25358 Jan  8 20:20 ccsPort.xsd
+-rw-r--r--   1 gituser  silversilos     3334 Jan  8 20:20 localsearch.wsdl
+-rw-r--r--   1 gituser  silversilos     1609 Jan  8 20:20 localsearch.xsd

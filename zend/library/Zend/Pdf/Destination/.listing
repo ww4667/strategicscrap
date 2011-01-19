@@ -1,0 +1,13 @@
+drwx---r-x   2 gituser  silversilos     4096 Jan  8 20:21 .
+drwx---r-x  15 gituser  silversilos     4096 Jan  8 20:21 ..
+-rw-r--r--   1 gituser  silversilos     3491 Jan  8 20:21 Explicit.php
+-rw-r--r--   1 gituser  silversilos     2607 Jan  8 20:21 Fit.php
+-rw-r--r--   1 gituser  silversilos     2692 Jan  8 20:21 FitBoundingBox.php
+-rw-r--r--   1 gituser  silversilos     3268 Jan  8 20:21 FitBoundingBoxHorizontally.php
+-rw-r--r--   1 gituser  silversilos     3272 Jan  8 20:21 FitBoundingBoxVertically.php
+-rw-r--r--   1 gituser  silversilos     3179 Jan  8 20:21 FitHorizontally.php
+-rw-r--r--   1 gituser  silversilos     5254 Jan  8 20:21 FitRectangle.php
+-rw-r--r--   1 gituser  silversilos     3182 Jan  8 20:21 FitVertically.php
+-rw-r--r--   1 gituser  silversilos     2887 Jan  8 20:21 Named.php
+-rw-r--r--   1 gituser  silversilos     1224 Jan  8 20:21 Unknown.php
+-rw-r--r--   1 gituser  silversilos     5673 Jan  8 20:21 Zoom.php

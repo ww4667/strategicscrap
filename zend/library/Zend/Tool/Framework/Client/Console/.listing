@@ -1,0 +1,6 @@
+drwx---r-x   3 gituser  silversilos     4096 Jan  8 20:21 .
+drwx---r-x   6 gituser  silversilos     4096 Jan  8 20:21 ..
+-rw-r--r--   1 gituser  silversilos    19714 Jan  8 20:21 ArgumentParser.php
+-rw-r--r--   1 gituser  silversilos    15095 Jan  8 20:21 HelpSystem.php
+-rw-r--r--   1 gituser  silversilos     7991 Jan  8 20:21 Manifest.php
+drwx---r-x   2 gituser  silversilos     4096 Jan  8 20:21 ResponseDecorator
