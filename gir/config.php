@@ -20,11 +20,11 @@ $defaultModule = "facility";
 // $dbUsername = "root";
 // $dbPassword = "";
 
-// ix vars...
-$dbHost = "mysql307.ixwebhosting.com";
-$dbName = "silvers_scrap";
-$dbUsername = "silvers_scrap";
-$dbPassword = "20Scrap10";
+// VDC vars...
+$dbHost = "localhost";
+$dbName = "strategi_scrap";
+$dbUsername = "strategi_scrap";
+$dbPassword = "T,uUUAfOi#T1";
 $dbTablePrefix = "gir_";
 
 //define( "DATABASE_SERVER", "mysql307.ixwebhosting.com");
