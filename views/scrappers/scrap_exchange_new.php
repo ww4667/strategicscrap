@@ -321,7 +321,7 @@ function updatePageData( json ){
     pageData += ' <div id="facility_'+i+'" class="facility_details">';
     pageData += ' '+( cur.home_phone != '' ? 'Home: ' + cur.home_phone + '<br />' : '' );
     pageData += ' '+( cur.fax_number != '' ? 'Fax: ' + cur.fax_number + '<br />' : '' );
-    pageData += ' '+( cur.website != '' ? 'Website: <a href="' + cur.website + '" target="_blank">' + cur.website + '</a><br />' : '' );
+    pageData += ' '+( cur.website != '' ? 'Website: <a href="' + cur.website + '" target="_blank">go to website</a><br />' : '' );
     pageData += ' '+( cur.attachments != '' ? 'Attachment: <a href="/downloader?facility_id=' + cur.id + '" target="_blank">download specs</a><br />' : '' );
     pageData += ' '+( cur.notes != '' ? 'Notes: <blockquote>'+cur.notes+'<blockquote><br />' : '' );
     pageData += ' </div></div></td>';
@@ -330,7 +330,7 @@ function updatePageData( json ){
 		pageData += '	<td style="width:200px">'+cur.address_1+ (cur.address_2 != '' ? '<br />' + cur.address_2 : '') + '<br />' + cur.city+', ' +cur.state_province+' '+ cur.zip_postal_code+'</td>';
 		pageData += '	<td style="width:60px">'+cur.state_province+'</td>';
 		pageData += '	<td style="width:110px">'+cur.first_name+' '+cur.last_name+'';
-		pageData += '	'+(cur.business_phone != '' ? 'Business: ' + cur.business_phone : '')+'</td>';
+		pageData += '	'+(cur.business_phone != '' ? '<br />' + cur.business_phone : '')+'</td>';
 		pageData += '	<td><a trans_id="'+cur.id+'" class="ship_quote_button">shipping quote</a></td>';
 		pageData += '</tr>';
 		highlight = !highlight;

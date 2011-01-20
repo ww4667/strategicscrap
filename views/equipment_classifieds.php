@@ -27,7 +27,7 @@
   <div id="equipClassifieds" class="classifiedListing">
 	<div>
 		<div style="float:left"><a href="#"><img src="/resources/images/buttons/watch_video.png" alt="watch a video" id="watch_video" /></a></div>
-		<div style="float:left;margin-left:20px"><a href="#"><img src="/resources/images/buttons/post_a_classified.png" alt="post a classified"  id="post_a_classified" /></a></div>
+		<div style="float:left;margin-left:20px"><a href="mailto:classifieds@strategicscrap.com?subject=I would like to post a equipment classified&body=Hello, Below are the details of my classified ad..."><img src="/resources/images/buttons/post_a_classified.png" alt="post a classified"  id="post_a_classified" /></a></div>
 		<div style="clear:both;padding:20px 0">If you would like us to post your classified, please call us at 866-796-7272 or email us at classifieds@strategicscrap.com</div>
 	</div>
               
