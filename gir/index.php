@@ -39,6 +39,10 @@ require_once($modulesDirectory."/bid/Bid.php");
 require_once($modulesDirectory."/transportation_type/Transportation_Type.php");
 require_once($modulesDirectory."/pricing/Pricing.php");
 
+// include application modules
+require_once($librariesDirectory."/usaepay/usaepay.php");
+// require_once($includesDirectory."/great_inlude_file.php");
+
 // get controller and method from page request
 $controller = isset($controller) ? $controller : NULL;
 $method = isset($method) ? $method : NULL;

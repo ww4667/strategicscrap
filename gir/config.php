@@ -4,6 +4,8 @@
  */
 $coreDirectory = "core";
 $modulesDirectory = "modules";
+$librariesDirectory = $_SERVER["DOCUMENT_ROOT"] . "/lib";
+$includesDirectory = $_SERVER["DOCUMENT_ROOT"] . "/inc";
 $defaultModule = "facility";
 
 // wbsrvr vars...
