@@ -154,7 +154,7 @@ if(!$gir->auth->authenticate()){
 							<label style="color:#000;float:left;font-weight:0;"><textarea id="special_instructions" name="special_instructions" style="width:200px;"></textarea></label></div>
 					
 					</fieldset>
-					<div style="text-align:center;"><input id="submitRequest" alt="Submit Bid Request" name="submitBid" src="resources/images/buttons/submit_bid.png" type="image" /></div>
+					<div style="text-align:center"><input style="height:46px;width:228px" id="submitRequest" alt="Submit Bid Request" name="submitBid" src="resources/images/buttons/submit_bid.png" type="image" /></div>
 				</div>
 				<div id="transport_request_response"></div>
 				

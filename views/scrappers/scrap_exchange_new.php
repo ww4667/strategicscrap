@@ -49,7 +49,8 @@ div.infoPop{display:block;}
 		<script type="text/javascript" src="http://gmaps-utility-library.googlecode.com/svn/trunk/progressbarcontrol/1.0/src/progressbarcontrol.js"></script>
 
 
-		<script type="text/javascript"><!--
+		<script type="text/javascript">
+		<!--
 		/* <![CDATA[ */
 
 
@@ -499,6 +500,7 @@ function addTransportFormEvent( ){
 }
 
 /* ]]> */
+-->
 </script>
 	
 <!-- DONE JEREMIAH -->

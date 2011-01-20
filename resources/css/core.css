@@ -92,7 +92,9 @@ a:active	{outline:none;}
 	.twoColMod .moduleContent{background-color:#fff;border-left:1px solid #999;border-right:1px solid #999;}
 	.twoColMod .moduleBottom{width:560px;height:6px;background:url(../images/bg/module_l_bottom.png) no-repeat;}
 #regionalPricing .moduleContent{overflow:hidden;height:513px}
-	
+#transportRequest h3 {float:left}
+#transportRequest .more{float:right;margin:10px 20px 0 0;text-decoration:underline;}
+
 /* ----[2. Regions]---- */
 .region h3{margin:0 0 7px 50px;}
 /* .region p{margin:0 0 13px 50px;} */
