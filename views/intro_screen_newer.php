@@ -26,10 +26,7 @@
 		</div>
 	</div>
 	<div id="tryit_wrapper" class="content">
-	    <p>Boost your profits by tapping into the most powerful and comprehensive tool the scrap  metal industry has ever seen. Pricing, market data, transportation hub and more!</p>
-		<p><strong style="color:#333">Sign up for your 30 day free trial today!</strong></p>
-		<p class="warning">WARNING: Use of this product may lead to less headaches, competetive advantage and increased	profits. This product also contains features that may be addictive.</p>
-		<p><a href="/scrap-registration" id="try_it_home" title="try it today!">try it</a></p>
+							[*content*]
 	</div>
 	<div style="position:relative;clear:both"><!--clear--></div>
 </div>
@@ -55,7 +52,7 @@
 <tr> 
 	<td align="center"> 
 		<p style="">&nbsp;</p> 
-		<p style="">Coming Soon - Fall 2010 :: <a href="mailto:josh@strategicscrap.com">Contact Us</a></p> 
+		<p style="">Coming Very Soon :: <a href="mailto:josh@strategicscrap.com">Contact Us</a></p> 
 	</td> 
 </tr> 
  

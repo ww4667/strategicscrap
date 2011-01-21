@@ -19,6 +19,10 @@ a:active	{outline:none;}
 /* ----[Utility Classes]---- */		
 .clearfix:after {content:".";display:block;height:0;clear:both;visibility:hidden;}
 .clearfix {display:inline-block;}/* for IE/Mac */
+#refreshBtn{position:relative;right:-8px;top:-3px}
+	#refreshBtn a{display:block;width:21px;height:22px;background:url(/resources/images/buttons/refresh2_sprite.png
+	) no-repeat 0px 0px;text-indent: -5000px}
+	#refreshBtn a:hover{background-position: 0px -22px}
 
 /* ----[Structure]---- */
 .topAd{width:905px;margin:20px auto 15px;position:relative;z-index:3;}
@@ -94,6 +98,8 @@ a:active	{outline:none;}
 #regionalPricing .moduleContent{overflow:hidden;height:513px}
 #transportRequest h3 {float:left}
 #transportRequest .more{float:right;margin:10px 20px 0 0;text-decoration:underline;}
+#marketData h3 {float:left}
+#marketData .more{float:right;margin:10px 20px 0 0;text-decoration:underline;}
 
 /* ----[2. Regions]---- */
 .region h3{margin:0 0 7px 50px;}

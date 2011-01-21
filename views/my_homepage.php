@@ -8,6 +8,9 @@
 						<div id="marketData" class="twoColMod"><div class="moduleTop"><!-- IE hates empty elements --></div>
 							<div class="moduleContent">
 								<h3>Market Data</h3>
+								<div class="more">
+									<div id="refreshBtn"><a id="reloadRequests">refresh</a></div>
+								</div>
 								<hr style="margin-bottom:0" />
 								<table>
 								<tr class="row2">
@@ -153,7 +156,7 @@
 							<div class="moduleContent clearfix">
 								<h3>Transportation Requests</h3>
 						      <div class="more">
-						        <a id="reloadRequests">refresh</a>&nbsp;
+						        <div id="refreshBtn"><a id="reloadRequests">refresh</a></div>
 						      </div>
 								<hr style="margin-bottom:0" />
 								<table id = "data_table_1" style = "width: 559px;">
