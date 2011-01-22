@@ -9,7 +9,7 @@
 							<div class="moduleContent">
 								<h3>Market Data</h3>
 								<div class="more">
-									<div id="refreshBtn"><a id="reloadRequests">refresh</a></div>
+									<div class="refreshBtn"><a id="reloadRequestsMD">refresh</a></div>
 								</div>
 								<hr style="margin-bottom:0" />
 								<table>
@@ -156,7 +156,7 @@
 							<div class="moduleContent clearfix">
 								<h3>Transportation Requests</h3>
 						      <div class="more">
-						        <div id="refreshBtn"><a id="reloadRequests">refresh</a></div>
+						        <div class="refreshBtn"><a id="reloadRequests">refresh</a></div>
 						      </div>
 								<hr style="margin-bottom:0" />
 								<table id = "data_table_1" style = "width: 559px;">
@@ -449,7 +449,7 @@ $(".scrapQuote").colorbox({ width:"550", inline:true, href:"#quoteForm",
   var oTable;
 function reloadRequests(){
 
-    oTable.fnReloadAjax("/controllers/remote/?type=data_tables&method=getRequests&uid=<?= $_SESSION['user']['id']  ?>", function(json){        
+    oTable.fnReloadAjax("/controllers/remote/?type=data_tables&method=getRequests&uid=<?= $_SESSION['user']['id']  ?>&session_id=<?=session_id();?>", function(json){        
     
       //request_object = json.request_object[0];
       activateScrapQuote();
@@ -468,7 +468,7 @@ function reloadRequests(){
       $.ajax( {
         "dataType": 'json', 
         "type": "GET", 
-        "url": "/controllers/remote_controller.php?type=data_tables&method=getRequests&uid=<?= $_SESSION['user']['id']  ?>",
+        "url": "/controllers/remote_controller.php?type=data_tables&method=getRequests&uid=<?= $_SESSION['user']['id']  ?>&session_id=<?=session_id();?>",
         "session_id":"<?=session_id();?>", 
         "success": function (json) {
           //request_object = json.request_object[0];
