@@ -131,14 +131,24 @@ require_once($_SERVER['DOCUMENT_ROOT']."/gir/index.php");
 				}
 			}
 			
+//			$market_data = array(
+//				"LME Copper" => getLmeData("CU","strip"),
+//				"LME Aluminium" => getLmeData("AM","strip"),
+//				"LME Nickel" => getLmeData("NI","strip"),
+//				"LME Zinc" => getLmeData("ZZ","strip"),
+//				"LME Lead" => getLmeData("LD","strip"),
+//				"LME Tin" => getLmeData("TN","strip"),
+//				"COMEX Copper" => getComexData("HG")
+//			);
+			
 			$market_data = array(
-				"LME Copper" => getLmeData("CU","strip"),
-				"LME Aluminium" => getLmeData("AM","strip"),
-				"LME Nickel" => getLmeData("NI","strip"),
-				"LME Zinc" => getLmeData("ZZ","strip"),
-				"LME Lead" => getLmeData("LD","strip"),
-				"LME Tin" => getLmeData("TN","strip"),
-				"COMEX Copper" => getComexData("HG")
+				"LME Copper" => array("cash" => "4.23","3 month" => "4.25","15 month" => "4.13"),
+				"LME Aluminium" => array("cash" => "1.07","3 month" => "1.09","15 month" => "1.11"),
+				"LME Nickel" => array("cash" => "11.54","3 month" => "11.69","15 month" => "11.25"),
+				"LME Zinc" => array("cash" => "1.04","3 month" => "1.05","15 month" => "1.06"),
+				"LME Lead" => array("cash" => "1.13","3 month" => "1.10","15 month" => "1.08"),
+				"LME Tin" => array("cash" => "12.15","3 month" => "12.24","15 month" => "11.88"),
+				"COMEX Copper" => array("cash" => "4.26","3 month" => "4.28","15 month" => "4.21")
 			);
 			
 //			if (isset($_GET['xml'])) {
@@ -576,14 +586,14 @@ require_once($_SERVER['DOCUMENT_ROOT']."/gir/index.php");
 					// send to page based on obj type
 					switch ($_SESSION['user']['group']) {
 						case 'scrapper':
-							$error_messages[] = "Welcome!";
-							flash($error_messages);
+//							$error_messages[] = "Welcome!";
+//							flash($error_messages);
 							redirect_to('/regions');
 						break;
 						
 						case 'broker':
-							$error_messages[] = "Welcome!";
-							flash($error_messages);
+//							$error_messages[] = "Welcome!";
+//							flash($error_messages);
 							redirect_to('/broker-admin/dashboard');
 						break;
 						
@@ -702,7 +712,7 @@ require_once($_SERVER['DOCUMENT_ROOT']."/gir/index.php");
 						$object['lname'] = $scrapper->last_name;
 						$object['email'] = $newUser->email;
 						Mailer::welcome_email($object);
-						flash("Welcome to Strategic Scrap! You have successfully been registered. Use the sign-in form above to get started.");
+//						flash("Welcome to Strategic Scrap! You have successfully been registered. Use the sign-in form above to get started.");
 						redirect_to('/');
 //						die(print_r($scrapper));
 					} else {
@@ -711,7 +721,7 @@ require_once($_SERVER['DOCUMENT_ROOT']."/gir/index.php");
 						$newBroker = $b->CreateItem($post_data);
 						$broker = $b->GetItemObj($newBroker->newId);
 						$broker->addUser($newUser->newId);
-						flash("Welcome to Strategic Scrap! You have successfully been registered. Use the sign-in form above to get started.");
+//						flash("Welcome to Strategic Scrap! You have successfully been registered. Use the sign-in form above to get started.");
 						redirect_to('/');
 //						die(print_r($broker));
 					}

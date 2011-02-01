@@ -19,10 +19,10 @@
   <meta NAME="revisit-after" CONTENT="30 Days">
   <meta NAME="robots" CONTENT="ALL">
 
+  <link href="/resources/css/colorbox.css" rel="stylesheet" type="text/css" />
   <link href="/resources/css/core.css" rel="stylesheet" type="text/css" />
   <link href="/resources/css/mainNav.css" rel="stylesheet" type="text/css" />
   <!-- <link href="/resources/css/jScrollPane.css" rel="stylesheet" type="text/css" /> -->
-  <link href="/resources/css/colorbox.css" rel="stylesheet" type="text/css" />
   <link href="/resources/css/RMSforms-v0.5.css" rel="stylesheet" type="text/css" />
   <script type="text/javascript">
  

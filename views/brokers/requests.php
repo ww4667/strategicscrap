@@ -102,7 +102,7 @@
 			All loads must be delivered within 3 days of deliver date unless noted otherwise</p>
 			<p><strong>Pickup/Delivery Times</strong><br />
 			Pickup times are to be between 7am-3pm facilty timezone. Delivery times are specific to receiving facility and should be coordinated by the transportaion broker.</p>
-			<p><strong>Opperations</strong><br />
+			<p><strong>Operations</strong><br />
 			Credit-checks are the responsibility of transporation brokers. Strategic Scrap is not responsible for breeched agreements.</p>
 		</div><div class="moduleBottom"><!-- IE hates empty elements --></div>
 	</div>
@@ -236,7 +236,7 @@
         "url": "/controllers/remote/?type=data_tables&method=getRequests&buid=<?= $_SESSION['user']['id']  ?>", 
         "success": function (json) {
           request_object = json.request_object[0];
-          console.dir(request_object);
+          // console.dir(request_object);
           oTable = $('#data_table_1').dataTable({
             "aaData": json.aaData,
             "sScrollY": "527px",

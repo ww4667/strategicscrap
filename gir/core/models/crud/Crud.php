@@ -429,7 +429,7 @@ class Crud {
 	private function _BuildItem( $item ) {
 		$op = array();
 		if( count( $item ) > 0 ){
-			$op = $item;
+			$op = array();
 			$op['id'] = $item[0]['id'];
 			$op['created_ts'] = $item[0]['created_ts'];
 			$op['updated_ts'] = $item[0]['updated_ts'];

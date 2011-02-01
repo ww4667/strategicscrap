@@ -99,7 +99,7 @@
 			All loads must be delivered within 3 days of deliver date unless noted otherwise</p>
 			<p><strong>Pickup/Delivery Times</strong><br />
 			Pickup times are to be between 7am-3pm facilty timezone. Delivery times are specific to receiving facility and should be coordinated by the transportaion broker.</p>
-			<p><strong>Opperations</strong><br />
+			<p><strong>Operations</strong><br />
 			Credit-checks are the responsibility of transporation brokers. Strategic Scrap is not responsible for breeched agreements.</p>
 		</div><div class="moduleBottom"><!-- IE hates empty elements --></div>
 	</div>

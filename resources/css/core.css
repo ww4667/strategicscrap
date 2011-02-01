@@ -101,6 +101,13 @@ a:active	{outline:none;}
 #marketData h3 {float:left}
 #marketData .more{float:right;margin:10px 20px 0 0;text-decoration:underline;}
 
+
+/*
+#transportRequest tr.scrapQuote:hover{color:#999;cursor:pointer;}
+*/
+
+#transportRequest tr.scrapQuote:hover{color:#F86C13;cursor:pointer;}
+
 /* ----[2. Regions]---- */
 .region h3{margin:0 0 7px 50px;}
 /* .region p{margin:0 0 13px 50px;} */
@@ -160,6 +167,11 @@ ul.regionBullets li{float:left;width:210px;}
 
 .equipListing			{padding:30px;}
 	.equipListing dl 	{margin:0;}
+
+.detail_img .clickme{background: #000;color: #FFF;display: block;left: 20px;opacity: 0.5;padding: 4px 8px;position: absolute;top: 20px;cursor:pointer;}
+.detail_img img{cursor:pointer;margin-bottom:10px}
+	
+.detail_img.equip-44{display:none;} /* hides the image for the buy equipment */
 	
 /* ----[7 Broker Dashboard]---- */
 .brokerDashboard .moduleContent h3{float:left;}

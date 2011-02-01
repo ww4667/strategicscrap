@@ -308,7 +308,7 @@ $(".scrapQuote").colorbox({ width:"550", inline:true, href:"#quoteForm",
 						$("#bid_data").html('');
 						
 						$.getJSON(
-				    	    	'/controllers/remote_controller.php',
+				    	    	'/controllers/remote',
 				    	    	{	"method":"getBidsByRequestId",
 				        	    	"session_id":"<?=session_id();?>",
 									"request_id": current_request },
@@ -364,7 +364,7 @@ $(".scrapQuote").colorbox({ width:"550", inline:true, href:"#quoteForm",
 													bid_output += bid_op;
 												}
 											}
-											console.log(bid_selected_output + bid_output);
+											// console.log(bid_selected_output + bid_output);
 											$("#bid_data").html( bid_selected_output + bid_output );
 	
 											$('.acceptButton').click(function(){
@@ -376,14 +376,15 @@ $(".scrapQuote").colorbox({ width:"550", inline:true, href:"#quoteForm",
 											$('.sureButton').click(function(){
 												var bidId = $(this).attr('bidid');
 												
+												// console.log('msg: before getJSON for: ' + bidId);
 												$.getJSON(
-										    	    	'/controllers/remote_controller.php',
+										    	    	'/controllers/remote',
 										    	    	{	"method":"acceptBid",
 										        	    	"session_id":"<?=session_id();?>",
 															"bid_id": bidId },
 														function(accept_bid_response){
-																console.log('accept_bid_response: ' + accept_bid_response);
-															if( accept_bid_response ){
+																// console.log('accept_bid_response: ' + accept_bid_response);
+															if( accept_bid_response.success == 'true' ){
 
 														    	$("#request_loading").hide();
 														    	$("#request_data").hide();

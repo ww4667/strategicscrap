@@ -17,6 +17,17 @@
 		<tbody>
 	    <?php foreach ($requests as $request) { ?>
 		<tr style="cursor:pointer;" class='request_row' onmouseover="this.style.color='#999'" onmouseout="this.style.color='#333'" onclick="location.href='<?php echo $ss_url; ?>&amp;method=request-details&amp;request_id=<?php echo $request['id']; ?>'">
+			<?php if ( empty( $request['join_scrapper'] ) ) { ?>
+	    	<td><a href="<?php echo $ss_url; ?>&amp;method=request-details&amp;request_id=<? echo $request['request']['id']; ?>">details</a></td>
+			<td><?php echo $request['scrapper']['first_name'] . ' ' . $request['scrapper']['last_name']; ?></td>
+			<td><?php echo $request['facility']['company']; ?></td>
+			<td><?php echo $request['material']['name']; ?></td>
+			<td><?php echo $request['request']['volume']; ?></td>
+			<td><?php echo $request['request']['transportation_type']; ?></td>
+			<td><?php echo (empty($request['request']['bid_count'])) ? '0' : $request['request']['bid_count'] ?></td>
+			<td><?php echo date("Y-m-d", strtotime($request['request']['expiration_date'])) ?><br /><?php echo date("H:i:s", strtotime($request['request']['expiration_date'])) ?></td>
+			<td><?php echo date("Y-m-d", strtotime($request['request']['created_ts'])) ?><br /><?php echo date("H:i:s", strtotime($request['request']['created_ts'])) ?></td>
+			<?php } else { ?>
 	    	<td><a href="<?php echo $ss_url; ?>&amp;method=request-details&amp;request_id=<? echo $request['id']; ?>">details</a></td>
 			<td><?php echo $request['join_scrapper'][0]['first_name'] . ' ' . $request['join_scrapper'][0]['last_name']; ?></td>
 			<td><?php echo $request['join_facility'][0]['company']; ?></td>
@@ -26,6 +37,7 @@
 			<td><?php echo (empty($request['bid_count'])) ? '0' : $request['bid_count'] ?></td>
 			<td><?php echo date("Y-m-d", strtotime($request['expiration_date'])) ?><br /><?php echo date("H:i:s", strtotime($request['expiration_date'])) ?></td>
 			<td><?php echo date("Y-m-d", strtotime($request['created_ts'])) ?><br /><?php echo date("H:i:s", strtotime($request['created_ts'])) ?></td>
+			<?php } ?>
 		</tr>
 		<?php } ?>
 				

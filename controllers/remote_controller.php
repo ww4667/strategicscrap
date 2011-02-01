@@ -141,6 +141,20 @@ function controller_remote( $_controller_remote_method = null,
 				$request->addScrapper( $post_data['user_id'] );
 				$request->addMaterial( $post_data['material_id'] );
 				
+				// get user, scrapper, material, request
+				$json = array();
+				$crud = new Crud();
+				$json['scrapper'] = $crud->GetItem( $post_data['user_id'] );
+				$json['facility'] = $crud->GetItem( $post_data['facility_id'] );
+				$json['material'] = $crud->GetItem( $post_data['material_id'] );
+				$json['request'] = $crud->GetItem( $r->newId );
+				
+				// assemble into json string
+				$request->request_snapshot = json_encode( $json );
+
+				// save to the request
+				$request->UpdateItem();
+				
 				print '{message:"The request was successful",success:true}';
 				
 			} else {
@@ -473,7 +487,6 @@ function controller_remote( $_controller_remote_method = null,
 					 * TODO: need to validate if this is a duplicate 
 					 */
 					
-					
 					$requestClass = new Request();
 				
 					if( isset( $post_data['join_scrapper'] ) ) $requestClass->sendBidAlert( $post_data['join_scrapper'] );
@@ -513,7 +526,11 @@ function controller_remote( $_controller_remote_method = null,
 			if ($bidId != null) {
 				$b = new Bid();
 				$bid = $b->acceptBid($bidId);
-				print $bid;
+				if ($bid) {
+					print '{"success": "true"}';
+				} else {
+					print '{"success": "false"}';
+				}
 			}
 			break;
 			

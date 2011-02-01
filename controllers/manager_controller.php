@@ -631,17 +631,26 @@ while (!$KILL) {
 			// make array of objects to useful simple array
 			$request_array = array();
 			
-			foreach ($requests as $obj) {
-				$joinObject = new Scrapper();
-				$obj->join_scrapper = $obj->ReadJoins($joinObject);
-				$joinObject = new Facility();
-				$obj->join_facility = $obj->ReadJoins($joinObject);
-				$joinObject = new Material();
-				$obj->join_material = $obj->ReadJoins($joinObject);
-				$request_array[] = (array) $obj;
+			foreach ( $requests as $obj ) {
+				if ( empty( $obj->request_snapshot ) ) {
+					$joinObject = new Scrapper();
+					$obj->join_scrapper = $obj->ReadJoins($joinObject);
+					$joinObject = new Facility();
+					$obj->join_facility = $obj->ReadJoins($joinObject);
+					$joinObject = new Material();
+					$obj->join_material = $obj->ReadJoins($joinObject);
+					$request_array[] = (array) $obj;
+				} else {
+					$obj->request_snapshot->bid_count = $obj->bid_count;
+					$request_array[] = json_decode( $obj->request_snapshot, true );
+				}
 			}
 			
 			$requests = $request_array;
+			
+//			print "<pre>";
+//			print_r($requests);
+//			print "</pre>";
 
 //			print "<pre>";
 //			print_r($requests);

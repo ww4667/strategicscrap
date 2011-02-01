@@ -281,7 +281,7 @@
       All loads must be delivered within 3 days of deliver date unless noted otherwise.</p>
       <p><strong>Pickup/Delivery Times</strong><br />
       Pickup times are to be between 7am-3pm facilty timezone. Delivery times are specific to receiving facility and should be coordinated by the transportaion broker.</p>
-      <p><strong>Opperations</strong><br />
+      <p><strong>Operations</strong><br />
       Credit-checks are the responsibility of transporation brokers. Strategic Scrap is not responsible for breeched agreements.</p>
     </div><div class="moduleBottom"><!-- IE hates empty elements --></div>
   </div>
@@ -475,7 +475,7 @@ var request_object;
 
       $("#submitQuote").click(function() {
 
-          console.log("submitQuote");
+          // console.log("submitQuote");
     	    if ( $("#transport_cost").val() != "" && 
     	       $("#material_price").val() != "" && 
     	       $("#ship_date").val() != "" && 
@@ -499,7 +499,7 @@ var request_object;
     	             notes : $("#notes").val()
     	            },
 					function(data){
-						console.log('i am back!');
+						// console.log('i am back!');
 						$("#transport_cost").val(''); 
 						$("#material_price").val(''); 
 						$("#ship_date").val(''); 

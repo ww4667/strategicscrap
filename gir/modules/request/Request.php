@@ -17,6 +17,7 @@ class Request extends Crud {
 											array("type"=>"text","label"=>"Scrapper Join","field"=>"join_scrapper"),
 											array("type"=>"text","label"=>"Facility Join","field"=>"join_facility"),
 											array("type"=>"text","label"=>"Material Join","field"=>"join_material"),
+											array("type"=>"text","label"=>"Request Snapshot","field"=>"request_snapshot"),
 											array("type"=>"number","label"=>"Locked","field"=>"locked"),
 											array("type"=>"number","label"=>"Status","field"=>"status"),
 											array("type"=>"number","label"=>"Bid Count","field"=>"bid_count"),
