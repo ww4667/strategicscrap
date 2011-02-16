@@ -140,16 +140,22 @@ require_once($_SERVER['DOCUMENT_ROOT']."/gir/index.php");
 //				"LME Tin" => getLmeData("TN","strip"),
 //				"COMEX Copper" => getComexData("HG")
 //			);
-			
-			$market_data = array(
-				"LME Copper" => array("cash" => "4.23","3 month" => "4.25","15 month" => "4.13"),
-				"LME Aluminium" => array("cash" => "1.07","3 month" => "1.09","15 month" => "1.11"),
-				"LME Nickel" => array("cash" => "11.54","3 month" => "11.69","15 month" => "11.25"),
-				"LME Zinc" => array("cash" => "1.04","3 month" => "1.05","15 month" => "1.06"),
-				"LME Lead" => array("cash" => "1.13","3 month" => "1.10","15 month" => "1.08"),
-				"LME Tin" => array("cash" => "12.15","3 month" => "12.24","15 month" => "11.88"),
-				"COMEX Copper" => array("cash" => "4.26","3 month" => "4.28","15 month" => "4.21")
-			);
+$cache_file = $_SERVER['DOCUMENT_ROOT']."/cache/static-market-data.cache";
+$feed_url = "http://strategicscrap.com/static-market-data";
+$test_market_data = get_cached_file($cache_file, 900, $feed_url);
+
+$market_data = json_decode($test_market_data,true);
+$market_data_timestamp = date("M d, Y, h:ia",filemtime($cache_file))." CST";
+
+//			$market_data = array(
+//				"LME Copper" => array("cash" => "4.23","3 month" => "4.25","15 month" => "4.13"),
+//				"LME Aluminium" => array("cash" => "1.07","3 month" => "1.09","15 month" => "1.11"),
+//				"LME Nickel" => array("cash" => "11.54","3 month" => "11.69","15 month" => "11.25"),
+//				"LME Zinc" => array("cash" => "1.04","3 month" => "1.05","15 month" => "1.06"),
+//				"LME Lead" => array("cash" => "1.13","3 month" => "1.10","15 month" => "1.08"),
+//				"LME Tin" => array("cash" => "12.15","3 month" => "12.24","15 month" => "11.88"),
+//				"COMEX Copper" => array("cash" => "4.26","3 month" => "4.28","15 month" => "4.21")
+//			);
 			
 //			if (isset($_GET['xml'])) {
 //				echo '<h2>Market Data</h2><pre>';
@@ -179,6 +185,7 @@ require_once($_SERVER['DOCUMENT_ROOT']."/gir/index.php");
 					$price->getMaterials();
 					$pricing[] = $price;
 				}
+				$pricing_timestamp = date("M d, Y, h:ia",strtotime($price->created_ts))." CST";
 //				print "<pre>";
 //				var_dump($pricing);
 //				print "</pre>";

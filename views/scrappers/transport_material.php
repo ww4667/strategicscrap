@@ -134,8 +134,8 @@ if(!$gir->auth->authenticate()){
 								    <option value="drop_deck">Drop Deck</option>
 								    <option value="step_deck">Step Deck</option>
 								    <option value="gondola_open_top">Gondola/Open Top</option>
-								    <option value="export_containers">Export Containers</option>
-								    <option value="end_dumps">End Dumps</option>
+								    <option value="export_containers">Export Container</option>
+								    <option value="end_dumps">End Dump</option>
 								</select>
 							</label>
 						</div>

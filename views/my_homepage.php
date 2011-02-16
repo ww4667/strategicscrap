@@ -7,6 +7,7 @@
 	button.acceptButton:hover{background:url(/resources/images/buttons/accept_bid_hover.png)}
 	button.sureButton:hover{background:url(/resources/images/buttons/confirm_hover.png)}
 	button.cancelButton:hover{background:url(/resources/images/buttons/cancel_hover.png)}
+	.updated-timestamp{position:relative;left:30px;top:12px;float:left}
     </style>
 
 				<div class="leftCol">
@@ -14,6 +15,7 @@
 						<div id="marketData" class="twoColMod"><div class="moduleTop"><!-- IE hates empty elements --></div>
 							<div class="moduleContent">
 								<h3>Market Data</h3>
+								<div class="updated-timestamp">Updated: <?=$market_data_timestamp?></div>
 								<div class="more">
 									<div class="refreshBtn"><a id="reloadRequestsMD">refresh</a></div>
 								</div>
@@ -48,7 +50,7 @@
 							<div class="moduleContent">
 								<h3>Regional Ferrous Pricing</h3>
 								<hr />
-								<p>All prices are shown in US dollars per gross ton(GT) or (2,240lbs) of material delivered to the consumer unless otherwise noted.</p>
+								<p style="padding-bottom:10px">Updated: <?= isset($pricing_timestamp) ? $pricing_timestamp : "demo data"?></p>
 								<table>
 									<tr class="row2">
 									    <th>SCRAP TYPE</th>
@@ -126,6 +128,7 @@
 									</tr>
 									<? } ?>
 								</table>
+								<p>All prices are shown in US dollars per gross ton(GT) or (2,240lbs) of material delivered to the consumer unless otherwise noted.</p>
 							</div><div class="moduleBottom"><!-- IE hates empty elements --></div>
 						</div>
 					</div>
@@ -257,7 +260,7 @@
 						<h3>Quick Vote</h3>
 						<hr />
 					  	<div id="scrapPoll">
-					<iframe src="https://www.surveygizmo.com/s3/iframe/373002/d272e2589f0e" frameborder="0" width="260" height="280" style="overflow:hidden" scrolling="no"></iframe>
+					<iframe src="http://www.surveygizmo.com/s3/iframe/470803/ff318625eadb" frameborder="0" width="260" height="280" style="overflow:hidden" scrolling="no"></iframe>
 					  	</div>
 					</div><div class="moduleBottom"><!-- IE hates empty elements --></div>
 					</div>

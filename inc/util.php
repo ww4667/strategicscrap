@@ -379,5 +379,33 @@ function output_file($file, $name, $mime_type='') {
 	 } else die('Error - can not open file.');
 	 
 	die();
-}	
+}
+
+/**
+ * This function will check for a cached file by it's date and update it if it's too old
+ */
+function get_cached_file($cache_file,$interval=600,$update_url){
+	$output = "";
+	if(empty($update_url))
+		return "emtpy update_url";
+	if(empty($interval))
+		return "empty interval";
+	if(empty($cache_file))
+		return "empty cache_file";
+    $last = filemtime($cache_file);
+    $now = time();
+    // check the cache file
+	if ( !$last || ( $now - $last ) > $interval ) {
+		// cached file is missing or too old, refreshing it
+		$cache_content = file_get_contents($update_url);
+        if ( $cache_content ) {
+            // we got something back
+            $cache_static = fopen($cache_file, 'wb');
+            fwrite($cache_static, $cache_content);
+            fclose($cache_static);
+        }
+	}
+    $output = file_get_contents($cache_file);
+	return $output;
+}
 ?>
