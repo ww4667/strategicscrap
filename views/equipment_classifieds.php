@@ -60,20 +60,20 @@
 	 sw.tabOneSlider = new sw.app.verticalSlider('#tabs-1', '#tab-1-pane','#tab-1-content',{overflow: "hidden", float: "left", height: "645px", width: "547px"}, {position: "relative"} );
    sw.tabTwoSlider = new sw.app.verticalSlider('#tabs-2', '#tab-2-pane','#tab-2-content',{overflow: "hidden", float: "left", height: "645px", width: "547px"}, {position: "relative"} );
 
-   $('.classifiedLink').colorbox({ width: "550", scrolling: false, inline:true, href:"#listingDescription1", 
+   $('.classifiedLink').colorbox({ width: "560", scrolling: false, inline:true, href:"#listingDescription1", 
        onComplete:function(){ var hidden_div = $( this ).attr( "ssclass" ); var html = $('#'+hidden_div).html(); $("#listingDescription1").html(html); $.colorbox.resize();
 			var stupid = 0;
-		   	$('#colorbox img.sm').click(function(){
+		   	$('#colorbox img.sm, #colorbox span.clickme').click(function(){
 				if (stupid == 1) {
 					stupid = -1;
-					$(this).animate({width:"135px"},400, function(){
+					$('#colorbox img.sm').animate({width:"135px"},400, function(){
 						$('#colorbox .clickme').html('click to zoom in');
 						$.colorbox.resize();
 						stupid = 0;
 					});
 				} else if (stupid == 0) {
 					stupid = -1;
-					$(this).animate({width:"500px"},400, function(){
+					$('#colorbox img.sm').animate({width:"500px"},400, function(){
 						$('#colorbox .clickme').html('click to zoom out');
 						$.colorbox.resize();
 						stupid = 1;

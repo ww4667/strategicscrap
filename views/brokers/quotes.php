@@ -77,8 +77,10 @@
 	        Rejected: <?= count($splitBids['rejected']) ?><br />
 	        Waiting: <?= count($splitBids['waiting']) ?><br />
 	        Expired: <?= count($splitBids['expired']) ?></p>
+<!--
 				<p><strong>Alert Status:</strong></p>
 				<p>Hourly</p>
+-->
 			</div>
 		</div><div class="moduleBottom"><!-- IE hates empty elements --></div>
 	</div>

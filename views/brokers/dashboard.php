@@ -259,8 +259,10 @@
         Waiting: <?= count($splitBids['waiting']) ?><br />
         Expired: <?= count($splitBids['expired']) ?></p>
         <p>&nbsp;</p>
+<!--
         <p><strong>Alert Status:</strong></p>
         <p>Hourly</p>
+-->
       </div>
     </div><div class="moduleBottom"><!-- IE hates empty elements --></div>
   </div>
@@ -347,14 +349,22 @@
         <input name="join_material" id="join_material" type="hidden" value="" />
 		
 		<div class="submitButton" style="clear:both;" >
-				<input type="image" id="submitQuote" alt="Submit Bid Request" name="submitQuote" src="resources/images/buttons/submit_quote.png" />
+				<input type="image" id="submitQuote" alt="Submit Bid Request" name="submitQuote" src="/resources/images/buttons/submit_quote.png" />
 		</div>
     </div>
     <div id="bidResult" style=""></div>
   </div>
 </div>
 </div>
+
 <script type="text/javascript">
+	
+	$('#submitQuote').hover(function(){ 
+	       $(this).attr('src', '/resources/images/buttons/submit_quote_hover.png'); 
+	}, function(){ 
+	       $(this).attr('src', '/resources/images/buttons/submit_quote.png'); 
+	});
+	
 var request_object;
 
   var colorboxTimeOut = 0;

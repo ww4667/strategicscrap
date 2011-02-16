@@ -8,8 +8,10 @@ h3{color: #ff6600}
 .fullCol #scroll-pane1{width:831px;height:500px}
 .fullCol #scroll-pane2{width:831px;height:485px}
 .fullCol #tabs-scrapClass .first{margin-left:20px}
-a.quote{width:22px;height:22px;display:block;background:url(/resources/images/buttons/dashboard_action.png) 66px 0px;text-indent:-5000px}
-a.quote:hover{background-position: 66px -22px;}
+a.quote{width:22px;height:22px;display:block;background:url(/resources/images/buttons/dashboard_action.png) 132px 0px;text-indent:-5000px}
+a.quote:hover{background-position: 132px -22px;}
+a.quote.ext{background-position: 110px 0px}
+a.quote.ext:hover{background-position: 110px -22px;}
 tr.details div{display:none;padding:5px 80px}
 tr.details td{padding:0}
 .fullCol .moduleContent td:first-child{font-weight:normal;}
@@ -18,6 +20,7 @@ tr.details td{padding:0}
 .facility_details{display:none; position: absolute; width: 250px; top:5px; background: #fff; padding: 10px; border: 1px solid #000; z-index: 101;}    
 .dataTables_scroll{background: #ebebeb;}
 div.infoPop{display:block;}
+.facility_details_row {background: #DDD;border: solid 2px #999}
 </style>
 
 <script type="text/javascript">
@@ -38,6 +41,45 @@ div.infoPop{display:block;}
 			$("#mapForm input:radio").click(function(item){
 				if( !addingItems && !removingItems ) updateMarkers();	
 			});
+			
+			/* Formating function for row details */
+			function fnFormatDetails ( sTable, nTr ){
+//				var aData = sw.sTable.fnGetData( nTr );
+// var sOut = nTr.childNodes[0].childNodes[1].nodeValue;
+var sOut = $(nTr).find("div.facility_details").html();
+/*
+				var sOut = '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">';
+				sOut += '<tr><td>Rendering engine:</td><td>BLAH</td></tr>';
+				sOut += '<tr><td>Link to source:</td><td>Could provide a link here</td></tr>';
+				sOut += '<tr><td>Extra info:</td><td>And any further details here (images etc)</td></tr>';
+				sOut += '</table>';
+				
+*/
+				return sOut;
+			}
+
+			/* Add event listener for opening and closing details
+			 * Note that the indicator for showing which row is open is not controlled by DataTables,
+			 * rather it is done here
+			 */
+			$('#data_table_1 tbody td a.scrapQuote.quote').live('click', function () {
+//				var nTr = this.parentNode.parentNode;
+				var nTr = $(this).parent().parent().get(0);
+                var rowId = $(nTr).attr("rowid");
+                if ($('#' + rowId).hasClass('detailTrigger')) {
+					$('#' + rowId).removeClass('detailTrigger');
+					sw.sTable.fnClose( nTr );
+					$(this).removeClass("ext");
+				} else {
+					$('.facility_details:visible').removeClass('detailTrigger');
+					$('#' + rowId).addClass('detailTrigger');
+					sw.sTable.fnOpen( nTr, fnFormatDetails( sw.sTable, nTr ), 'details' );
+//					var trClass = $(nTr).attr("class");
+					$(nTr).next().addClass("facility_details_row");
+					$(this).addClass("ext");
+				}
+				sw.quoteManagerSlider = new sw.app.verticalSlider('#tab1', '.dataTables_scrollBody','#data_table_1',{overflow: "hidden", float: "left", width: "814px"}, {position: "relative"} );
+			} );
 	});
 </script>
 
@@ -365,6 +407,7 @@ function updatePageData( json ){
   sw.quoteManagerSlider = new sw.app.verticalSlider('#tab1', '.dataTables_scrollBody','#data_table_1',{overflow: "hidden", float: "left", width: "814px"}, {position: "relative"} );
    
 	//$('.scrapRow').css({width: "810px", display: "block"});
+/*
 	$('.scrapRow').click(function(){
 		 var rowId = $(this).attr("rowId");
 		 if($('#' + rowId).hasClass('infoPop')){
@@ -374,6 +417,7 @@ function updatePageData( json ){
        $('#' + rowId).addClass('infoPop');
      }
 	});
+*/
 
 	addTransportFormEvent();
 }

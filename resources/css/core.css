@@ -1,5 +1,6 @@
 /* ---- [ Global Definitions and Resets ] ---- */
-body{padding:0;margin:0;font-family:Arial,Helvetica,sans-serif;font-size:12px;background:#ebebeb url(../images/bg/site.png) repeat-x;}
+/* body{padding:0;margin:0;font-family:Arial,Helvetica,sans-serif;font-size:12px;background:#ebebeb url(../images/bg/site.png) repeat-x;} */
+body{padding:0;margin:0;font-family:Arial,Helvetica,sans-serif;font-size:12px;background:#000;}
 img {border:0 none;}
 li, p, h1, h2, h3, h4, h5, form {border:0 none;margin:0;padding:0;}
 /* ul, ol{border:0 none;margin:0 0 0 20px;padding:0; .margin-left: 35px;} */
@@ -123,7 +124,7 @@ ul.regionBullets li{float:left;width:210px;}
 
 #map-container				{padding:40px 0 0 50px}
 #map-image					{width:462px;height:287px;}
-#map-image.default			{background:url(../images/region_map.png)no-repeat;}
+#map-image.default_map			{background:url(../images/region_map.png) no-repeat;}
 #map-image.west-map			{background:url(../images/region_map_rollover.png) no-repeat center 0;}
 #map-image.midwest-map		{background:url(../images/region_map_rollover.png) no-repeat center -1144px;}
 #map-image.south-map		{background:url(../images/region_map_rollover.png) no-repeat center -286px;}

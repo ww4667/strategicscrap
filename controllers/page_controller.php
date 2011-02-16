@@ -242,7 +242,11 @@ require_once($_SERVER['DOCUMENT_ROOT']."/gir/index.php");
 	//			$auth->setApplication('strategicscrap');
 	//			$auth->setUserGroup('scrapper');
 				// page 'template variables'
-				$PAGE_BODY = "views/scrappers/scrap_exchange_new.php";  	/* which file to pull into the template */
+//				if($_GET['fix']) {
+//				} else {
+//				}
+//					$PAGE_BODY = "views/scrappers/scrap_exchange_new.php";  	/* which file to pull into the template */
+				$PAGE_BODY = "views/scrappers/scrap_exchange_fix.php";  	/* which file to pull into the template */
 				$f = new Facility();
 				$facilities = $f->GetAllItemsObj();
 				$m = new Material();
@@ -621,7 +625,7 @@ require_once($_SERVER['DOCUMENT_ROOT']."/gir/index.php");
 				$u = new User();
 				if ( $u->Logout() ) {
 					$error_messages[] = "You have been logged out successfully.";
-					flash($error_messages);
+//					flash($error_messages);
 				}
 			}
 			redirect_to('/');

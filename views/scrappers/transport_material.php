@@ -68,7 +68,7 @@ if(!$gir->auth->authenticate()){
 							<?php }?>
 							<strong>City:</strong> <?=isset($user['city']) ? $user['city'] : ''?><br />
 							<strong>State:</strong> <?=$user['state_province'] ? $user['state_province'] : ''?><br />
-							<strong>Zip Code:</strong> <?=isset( $user['zip_postal_code'] ) ? $user['zip_postal_code'] : ''?><br />
+							<strong>Zip Code:</strong> <?=isset( $user['postal_code'] ) ? $user['postal_code'] : ''?><br />
 							<hr />
 							<strong>Phone:</strong> <?=$user['work_phone'] ? $user['work_phone'] : ''?><br />
 							<strong>Fax:</strong> <?=$user['fax_number'] ? $user['fax_number'] : ''?><br />
@@ -160,6 +160,12 @@ if(!$gir->auth->authenticate()){
 				
   				<script type="text/javascript">
   				$(function() {
+					
+					$('#submitRequest').hover(function(){ 
+					       $(this).attr('src', '/resources/images/buttons/submit_bid_hover.png'); 
+					}, function(){ 
+					       $(this).attr('src', '/resources/images/buttons/submit_bid.png'); 
+					});
 	  			  				
   					$('.date-pick')
   					.datePicker({createButton:false})

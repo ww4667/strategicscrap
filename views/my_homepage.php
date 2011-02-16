@@ -1,6 +1,12 @@
 					
     <style type="text/css">
     .dataTables_scroll{background: #ebebeb;}
+	button.acceptButton{background:url(/resources/images/buttons/accept_bid.png);width:130px;height:32px;text-indent:-5000px;border:none;}
+	button.sureButton{background:url(/resources/images/buttons/confirm.png);width:130px;height:32px;text-indent:-5000px;border:none;}
+	button.cancelButton{background:url(/resources/images/buttons/cancel.png);width:130px;height:32px;text-indent:-5000px;border:none;margin-top:5px}
+	button.acceptButton:hover{background:url(/resources/images/buttons/accept_bid_hover.png)}
+	button.sureButton:hover{background:url(/resources/images/buttons/confirm_hover.png)}
+	button.cancelButton:hover{background:url(/resources/images/buttons/cancel_hover.png)}
     </style>
 
 				<div class="leftCol">
@@ -251,7 +257,7 @@
 						<h3>Quick Vote</h3>
 						<hr />
 					  	<div id="scrapPoll">
-					<iframe src="https://www.surveygizmo.com/s3/iframe/373002/c8fa27b63ff8" frameborder="0" width="260" height="280" style="overflow:hidden" scrolling="no"></iframe>
+					<iframe src="https://www.surveygizmo.com/s3/iframe/373002/d272e2589f0e" frameborder="0" width="260" height="280" style="overflow:hidden" scrolling="no"></iframe>
 					  	</div>
 					</div><div class="moduleBottom"><!-- IE hates empty elements --></div>
 					</div>
@@ -351,7 +357,7 @@ $(".scrapQuote").colorbox({ width:"550", inline:true, href:"#quoteForm",
 															'		<strong>Notes:</strong>'+notes+' <br />'+
 															'	</div>' + 
 															( get_requests_data.status < 2 ? 
-																'	<div style="float:left;width:100px;" id="bidButtons_'+bid_id+'" >' + 
+																'	<div style="float:left;width:140px;" id="bidButtons_'+bid_id+'" >' + 
 																'		<button type="button" class="acceptButton" id="accept_'+bid_id+'" bidid='+bid_id+' >Accept this Bid</button>' + 
 																'		<button type="button" class="sureButton" id="sure_'+bid_id+'" bidid='+bid_id+' >Click to Accept</button>' + 
 																'		<button type="button" class="cancelButton" id="cancel_'+bid_id+'" bidid='+bid_id+' >Click to Cancel</button>' + 

@@ -1,5 +1,5 @@
 <div id="map-container" style="background:url(/resources/images/region_map_rollover.png) no-repeat -10000px 0">
-	<div id="map-image" class="default">
+	<div id="map-image" class="default_map">
 		<img src="resources/images/shim.png" width="462" height="287" alt="Map" usemap="#regionmap" />
 	</div>
 	<map name="regionmap">
