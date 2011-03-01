@@ -80,7 +80,6 @@ class Scrapper extends User {
 	}
 	
 	public function getScrappersByUserId( $userId ) {
-		// get facilities by materialId and join type "material_join"
 		$u = new User();
 		$user = $u->GetItemObj( $userId );
 		if($user){
@@ -88,6 +87,18 @@ class Scrapper extends User {
 			return $items;
 		} else {
 			return array();
+		}
+	}
+	
+	public function getScrapperByUserId( $userId ) {
+		$u = new User();
+		$user = $u->GetItemObj( $userId );
+		if($user){
+			$items = $this->ReadForeignJoins( $user );
+			$obj = $this->GetItemObj( $items[0]['id'] );
+			return $obj;
+		} else {
+			return false;
 		}
 	}
 	
@@ -127,6 +138,12 @@ class Scrapper extends User {
 		}
 		
 		return $requestReturnArray;
+	}
+	
+	public function isAddressSet() {
+		if ( empty($this->address_1) || empty($this->city) || empty($this->state_province) || empty($this->postal_code) )
+			return false;
+		return true;
 	}
     
 	/*

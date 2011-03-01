@@ -9,17 +9,17 @@ h3{color: #ff6600}
 .fullCol #scroll-pane2{width:831px;height:485px}
 .fullCol #tabs-scrapClass .first{margin-left:20px}
 a.quote{width:22px;height:22px;display:block;background:url(/resources/images/buttons/dashboard_action.png) 132px 0px;text-indent:-5000px}
-a.quote:hover{background-position: 132px -22px;}
+a.quote:hover{background-position: 132px -22px}
 a.quote.ext{background-position: 110px 0px}
-a.quote.ext:hover{background-position: 110px -22px;}
+a.quote.ext:hover{background-position: 110px -22px}
 tr.details div{display:none;padding:5px 80px}
 tr.details td{padding:0}
-.fullCol .moduleContent td:first-child{font-weight:normal;}
+.fullCol .moduleContent td:first-child{font-weight:normal}
 #map_container{width:auto; height: 480px; margin:10px}
-#geo_progress{background-color:#ff6600;}
-.facility_details{display:none; position: absolute; width: 250px; top:5px; background: #fff; padding: 10px; border: 1px solid #000; z-index: 101;}    
-.dataTables_scroll{background: #ebebeb;}
-div.infoPop{display:block;}
+#geo_progress{background-color:#ff6600}
+.facility_details{display:none; position: absolute; width: 250px; top:5px; background: #fff; padding: 10px; border: 1px solid #000; z-index: 101}    
+.dataTables_scroll{background: #ebebeb}
+div.infoPop{display:block}
 .facility_details_row {background: #DDD;border: solid 2px #999}
 </style>
 

@@ -260,7 +260,7 @@
 						<h3>Quick Vote</h3>
 						<hr />
 					  	<div id="scrapPoll">
-					<iframe src="http://www.surveygizmo.com/s3/iframe/470803/ff318625eadb" frameborder="0" width="260" height="280" style="overflow:hidden" scrolling="no"></iframe>
+					<iframe src="/poll" frameborder="0" width="260" height="280" style="overflow:hidden" scrolling="no"></iframe>
 					  	</div>
 					</div><div class="moduleBottom"><!-- IE hates empty elements --></div>
 					</div>

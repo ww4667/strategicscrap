@@ -12,12 +12,12 @@ a.quote{width:22px;height:22px;display:block;background:url(/resources/images/bu
 a.quote:hover{background-position: 66px -22px;}
 tr.details div{display:none;padding:5px 80px}
 tr.details td{padding:0}
-.fullCol .moduleContent td:first-child{font-weight:normal;}
+.fullCol .moduleContent td:first-child{font-weight:normal}
 #map_container{width:auto; height: 480px; margin:10px}
-#geo_progress{background-color:#ff6600;}
-.facility_details{display:none; position: absolute; width: 250px; top:5px; background: #fff; padding: 10px; border: 1px solid #000; z-index: 101;}    
-.dataTables_scroll{background: #ebebeb;}
-div.infoPop{display:block;}
+#geo_progress{background-color:#ff6600}
+.facility_details{display:none; position: absolute; width: 250px; top:5px; background: #fff; padding: 10px; border: 1px solid #000; z-index: 101}    
+.dataTables_scroll{background: #ebebeb}
+div.infoPop{display:block}
 </style>
 
 <script type="text/javascript">

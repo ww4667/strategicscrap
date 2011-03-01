@@ -617,7 +617,7 @@ function controller_remote( $_controller_remote_method = null,
 						$output = "";
 						$off = false;
 						foreach( $bidReturnArray as $bid ){
-							$output .= 	'<tr class="scrapBid" requestId="' . $bid->id . '">' . 
+							$output .= 	'<tr class="scrapBid" bidId="' . $bid->id . '">' . 
 										"	<td>" .
 										( !empty( $bid->status ) ? $bid->status : 'waiting' ) . '<br />'  .
 										"	</td>" .
@@ -625,20 +625,23 @@ function controller_remote( $_controller_remote_method = null,
 										( 	!empty( $bid->join_facility ) && 
 											count( $bid->join_facility ) > 0 ?
 												'<strong>Ship from:</strong> ' . ( isset($bid->join_facility[0] ) && isset( $bid->join_facility[0]['company'] ) ? $bid->join_facility[0]['company'] : 'no company name' ) . '<br>' : 
-												'<strong>Ship from:</strong><br>' ) . 
+												'<strong>Ship from:</strong><br />' ) . 
 										( 	$bid->join_scrapper && 
 											$bid->join_scrapper != '' && 
 											count( $bid->join_scrapper ) > 0 ?
 												'<strong>Ship to:</strong> ' . ( isset($bid->join_scrapper[0] ) && isset( $bid->join_scrapper[0]['company'] ) ? $bid->join_scrapper[0]['company'] : 'no company name' ) . '<br>' : 
-												'<strong>Ship to:</strong><br>' ) . 
+												'<strong>Ship to:</strong><br />' ) . 
 										( 	$bid->join_material && 
 											$bid->join_material != '' && 
 											count( $bid->join_material ) > 0 ?
 												'<strong>Material:</strong> ' . ( isset($bid->join_material[0] ) && isset( $bid->join_material[0]['name'] ) ? $bid->join_material[0]['name'] : 'material name' ) . '<br>' : 
-												'<strong>Material:</strong><br>' ) . 
-										'<strong>Volume: </strong>' . ( !empty( $bid->volume ) ? $bid->volume : '0' ) . '<br />' .
+												'<strong>Material:</strong><br />' ) . 
+										( 	!empty( $bid->join_request ) && 
+											count( $bid->join_request ) > 0 ?										
+										'<strong>Volume: </strong>' . ( isset( $bid->join_request[0] ) && isset( $bid->join_request[0]['volume'] ) ? $bid->join_request[0]['volume'] : '0' ) . '<br />' :
+										'<strong>Volume: </strong><br />' ) .
 										'<strong>Ship Date: </strong>' . ( !empty( $bid->ship_date ) ? date ( 'Y-m-d', strtotime($bid->ship_date) ) : 'not set' ) . '<br />' .
-										'<strong>Arrival Date: </strong>' . ( !empty( $bid->arrive_date ) ? date ( 'Y-m-d', strtotime($bid->arrive_date) ) : 'not set' ) . '<br />' .
+										'<strong>Arrival Date: </strong>' . ( !empty( $bid->arrival_date ) ? date ( 'Y-m-d', strtotime($bid->arrival_date) ) : 'not set' ) . '<br />' .
 										"	</td>" .
 										"	<td>" .
 										date ( 'Y-m-d', strtotime($bid->created_ts) ) . '<br />' .
@@ -659,12 +662,15 @@ function controller_remote( $_controller_remote_method = null,
                   $off = false;
                   $dttmp = array();
                   $dttmp["aaData"] = array();
+                  $dttmp["bid_object"] = array();
+                  $outputArray = array();
                   for($i = 0 ; $i < $count; $i++ ){
                   	
                         $bid = $bidReturnArray[$i];
-                        
+                        $outputArray[] = $bid;
+						
                         $status_array = $temp_bid->getStatusArray();
-                        $status = ( !empty($bid->status) ? $status_array[ $bid->status ] : $status_array[0] );
+                        $status = '<span bidId="' . $bid->id  . '" bidCount="'.$i.'" >' . ( !empty($bid->status) ? $status_array[ $bid->status ] : $status_array[0] ) . '</span>';
                         
                         $description = (   !empty( $bid->join_facility ) && 
                                 count( $bid->join_facility ) > 0 ?
@@ -680,9 +686,13 @@ function controller_remote( $_controller_remote_method = null,
                                 count( $bid->join_material ) > 0 ?
                                   '<strong>Material:</strong> ' . ( isset($bid->join_material[0] ) && isset( $bid->join_material[0]['name'] ) ? $bid->join_material[0]['name'] : 'material name' ) . '<br>' : 
                                   '<strong>Material:</strong><br>' ) . 
-                              '<strong>Volume: </strong>' . ( !empty( $bid->volume ) ? $bid->volume : '0' ) . '<br />' .
-                              '<strong>Ship Date: </strong>' . ( !empty( $bid->ship_date ) ? $bid->ship_date : 'not set' ) . '<br />' .
-                              '<strong>Arrival Date: </strong>' . ( !empty( $bid->arrive_date ) ? $bid->arrive_date : 'not set' ) . '<br />';
+							( 	!empty( $bid->join_request ) && 
+								count( $bid->join_request ) > 0 ?										
+							'<strong>Volume: </strong>' . ( isset( $bid->join_request[0] ) && isset( $bid->join_request[0]['volume'] ) ? $bid->join_request[0]['volume'] : '0' ) . '<br />' :
+							'<strong>Volume: </strong><br />' ) .
+                              '<strong>Transport Cost: </strong>' . ( !empty( $bid->transport_cost ) ? '$' . $bid->transport_cost : 'not set' ) . '<br />' .
+                              '<strong>Ship Date: </strong>' . ( !empty( $bid->ship_date ) ? date ( 'Y-m-d', strtotime($bid->ship_date) ) : 'not set' ) . 
+                              '&nbsp;&nbsp;<strong>Arrival Date: </strong>' . ( !empty( $bid->arrival_date ) ? date ( 'Y-m-d', strtotime($bid->arrival_date) ) : 'not set' ) . '<br />';
                          
                         $created = $bid->created_ts;
                         $ttemp = array();
@@ -692,7 +702,7 @@ function controller_remote( $_controller_remote_method = null,
                         $dttmp["aaData"][] = $ttemp;
                     
                   }
-                  
+                 $dttmp["bid_object"][] = $outputArray;
                  $theJson =  json_encode( $dttmp );
                  $testJson = '{["aaData": ["col1", "col2", "col3"],["col1", "col2", "col3"]]}';
            print $theJson;

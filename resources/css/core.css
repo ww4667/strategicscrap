@@ -49,8 +49,12 @@ a:active	{outline:none;}
 					#header_sign_in input.password.focus{background:url(/resources/images/bg/sign_in_bg.gif) no-repeat 1000px -19px}
 					#header_sign_in input.submit{width:70px;margin:0;padding:0;position:relative;top:5px}
 		.pageBody{width:846px;min-height:300px;margin:0 auto;position:relative;z-index:3;padding:15px 15px 0;background:url(../images/bg/content_area.png) no-repeat;}
+/*
 			#flash_panel{background:#CCC;border:#999 2px solid;border-top:none;margin:0 10px;top:-20px;position:relative;}
 			#flash_panel ul{margin:0;padding:10px 30px 10px 40px}
+*/
+			#flash_panel{background:#FED;border:solid 3px #F96C14;padding:10px 20px;color:#F96C14;font-weight:bold;margin-bottom:20px}
+			#flash_panel ul{margin:0 0 0 20px}
 			.mainCol{}
 			 /* .mainCol p{padding:20px 35px;} */
 				.mainCol p{padding:10px 35px;}
@@ -199,3 +203,5 @@ ul.regionBullets li{float:left;width:210px;}
 #recentRequests .moduleContent{width:558px}
 #recentResponses .moduleContent table{width:558px}
 #recentRequests .moduleContent table{width:558px}
+
+.brokerDashboard tr.quoteDetails:hover{color:#F86C13;cursor:pointer;}

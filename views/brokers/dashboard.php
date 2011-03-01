@@ -122,6 +122,109 @@
         $("#bid_request_preferred_transporation").html( item['transportation_type'] );
         
       }
+	  
+      function loadBidDetails(  ){
+
+         $("#quoteDetails").show();
+        var item = bid_object[ current_bid ]; 
+        
+        var scrapperData = "", facilityData = "";
+          
+        if( item['join_scrapper'] && item['join_scrapper'][0] ){ 
+          $("#join_scrapper").val( item['join_scrapper'][0]['id'] );
+        } 
+
+        if( item['join_scrapper'] && item['join_scrapper'][0]['company'] ){ 
+            scrapperData += item['join_scrapper'][0]['company'] + '<br />';
+        } 
+        
+        if( item['join_scrapper'] && item['join_scrapper'][0]['address_1'] ){ 
+            scrapperData += item['join_scrapper'][0]['address_1'] + '<br />';
+        } 
+        
+        if( item['join_scrapper'] && item['join_scrapper'][0]['address_2'] ){ 
+            scrapperData += item['join_scrapper'][0]['address_2'] + '<br />';
+        } 
+        
+        if( item['join_scrapper'] && item['join_scrapper'][0]['city'] ){ 
+            scrapperData += item['join_scrapper'][0]['city'] + ', ';
+        } 
+        
+        if( item['join_scrapper'] && item['join_scrapper'][0]['state_province'] ){ 
+            scrapperData += item['join_scrapper'][0]['state_province'] + ' ';
+        } 
+        
+        if( item['join_scrapper'] && item['join_scrapper'][0]['zip_postal_code'] ){ 
+            scrapperData += item['join_scrapper'][0]['zip_postal_code'] + ' ';
+        } 
+
+        if( scrapperData.length > 0 ){
+          $("#bid_request_ship_from").html( scrapperData );
+        } else {
+          alert("This bid cannot happen because there is no Scrapper.");
+        }
+
+
+        if( item['id'] ) 
+          $("#join_request").val(item['id']);
+        
+
+        if( item['join_facility'] && item['join_facility'][0] ) 
+          $("#join_facility").val( item['join_facility'][0]['id'] );
+        
+
+        if( item['join_facility'] && item['join_facility'][0]['company'] )
+          facilityData += item['join_facility'][0]['company'] + '<br />';
+        
+        
+        if( item['join_facility'] && item['join_facility'][0]['address_1'] )
+          facilityData += item['join_facility'][0]['address_1'] + '<br />';
+        
+        
+        if( item['join_facility'] && item['join_facility'][0]['address_2'] )
+          facilityData += item['join_facility'][0]['address_2'] + '<br />';
+        
+        
+        if( item['join_facility'] && item['join_facility'][0]['city'] )
+          facilityData += item['join_facility'][0]['city'] + ', ';
+        
+        
+        if( item['join_facility'] && item['join_facility'][0]['state_province'] )
+          facilityData += item['join_facility'][0]['state_province'] + ' ';
+        
+        
+        if( item['join_facility'] && item['join_facility'][0]['zip_postal_code'] )
+          facilityData += item['join_facility'][0]['zip_postal_code'] + ' ';
+        
+
+        if( facilityData.length > 0 ){
+          $("#bid_request_ship_to").html( facilityData );
+        } else {
+          alert("This bid cannot happen because there is no Facility.");
+        }
+
+        if( item['join_material'] && item['join_material'][0] ){
+          $("#bid_request_material").html( item['join_material'][0]['name'] );
+          $("#join_material").val( item['join_material'][0]['id'] );
+        } else {
+          alert("This bid cannot happen because there is no Material.");
+        }
+
+        $("#bid_request_quantity").html( item['join_request'][0]['volume'] );
+        $("#bid_request_ship_date").html( item['ship_date'] );
+        $("#bid_request_delivery_date").html( item['arrival_date'] );
+        $("#bid_request_preferred_transporation").html( item['join_request'][0]['transportation_type'] );
+        $("#bid_request_transporation_cost").html( "$" + item['transport_cost'] );
+        $("#bid_request_special_instructions").html( item['join_request'][0]['special_instructions'] );
+        $("#bid_request_broker_notes").html( item['notes'] );
+        $("#bid_request_scrapper_name").html( item['join_scrapper'][0]['first_name'] + " " + item['join_scrapper'][0]['last_name'] );
+        $("#bid_request_scrapper_phone").html( item['join_scrapper'][0]['work_phone'] );
+		
+		        if( item['join_scrapper'] && item['join_scrapper'][0]['zip_postal_code'] ){ 
+            scrapperData += item['join_scrapper'][0]['zip_postal_code'] + ' ';
+        } 
+        
+      }
       
       $(document).ready(function(){
         $("#bidResult").hide();
@@ -147,9 +250,11 @@
       
         <h3>QUOTE MANAGER</h3>
         <div class="more">
-        	<a id="reloadQuotes">refresh</a>&nbsp;
-        	<a href="[~27~]">advanced</a>
+			<div class="refreshBtn"><a id="reloadRequestsMD">refresh</a></div>
         </div>
+	      <div class="more">
+	         <a href="[~27~]">advanced</a>
+	      </div>
         <hr />
         <div class="filter">
           <div><input type="checkbox" name="filter_accepted" checked="checked" value="accepted" /> accepted</div>
@@ -203,8 +308,10 @@
     <div class="moduleContent clearfix">
         <h3>Recent Requests</h3>
       <div class="more">
-        <a id="reloadRequests">refresh</a>&nbsp;
-      	<a href="[~22~]">advanced</a>
+		<div class="refreshBtn"><a id="reloadRequestsMD">refresh</a></div>
+      </div>
+      <div class="more">
+         <a href="[~22~]">advanced</a>
       </div>
       <hr />
       <table id="data_table_2" style = "width: 559px;" >
@@ -337,13 +444,13 @@
 			<div style="color: #000;clear:both;margin:3px 0;display:block;height: 20px;">
 				<div style="width:200px;float:left;font-weight: 900;">Additional Notes:</div>
 				<label style="color:#000;float:left;font-weight:0;"><textarea id="notes" name="notes" style="width:200px;"></textarea></label></div>
-		
+
 		</fieldset>
-		
+
         <input name="join_broker" id="join_broker" type="hidden" value="<?=$_SESSION['user']['id']?>" />
         <input name="join_transportation_type" id="join_transportation_type" type="hidden" value="" />
         <input name="join_request" id="join_request" type="hidden" value="" />
-        
+
         <input name="join_scrapper" id="join_scrapper" type="hidden" value="" />
         <input name="join_facility" id="join_facility" type="hidden" value="" />
         <input name="join_material" id="join_material" type="hidden" value="" />
@@ -354,6 +461,39 @@
     </div>
     <div id="bidResult" style=""></div>
   </div>
+	<div id="quoteDetails" style="padding:20px; background:#fff;">
+      <h2>QUOTE DETAILS</h2>
+      <hr />
+		<div style="float: left; margin: 3px 0; padding: 5px; background:#ccc;width:490px;font-size:11px;">
+			<div style="width: 220px; float: left; margin: 3px;">
+				<strong>Ship From:</strong><br>
+				<div style="padding: 10px;" id="bid_request_ship_from">
+					<!-- empty -->
+				</div>
+			</div>
+			<div style="width: 220px; float: left; margin: 3px;">
+				<strong>Ship To:</strong><br>
+				<div style="padding: 10px;" id="bid_request_ship_to">
+					<!-- empty -->
+				</div>
+			</div>
+		</div>
+
+		<div style="float: left; margin: 3px 0; padding: 5px; background:#ccc;width:490px;font-size:11px;">
+			<strong>Material:</strong> <span id="bid_request_material">No. 1 Machinery Cast</span><br />
+			<strong>Volume in Tons:</strong> <span id="bid_request_quantity">550</span><br />
+			<strong>Ship Date:</strong> <span id="bid_request_ship_date">05/13/2010</span><br />
+			<strong>Delivery Date:</strong> <span id="bid_request_delivery_date">05/13/2010</span><br /><br />
+			<strong>Preferred Transporation Type:</strong> <span id="bid_request_preferred_transporation">Flat Bed</span><br />
+			<strong>Transporation Cost:</strong> <span id="bid_request_transporation_cost">$1000</span><br /><br />
+			<strong>Instructions:</strong> <span id="bid_request_special_instructions">none</span><br />
+			<strong>Broker Notes:</strong> <span id="bid_request_broker_notes">none</span><br /><br />
+			<strong>Contact Name:</strong> <span id="bid_request_scrapper_name">name</span><br />
+			<strong>Contact Phone:</strong> <span id="bid_request_scrapper_phone">phone</span><br />
+		</div>
+
+		<div style="clear:both"><!-- empty --></div>
+	</div>
 </div>
 </div>
 
@@ -366,6 +506,7 @@
 	});
 	
 var request_object;
+var bid_object;
 
   var colorboxTimeOut = 0;
   
@@ -384,8 +525,9 @@ var request_object;
 
 	function reloadQuotesTable(){
 
-        qTable.fnReloadAjax("/controllers/remote/?type=data_tables&method=getBids&uid=<?= $_SESSION['user']['id']  ?>", function(){
-          
+        qTable.fnReloadAjax("/controllers/remote/?type=data_tables&method=getBids&uid=<?= $_SESSION['user']['id']  ?>", function(json){
+			
+          bid_object = json.bid_object[0];
           sw.quoteManagerSlider = new sw.app.verticalSlider('#recentResponses', '.dataTables_scrollBody','#data_table_1',{overflow: "hidden", float: "left", width: "541px"}, {position: "relative"} );
           
         });
@@ -395,6 +537,13 @@ var request_object;
     $(".scrapQuote").colorbox({ width:"550", inline:true, href:"#quoteForm", 
         onClosed:function(){clearTimeout(colorboxTimeOut);}, 
       onComplete:function(){ current_request = $( this ).attr( "requestCount" ); loadBidForm(); $.colorbox.resize();  } 
+    });
+  }
+  
+  function activateQuoteDetails(){
+    $(".quoteDetails").colorbox({ width:"550", inline:true, href:"#quoteDetails", 
+        onClosed:function(){clearTimeout(colorboxTimeOut);}, 
+      onComplete:function(){ current_bid = $( this ).attr( "bidCount" ); loadBidDetails(); $.colorbox.resize();  } 
     });
   }
   
@@ -443,17 +592,36 @@ var request_object;
       
       });
       
-      qTable = $('#data_table_1').dataTable( {
-        "sScrollY": "200px",
-        "bPaginate": false,
-        "bFilter": false,
-        "bInfo": false,
-        "sAjaxSource": "/controllers/remote/?type=data_tables&method=getBids&uid=<?= $_SESSION['user']['id']  ?>",
-        "fnInitComplete": function() {
-          sw.quoteManagerSlider = new sw.app.verticalSlider('#recentResponses', '.dataTables_scrollBody','#data_table_1',{overflow: "hidden", float: "left", width: "541px"}, {position: "relative"} );
- 
-        }
-      });
+      $.ajax( {
+        "dataType": 'json', 
+        "type": "GET", 
+        "url": "/controllers/remote/?type=data_tables&method=getBids&uid=<?= $_SESSION['user']['id']  ?>", 
+        "success": function (json) {
+          bid_object = json.bid_object[0];
+          qTable = $('#data_table_1').dataTable({
+            "aaData": json.aaData,
+            "sScrollY": "200px",
+              "bPaginate": false,
+              "bFilter": false,
+              "bInfo": false ,
+	          "aoColumns": [
+	              {"sWidth": "80px"} ,
+	              {"sWidth": "350px"},
+	              {"sWidth": "120px"}
+              ],
+              "fnRowCallback": function( nRow, aData, iDisplayIndex ) {
+					$(nRow).addClass('quoteDetails');
+					$(nRow).attr('bidId', $(aData[0]).attr("bidId") );
+                    $(nRow).attr('bidCount', $(aData[0]).attr("bidCount") );
+					return nRow;
+                },
+              "fnInitComplete": function() {
+					activateQuoteDetails();
+		          sw.quoteManagerSlider = new sw.app.verticalSlider('#recentResponses', '.dataTables_scrollBody','#data_table_1',{overflow: "hidden", float: "left", width: "541px"}, {position: "relative"} );
+                }
+            });
+          }
+        });
       
       $.ajax( {
         "dataType": 'json', 
@@ -492,8 +660,8 @@ var request_object;
     	       $("#arrival_date").val() != "" && 
     	       $("#join_scrapper").val() != "" && 
     	       $("#join_facility").val() != "" && 
-    	       $("#join_material").val() != "" && 
-    	       $("#notes").val() != "" ) {
+    	       $("#join_material").val() != "" ) { 
+    	       // $("#notes").val() != "" ) {
 
     	        $.post("/controllers/remote/?method=addBid", 
     	            {transport_cost : $("#transport_cost").val(),

@@ -184,9 +184,9 @@
         "bInfo": true,
         "bAutoWidth": false,
         "aoColumns": [
-                      {"sWidth": "124px"} ,
-                      {"sWidth": "191px"},
-                      {"sWidth": "183px"}
+                      {"sWidth": "80px"} ,
+                      {"sWidth": "350px"},
+                      {"sWidth": "120px"}
                       ],
         "aaSorting": [ [0,'asc'] ],
         "fnInfoCallback": function( oSettings, iStart, iEnd, iMax, iTotal, sPre ) {
@@ -195,6 +195,11 @@
           $("#data_table_1_filter").append(info); 
           },
         "sAjaxSource": "/controllers/remote/?type=data_tables&method=getBids&uid=<?= $_SESSION['user']['id']  ?>",
+		"fnRowCallback": function( nRow, aData, iDisplayIndex ) {
+			$(nRow).addClass('quoteDetails');
+			$(nRow).attr('bidId', $(aData[0]).attr("bidId") );
+			return nRow;
+		},
         "fnInitComplete": function() {
         $(".dataTables_scrollHead").css({width: "559px"});
           sw.quoteManagerSlider = new sw.app.verticalSlider('#recentResponses', '.dataTables_scrollBody','#data_table_1',{overflow: "hidden", float: "left", width: "541px"}, {position: "relative"} );

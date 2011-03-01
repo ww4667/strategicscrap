@@ -15,12 +15,11 @@ require_once($_SERVER['DOCUMENT_ROOT']."/gir/index.php");
 		/* HOMEPAGE FOR SCRAPPERS **************************************** */
 		case 'my-homepage':
 			require_ssl();
-			
-			// page 'template variables'
-			$PAGE_BODY = "views/my_homepage.php";  	/* which file to pull into the template */
-			
-			$content = "my homepage poop";
-			
+			if(!$gir->auth->authenticate()){
+				$PAGE_BODY = "views/scrappers/my_homepages_demo.php";  	/* which file to pull into the template */
+			} else {			
+				// page 'template variables'
+				$PAGE_BODY = "views/my_homepage.php";  	/* which file to pull into the template */
 	/*
 	 * 
 	 * symbols being used
@@ -200,9 +199,9 @@ $market_data_timestamp = date("M d, Y, h:ia",filemtime($cache_file))." CST";
 			$xml = simplexml_load_file($request_url) or die("feed not loading");
 			$weather = $xml->xpath('//weather');
 			$weather = $weather[0];
-			
-			//the layout file  -  THIS PART NEEDS TO BE LAST
-			require($_SERVER['DOCUMENT_ROOT']."/views/layouts/shell.php");
+		} // end else statement for auth
+		//the layout file  -  THIS PART NEEDS TO BE LAST
+		require($_SERVER['DOCUMENT_ROOT']."/views/layouts/shell.php");
 //			die();
 		break;
 		
@@ -239,13 +238,17 @@ $market_data_timestamp = date("M d, Y, h:ia",filemtime($cache_file))." CST";
 		case 'scrap-exchange':
 			require_ssl();
 			if(!$gir->auth->authenticate()){
-				$message = array();
-				$message[] = "You are not logged in. Please login or register to use this feature.";
-				flash($message,'bad');
+				$PAGE_BODY = "views/scrappers/scrap_exchange_demo.php";  	/* which file to pull into the template */
+//				$message = array();
+//				$message[] = "You are not logged in. Please login or register to use this feature.";
+//				flash($message,'bad');
 //				$url = "/scrap-exchange";
 //				redirect_to($url);
-				print "<p>You are not logged in. Please login or register to use this feature.</p>";
+//				print "<p>You are not logged in. Please login or register to use this feature.</p>";
 			} else {
+				if ( isset($_SESSION['user']['new']) ) { // zip and address check to use system
+					redirect_to('/my-account');
+				}
 	//			$auth->setApplication('strategicscrap');
 	//			$auth->setUserGroup('scrapper');
 				// page 'template variables'
@@ -359,9 +362,9 @@ $market_data_timestamp = date("M d, Y, h:ia",filemtime($cache_file))." CST";
 						}
 					}
 				}
-				//the layout file  -  THIS PART NEEDS TO BE LAST
-				require($_SERVER['DOCUMENT_ROOT']."/views/layouts/shell.php");
 			}
+			//the layout file  -  THIS PART NEEDS TO BE LAST
+			require($_SERVER['DOCUMENT_ROOT']."/views/layouts/shell.php");
 		break;
 
 		/* Transport Material */
@@ -597,8 +600,28 @@ $market_data_timestamp = date("M d, Y, h:ia",filemtime($cache_file))." CST";
 					// send to page based on obj type
 					switch ($_SESSION['user']['group']) {
 						case 'scrapper':
-//							$error_messages[] = "Welcome!";
-//							flash($error_messages);
+							$obj = new Scrapper();
+							$obj->getScrapperByUserId($_SESSION['user']['id']);
+							if ( !$obj->isAddressSet() ) {// zip and address check to use system
+								$_SESSION['user']['new'] =  1;
+								redirect_to('/my-account');
+							}
+							// find what region scrapper belongs to.
+							$state = $obj->state_province;
+							$f = new Facility();
+							$region = $f->setRegion($state);
+							// send them there.
+							if ($region == "NE") 
+								redirect_to('/regions/northeast');
+							if ($region == "C") 
+								redirect_to('/regions/central');
+							if ($region == "S") 
+								redirect_to('/regions/south');
+							if ($region == "SE") 
+								redirect_to('/regions/southeast');
+							if ($region == "W") 
+								redirect_to('/regions/west');
+							// couldn't determine region.
 							redirect_to('/regions');
 						break;
 						
@@ -754,8 +777,10 @@ $market_data_timestamp = date("M d, Y, h:ia",filemtime($cache_file))." CST";
 				$message = array();
 				$message[] = "You need to login to update your account settings.";
 				flash($message,'bad');
+				redirect_to('/');
 			} else {
 				$PAGE_BODY = "views/my_account.php";  	/* which file to pull into the template */
+				
 				// grab user object
 				$user = new User();
 				$user->GetItemObj( $_SESSION['user']['id'] );
@@ -764,6 +789,10 @@ $market_data_timestamp = date("M d, Y, h:ia",filemtime($cache_file))." CST";
 				$item = new $group();
 				$joins = $item->ReadForeignJoins( $user );
 				$item->GetItemObj( $joins[0]['id'] );
+				
+				if ( isset($_SESSION['user']['new']) ) { // zip and address check to use system
+					flash( array("The BOLD items below must be completed before using the Scrap Exchange."), "bad" );
+				}
 				
 				if ($group == 'Scrapper') {
 					$redirect_url = "/scrap-exchange";
@@ -811,6 +840,14 @@ $market_data_timestamp = date("M d, Y, h:ia",filemtime($cache_file))." CST";
 					}
 					if ( $item->UpdateItem( $post_data ) && $user->UpdateItem( $post_data ) ) {
 						flash( array("Your Account has been updated successfully.") );
+						$obj = new Scrapper();
+						$obj->GetItemObj($item->id);
+						if ( !$obj->isAddressSet() ) {		// zip and address check to use system
+							$_SESSION['user']['new'] =  1;
+							redirect_to('/my-account');
+						} else {
+							unset( $_SESSION['user']['new'] );
+						}
 						redirect_to($redirect_url);
 					} else {
 						flash( array("There was a problem updating your account."), "bad" );

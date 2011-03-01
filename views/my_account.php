@@ -13,13 +13,13 @@
 <li><label>Fax Number:</label><input name="fax_number" type="text" value="<?=$item->fax_number?>" /></li>
 <li><hr style="width:369px" /></li>
 <li><label>Company:</label><input name="company" type="text" value="<?=$item->company?>" /></li>
-<li><label>Address 1:</label><input name="address_1" type="text" value="<?=$item->address_1?>" /></li>
+<li><label><strong>Address 1:</strong></label><input name="address_1" type="text" value="<?=$item->address_1?>" /></li>
 <li><label>Address 2:</label><input name="address_2" type="text" value="<?=$item->address_2?>" /></li>
-<li><label>City:</label><input name="city" type="text" value="<?=$item->city?>" /></li>
+<li><label><strong>City:</strong></label><input name="city" type="text" value="<?=$item->city?>" /></li>
 </ul>
 <ul class="form hii">
-<li><label class="firstLabel">State/Province:</label><input name="state_province" type="text" value="<?=$item->state_province?>" /></li>
-<li><label>Zip Code:</label><input name="postal_code" type="text" value="<?=$item->postal_code?>" /></li>
+<li><label class="firstLabel"><strong>State/Province:</strong></label><input name="state_province" type="text" value="<?=$item->state_province?>" /></li>
+<li><label><strong>Zip Code:</strong></label><input name="postal_code" type="text" value="<?=$item->postal_code?>" /></li>
 </ul>
 <ul class="form">
 <li><label>Country:</label><input name="country" type="text" value="<?=$item->country?>" /></li>
@@ -37,7 +37,7 @@
 <li><label>Email:</label><input name="email" type="text" value="<?=$user->email?>" /></li>
 </ul>
 <ul class="form hii">
-<li><label class="firstLabel">Password:</label><input name="password" type="password" /></li>
+<li><label class="firstLabel">New Password:</label><input name="password" type="password" /></li>
 <li><label class="firstLabel">Verify Password:</label><input name="verify_password" type="password" /></li>
 </ul>
 </fieldset>
