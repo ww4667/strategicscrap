@@ -144,7 +144,7 @@ $feed_url = "http://strategicscrap.com/static-market-data";
 $test_market_data = get_cached_file($cache_file, 900, $feed_url);
 
 $market_data = json_decode($test_market_data,true);
-$market_data_timestamp = date("M d, Y, h:ia",filemtime($cache_file))." CST";
+$market_data_timestamp = date("M d, Y, h:ia",filemtime($cache_file))." CST (End of day)";
 
 //			$market_data = array(
 //				"LME Copper" => array("cash" => "4.23","3 month" => "4.25","15 month" => "4.13"),
