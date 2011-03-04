@@ -848,7 +848,26 @@ $market_data_timestamp = date("M d, Y, h:ia",filemtime($cache_file))." CST (End 
 						} else {
 							unset( $_SESSION['user']['new'] );
 						}
-						redirect_to($redirect_url);
+
+						// find what region scrapper belongs to.
+						$state = $obj->state_province;
+						$f = new Facility();
+						$region = $f->setRegion($state);
+						// send them there.
+						if ($region == "NE") 
+							redirect_to('/regions/northeast');
+						if ($region == "C") 
+							redirect_to('/regions/central');
+						if ($region == "S") 
+							redirect_to('/regions/south');
+						if ($region == "SE") 
+							redirect_to('/regions/southeast');
+						if ($region == "W") 
+							redirect_to('/regions/west');
+						// couldn't determine region.
+						redirect_to('/regions');
+
+//						redirect_to($redirect_url);
 					} else {
 						flash( array("There was a problem updating your account."), "bad" );
 						redirect_to('/my-account');
