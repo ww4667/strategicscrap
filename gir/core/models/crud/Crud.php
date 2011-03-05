@@ -191,16 +191,18 @@ class Crud {
 	
 	public function GetAllItems( $detail = false ){
 		$objectName = $this->_OBJECT_NAME;
-		$object = $this->_GetDataByName( $objectName, $this->_TABLE_PREFIX.constant('Crud::_OBJECT_NAMES') );
-		$objectNameId = $object['id'];
+//		$object = $this->_GetDataByName( $objectName, $this->_TABLE_PREFIX.constant('Crud::_OBJECT_NAMES') );
+//		$objectNameId = $object['id'];
+		$objectNameId = $this->_OBJECT_NAME_ID;
 		$items = $this->_GetAllItemsByObjectNameId( $objectNameId );
 		return $items;
 	}
 	
 	public function GetAllItemsObj( $detail = false ){
 		$objectName = $this->_OBJECT_NAME;
-		$object = $this->_GetDataByName( $objectName, $this->_TABLE_PREFIX.constant('Crud::_OBJECT_NAMES') );
-		$objectNameId = $object['id'];
+//		$object = $this->_GetDataByName( $objectName, $this->_TABLE_PREFIX.constant('Crud::_OBJECT_NAMES') );
+//		$objectNameId = $object['id'];
+		$objectNameId = $this->_OBJECT_NAME_ID;
 		$items = $this->_GetAllItemsByObjectNameId( $objectNameId );
 		if (count($items) > 0) {
 			$objs = array();
@@ -802,12 +804,7 @@ class Crud {
     }
 
     private function _GetAllData( $query ) {
-		$this->database_connection->Open();
-		$query = $query;
-		$result = $this->database_connection->Query( $query );
-		$arr1 = $this->database_connection->FetchAssocArray( $result );
-		$this->database_connection->Close();
-		return $arr1;
+		return $this->_RunQuery( $query, true );
     }
 	
 	private function _GetValuesByObjectId( $itemId ){
@@ -836,17 +833,18 @@ class Crud {
 		}
 		$query = "SELECT o.id, o.created_ts, o.updated_ts, o.object_name_id,";
 		$query .= $fields;
-		$query .= " FROM " . $this->_TABLE_PREFIX.constant('Crud::_ITEMS') . " as o";
-		$query .= " LEFT JOIN " . $this->_TABLE_PREFIX.constant('Crud::_OBJECT_DEFINITIONS') . " as od on od.object_name_id = o.object_name_id";
-		$query .= " LEFT JOIN " . $this->_TABLE_PREFIX.constant('Crud::_PROPERTY_NAMES') . " as pn on pn.id = od.property_name_id";
-		$query .= " LEFT JOIN 	(SELECT * FROM " . $this->_TABLE_PREFIX.constant('Crud::_VALUES_TABLE_DATES') . " UNION SELECT * FROM " . $this->_TABLE_PREFIX.constant('Crud::_VALUES_TABLE_NUMBERS') . " UNION SELECT * FROM " . $this->_TABLE_PREFIX.constant('Crud::_VALUES_TABLE_TEXT') . ") as v on v.property_name_id = od.property_name_id AND v.item_id = o.id";
+		$query .= " FROM " . $this->_TABLE_PREFIX.constant('Crud::_ITEMS') . " as o,";
+		$query .= " " . $this->_TABLE_PREFIX.constant('Crud::_OBJECT_DEFINITIONS') . " as od,";
+		$query .= " " . $this->_TABLE_PREFIX.constant('Crud::_PROPERTY_NAMES') . " as pn,";
+		$query .= " (SELECT * FROM " . $this->_TABLE_PREFIX.constant('Crud::_VALUES_TABLE_DATES') . " UNION SELECT * FROM " . $this->_TABLE_PREFIX.constant('Crud::_VALUES_TABLE_NUMBERS') . " UNION SELECT * FROM " . $this->_TABLE_PREFIX.constant('Crud::_VALUES_TABLE_TEXT') . ") as v";
 		$query .= " WHERE o.object_name_id = $objectNameId";
+		$query .= " AND od.object_name_id = o.object_name_id";
+		$query .= " AND pn.id = od.property_name_id";
+		$query .= " AND v.property_name_id = od.property_name_id AND v.item_id = o.id";
 		$query .= " GROUP BY o.id";
 		
-		$this->database_connection->Open();
-		$result = $this->database_connection->Query( $query );
+		$result = $this->_RunQuery( $query );
 		$arr1 = $this->database_connection->FetchAssocArray( $result );
-		$this->database_connection->Close();
 		
 		return $arr1;
 	}
@@ -932,9 +930,7 @@ class Crud {
 		$query .= " WHERE obj.label = '$objectName'";
 		$query .= " GROUP BY o.id";
 		
-//		print "<blockquote>$query</blockquote>";
-		
-		$result = (array) $this->Query( $query, true );
+		$result = (array) $this->_RunQuery( $query, true );
 		
 		if( count( $result ) > 0 ) $this->$result[0]['join_property_label'] = $result;
 		
@@ -964,7 +960,7 @@ class Crud {
 		$query .= " WHERE obj.label = '$objectName'";
 		$query .= " GROUP BY o.id";
 		
-		$result = (array) $this->Query( $query, true );
+		$result = (array) $this->_RunQuery( $query, true );
 		
 		//if( count( $result ) > 1 ) $this->$result[0]['join_property_label'] = $result;
 		

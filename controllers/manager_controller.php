@@ -633,10 +633,10 @@ while (!$KILL) {
 			
 			foreach ( $requests as $obj ) {
 				if ( empty( $obj->request_snapshot ) ) {
-					$joinObject = new Scrapper();
-					$obj->join_scrapper = $obj->ReadJoins($joinObject);
 					$joinObject = new Facility();
 					$obj->join_facility = $obj->ReadJoins($joinObject);
+					$joinObject = new Scrapper();
+					$obj->join_scrapper = $obj->ReadJoins($joinObject);
 					$joinObject = new Material();
 					$obj->join_material = $obj->ReadJoins($joinObject);
 					$request_array[] = (array) $obj;
@@ -647,14 +647,6 @@ while (!$KILL) {
 			}
 			
 			$requests = $request_array;
-			
-//			print "<pre>";
-//			print_r($requests);
-//			print "</pre>";
-
-//			print "<pre>";
-//			print_r($requests);
-//			print "</pre>";
 			
 			//the layout file
 			require($ss_path."views/layouts/manager_shell.php");

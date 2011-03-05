@@ -164,7 +164,7 @@ for (var i=0; i<mt.length; i++) {
 							      });
 
 							      GEvent.addListener(googleMap, "click", function() {
-								    	  addTransportFormEvent();
+								  	//addTransportFormEvent();
 							      });
 							 
 							      // The allowed region which the whole map must be within
@@ -487,6 +487,11 @@ function addClickevent( marker ) {
 	GEvent.addListener(marker, "click", function() {
 		marker.openInfoWindowHtml(marker.content);
 		count = marker.nr;
+		//alert("marker clicked");
+		 setTimeout(function() {
+		  addTransportFormEventMap(); 
+		  }, 1000);
+		//addTransportFormEvent();
 		stopClick = true;
 	});
 	 
@@ -521,7 +526,7 @@ function onMarkersRemoved(){
 }
 
 function addTransportFormEvent( ){
-	
+
 	$(".ship_quote_button").colorbox({ width:"550", inline:true, href:"#trannyForm", 
 	    onComplete:function(){ 
 			trans_id = $( this ).attr( "trans_id" ); 
@@ -541,6 +546,32 @@ function addTransportFormEvent( ){
 		} 
 	});
 
+}
+
+function addTransportFormEventMap(){
+
+	$(".infowindow .ship_quote_button").click(function(){
+
+	var	trans_id = $( this ).attr( "trans_id" ); 
+	
+	$.colorbox({ width:"550", inline:true, href:"#trannyForm", 
+	    onComplete:function(){ 
+	    	$("#transport_loading").show();
+	    	$("#transport_form").hide();
+	    	$("#transport_success").hide();
+	    	$("#transport_error").hide();
+	    	$.colorbox.resize();
+	    	$('#transport_form').load(
+	    		'/views/scrappers/transport_material.php?session_id=<?=session_id();?>&id=' + trans_id + '&material_id=' + selectedMaterial,
+				function(){
+			    	$("#transport_loading").hide();
+			    	$("#transport_form").show();
+			    	$.colorbox.resize();
+				}
+			); 
+		} 
+	});
+});
 }
 
 /* ]]> */
