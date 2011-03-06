@@ -74,9 +74,10 @@ while (!$KILL) {
 						if ( !isset($material_ids[$key]) ) $f->removeMaterial($key);
 					}
 					$message = "Facility updated successfully.";
+					flash($message);
 				} else {
 					$message = "There was a problem updating the facility.";
-					$error = true;	
+					flash($message,"bad");
 				}
 				$method = "facility-manager";
 				break;
@@ -171,9 +172,10 @@ while (!$KILL) {
 				}
 				if( !empty($f->id) ){
 					$message = "Facility added successfully.";
+					flash($message);
 				} else {
 					$message = "There was a problem adding the facility.";	
-					$error = true;	
+					flash($message,"bad");
 				}
 				$method = "facility-manager";
 				break;
@@ -226,13 +228,15 @@ while (!$KILL) {
 					}
 					if (isset($pricing)) {
 						$message = $post_data['region']." pricing has been updated successfully.";
+						flash($message);
 					} else {
 						$message = "There was a problem updating the pricing.";
-						$error = true;	
+						flash($message,"bad");	
 					}
 					unset($_POST);
 				} else {
 					$message = "There was nothing to update.";
+					flash($message);
 				}
 				break;
 			}
@@ -289,9 +293,10 @@ while (!$KILL) {
 				$m->GetItemObj($post_data['id']);
 				if( $m->UpdateItem($post_data) ) {
 					$message = "Material updated successfully.";
+					flash($message);
 				} else {
 					$message = "There was a problem updating the material.";
-					$error = true;
+					flash($message,"bad");
 				}
 				$method = "material-manager";
 				break;
@@ -327,9 +332,10 @@ while (!$KILL) {
 				$m->CreateItem($post_data);
 				if( !empty($m->id) ){
 					$message = "Material added successfully.";
+					flash($message);
 				} else {
 					$message = "There was a problem adding the material.";
-					$error = true;
+					flash($message,"bad");
 				}
 				$method = "material-manager";
 				break;
@@ -352,20 +358,7 @@ while (!$KILL) {
 			$PAGE_BODY 			= $ss_path."views/manager/scrapper_manager.php";	/* which file to pull into the template */
 			
 			$s = new Scrapper();
-			$scrappers = $s->getAllItemsObj();
-			
-			// make array of objects to useful simple array
-			$scrapper_array = array();
-			
-			foreach ($scrappers as $obj) {
-				$obj->getUsers();
-				$obj->email = $obj->join_user[0]['email'];
-				$obj->logged_in = $obj->join_user[0]['logged_in'];
-				$obj->last_login_ts = $obj->join_user[0]['last_login_ts'];
-				$scrapper_array[] = (array) $obj;
-			}
-			
-			$scrappers = $scrapper_array;
+			$scrappers = $s->getAllWithUserDetails();
 
 			//the layout file
 			require($ss_path."views/layouts/manager_shell.php");
@@ -409,8 +402,7 @@ while (!$KILL) {
 						$error_messages[] = "Email is already being used.";
 				}
 				if( count($error_messages) > 0 ){
-					$message = implode("<br />", $error_messages);
-					$error = true;
+					flash($error_messages,"bad");
 					unset($_POST); // so we don't loop forever...
 					$_GET['scrapper_id'] = $post_data['scrapper_id'];
 					$method = "scrapper-update";
@@ -418,9 +410,10 @@ while (!$KILL) {
 				}
 				if( $user->UpdateItem($post_data) && $scrapper->UpdateItem($post_data) ) {
 					$message = "Scrapper updated successfully.";
+					flash($message);
 				} else {
 					$message = "There was a problem updating the scrapper.";
-					$error = true;	
+					flash($message,"bad");
 				}
 				$method = "scrapper-manager";
 				break;
@@ -499,8 +492,7 @@ while (!$KILL) {
 						$error_messages[] = "Email is already being used.";
 				}
 				if( count($error_messages) > 0 ){
-					$message = implode("<br />", $error_messages);
-					$error = true;
+					flash($error_messages,"bad");
 					unset($_POST); // so we don't loop forever...
 					$_GET['broker_id'] = $post_data['broker_id'];
 					$method = "broker-update";
@@ -508,9 +500,10 @@ while (!$KILL) {
 				}
 				if( $user->UpdateItem($post_data) && $broker->UpdateItem($post_data) ) {
 					$message = "Broker updated successfully.";
+					flash($message);
 				} else {
 					$message = "There was a problem updating the broker.";
-					$error = true;	
+					flash($message,"bad");	
 				}
 				$method = "broker-manager";
 				break;
@@ -569,8 +562,7 @@ while (!$KILL) {
 					$error_messages[] = "Verify Password does not match Password field.";
 				
 				if ( !empty($error_messages) ) {
-					$message = implode("<br />", $error_messages);
-					$error = true;
+					flash($error_messages,"bad");
 					unset($_POST); // so we don't loop forever...
 					$method = "broker-add";
 					break;
@@ -598,9 +590,10 @@ while (!$KILL) {
 					
 					if ( empty($user->id) || empty($broker->id) ) {
 						$message = "There was a problem adding the broker.";
-						$error = true;
+						flash($message,"bad");
 					} else {
 						$message = "Broker added succesfully.";
+						flash($message);
 					}
 					$method = "broker-manager";
 					break;
@@ -641,8 +634,9 @@ while (!$KILL) {
 					$obj->join_material = $obj->ReadJoins($joinObject);
 					$request_array[] = (array) $obj;
 				} else {
-					$obj->request_snapshot->bid_count = $obj->bid_count;
-					$request_array[] = json_decode( $obj->request_snapshot, true );
+					$data = json_decode( $obj->request_snapshot, true );
+					$data['request']['bid_count'] = $obj->bid_count;
+					$request_array[] = $data;
 				}
 			}
 			
@@ -680,15 +674,47 @@ while (!$KILL) {
 				$bids = $bids_array;
 			} else {
 				$message = "Your request id was not found in the system.";
-				$error = true;
+				flash($message,"bad");
 				$method = "request-manager";
 				break;
 			}
 			
-			
 			//the layout file
 			require($ss_path."views/layouts/manager_shell.php");
 			$KILL = true;
+		break;
+			
+		case 'request-remove':
+			// get request object
+			// get bid objects
+			// remove joins
+			// remove request
+			if (isset($_GET['request_id'])) {
+				$itemId = $_GET['request_id'];
+				// retrieved request object
+				$r = new Request();
+				$request = $r->GetItemObj($itemId);
+				$bids = $request->getBids(); // array of bids
+				// clear the join table for this request
+				$table = "gir_property_values_joins";
+				$query = "DELETE tb FROM $table as tb WHERE tb.item_id = $itemId OR tb.value = $itemId;";
+				$gir->crud->Query($query);
+				$gir->crud->RemoveItem($itemId);
+				if ( count($bids) > 0 ) {
+					foreach ($bids as $bid) {
+						$itemId = $bid['id'];
+						$query = "DELETE tb FROM $table as tb WHERE tb.item_id = $itemId OR tb.value = $itemId;";
+						$gir->crud->Query($query);
+						$gir->crud->RemoveItem($itemId);
+					}
+				}
+				flash( array( "Request #" . $request->id . " was removed successfully." ) );
+				$method = "request-manager";
+				break;
+			}
+			flash( array( "The request could not be found." ), "bad" );
+			$method = "request-manager";
+			break;
 		break;
 		
 		default:

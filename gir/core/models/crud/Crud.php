@@ -189,6 +189,15 @@ class Crud {
 		$this->_CURRENT_ITEM = $item;
 	}
 	
+	public function GetObjectQueryString(){
+		$objectNameId = $this->_OBJECT_NAME_ID;
+		return $this->_GetAllItemsByObjectNameId( $objectNameId, true );
+	}
+	
+	public function GetObjectJoinQueryString( $join_object ){
+		return $this->_GetJoins( $join_object, true );
+	}
+	
 	public function GetAllItems( $detail = false ){
 		$objectName = $this->_OBJECT_NAME;
 //		$object = $this->_GetDataByName( $objectName, $this->_TABLE_PREFIX.constant('Crud::_OBJECT_NAMES') );
@@ -821,7 +830,7 @@ class Crud {
 		return $arr1;
 	}
 	
-	private function _GetAllItemsByObjectNameId( $objectNameId ) {
+	private function _GetAllItemsByObjectNameId( $objectNameId, $return_sql = false ) {
 		$properties = $this->_OBJECT_PROPERTIES;
 		$fields = ""; 
 		foreach ($properties as $p) {
@@ -843,10 +852,15 @@ class Crud {
 		$query .= " AND v.property_name_id = od.property_name_id AND v.item_id = o.id";
 		$query .= " GROUP BY o.id";
 		
-		$result = $this->_RunQuery( $query );
-		$arr1 = $this->database_connection->FetchAssocArray( $result );
-		
-		return $arr1;
+		//echo $query;
+		if ($return_sql){
+			return $query;
+		} else {			
+			$result = $this->_RunQuery( $query );
+			$arr1 = $this->database_connection->FetchAssocArray( $result );
+			
+			return $arr1;
+		}
 	}
 	
 	private function _GetItemsByObjectNameId( $objectNameId ){
@@ -906,7 +920,7 @@ class Crud {
 		return $arr1;
 	}
 
-	private function _GetJoins( $joinObject ){
+	private function _GetJoins( $joinObject, $return_sql = false ){
 		$itemId = $this->id;
 		$properties = $joinObject->_OBJECT_PROPERTIES;
 		$objectName = $joinObject->_OBJECT_NAME;
@@ -930,11 +944,14 @@ class Crud {
 		$query .= " WHERE obj.label = '$objectName'";
 		$query .= " GROUP BY o.id";
 		
-		$result = (array) $this->_RunQuery( $query, true );
-		
-		if( count( $result ) > 0 ) $this->$result[0]['join_property_label'] = $result;
-		
-		return $result;
+		//echo $query;
+		if ($return_sql){
+			return $query;
+		} else {			
+			$result = (array) $this->_RunQuery( $query, true );
+			if( count( $result ) > 0 ) $this->$result[0]['join_property_label'] = $result;
+			return $result;
+		}
 	}
 
 	private function _GetForeignJoins( $joinObject ){

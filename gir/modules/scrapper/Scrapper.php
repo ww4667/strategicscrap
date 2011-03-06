@@ -79,6 +79,20 @@ class Scrapper extends User {
 		$this->join_user = $joins;
 	}
 	
+	public function getAllWithUserDetails() {
+		$scrapper_query = $this->GetObjectQueryString();
+		$u = new User();
+		$user_query = $u->GetObjectQueryString();
+		$join_table = $this->_TABLE_PREFIX . constant('Crud::_VALUES_TABLE_JOINS');
+		$query = "SELECT s.*,u.email,u.logged_in,u.last_login_ts";
+		$query .= " FROM";
+		$query .= " ($user_query) AS u,";
+		$query .= " ($scrapper_query) AS s,";
+		$query .= " $join_table AS j";
+		$query .= " WHERE s.id = j.item_id AND u.id = j.value";
+		return $this->Query( $query, true );
+	}
+	
 	public function getScrappersByUserId( $userId ) {
 		$u = new User();
 		$user = $u->GetItemObj( $userId );
@@ -115,7 +129,10 @@ class Scrapper extends User {
 	 * $scrapperClass->GetItemObj( $scrapperByUserId[0]['id'] );
 	 * $requestArray = $scrapperClass->getRequests();
 	 */
-	public function getRequests( ){
+	public function getRequests() {
+		
+//		$join_query = "SELECT jv.id, jv.value, jv.property_name_id, jv.item_id FROM ".$this->_TABLE_PREFIX.constant('Crud::_VALUES_TABLE_JOINS')." as jv where jv.item_id = $itemId AND jv.value = $foreignItemId";
+		
 		// get materials by "itemId" and join type "material_join"
 		$item = $this;
 		
@@ -132,9 +149,9 @@ class Scrapper extends User {
 			$requestClass->ReadJoins( new Material() );
 			$requestClass->ReadJoins( new Scrapper() );
 			$requestClass->ReadJoins( new Facility() );
+			
 			$requestReturnArray[] = $requestClass;
 			$i++;
-			
 		}
 		
 		return $requestReturnArray;

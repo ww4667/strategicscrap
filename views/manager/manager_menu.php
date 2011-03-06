@@ -1,5 +1,16 @@
-<? if (isset($message)) { ?>
-	<div class="message<? if (isset($error)) { ?> error<? } ?>"><p><strong><?= $message ?></strong></p></div>
+<? if ( isset( $_SESSION['flash'] ) ) { ?>
+	<div class="message<? if ($_SESSION['flashtype'] == 'bad') { ?> error<? } ?>">
+		<ul>
+		<? if (is_array($_SESSION['flash'])) { ?>
+			<? foreach ($_SESSION['flash'] as $m) { ?>
+				<li><strong><?= $m ?></strong></li>
+			<? } ?>
+		<? } else { ?>
+			<li><strong><?= $_SESSION['flash'] ?></strong></li>
+		<? } ?>
+		</ul>
+	</div>
+<? clear_flash(); ?>
 <? } ?>
 <ul>
 	<li><a href="<?=$ss_url?>&method=facility-manager">manage facilities</a></li>
