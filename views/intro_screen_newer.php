@@ -46,13 +46,13 @@
 </tr> 
 <tr> 
 	<td> 
-<object width="853" height="505"><param name="movie" value="http://www.youtube.com/v/VYYzAmmQ4yI&hl=en_US&fs=1&color1=0x3a3a3a&color2=0x999999&autoplay=1"></param><param name="allowFullScreen" value="true"></param><param name="allowscriptaccess" value="always"></param><embed src="http://www.youtube.com/v/VYYzAmmQ4yI&hl=en_US&fs=1&color1=0x3a3a3a&color2=0x999999&autoplay=1" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="853" height="505"></embed></object> 
+<object width="853" height="505"><param name="movie" value="http://www.youtube.com/v/d9GPP98ywwE&amp;hl=en_US&amp;fs=1&amp;color1=0x3a3a3a&amp;color2=0x999999&amp;autoplay=1"></param><param name="allowFullScreen" value="true"></param><param name="allowscriptaccess" value="always"></param><embed src="http://www.youtube.com/v/d9GPP98ywwE&hl=en_US&fs=1&color1=0x3a3a3a&color2=0x999999&autoplay=1" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="853" height="505"></embed></object> 
 	</td> 
 </tr> 
 <tr> 
 	<td align="center"> 
 		<p style="">&nbsp;</p> 
-		<p style="">Coming Very Soon :: <a href="mailto:josh@strategicscrap.com">Contact Us</a></p> 
+		<p style="line-height:19px"><span style="font-size:15px">Stop by booth 1025 at ISRI 2011 to sign up for your free trial.</span><br /><a href="mailto:josh@strategicscrap.com">Contact Us</a></p> 
 	</td> 
 </tr> 
  
