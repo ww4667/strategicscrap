@@ -129,33 +129,37 @@
         var item = bid_object[ current_bid ]; 
         
         var scrapperData = "", facilityData = "";
+        var sItem = item['request_snapshot']['scrapper'];
+        var fItem = item['request_snapshot']['facility'];
+        var mItem = item['request_snapshot']['material'];
+        var rItem = item['request_snapshot']['request'];
           
-        if( item['join_scrapper'] && item['join_scrapper'][0] ){ 
-          $("#join_scrapper").val( item['join_scrapper'][0]['id'] );
+        if( sItem ){ 
+          $("#join_scrapper").val( sItem['id'] );
         } 
 
-        if( item['join_scrapper'] && item['join_scrapper'][0]['company'] ){ 
-            scrapperData += item['join_scrapper'][0]['company'] + '<br />';
+        if( sItem && sItem['company'] ){ 
+            scrapperData += sItem['company'] + '<br />';
         } 
         
-        if( item['join_scrapper'] && item['join_scrapper'][0]['address_1'] ){ 
-            scrapperData += item['join_scrapper'][0]['address_1'] + '<br />';
+        if( sItem && sItem['address_1'] ){ 
+            scrapperData += sItem['address_1'] + '<br />';
         } 
         
-        if( item['join_scrapper'] && item['join_scrapper'][0]['address_2'] ){ 
-            scrapperData += item['join_scrapper'][0]['address_2'] + '<br />';
+        if( sItem && sItem['address_2'] ){ 
+            scrapperData += sItem['address_2'] + '<br />';
         } 
         
-        if( item['join_scrapper'] && item['join_scrapper'][0]['city'] ){ 
-            scrapperData += item['join_scrapper'][0]['city'] + ', ';
+        if( sItem && sItem['city'] ){ 
+            scrapperData += sItem['city'] + ', ';
         } 
         
-        if( item['join_scrapper'] && item['join_scrapper'][0]['state_province'] ){ 
-            scrapperData += item['join_scrapper'][0]['state_province'] + ' ';
+        if( sItem && sItem['state_province'] ){ 
+            scrapperData += sItem['state_province'] + ' ';
         } 
         
-        if( item['join_scrapper'] && item['join_scrapper'][0]['zip_postal_code'] ){ 
-            scrapperData += item['join_scrapper'][0]['zip_postal_code'] + ' ';
+        if( sItem && sItem['postal_code'] ){ 
+            scrapperData += sItem['postal_code'];
         } 
 
         if( scrapperData.length > 0 ){
@@ -169,32 +173,32 @@
           $("#join_request").val(item['id']);
         
 
-        if( item['join_facility'] && item['join_facility'][0] ) 
-          $("#join_facility").val( item['join_facility'][0]['id'] );
+        if( fItem ) 
+          $("#join_facility").val( fItem['id'] );
         
 
-        if( item['join_facility'] && item['join_facility'][0]['company'] )
-          facilityData += item['join_facility'][0]['company'] + '<br />';
+        if( fItem && fItem['company'] )
+          facilityData += fItem['company'] + '<br />';
         
         
-        if( item['join_facility'] && item['join_facility'][0]['address_1'] )
-          facilityData += item['join_facility'][0]['address_1'] + '<br />';
+        if( fItem && fItem['address_1'] )
+          facilityData += fItem['address_1'] + '<br />';
         
         
-        if( item['join_facility'] && item['join_facility'][0]['address_2'] )
-          facilityData += item['join_facility'][0]['address_2'] + '<br />';
+        if( fItem && fItem['address_2'] )
+          facilityData += fItem['address_2'] + '<br />';
         
         
-        if( item['join_facility'] && item['join_facility'][0]['city'] )
-          facilityData += item['join_facility'][0]['city'] + ', ';
+        if( fItem && fItem['city'] )
+          facilityData += fItem['city'] + ', ';
         
         
-        if( item['join_facility'] && item['join_facility'][0]['state_province'] )
-          facilityData += item['join_facility'][0]['state_province'] + ' ';
+        if( fItem && fItem['state_province'] )
+          facilityData += fItem['state_province'] + ' ';
         
         
-        if( item['join_facility'] && item['join_facility'][0]['zip_postal_code'] )
-          facilityData += item['join_facility'][0]['zip_postal_code'] + ' ';
+        if( fItem && fItem['zip_postal_code'] )
+          facilityData += fItem['zip_postal_code'] + ' ';
         
 
         if( facilityData.length > 0 ){
@@ -203,26 +207,22 @@
           alert("This bid cannot happen because there is no Facility.");
         }
 
-        if( item['join_material'] && item['join_material'][0] ){
-          $("#bid_request_material").html( item['join_material'][0]['name'] );
-          $("#join_material").val( item['join_material'][0]['id'] );
+        if( mItem ){
+          $("#bid_request_material").html( mItem['name'] );
+          $("#join_material").val( mItem['id'] );
         } else {
           alert("This bid cannot happen because there is no Material.");
         }
 
-        $("#bid_request_quantity").html( item['join_request'][0]['volume'] );
+        $("#bid_request_quantity").html( rItem['volume'] );
         $("#bid_request_ship_date").html( item['ship_date'] );
         $("#bid_request_delivery_date").html( item['arrival_date'] );
-        $("#bid_request_preferred_transporation").html( item['join_request'][0]['transportation_type'] );
+        $("#bid_request_preferred_transporation").html( rItem['transportation_type'] );
         $("#bid_request_transporation_cost").html( "$" + item['transport_cost'] );
-        $("#bid_request_special_instructions").html( item['join_request'][0]['special_instructions'] );
+        $("#bid_request_special_instructions").html( rItem['special_instructions'] );
         $("#bid_request_broker_notes").html( item['notes'] );
-        $("#bid_request_scrapper_name").html( item['join_scrapper'][0]['first_name'] + " " + item['join_scrapper'][0]['last_name'] );
-        $("#bid_request_scrapper_phone").html( item['join_scrapper'][0]['work_phone'] );
-		
-		        if( item['join_scrapper'] && item['join_scrapper'][0]['zip_postal_code'] ){ 
-            scrapperData += item['join_scrapper'][0]['zip_postal_code'] + ' ';
-        } 
+        $("#bid_request_scrapper_name").html( sItem['first_name'] + " " + sItem['last_name'] );
+        $("#bid_request_scrapper_phone").html( sItem['work_phone'] );
         
       }
       
@@ -580,7 +580,27 @@ var bid_object;
   var qTable;  
 
 
-    $(document).ready(function(){   
+    $(document).ready(function(){
+
+    	// START code for request filter
+    	
+    	$(".filter input").change( function () {
+    		/* Filter on the column (the index) of this element */
+    		var status_filter = "empty";
+    		var checked = $(".filter input:checked");
+    		$.each(checked, function(key, item) {
+    			if (key == 0) status_filter = "";
+    			if (key + 1 == checked.length) {
+    				status_filter += item.value; 
+    			} else {
+    				status_filter += item.value + "|"; 
+    			}
+    		});
+//    		console.log(status_filter);
+    		qTable.fnFilter( status_filter, 0, 1 );
+    	} );
+    	
+    	// END code for request filter
 
       $("#reloadRequests").click(function(){
     	  reloadRequestsTable();
@@ -602,8 +622,9 @@ var bid_object;
             "aaData": json.aaData,
             "sScrollY": "200px",
               "bPaginate": false,
-              "bFilter": false,
+              "bFilter": true,
               "bInfo": false ,
+              "sDom": '<t>',
 	          "aoColumns": [
 	              {"sWidth": "80px"} ,
 	              {"sWidth": "350px"},

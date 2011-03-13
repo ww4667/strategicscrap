@@ -189,8 +189,8 @@ function controller_remote( $_controller_remote_method = null,
 					
 					// sorting object array by created_ts date DESC
 					$dates = array();					
-					foreach ( (array) $requestReturnArray as $key => $row ) {
-					    $dates[$key] = $row->created_ts;
+					foreach ( $requestReturnArray as $key => $row ) {
+					    $dates[$key] = $row['created_ts'];
 					}
 					
 					array_multisort($dates, SORT_DESC, $requestReturnArray);
@@ -259,32 +259,38 @@ function controller_remote( $_controller_remote_method = null,
                     $dttmp = array();
                     $dttmp["aaData"] = array();
                     $count = count($requestReturnArray);
+                    $status_array = $temp_request->getStatusArray();
                     for($i = 0 ; $i < $count; $i++ ){
                           $request = $requestReturnArray[$i];
-                          $expires = '<span requestId="' . $request->id . '">' . ( !empty( $request->expiration_date ) ? date ( 'Y-m-d', strtotime($request->expiration_date) ) : 'not set' ) . '<br /></span>';
-                          $description = (  $request->join_facility && 
-                                          $request->join_facility != '' && 
-                                          count( $request->join_facility ) > 0 ?
-                                            '<strong>Ship to:</strong> ' . $request->join_facility[0]['company'] . '<br>' : 
+                          if ($request['archived'] == 1) {
+	                          $archive = '<span requestId="' . $request['id'] . '" style="display:none">hidden</span>';
+                          } else {
+	                          $archive = '<span requestId="' . $request['id'] . '"><a class="archive" title="archive request">archive</a></span>';
+                          }
+                          $expires = '<span requestId="' . $request['id'] . '">' . ( !empty( $request['expiration_date'] ) ? date ( 'Y-m-d', strtotime( $request['expiration_date'] ) ) : 'not set' ) . '<br /></span>';
+                          $description = (  $request['request_snapshot']['facility'] && 
+                                          $request['request_snapshot']['facility'] != '' && 
+                                          count( $request['request_snapshot']['facility'] ) > 0 ?
+                                            '<strong>Ship to:</strong> ' .$request['request_snapshot']['facility']['company'] . '<br>' : 
                                             '<strong>Ship to:</strong><br>' ) . 
-                                          (   $request->join_material && 
-                                            $request->join_material != '' && 
-                                            count( $request->join_material ) > 0 ?
-                                              '<strong>Material:</strong> ' . $request->join_material[0]['name'] . '<br>' : 
+                                          (   $request['request_snapshot']['material'] && 
+                                            $request['request_snapshot']['material'] != '' && 
+                                            count( $request['request_snapshot']['material'] ) > 0 ?
+                                              '<strong>Material:</strong> ' . $request['request_snapshot']['material']['name'] . '<br>' : 
                                               '<strong>Material:</strong><br>' ) . 
-                                          '<strong>Volume: </strong>' . ( !empty( $request->volume ) ? $request->volume : '0' ) . '<br />' .
-                                          '<strong>Delivery Date: </strong>' . ( !empty( $request->arrive_date ) ? date ( 'Y-m-d', strtotime($request->arrive_date) ) : 'not set' ) . '<br />';
+                                          '<strong>Volume: </strong>' . ( !empty( $request['volume'] ) ? $request['volume'] : '0' ) . '<br />' .
+                                          '<strong>Delivery Date: </strong>' . ( !empty( $request['arrive_date'] ) ? date ( 'Y-m-d', strtotime( $request['arrive_date'] ) ) : 'not set' ) . '<br />';
                                           
-                          $created = date ( 'Y-m-d', strtotime($request->created_ts) ) . '<br />';
+                          $created = date ( 'Y-m-d', strtotime( $request['created_ts'] ) ) . '<br />';
                           
-                          $status_array = $temp_request->getStatusArray();
-                          $status = ( !empty($request->status) ? $status_array[ $request->status ] : $status_array[0] );
+                          $status = ( !empty( $request['status'] ) ? $status_array[ $request['status'] ] : $status_array[0] );
                           
-                          $count_display = ( $request->bid_unread && $request->bid_unread != 0 ? '<strong>' : '' ) . 
-                          					( !empty($request->bid_count) ? '(' . $request->bid_count . ')' : '(0)' ) . 
-                          					( $request->bid_unread && $request->bid_unread != 0 ? '</strong>' : '' );
+                          $count_display = ( $request['bid_unread'] && $request['bid_unread'] != 0 ? '<strong>' : '' ) . 
+                          					( !empty( $request['bid_count'] ) ? '(' . $request['bid_count'] . ')' : '(0)' ) . 
+                          					( $request['bid_unread'] && $request['bid_unread'] != 0 ? '</strong>' : '' );
                           
                           $ttemp = array();
+                          $ttemp[] = $archive;
                           $ttemp[] = $expires;
                           $ttemp[] = $description;
                           $ttemp[] = $created;
@@ -307,8 +313,9 @@ function controller_remote( $_controller_remote_method = null,
 			/* the following is for a broker */
 			} elseif( $brokerId ) {
 				
+				$bidClass = new Bid();
 				$requestClass = new Request();
-				$requestReturnArray = $requestClass->getAllRequests();
+//				$requestReturnArray = $requestClass->getAllRequests();
 			
 				$brokerClass = new Broker();
 				$brokerByUserId = $brokerClass->getBrokersByUserId( $brokerId );
@@ -316,46 +323,49 @@ function controller_remote( $_controller_remote_method = null,
 				if( count( $brokerByUserId ) > 0 ){
 					$brokerClass->GetItemObj( $brokerByUserId[0]['id'] );
 					
+					// lets get the broker bids first
 					$bidReturnArray = $brokerClass->getBids();
+					// lets make a custom query to grab unquoted requests
+					$requestReturnArray = $brokerClass->getUnbidRequests();
 					
-					$counter = 0; 
-					$counter2 = 0;
-					$count = count( $bidReturnArray );
-					$count2 = count( $requestReturnArray );
-					$currentBid = null;
-					$bidId = null;
-					$currentRequest = null;
-					$arrayOfIdsToRemove = array();
-					$arrayOfBids = array();
+//					$counter = 0; 
+//					$counter2 = 0;
+//					$count = count( $bidReturnArray );
+//					$count2 = count( $requestReturnArray );
+//					$currentBid = null;
+//					$bidId = null;
+//					$currentRequest = null;
+//					$arrayOfIdsToRemove = array();
+//					$arrayOfBids = array();
 					
 					/* get bids from current user - build temp array */
-					while( $counter < $count ){
-						$currentBid = $bidReturnArray[ $counter ];
-						$arrayOfBids[ $currentBid->join_request[0]['id'] ] = true;
-						$counter++; 
-					}
-					
-					$counter2 = 0;
-					$count2 = count($requestReturnArray);
+//					while( $counter < $count ){
+//						$currentBid = $bidReturnArray[ $counter ];
+//						$arrayOfBids[ $currentBid->join_request[0]['id'] ] = true;
+//						$counter++; 
+//					}
+//					
+//					$counter2 = 0;
+//					$count2 = count($requestReturnArray);
 					
 					/* remove items the broker already has bidded on */
-					while( $counter2 < $count2 ){
-						
-						if(isset($requestReturnArray[$counter2])){
-							$currentRequest = $requestReturnArray[$counter2];
-							
-							if( isset($arrayOfBids[ $currentRequest->id ] ) ){
-								unset($requestReturnArray[$counter2]); 
-							}	
-						}
-						$counter2++;
-					}
+//					while( $counter2 < $count2 ){
+//						
+//						if(isset($requestReturnArray[$counter2])){
+//							$currentRequest = $requestReturnArray[$counter2];
+//							
+//							if( isset($arrayOfBids[ $currentRequest->id ] ) ){
+//								unset($requestReturnArray[$counter2]); 
+//							}	
+//						}
+//						$counter2++;
+//					}
 				}
 				 
 				// sorting object array by created_ts date DESC
 				$dates = array();					
 				foreach ( (array) $requestReturnArray as $key => $row ) {
-				    $dates[$key] = $row->created_ts;
+				    $dates[$key] = $row['created_ts'];
 				}
 				
 				array_multisort($dates, SORT_DESC, $requestReturnArray);
@@ -411,24 +421,27 @@ function controller_remote( $_controller_remote_method = null,
                     $count = count($requestReturnArray);
                     for($i = 0 ; $i < $count; $i++ ){
                           $request = $requestReturnArray[$i];
+                          $request['request_snapshot'] = json_decode($request['request_snapshot'], true);
+                          $facility = $request['request_snapshot']['facility'];
+                          $material = $request['request_snapshot']['material'];
                           $outputArray[] = $request;
-                          $expires = '<span id="request_' . $i. '" requestId="' . $request->id . '" requestCount="'.$i.'" >' . ( !empty( $request->expiration_date ) ? date ( 'Y-m-d', strtotime($request->expiration_date) ) : 'not set' ) . '<br /></span>';
-                          $description = (  $request->join_facility && 
-                        $request->join_facility != '' && 
-                        count( $request->join_facility ) > 0 ?
-                          '<strong>Ship to:</strong> ' . $request->join_facility[0]['company'] . '<br>' : 
+                          $expires = '<span id="request_' . $i. '" requestId="' . $request['id'] . '" requestCount="'.$i.'" >' . ( !empty( $request['expiration_date'] ) ? date ( 'Y-m-d', strtotime( $request['expiration_date'] ) ) : 'not set' ) . '<br /></span>';
+                          $description = (  $facility && 
+                        $facility != '' && 
+                        count( $facility ) > 0 ?
+                          '<strong>Ship to:</strong> ' . $facility['company'] . '<br>' : 
                           '<strong>Ship to:</strong><br>' ) . 
-                      (   $request->join_material && 
-                        $request->join_material != '' && 
-                        count( $request->join_material ) > 0 ?
-                          '<strong>Material:</strong> ' . $request->join_material[0]['name'] . '<br>' : 
+                      (   $material && 
+                        $material != '' && 
+                        count( $material ) > 0 ?
+                          '<strong>Material:</strong> ' . $material['name'] . '<br>' : 
                           '<strong>Material:</strong><br>' ) . 
-                      '<strong>Volume: </strong>' . ( !empty( $request->volume ) ? $request->volume : '0' ) . '<br />' .
-                      '<strong>Arrival Date: </strong>' . ( !empty( $request->arrive_date ) ? date ( 'Y-m-d', strtotime($request->arrive_date) ) : 'not set' ) . '<br />';
+                      '<strong>Volume: </strong>' . ( !empty( $request['volume'] ) ? $request['volume'] : '0' ) . '<br />' .
+                      '<strong>Arrival Date: </strong>' . ( !empty( $request['arrive_date'] ) ? date ( 'Y-m-d', strtotime( $request['arrive_date'] ) ) : 'not set' ) . '<br />';
                                           
-                          $created = date ( 'Y-m-d', strtotime($request->created_ts) ) . '<br />';
+                          $created = date ( 'Y-m-d', strtotime( $request['created_ts'] ) ) . '<br />';
                           
-                          $button = '<a class="quote" href="#" title="quote this request" requestId="' . $request->id . '">quote</a>';
+                          $button = '<a class="quote" href="#" title="quote this request" requestId="' . $request['id'] . '">quote</a>';
                           
                           $ttemp = array();
                           $ttemp[] = $expires;
@@ -436,7 +449,7 @@ function controller_remote( $_controller_remote_method = null,
                           $ttemp[] = $created;
                           $ttemp[] = $button;
                           $dttmp["aaData"][] = $ttemp;
-                          $dttmp["id"][] = $request->id;
+                          $dttmp["id"][] = $request['id'];
                       
                     }
                     
@@ -527,6 +540,21 @@ function controller_remote( $_controller_remote_method = null,
 				$b = new Bid();
 				$bid = $b->acceptBid($bidId);
 				if ($bid) {
+					print '{"success": "true"}';
+				} else {
+					print '{"success": "false"}';
+				}
+			}
+			break;
+			
+		/* set request as archived */
+		case 'archiveRequest':
+			$requestId = !isset( $_controller_remote_request_id ) ? !isset( $_GET['request_id'] ) ? null : $_GET['request_id'] : $_controller_remote_request_id;
+			if ($requestId != null) {
+				$r = new Request();
+				$r->GetItemObj( $requestId );
+				$r->archived = 1;
+				if ( $r->UpdateItem() ) {
 					print '{"success": "true"}';
 				} else {
 					print '{"success": "false"}';
@@ -655,7 +683,7 @@ function controller_remote( $_controller_remote_method = null,
 						
 						print $output;
 					break;          
-					case 'data_tables':
+				case 'data_tables':
                   $counter = 0;
                   $count = count( $bidReturnArray );
                   $output = "";
@@ -664,37 +692,42 @@ function controller_remote( $_controller_remote_method = null,
                   $dttmp["aaData"] = array();
                   $dttmp["bid_object"] = array();
                   $outputArray = array();
+                  $status_array = $temp_bid->getStatusArray();
                   for($i = 0 ; $i < $count; $i++ ){
                   	
                         $bid = $bidReturnArray[$i];
+                        $bid['request_snapshot'] = json_decode($bid['request_snapshot'], true);
                         $outputArray[] = $bid;
+                        $facility = $bid['request_snapshot']['facility'];
+                        $material = $bid['request_snapshot']['material'];
+                        $scrapper = $bid['request_snapshot']['scrapper'];
+                        $request = $bid['request_snapshot']['request'];
 						
-                        $status_array = $temp_bid->getStatusArray();
-                        $status = '<span bidId="' . $bid->id  . '" bidCount="'.$i.'" >' . ( !empty($bid->status) ? $status_array[ $bid->status ] : $status_array[0] ) . '</span>';
+                        $status = '<span bidId="' . $bid['id']  . '" bidCount="'.$i.'" >' . ( !empty($bid['status']) ? $status_array[ $bid['status'] ] : $status_array[0] ) . '</span>';
                         
-                        $description = (   !empty( $bid->join_facility ) && 
-                                count( $bid->join_facility ) > 0 ?
-                                  '<strong>Ship from:</strong> ' . ( isset($bid->join_facility[0] ) && isset( $bid->join_facility[0]['company'] ) ? $bid->join_facility[0]['company'] : 'no company name' ) . '<br>' : 
+                        $description = (   !empty( $scrapper ) && 
+                                count( $scrapper ) > 0 ?
+                                  '<strong>Ship from:</strong> ' . ( isset( $scrapper ) && isset( $scrapper['company'] ) ? $scrapper['company'] : 'no company name' ) . '<br>' : 
                                   '<strong>Ship from:</strong><br>' ) . 
-                              (   $bid->join_scrapper && 
-                                $bid->join_scrapper != '' && 
-                                count( $bid->join_scrapper ) > 0 ?
-                                  '<strong>Ship to:</strong> ' . ( isset($bid->join_scrapper[0] ) && isset( $bid->join_scrapper[0]['company'] ) ? $bid->join_scrapper[0]['company'] : 'no company name' ) . '<br>' : 
+                              (   $facility && 
+                                $facility != '' && 
+                                count( $facility ) > 0 ?
+                                  '<strong>Ship to:</strong> ' . ( isset( $facility ) && isset( $facility['company'] ) ? $facility['company'] : 'no company name' ) . '<br>' : 
                                   '<strong>Ship to:</strong><br>' ) . 
-                              (   $bid->join_material && 
-                                $bid->join_material != '' && 
-                                count( $bid->join_material ) > 0 ?
-                                  '<strong>Material:</strong> ' . ( isset($bid->join_material[0] ) && isset( $bid->join_material[0]['name'] ) ? $bid->join_material[0]['name'] : 'material name' ) . '<br>' : 
+                              (   $material && 
+                                $material != '' && 
+                                count( $material ) > 0 ?
+                                  '<strong>Material:</strong> ' . ( isset( $material ) && isset( $material['name'] ) ? $material['name'] : 'material name' ) . '<br>' : 
                                   '<strong>Material:</strong><br>' ) . 
-							( 	!empty( $bid->join_request ) && 
-								count( $bid->join_request ) > 0 ?										
-							'<strong>Volume: </strong>' . ( isset( $bid->join_request[0] ) && isset( $bid->join_request[0]['volume'] ) ? $bid->join_request[0]['volume'] : '0' ) . '<br />' :
+							( 	!empty( $request ) && 
+								count( $request ) > 0 ?										
+							'<strong>Volume: </strong>' . ( isset( $request ) && isset( $request['volume'] ) ? $request['volume'] : '0' ) . '<br />' :
 							'<strong>Volume: </strong><br />' ) .
-                              '<strong>Transport Cost: </strong>' . ( !empty( $bid->transport_cost ) ? '$' . $bid->transport_cost : 'not set' ) . '<br />' .
-                              '<strong>Ship Date: </strong>' . ( !empty( $bid->ship_date ) ? date ( 'Y-m-d', strtotime($bid->ship_date) ) : 'not set' ) . 
-                              '&nbsp;&nbsp;<strong>Arrival Date: </strong>' . ( !empty( $bid->arrival_date ) ? date ( 'Y-m-d', strtotime($bid->arrival_date) ) : 'not set' ) . '<br />';
+                              '<strong>Transport Cost: </strong>' . ( !empty( $bid['transport_cost'] ) ? '$' . $bid['transport_cost'] : 'not set' ) . '<br />' .
+                              '<strong>Ship Date: </strong>' . ( !empty( $bid['ship_date'] ) ? date ( 'Y-m-d', strtotime($bid['ship_date']) ) : 'not set' ) . 
+                              '&nbsp;&nbsp;<strong>Arrival Date: </strong>' . ( !empty( $bid['arrival_date'] ) ? date ( 'Y-m-d', strtotime($bid['arrival_date']) ) : 'not set' ) . '<br />';
                          
-                        $created = $bid->created_ts;
+                        $created = $bid['created_ts'];
                         $ttemp = array();
                         $ttemp[] = $status;
                         $ttemp[] = $description;
@@ -722,11 +755,10 @@ function controller_remote( $_controller_remote_method = null,
 			break;
 		case 'getRequestsFromSession':
 			$requestId = empty( $_controller_remote_request_id ) ? empty( $_GET['request_id'] ) ? null : $_GET['request_id'] : $_controller_remote_request_id;
-
 			if(!empty($requestId)){
 				foreach( $_SESSION['user']['requests'] as $request ){
 					
-					if($request->id == $requestId) break;
+					if($request['id'] == $requestId) break;
 				}
 				print json_encode( $request );
 			} else { 

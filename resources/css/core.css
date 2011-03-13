@@ -106,6 +106,8 @@ a:active	{outline:none;}
 #marketData h3 {float:left}
 #marketData .more{float:right;margin:10px 20px 0 0;text-decoration:underline;}
 
+.myhome .filter, .dataTables_filter{background:#777;color:#fff;line-height:40px;padding-left:20px}
+.myhome .filter div, .dataTables_filter div{float:left;margin-right:20px;}
 
 /*
 #transportRequest tr.scrapQuote:hover{color:#999;cursor:pointer;}

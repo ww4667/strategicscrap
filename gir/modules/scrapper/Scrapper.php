@@ -142,15 +142,17 @@ class Scrapper extends User {
 		
 		$i = 0;
 		while( $i < count($joins) ){
-			$ra = $joins[$i];
+			$joins[$i]['request_snapshot'] = json_decode( $joins[$i]['request_snapshot'], true );
+			$requestReturnArray[] = $joins[$i];
+//			$ra = $joins[$i];
+//			
+//			$requestClass = new Request();
+//			$requestClass->GetItemObj( $ra['id'] );
+//			$requestClass->ReadJoins( new Material() );
+//			$requestClass->ReadJoins( new Scrapper() );
+//			$requestClass->ReadJoins( new Facility() );
 			
-			$requestClass = new Request();
-			$requestClass->GetItemObj( $ra['id'] );
-			$requestClass->ReadJoins( new Material() );
-			$requestClass->ReadJoins( new Scrapper() );
-			$requestClass->ReadJoins( new Facility() );
-			
-			$requestReturnArray[] = $requestClass;
+//			$requestReturnArray[] = $requestClass;
 			$i++;
 		}
 		

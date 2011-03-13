@@ -86,37 +86,55 @@ class Broker extends User {
 	}
 	
 	public function getBids( ){
-		// get materials by "itemId" and join type "material_join"
-		$item = $this; // Broker
-		
-		$bid = new Bid();
-		$joins = $bid->ReadForeignJoins( $item );
-		$bidReturnArray = array();
-		
-		$i = 0;
-		
-		while( $i < count($joins) ){
-			$ra = $joins[$i];
-			
-			$bidClass = new Bid();
-			$bidClass->GetItemObj( $ra['id'] );
-			$bidClass->ReadJoins( new Request() );
-			$bidClass->ReadJoins( new Transportation_Type() );
-			$bidClass->ReadJoins( new Broker() );
-			$bidClass->ReadJoins( new Scrapper() );
-			$bidClass->ReadJoins( new Facility() );
-			$bidClass->ReadJoins( new Material() );
-			$bidReturnArray[] = $bidClass;
-			$i++;
-			
-		}
-		
-		return $bidReturnArray;
+		$broker_query = $this->GetObjectQueryString();
+		$r = new Request();
+		$b = new Bid();
+		$bid_query = $b->GetObjectQueryString();
+		$request_query = $r->GetObjectQueryString();
+		$join_table = $this->_TABLE_PREFIX . constant('Crud::_VALUES_TABLE_JOINS');
+		$query .= " SELECT r.request_snapshot,bd.*";
+		$query .= " FROM";
+		$query .= " ($request_query) AS r,";
+		$query .= " ($broker_query) AS br,";
+		$query .= " ($bid_query) AS bd,";
+		$query .= " $join_table AS j1,";
+		$query .= " $join_table AS j2";
+		$query .= " WHERE bd.id = j1.item_id AND br.id = j1.value";
+		$query .= " AND bd.id = j2.item_id AND r.id = j2.value";
+		$query .= " AND br.id = " . $this->id;
+		return $this->Query( $query, true );
 	}
 		
 	public function getSimpleBids(){
 		$foreignObj = new Bid();
 		return $foreignObj->ReadForeignJoins( $this );
+	}
+	
+	public function getUnbidRequests() {
+		$broker_query = $this->GetObjectQueryString();
+		$today = date("Y-m-d 00:00:00");
+		$r = new Request();
+		$b = new Bid();
+		$bid_query = $b->GetObjectQueryString();
+		$request_query = $r->GetObjectQueryString();
+		$join_table = $this->_TABLE_PREFIX . constant('Crud::_VALUES_TABLE_JOINS');
+		$query = "SELECT nr.*";
+		$query .= " FROM";
+		$query .= " ($request_query) AS nr";
+		$query .= " LEFT JOIN";
+		$query .= " (SELECT r.*";
+		$query .= " FROM";
+		$query .= " ($request_query) AS r,";
+		$query .= " ($broker_query) AS br,";
+		$query .= " ($bid_query) AS bd,";
+		$query .= " $join_table AS j1,";
+		$query .= " $join_table AS j2";
+		$query .= " WHERE bd.id = j1.item_id AND br.id = j1.value";
+		$query .= " AND bd.id = j2.item_id AND r.id = j2.value";
+		$query .= " AND br.id = " . $this->id;
+		$query .= " ) as q on q.id = nr.id";
+		$query .= " WHERE q.id IS NULL AND nr.expiration_date > '$today'";
+		return $this->Query( $query, true );
 	}
     
 	/*

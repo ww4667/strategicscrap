@@ -19,6 +19,7 @@ class Request extends Crud {
 											array("type"=>"text","label"=>"Material Join","field"=>"join_material"),
 											array("type"=>"text","label"=>"Request Snapshot","field"=>"request_snapshot"),
 											array("type"=>"number","label"=>"Locked","field"=>"locked"),
+											array("type"=>"number","label"=>"Archived","field"=>"archived"),
 											array("type"=>"number","label"=>"Status","field"=>"status"),
 											array("type"=>"number","label"=>"Bid Count","field"=>"bid_count"),
 											array("type"=>"number","label"=>"Bid Unread","field"=>"bid_unread")
@@ -143,16 +144,15 @@ class Request extends Crud {
 		$i = 0;
 		while( $i < count($requestArray) ){
 			$ra = $requestArray[$i];
-			
-			$this->GetItemObj( $ra->id );
-			$this->ReadJoins( new Material() );
-			$this->ReadJoins( new Scrapper() );
-			$this->ReadJoins( new Facility() );
-			$stupidFace = clone $this;
+			$ra->request_snapshot = json_decode($ra->request_snapshot);
+//			$this->GetItemObj( $ra->id );
+//			$this->ReadJoins( new Material() );
+//			$this->ReadJoins( new Scrapper() );
+//			$this->ReadJoins( new Facility() );
+			$stupidFace = clone $ra;
 			
 			$requestReturnArray[] = $stupidFace;
 			$i++;
-			
 		}
 		return $requestReturnArray;
 	}

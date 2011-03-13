@@ -8,6 +8,9 @@
 	button.sureButton:hover{background:url(/resources/images/buttons/confirm_hover.png)}
 	button.cancelButton:hover{background:url(/resources/images/buttons/cancel_hover.png)}
 	.updated-timestamp{position:relative;left:30px;top:12px;float:left}
+	.myhome div.dataTables_info{float:right}
+	.myhome a.archive{width:22px;height:22px;display:block;background:url(/resources/images/buttons/dashboard_action.png) 0px 0px;text-indent:-5000px}
+	.myhome a.archive:hover{background-position: 0px -22px}
     </style>
 
 				<div class="leftCol">
@@ -168,9 +171,21 @@
 						        <div class="refreshBtn"><a id="reloadRequests">refresh</a></div>
 						      </div>
 								<hr style="margin-bottom:0" />
+								<?php
+								/*
+						        <div class="filter">
+						          <div><input type="checkbox" name="filter_complete" checked="checked" value="complete" /> complete</div>
+						          <div><input type="checkbox" name="filter_expired" checked="checked" value="expired" /> expired</div>
+						          <div><input type="checkbox" name="filter_waiting" checked="checked" value="waiting" /> waiting</div>
+						          <div><input type="checkbox" name="filter_archived" value="archived" /> archived</div>
+						          <div style="clear:both;float:none"><!-- IE hates empty elemenets --></div>
+						        </div>
+						        */
+						        ?>
 								<table id = "data_table_1" style = "width: 559px;">
 									<thead>
 										<tr class="row2">
+										    <th>&nbsp;</th>
 										    <th>EXPIRATION</th>
 										    <th>DESCRIPTION</th>
 										    <th>CREATED</th>
@@ -272,10 +287,26 @@ var scrapQuoteTimeout = null;
 
 function activateScrapQuote(){
 
-$(".scrapQuote").colorbox({ width:"550", inline:true, href:"#quoteForm", 
+	$('a.archive').click(function(){
+		var requestId = $(this).parent().attr('requestid');
+		
+		$.getJSON(
+    	    	'/controllers/remote',
+    	    	{	"method":"archiveRequest",
+        	    	"session_id":"<?=session_id();?>",
+					"request_id": requestId },
+				function(archive_request_response){
+						// console.log('accept_bid_response: ' + accept_bid_response);
+					if( archive_request_response.success == 'true' ){
+				    	reloadRequests();
+					}
+				});
+	});
+
+$(".scrapQuote td").not("td:has(a)").colorbox({ width:"550", inline:true, href:"#quoteForm", 
 	onClosed:function(){if( scrapQuoteTimeout ) clearTimeout( scrapQuoteTimeout );},
     onComplete:function(){ 
-    	current_request = $( this ).attr( "requestid" ); 
+    	current_request = $( this ).parent().attr( "requestid" ); 
     	$("#request_loading").show();
     	$("#request_data").hide();
     	$("#request_success").hide();
@@ -287,31 +318,33 @@ $(".scrapQuote").colorbox({ width:"550", inline:true, href:"#quoteForm",
         	    	"session_id":"<?=session_id();?>",
 					"request_id": current_request },
 				function(get_requests_data){
-						
-						var from = 	get_requests_data.join_scrapper[0].address_1 + '<br />' + 
-						( get_requests_data.join_scrapper[0].address_2 != '' ? get_requests_data.join_scrapper[0].address_2 + '<br />' : '' ) + 
-						get_requests_data.join_scrapper[0].city + ', ' + 
-						get_requests_data.join_scrapper[0].state_province + ' ' + 
-						get_requests_data.join_scrapper[0].postal_code;
+						var scrapper = get_requests_data['request_snapshot']['scrapper'];
+						var facility = get_requests_data['request_snapshot']['facility'];
+						var r_material = get_requests_data['request_snapshot']['material'];
+						var from = 	scrapper['address_1'] + '<br />' + 
+						( scrapper['address_2'] != '' && scrapper['address_2'] != null ? scrapper['address_2'] + '<br />' : '' ) + 
+						scrapper['city'] + ', ' + 
+						scrapper['state_province'] + ' ' + 
+						scrapper['postal_code'];
 						$("#bid_request_ship_from").html( from );
 						
-						var to = 	get_requests_data.join_facility[0].address_1 + '<br />' + 
-						( get_requests_data.join_facility[0].address_2 != '' ? get_requests_data.join_facility[0].address_2 + '<br />' : '' ) + 
-						get_requests_data.join_facility[0].city + ', ' + 
-						get_requests_data.join_facility[0].state_province + ' ' + 
-						get_requests_data.join_facility[0].postal_code;
+						var to = facility['address_1'] + '<br />' + 
+						( facility['address_2'] != '' && facility['address_2'] != null ? facility['address_2'] + '<br />' : '' ) + 
+						facility['city'] + ', ' + 
+						facility['state_province'] + ' ' + 
+						facility['postal_code'];
 						$("#bid_request_ship_to").html( to );
 						
-						var material = 	get_requests_data.join_material[0].name;
+						var material = 	r_material['name'];
 						$("#bid_request_material").html( material );
 						
-						var volume = 	get_requests_data.volume;
+						var volume = 	get_requests_data['volume'];
 						$("#bid_request_quantity").html( volume );
 						
-						var delivery_date = 	get_requests_data.arrive_date;
+						var delivery_date = 	get_requests_data['arrive_date'];
 						$("#bid_request_delivery_date").html( delivery_date );
 						
-						var transportation = 	get_requests_data.transportation_type;
+						var transportation = 	get_requests_data['transportation_type'];
 						$("#bid_request_preferred_transporation").html( transportation );
 
 						$("#bid_data").html('');
@@ -423,8 +456,8 @@ $(".scrapQuote").colorbox({ width:"550", inline:true, href:"#quoteForm",
 						
 				}); 
 	} 
-});
-}
+}); // end colorbox function
+} // end activateScrapQuote
 
   
   $.fn.dataTableExt.oApi.fnReloadAjax = function ( oSettings, sNewSource, fnCallback ){
@@ -467,10 +500,9 @@ function reloadRequests(){
             
     });
 }
-    $(document).ready(function(){   
+    $(document).ready(function(){
       
       $("#reloadRequests").click(function(){
-      
     	  reloadRequests();
       });
       
@@ -485,10 +517,25 @@ function reloadRequests(){
           //console.dir(request_object);
           oTable = $('#data_table_1').dataTable({
             "aaData": json.aaData,
+            "aoColumnDefs": [
+				{ "sWidth": "65px", "aTargets": [ 1, 3 ] }
+			],
             "sScrollY": "380px",
               "bPaginate": false,
-              "bFilter": false,
-              "bInfo": false ,
+//              "bFilter": false,
+              "bInfo": true ,
+              "sDom": '<"filter"<"checks">i><t>',
+	      		"oLanguage": {
+	      			"sLengthMenu": "Display _MENU_ records per page",
+	      			// "sZeroRecords": "Nothing found - sorry",
+	      			"sZeroRecords": "No matching records.",
+	      			// "sInfo": "Showing _START_ to _END_ of _TOTAL_ records",
+	      			"sInfo": "_TOTAL_ records",
+	      			// "sInfoEmpty": "Showing 0 to 0 of 0 records",
+	      			"sInfoEmpty": "0 records",
+	      			// "sInfoFiltered": "(filtered from _MAX_ total records)"
+	      			"sInfoFiltered": ""
+	      		},
               "fnRowCallback": function( nRow, aData, iDisplayIndex ) {
                     $(nRow).addClass('scrapQuote');
                     $(nRow).attr('requestId', $(aData[0]).attr("requestId") );
@@ -499,9 +546,47 @@ function reloadRequests(){
                  sw.quoteManagerSlider = new sw.app.verticalSlider('#transportRequest', '.dataTables_scrollBody','#data_table_1',{overflow: "hidden", float: "left", width: "541px"}, {position: "relative"} );
               }
             });
+
+          // ADD the checkboxes to the filter bar
+          
+          var filter_html = '<div><input type="checkbox" name="filter_complete" checked="checked" value="complete" /> complete</div>'
+      				    + '<div><input type="checkbox" name="filter_expired" checked="checked" value="expired" /> expired</div>'
+      				    + '<div><input type="checkbox" name="filter_waiting" checked="checked" value="waiting" /> waiting</div>'
+      				    + '<div><input type="checkbox" name="filter_archived" value="archived" /> archived</div>'
+      				    + '<div style="clear:both;float:none"><!-- IE hates empty elemenets --></div>';
+
+          $("div.checks").html(filter_html);
+          $("div.filter").append('<div style="clear:both;float:none"><!-- IE hates empty elemenets --></div>');
+          
+        	// START code for request filter
+
+        	oTable.fnFilter("archive", 0);
+        	
+        	$(".filter input").change( function () {
+        		/* Filter on the column (the index) of this element */
+        		var status_filter = "empty";
+        		var archive_filter = "archive";
+        		var checked = $(".filter input:checked");
+        		$.each(checked, function(key, item) {
+        			if (key == 0) status_filter = "";
+        			if (key + 1 == checked.length) {
+        				status_filter += item.value; 
+        			} else {
+        				status_filter += item.value + "|"; 
+        			}
+        			if (item.value == "archived") {
+        				archive_filter = "hidden";
+        			}
+        		});
+        		oTable.fnFilter( status_filter, 4, 1 );
+        		oTable.fnFilter( archive_filter, 0, 1 );
+                activateScrapQuote();
+        	} );
+        	
+        	// END code for request filter
+          
           }
-        }); 
-         
+        });
        
         $('#latestNews').tabs();
       });
