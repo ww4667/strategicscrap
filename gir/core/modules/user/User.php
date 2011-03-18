@@ -119,7 +119,12 @@ class User extends Crud {
 			$user = $users[0];
 			$user->password_reset = sha1(time().'--'.rand(100,10000));
 			$user->UpdateItem();
+			$email_data["email"] = $email;
+			$email_data["password_reset"] = $user -> password_reset;
+			//print "send email here";
+			Mailer::reset_password_email($email_data);
 //			Mailer::password_reset_email($details);
+			return true;
 		} else {
 			return false;
 		}

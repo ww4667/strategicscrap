@@ -778,6 +778,44 @@ function controller_remote( $_controller_remote_method = null,
 				print json_encode( $_SESSION['user']['bids'] );
 			} 
 			break;
+			
+		case 'forgotPassword':
+		$u = new User();
+
+		if( isset($_GET['email'])) {
+			include_once($_SERVER['DOCUMENT_ROOT'].'/models/Mailer.php');
+			$post_data = $_GET;
+			$clean_data = array();
+			foreach($post_data as $key => $val) {
+				$clean = trim($val);
+				$clean_data[$key] = $clean;
+			}
+			//check if user exists and send email
+			$result = $u->ForgotPassword($clean_data["email"]);
+
+			if($result) {
+				$json = '{ "result": { "status" : 1,"message": "Instructions have been sent to your email address, please use the link to reset your password."} }';
+				
+				//flash($msg, "");
+				//$PAGE_BODY = "forgot_password.php";
+
+			} else {
+				$json = '{ "result": { "status" : 0,"message": "Your email address is not found in our system - <span class = \'forgot_try_again\'>Try again</span>"} }';
+				
+				
+				//flash($msg, "bad");
+				//$PAGE_BODY = "forgot_password.php";
+			}
+			
+			print $json;
+			
+		} else {
+			
+			//$PAGE_BODY = "forgot_password.php";
+			/* which file to pull into the template */
+		}
+			//require (thisFullPath . "/views/layouts/shell.php");
+			break;
 	}
 }
 

@@ -109,5 +109,21 @@ class Mailer{
 		$mail->setBodyHtml($message);
 		$mail->send();
 	}
+
+	static function reset_password_email($i_object){
+		$mail = new Zend_Mail();
+		$mail->setFrom('do_not_reply@strategicscrap.com', 'Strategic Scrap');
+
+		$mail->setSubject("Password Reset Request.");
+        $mail->setBodyText("We've received your password reset request, please use the following url to reset your password - http://demo.strategicscrap.com/reset-password/?reset_key=" .  $i_object["password_reset"] . ".");
+        $mail->addTo($i_object['email'],"Strategic Scrap Member");
+		
+		//include_user_message_body(TEMPLATE_TO_USE, BODY_FILE_TO_USE, OBJECT_FOR_POPULATING_EMAIL_CONTENTS)
+		$message = Mailer::include_user_message_body("base_template","password_reset",$i_object); //the template to use from /views/mailer (minus the ".php")
+		
+		//setting both bodyText AND bodyHtml sends a multipart message for people with text vs. html
+		$mail->setBodyHtml($message);
+		$mail->send();
+	}
 }
 ?>
