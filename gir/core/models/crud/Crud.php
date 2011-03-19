@@ -835,9 +835,9 @@ class Crud {
 		$fields = ""; 
 		foreach ($properties as $p) {
 			if ($fields == "") {
-				$fields .= " MAX(IF(pn.label='".$p['field']."', v.value, '')) AS `".$p['field']."`";
+				$fields .= " GROUP_CONCAT(IF(pn.label='".$p['field']."', v.value, null)) AS `".$p['field']."`";
 			} else {
-				$fields .= ", MAX(IF(pn.label='".$p['field']."', v.value, '')) AS `".$p['field']."`";
+				$fields .= ", GROUP_CONCAT(IF(pn.label='".$p['field']."', v.value, null)) AS `".$p['field']."`";
 			}
 		}
 		$query = "SELECT o.id, o.created_ts, o.updated_ts, o.object_name_id,";
@@ -891,9 +891,9 @@ class Crud {
 		$fields = ""; 
 		foreach ($properties as $p) {
 			if ($fields == "") {
-				$fields .= " MAX(IF(pn.label='".$p['field']."', v.value, '')) AS `".$p['field']."`";
+				$fields .= " GROUP_CONCAT(IF(pn.label='".$p['field']."', v.value, null)) AS `".$p['field']."`";
 			} else {
-				$fields .= ", MAX(IF(pn.label='".$p['field']."', v.value, '')) AS `".$p['field']."`";
+				$fields .= ", GROUP_CONCAT(IF(pn.label='".$p['field']."', v.value, null)) AS `".$p['field']."`";
 			}
 		}
 		$query = "SELECT * FROM";
@@ -927,9 +927,9 @@ class Crud {
 		$fields = "";
 		foreach ($properties as $p) {
 			if ($fields == "") {
-				$fields .= " MAX(IF(pn.label='".$p['field']."', v.value, '')) AS `".$p['field']."`";
+				$fields .= " GROUP_CONCAT(IF(pn.label='".$p['field']."', v.value, null)) AS `".$p['field']."`";
 			} else {
-				$fields .= ", MAX(IF(pn.label='".$p['field']."', v.value, '')) AS `".$p['field']."`";
+				$fields .= ", GROUP_CONCAT(IF(pn.label='".$p['field']."', v.value, null)) AS `".$p['field']."`";
 			}
 		}
 		$query = "SELECT o.id, o.created_ts, o.updated_ts, o.object_name_id, vjn.label as join_property_label,";
@@ -961,9 +961,9 @@ class Crud {
 		$fields = "";
 		foreach ($properties as $p) {
 			if ($fields == "") {
-				$fields .= " MAX(IF(pn.label='".$p['field']."', v.value, '')) AS `".$p['field']."`";
+				$fields .= " GROUP_CONCAT(IF(pn.label='".$p['field']."', v.value, null)) AS `".$p['field']."`";
 			} else {
-				$fields .= ", MAX(IF(pn.label='".$p['field']."', v.value, '')) AS `".$p['field']."`";
+				$fields .= ", GROUP_CONCAT(IF(pn.label='".$p['field']."', v.value, null)) AS `".$p['field']."`";
 			}
 		}
 		$query = "SELECT o.id, o.created_ts, o.updated_ts, o.object_name_id,";
