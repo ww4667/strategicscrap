@@ -518,8 +518,6 @@ class Crud {
     		default:
     			$fail = true;
     	}
-    	
-    	
 		
     	if( !$fail ){
 			
@@ -625,7 +623,6 @@ class Crud {
 		$op = $arr1['id'];
 
 		return $op;
-
     }
 
     private function _CheckIfObjectAndPropertyRelationExists( $objectId, $propertyId ){
@@ -661,7 +658,6 @@ class Crud {
 		$op = $arr1['id'];
 
 		return $op;
-
     }
 
     private function _CheckIfObjectNameExists( $label ){
