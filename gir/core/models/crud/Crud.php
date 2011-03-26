@@ -200,8 +200,6 @@ class Crud {
 	
 	public function GetAllItems( $detail = false ){
 		$objectName = $this->_OBJECT_NAME;
-//		$object = $this->_GetDataByName( $objectName, $this->_TABLE_PREFIX.constant('Crud::_OBJECT_NAMES') );
-//		$objectNameId = $object['id'];
 		$objectNameId = $this->_OBJECT_NAME_ID;
 		$items = $this->_GetAllItemsByObjectNameId( $objectNameId );
 		return $items;
@@ -209,8 +207,6 @@ class Crud {
 	
 	public function GetAllItemsObj( $detail = false ){
 		$objectName = $this->_OBJECT_NAME;
-//		$object = $this->_GetDataByName( $objectName, $this->_TABLE_PREFIX.constant('Crud::_OBJECT_NAMES') );
-//		$objectNameId = $object['id'];
 		$objectNameId = $this->_OBJECT_NAME_ID;
 		$items = $this->_GetAllItemsByObjectNameId( $objectNameId );
 		if (count($items) > 0) {
@@ -633,7 +629,6 @@ class Crud {
     }
 
     private function _CheckIfObjectAndPropertyRelationExists( $objectId, $propertyId ){
-    	//print "<h5>_CheckIfObjectAndPropertyRelationExists</h5>";
 		$this->database_connection->Open();
 		$query = "SELECT OD1.id as id FROM " . $this->_TABLE_PREFIX.constant('Crud::_OBJECT_DEFINITIONS') . " as OD1 WHERE OD1.object_name_id = $objectId AND OD1.property_name_id = $propertyId;";
 		$result = $this->database_connection->Query( $query );
@@ -724,9 +719,6 @@ class Crud {
     
     /* DELETE */
     private function _DeletePropertyValue( $itemId, $propertyNameId, $type ){
-    	//print "<h5>_SetPropertyValue</h5>";
-    	/*  */
-
 		$table = NULL;
 
     	switch( $type ){
@@ -951,8 +943,6 @@ class Crud {
 		$query .= " GROUP BY o.id";
 		
 		$result = (array) $this->_RunQuery( $query, true );
-		
-		//if( count( $result ) > 1 ) $this->$result[0]['join_property_label'] = $result;
 		
 		return $result;
 	}
