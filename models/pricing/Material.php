@@ -72,8 +72,11 @@ class PricingMaterial {
 		global $modx;
 		$fields = "*";
 		$table = "scrap_pricing_materials";
+		$where = "";
+		$orderby = "name ASC";
+		$limit = "";
 
-		$query = $modx->db->select($fields,$table);
+		$query = $modx->db->select($fields,$table,$where,$orderby,$limit);
 		
 		if ($modx->db->getRecordCount($query) > 0) {
 			$materials = array();
@@ -88,7 +91,7 @@ class PricingMaterial {
 		} else {
 			return FALSE;
 		}
-	}	
+	}
 	
 	/** 
 	* retrieve a PricingMaterial object

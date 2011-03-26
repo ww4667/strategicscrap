@@ -11,4 +11,4 @@
               </tr>
           </table>
             <img src="http://www.speech-buddies.com/assets/images/hordivider.gif" />
-          <p>If you have any other questions, feel free to contact us at <a href="mailto:StrategicInfo@StrategicScrap.com">StrategicInfo@StrategicScrap.com</a>.</p>
+          <p>Questions? <a href="mailto:StrategicInfo@StrategicScrap.com">StrategicInfo@StrategicScrap.com</a>.</p>

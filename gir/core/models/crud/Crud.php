@@ -87,7 +87,7 @@ class Crud {
     	$relation = array();
 
     	$labelArray = $this->_CheckIfObjectNameExists( $label );
-
+    	
 		if( isset($labelArray[ 'id' ]) ){
 			$labelId = $labelArray[ 'id' ];
 		} else {
@@ -607,12 +607,10 @@ class Crud {
     		default:
     			$fail = true;
     	}
-    	
-    	
 		
     	if( !$fail ){
 			$query = "SELECT id FROM $table WHERE property_name_id='$propertyId' AND item_id='$itemId' LIMIT 1;";
-			$op = $this->Query( $query, true );
+			$op = $this->_RunQuery( $query, true );
 
 			return $op;
     	} else {
@@ -654,11 +652,9 @@ class Crud {
 		}
 
 		return $op;
-
     }
 
     private function _CreateObjectName( $label ){
-    	//print "<h5>_CreateObjectName</h5>";
 		$this->database_connection->Open();
 		$result = $this->database_connection->Query( "INSERT INTO " . $this->_TABLE_PREFIX.constant('Crud::_OBJECT_NAMES') . " (label) VALUES ('".mysql_real_escape_string( strtolower( $label ) )."');" );
 		$query = "SELECT LAST_INSERT_ID() as id;";
@@ -674,12 +670,9 @@ class Crud {
     }
 
     private function _CheckIfObjectNameExists( $label ){
-    	//print "<h5>_CheckIfObjectNameExists</h5>";
-
-		$this->database_connection->Open();
-		$result = $this->database_connection->Query( "SELECT " . $this->_TABLE_PREFIX.constant('Crud::_OBJECT_NAMES') . ".id FROM " . $this->_TABLE_PREFIX.constant('Crud::_OBJECT_NAMES') . " WHERE " . $this->_TABLE_PREFIX.constant('Crud::_OBJECT_NAMES') . ".label = '" . mysql_real_escape_string( strtolower( $label ) ) . "'" );
-		$arr1 = $this->database_connection->FetchArray( $result );
-		$this->database_connection->Close();
+		$query = "SELECT " . $this->_TABLE_PREFIX.constant('Crud::_OBJECT_NAMES') . ".id FROM " . $this->_TABLE_PREFIX.constant('Crud::_OBJECT_NAMES') . " WHERE " . $this->_TABLE_PREFIX.constant('Crud::_OBJECT_NAMES') . ".label = '" . strtolower( $label ) . "'";
+		$arr1 = $this->_RunQuery( $query, true );
+		$arr1 = $arr1[0];
 
 		$op = array();
 
@@ -693,11 +686,9 @@ class Crud {
 		}
 
 		return $op;
-
     }
 
     private function _CreatePropertyName( $label ){
-    	//print "<h5>_CreatePropertyName</h5>";
 		$this->database_connection->Open();
     	$result = $this->database_connection->Query( "INSERT INTO " . $this->_TABLE_PREFIX.constant('Crud::_PROPERTY_NAMES') . " (label) VALUES ('" . mysql_real_escape_string( strtolower( $label ) ) . "');" );
 		$query = "SELECT LAST_INSERT_ID() as id;";
@@ -711,7 +702,6 @@ class Crud {
     }
 
     private function _CheckIfPropertyNameExists( $label ){
-    	//print "<h5>_CheckIfPropertyNameExists</h5>";
 		$this->database_connection->Open();
 		$result = $this->database_connection->Query( "SELECT " . $this->_TABLE_PREFIX.constant('Crud::_PROPERTY_NAMES') . ".id as id FROM " . $this->_TABLE_PREFIX.constant('Crud::_PROPERTY_NAMES') . " WHERE " . $this->_TABLE_PREFIX.constant('Crud::_PROPERTY_NAMES') . ".label = '" . mysql_real_escape_string( strtolower( $label ) ) . "'" );
 		$arr1 = $this->database_connection->FetchArray( $result );
@@ -795,20 +785,14 @@ class Crud {
     /*     GET     */
     private function _GetDataById( $id, $table = "" ) {
     	$table = ($table == "") ? $this->_TABLE_PREFIX.constant('Crud::_PROPERTY_NAMES') : $table;
-		$this->database_connection->Open();
 		$query = "SELECT * FROM $table WHERE id = " . $id . ";";
-		$result = $this->database_connection->Query( $query );
-		$arr1 = $this->database_connection->FetchAssocArray( $result );
-		$this->database_connection->Close();
-		return $arr1;
+		return $this->_RunQuery( $query, true );
     }
 
     private function _GetDataByName( $label, $table = "" ) {
     	$table = ($table == "") ? $this->_TABLE_PREFIX.constant('Crud::_PROPERTY_NAMES') : 	$table;
-		$this->database_connection->Open();
-		$result = $this->database_connection->Query( "SELECT * FROM $table WHERE label = '" . mysql_real_escape_string( strtolower( $label ) ) . "'" );
-		$arr1 = $this->database_connection->FetchAssocArray( $result );
-		$this->database_connection->Close();
+    	$query = "SELECT * FROM $table WHERE label = '" . strtolower( $label ) . "'";
+    	$arr1 = $this->_RunQuery( $query, true );
 		return $arr1[0]; // return first item
     }
 
@@ -817,59 +801,47 @@ class Crud {
     }
 	
 	private function _GetValuesByObjectId( $itemId ){
-		$this->database_connection->Open();
 		$query = "SELECT o.id, o.created_ts, o.updated_ts, o.object_name_id, v.property_name_id, pn.label, v.value";
 		$query .= " FROM " . $this->_TABLE_PREFIX.constant('Crud::_ITEMS') . " as o";
 		$query .= " LEFT JOIN " . $this->_TABLE_PREFIX.constant('Crud::_OBJECT_DEFINITIONS') . " as od on od.object_name_id = o.object_name_id";
 		$query .= " LEFT JOIN " . $this->_TABLE_PREFIX.constant('Crud::_PROPERTY_NAMES') . " as pn on pn.id = od.property_name_id";
-		$query .= " LEFT JOIN 	(SELECT * FROM " . $this->_TABLE_PREFIX.constant('Crud::_VALUES_TABLE_DATES') . " UNION SELECT * FROM " . $this->_TABLE_PREFIX.constant('Crud::_VALUES_TABLE_NUMBERS') . " UNION SELECT * FROM " . $this->_TABLE_PREFIX.constant('Crud::_VALUES_TABLE_TEXT') . ") as v on v.property_name_id = od.property_name_id AND v.item_id = o.id";
+		$query .= " LEFT JOIN (SELECT * FROM " . $this->_TABLE_PREFIX.constant('Crud::_VALUES_TABLE_DATES') . " WHERE item_id = $itemId UNION ALL SELECT * FROM " . $this->_TABLE_PREFIX.constant('Crud::_VALUES_TABLE_NUMBERS') . " WHERE item_id = $itemId UNION ALL SELECT * FROM " . $this->_TABLE_PREFIX.constant('Crud::_VALUES_TABLE_TEXT') . " WHERE item_id = $itemId) as v on v.property_name_id = od.property_name_id AND v.item_id = o.id";
 		$query .= " WHERE o.id = $itemId";
-		$result = $this->database_connection->Query( $query );
-		$arr1 = $this->database_connection->FetchAssocArray( $result );
-		$this->database_connection->Close();
-		return $arr1;
+		return $this->_RunQuery( $query, true );
 	}
 	
 	private function _GetAllItemsByObjectNameId( $objectNameId, $return_sql = false ) {
 		$properties = $this->_OBJECT_PROPERTIES;
-		$fields = ""; 
-		foreach ($properties as $p) {
-			if ($fields == "") {
-				$fields .= " GROUP_CONCAT(IF(pn.label='".$p['field']."', v.value, null)) AS `".$p['field']."`";
-			} else {
-				$fields .= ", GROUP_CONCAT(IF(pn.label='".$p['field']."', v.value, null)) AS `".$p['field']."`";
-			}
-		}
-		$query = "SELECT o.id, o.created_ts, o.updated_ts, o.object_name_id,";
-		$query .= $fields;
-		$query .= " FROM " . $this->_TABLE_PREFIX.constant('Crud::_ITEMS') . " as o,";
-		$query .= " " . $this->_TABLE_PREFIX.constant('Crud::_OBJECT_DEFINITIONS') . " as od,";
-		$query .= " " . $this->_TABLE_PREFIX.constant('Crud::_PROPERTY_NAMES') . " as pn,";
-		$query .= " (SELECT * FROM " . $this->_TABLE_PREFIX.constant('Crud::_VALUES_TABLE_DATES') . " UNION SELECT * FROM " . $this->_TABLE_PREFIX.constant('Crud::_VALUES_TABLE_NUMBERS') . " UNION SELECT * FROM " . $this->_TABLE_PREFIX.constant('Crud::_VALUES_TABLE_TEXT') . ") as v";
-		$query .= " WHERE o.object_name_id = $objectNameId";
-		$query .= " AND od.object_name_id = o.object_name_id";
-		$query .= " AND pn.id = od.property_name_id";
-		$query .= " AND v.property_name_id = od.property_name_id AND v.item_id = o.id";
-		$query .= " GROUP BY o.id";
+		$field_names = "";
+		$field_tables = "";
+		$text_table = $this->_TABLE_PREFIX.constant('Crud::_VALUES_TABLE_TEXT');
+		$number_table = $this->_TABLE_PREFIX.constant('Crud::_VALUES_TABLE_NUMBERS');
+		$date_table = $this->_TABLE_PREFIX.constant('Crud::_VALUES_TABLE_DATES');
+		$join_table = $this->_TABLE_PREFIX.constant('Crud::_VALUES_TABLE_TEXT'); // used only to produce empty field
 		
-		//echo $query;
+		foreach ($properties as $p) {
+			$table = ${$p['type'] . "_table"};
+			$alias = "obj" . $objectNameId . "pn" . $p['property_name_id'];
+			$field_names .= " $alias.value as " . $p['field'] . ",";
+			$field_tables .= " LEFT JOIN $table as $alias on $alias.item_id=o.id AND $alias.property_name_id=" . $p['property_name_id'];
+		}
+		$field_names = trim( $field_names, "," );
+		$query = "SELECT o.id, o.created_ts, o.updated_ts, o.object_name_id,";
+		$query .= $field_names;
+		$query .= " FROM " . $this->_TABLE_PREFIX.constant('Crud::_ITEMS') . " as o";
+		$query .= $field_tables;
+		$query .= " WHERE o.object_name_id = $objectNameId";
+			
 		if ($return_sql){
 			return $query;
 		} else {			
-			$result = $this->_RunQuery( $query );
-			$arr1 = $this->database_connection->FetchAssocArray( $result );
-			
-			return $arr1;
+			return $this->_RunQuery( $query, true );
 		}
 	}
 	
 	private function _GetItemsByObjectNameId( $objectNameId ){
-		$this->database_connection->Open();
 		$query = "SELECT * FROM ".$this->_TABLE_PREFIX.constant('Crud::_ITEMS')." where object_name_id = $objectNameId";
-		$result = $this->database_connection->Query( $query );
-		$arr1 = $this->database_connection->FetchAssocArray( $result );
-		$this->database_connection->Close();
-		return $arr1;
+		return $this->_RunQuery( $query, true );
 	}
 	
 	private function _GetItemsByObjectPropertyValue( $objectNameId, $propertyName, $type, $value ){
@@ -887,37 +859,39 @@ class Crud {
 				$table = $this->_TABLE_PREFIX.constant('Crud::_VALUES_TABLE_JOINS');
     			break;
     	}
+
 		$properties = $this->_OBJECT_PROPERTIES;
-		$fields = ""; 
+		$field_names = "";
+		$field_tables = "";
+		$text_table = $this->_TABLE_PREFIX.constant('Crud::_VALUES_TABLE_TEXT');
+		$number_table = $this->_TABLE_PREFIX.constant('Crud::_VALUES_TABLE_NUMBERS');
+		$date_table = $this->_TABLE_PREFIX.constant('Crud::_VALUES_TABLE_DATES');
+		$join_table = $this->_TABLE_PREFIX.constant('Crud::_VALUES_TABLE_TEXT'); // used only to produce empty field
+		$whereTable = "";
+		$whereStatement = "";
+		
 		foreach ($properties as $p) {
-			if ($fields == "") {
-				$fields .= " GROUP_CONCAT(IF(pn.label='".$p['field']."', v.value, null)) AS `".$p['field']."`";
-			} else {
-				$fields .= ", GROUP_CONCAT(IF(pn.label='".$p['field']."', v.value, null)) AS `".$p['field']."`";
+			$table = ${$p['type'] . "_table"};
+			$alias = "obj" . $objectNameId . "pn" . $p['property_name_id'];
+			$field_names .= " $alias.value as " . $p['field'] . ",";
+			$field_tables .= " LEFT JOIN $table as $alias on $alias.item_id=o.id AND $alias.property_name_id=" . $p['property_name_id'];
+			if ($propertyName == $p['field']) {
+				$whereStatement = " AND q.item_id = o.id AND q.property_name_id = " . $p['property_name_id'] . " AND q.value = '$value'";
+				$whereTable = $table;
 			}
 		}
-		$query = "SELECT * FROM";
-		$query .= " (SELECT o.id, o.created_ts, o.updated_ts, o.object_name_id,";
-		$query .= $fields;
-		$query .= " FROM " . $this->_TABLE_PREFIX.constant('Crud::_ITEMS') . " as o";
-		$query .= " LEFT JOIN " . $this->_TABLE_PREFIX.constant('Crud::_OBJECT_DEFINITIONS') . " as od on od.object_name_id = o.object_name_id";
-		$query .= " LEFT JOIN " . $this->_TABLE_PREFIX.constant('Crud::_PROPERTY_NAMES') . " as pn on pn.id = od.property_name_id";
-		$query .= " LEFT JOIN 	(SELECT * FROM " . $this->_TABLE_PREFIX.constant('Crud::_VALUES_TABLE_DATES') . " UNION SELECT * FROM " . $this->_TABLE_PREFIX.constant('Crud::_VALUES_TABLE_NUMBERS') . " UNION SELECT * FROM " . $this->_TABLE_PREFIX.constant('Crud::_VALUES_TABLE_TEXT') . ") as v on v.property_name_id = od.property_name_id AND v.item_id = o.id";
-		$query .= " WHERE o.object_name_id = $objectNameId";
-		$query .= " GROUP BY o.id) AS all_items";
-		$query .= " WHERE `$propertyName` = '$value'";
-		$result = $this->_RunQuery( $query );
-		$arr1 = $this->database_connection->FetchAssocArray( $result );
-		return $arr1;
+		$field_names = trim( $field_names, "," );
+		$query = "SELECT o.id, o.created_ts, o.updated_ts, o.object_name_id,";
+		$query .= $field_names;
+		$query .= " FROM $whereTable as q, " . $this->_TABLE_PREFIX.constant('Crud::_ITEMS') . " as o";
+		$query .= $field_tables;
+		$query .= " WHERE o.object_name_id = $objectNameId" . $whereStatement;
+		return $this->_RunQuery( $query, true );
 	}
 
 	private function _GetJoin( $itemId, $foreignItemId ){
-		$this->database_connection->Open();
 		$query = "SELECT jv.id, jv.value, jv.property_name_id, jv.item_id FROM ".$this->_TABLE_PREFIX.constant('Crud::_VALUES_TABLE_JOINS')." as jv where jv.item_id = $itemId AND jv.value = $foreignItemId";
-		$result = $this->database_connection->Query( $query );
-		$arr1 = $this->database_connection->FetchAssocArray( $result );
-		$this->database_connection->Close();
-		return $arr1;
+		return $this->_RunQuery( $query, true );
 	}
 
 	private function _GetJoins( $joinObject, $return_sql = false ){
@@ -944,7 +918,6 @@ class Crud {
 		$query .= " WHERE obj.label = '$objectName'";
 		$query .= " GROUP BY o.id";
 		
-		//echo $query;
 		if ($return_sql){
 			return $query;
 		} else {			

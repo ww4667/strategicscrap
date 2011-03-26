@@ -35,7 +35,7 @@ while (!$KILL) {
 
 			$f = new Facility();
 			$facilities = $f->GetAllItems();
-
+			
 			//the layout file
 			require($ss_path."views/layouts/manager_shell.php");
 			$KILL = true;
