@@ -124,9 +124,8 @@
 	</select></div>
     <br style="clear:left" />
     <br style="clear:left" />
-
 	
+	<p style="color:#F00">CAUTION: Removing this facility will remove all connected records in the database.</p>
 	<input type="submit" name="submitted" value="Update Facility" />&nbsp;&nbsp;<input type="submit" name="remove" value="Remove Facility" />
-	<p style="color:F00">CAUTION: Removing this facility will remove all connected records in the database.</p>
 	</form>
 </div>

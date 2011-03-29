@@ -80,7 +80,11 @@ if(!$gir->auth->authenticate()){
 						<div style="padding:10px;">
 		
 							<strong>Company:</strong> <?= $facility['company'] ?><br />
+<?php
+/*
 							<strong>Name:</strong> <?=isset($facility['first_name']) && isset($facility['last_name']) ? $facility['first_name']. ' ' . $facility['last_name'] : ''?><br />
+*/
+?>							
 							<hr />
 							<strong>Address:</strong> <?=isset($facility['address_1']) ? $facility['address_1'] : ''?><br />
 							<?php if(isset($facility['address_2']) && $facility['address_2'] != ''){ ?>
@@ -89,9 +93,13 @@ if(!$gir->auth->authenticate()){
 							<strong>City:</strong> <?=isset($facility['city']) ? $facility['city'] : ''?><br />
 							<strong>State:</strong> <?=$facility['state_province'] ? $facility['state_province'] : ''?><br />
 							<strong>Zip Code:</strong> <?=$facility['zip_postal_code'] ? $facility['zip_postal_code'] : ''?><br />
+<?php
+/*
 							<hr />
 							<strong>Phone:</strong> <?=$facility['business_phone'] ? $facility['business_phone'] : ''?><br />
 							<strong>Fax:</strong> <?=$facility['fax_number'] ? $facility['fax_number'] : ''?><br />
+ */
+?>							
 							
 						</div>
 					</div>

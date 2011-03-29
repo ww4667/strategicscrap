@@ -86,9 +86,9 @@ var sOut = $(nTr).find("div.facility_details").html();
 <!-- START JEREMIAH -->	
 	
 		
-		<script src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=ABQIAAAA5orusEsORwp3TpDfY4mHghRo1yugqLkC8EOUpvf1E4JGwrqUFxTZkUlXKDqUJWMKrySTaiPKtyYvRA&amp;sensor=true" type="text/javascript"></script>
+		<script src="https://maps.google.com/maps?file=api&amp;v=2&amp;key=ABQIAAAA5orusEsORwp3TpDfY4mHghQZ-AafkbYzrRyD6HbihLXH7YdK9BQhyb-3j8Tv2_NTdSLxurfbzYNqjA&amp;sensor=true" type="text/javascript"></script>
 				
-		<script type="text/javascript" src="http://gmaps-utility-library.googlecode.com/svn/trunk/progressbarcontrol/1.0/src/progressbarcontrol.js"></script>
+		<script type="text/javascript" src="https://gmaps-utility-library.googlecode.com/svn/trunk/progressbarcontrol/1.0/src/progressbarcontrol.js"></script>
 
 
 		<script type="text/javascript">
@@ -362,18 +362,18 @@ function updatePageData( json ){
 		pageData += '<tr class="scrapRow" rowId="facility_'+i+'" >';
     pageData += ' <td style="width:30px;"><a class="scrapQuote quote" title="view details">details</a><div style="position:relative;">';
     pageData += ' <div id="facility_'+i+'" class="facility_details">';
-    pageData += ' '+( cur.home_phone != '' ? 'Home: ' + cur.home_phone + '<br />' : '' );
-    pageData += ' '+( cur.fax_number != '' ? 'Fax: ' + cur.fax_number + '<br />' : '' );
+//    pageData += ' '+( cur.home_phone != '' ? 'Home: ' + cur.home_phone + '<br />' : '' );
+//    pageData += ' '+( cur.fax_number != '' ? 'Fax: ' + cur.fax_number + '<br />' : '' );
     pageData += ' '+( cur.website != '' ? 'Website: <a href="' + cur.website + '" target="_blank">go to website</a><br />' : '' );
     pageData += ' '+( cur.attachments != '' ? 'Attachment: <a href="/downloader?facility_id=' + cur.id + '" target="_blank">download specs</a><br />' : '' );
     pageData += ' '+( cur.notes != '' ? 'Notes: <blockquote>'+cur.notes+'<blockquote><br />' : '' );
     pageData += ' </div></div></td>';
-		pageData += '	<td style="width:130px">'+cur.company+'</td>';
+		pageData += '	<td style="width:190px">'+cur.company+'</td>';
 		pageData += '	<td style="width:60px">'+cur.category+'</td>';
-		pageData += '	<td style="width:200px">'+cur.address_1+ (cur.address_2 != '' ? '<br />' + cur.address_2 : '') + '<br />' + cur.city+', ' +cur.state_province+' '+ cur.zip_postal_code+'</td>';
+		pageData += '	<td style="width:250px">'+cur.address_1+ (cur.address_2 != '' ? '<br />' + cur.address_2 : '') + '<br />' + cur.city+', ' +cur.state_province+' '+ cur.zip_postal_code+'</td>';
 		pageData += '	<td style="width:60px">'+cur.state_province+'</td>';
-		pageData += '	<td style="width:110px">'+cur.first_name+' '+cur.last_name+'';
-		pageData += '	'+(cur.business_phone != '' ? '<br />' + cur.business_phone : '')+'</td>';
+//		pageData += '	<td style="width:110px">'+cur.first_name+' '+cur.last_name+'';
+//		pageData += '	'+(cur.business_phone != '' ? '<br />' + cur.business_phone : '')+'</td>';
 		pageData += '	<td><a trans_id="'+cur.id+'" class="ship_quote_button">shipping quote</a></td>';
 		pageData += '</tr>';
 		highlight = !highlight;
@@ -458,11 +458,11 @@ function createMarkers(){
         data[i].city + ", " + 
         data[i].state_province + ' ' + 
         data[i].zip_postal_code + 
-        "<hr />" + 
-        ( data[i].business_phone != "" ? "Business Phone: " + data[i].business_phone + "<br />" : "" ) + 
-        ( data[i].home_phone != "" ? "Home Phone: " + data[i].home_phone + "<br />" : "" ) + 
-        ( data[i].mobile_phone != "" ? "Mobile Phone: " + data[i].mobile_phone + "<br />" : "" ) + 
-        ( data[i].fax_number != "" ? "Fax: " + data[i].fax_number + "<br />" : "" ) + 
+//        "<hr />" + 
+//        ( data[i].business_phone != "" ? "Business Phone: " + data[i].business_phone + "<br />" : "" ) + 
+//        ( data[i].home_phone != "" ? "Home Phone: " + data[i].home_phone + "<br />" : "" ) + 
+//        ( data[i].mobile_phone != "" ? "Mobile Phone: " + data[i].mobile_phone + "<br />" : "" ) + 
+//        ( data[i].fax_number != "" ? "Fax: " + data[i].fax_number + "<br />" : "" ) + 
         "<hr />Website: <a href='" + data[i].website + "' target='_blank'>click here</a>" +
         "<hr />Get Shipping Quote: <a style='cursor:pointer;' trans_id='"+data[i].id+"' class='ship_quote_button'>click here</a>" +
        	( data[i].attachments != "" ?
@@ -621,11 +621,15 @@ function addTransportFormEventMap(){
 					<thead>
 						<tr class="row2">
 						    <th style="width:30px">&nbsp;</th>
-						    <th style="width:130px">COMPANY NAME</th>
+						    <th style="width:190px">COMPANY NAME</th>
 						    <th style="width:60px">TYPE</th>
-						    <th style="width:200px">ADDRESS</th>
+						    <th style="width:250px">ADDRESS</th>
 						    <th style="width:60px">STATE</th>
+<?php
+/*
 						    <th style="width:110px">CONTACT</th>
+*/
+?>
 						    <th>&nbsp;</th>
 						</tr>
 					</thead>
