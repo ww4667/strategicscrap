@@ -1,4 +1,5 @@
-<? if( strtolower($_SERVER["HTTP_HOST"]) == "demo.strategicscrap.com" ) { ?>
+<? // if( strtolower($_SERVER["HTTP_HOST"]) == "demo.strategicscrap.com" ) { ?>
+<? if( isset($_GET['test']) ) { ?>
 
 <style>
 	h1{display:none;}
@@ -22,7 +23,7 @@
 <div style="width:840px;position:relative;">
 	<div id="video_wrapper">
 		<div class="video_container" style="text-align:center">
-			<object width="500" height="310"><param name="movie" value="http://www.youtube.com/v/pqcTGOzW-ak&amp;hl=en_US&amp;fs=1?rel=0&amp;hd=0&amp;autoplay=0"></param><param name="allowFullScreen" value="true"></param><param name="allowscriptaccess" value="always"></param><param name="wmode" value="transparent"><embed src="http://www.youtube.com/v/pqcTGOzW-ak&amp;hl=en_US&amp;fs=1?rel=0&amp;hd=0&amp;autoplay=0" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="500" height="310" wmode="transparent"></embed></object>
+			<object width="500" height="310"><param name="movie" value="https://www.youtube.com/v/pqcTGOzW-ak&amp;hl=en_US&amp;fs=1?rel=0&amp;hd=0&amp;autoplay=0"></param><param name="allowFullScreen" value="true"></param><param name="allowscriptaccess" value="always"></param><param name="wmode" value="transparent"><embed src="https://www.youtube.com/v/pqcTGOzW-ak&amp;hl=en_US&amp;fs=1?rel=0&amp;hd=0&amp;autoplay=0" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="500" height="310" wmode="transparent"></embed></object>
 		</div>
 	</div>
 	<div id="tryit_wrapper" class="content">
@@ -46,7 +47,7 @@
 </tr> 
 <tr> 
 	<td> 
-<object width="853" height="505"><param name="movie" value="http://www.youtube.com/v/d9GPP98ywwE&amp;hl=en_US&amp;fs=1&amp;color1=0x3a3a3a&amp;color2=0x999999&amp;autoplay=1"></param><param name="allowFullScreen" value="true"></param><param name="allowscriptaccess" value="always"></param><embed src="http://www.youtube.com/v/d9GPP98ywwE&hl=en_US&fs=1&color1=0x3a3a3a&color2=0x999999&autoplay=1" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="853" height="505"></embed></object> 
+<object width="853" height="505"><param name="movie" value="https://www.youtube.com/v/d9GPP98ywwE&amp;hl=en_US&amp;fs=1&amp;color1=0x3a3a3a&amp;color2=0x999999&amp;autoplay=1"></param><param name="allowFullScreen" value="true"></param><param name="allowscriptaccess" value="always"></param><embed src="https://www.youtube.com/v/d9GPP98ywwE&hl=en_US&fs=1&color1=0x3a3a3a&color2=0x999999&autoplay=1" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="853" height="505"></embed></object> 
 	</td> 
 </tr> 
 <tr> 
