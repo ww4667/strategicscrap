@@ -47,6 +47,11 @@ while (!$KILL) {
 			$SECTION_HEADER 	= "Update Facility";								/* Header text for this page */
 			$PAGE_BODY 			= $ss_path."views/manager/facility_update.php";			/* which file to pull into the template */
 
+			if(isset($_POST['remove'])){
+				$method = "facility-remove";
+				break;
+			}
+			
 			if(isset($_POST['submitted'])){
 				$post_data = $_POST;
 				$post_data['id'] = $post_data['facility_id'];
@@ -199,12 +204,50 @@ while (!$KILL) {
 			require($ss_path."views/layouts/manager_shell.php");
 			$KILL = true;
 		break;
+		
+		case 'facility-remove':
+			$method = "facility-manager";
+			if ( isset($_REQUEST['facility_id']) ) {
+				$facilityId = (int) $_REQUEST['facility_id'];
+				$f = new Facility();
+				$f->GetItemObj($facilityId);
+				if ( !empty($f->id) ) {
+					$f->RemoveItem($facilityId);
+					$message = "The facility was removed successfully.";
+					flash($message);
+					break;
+				}
+			}
+			$message = "There was a problem removing the facility.";
+			flash($message,"bad");
+		break;
 
 		case 'pricing':
 			
 			$PAGE_TITLE 		= "Regional Pricing Manager";						/* Title text for this page */
 			$SECTION_HEADER 	= "Update Regional Pricing";						/* Header text for this page */
 			$PAGE_BODY 			= $ss_path."views/manager/pricing.php";				/* which file to pull into the template */
+			
+			/*
+			 * 
+			 * What needs to happen is regional data should be stored in a json string. This way any change to the Materials
+			 * won't affect the pricing history.
+			 * 
+			 * On update this is what will happen...
+			 * 1 - If there is a current json for the region then toggle that entry's active field to "0"
+			 * 2 - Save the existing array of materials and prices: Material Name, Price... as a json array
+			 * 3 - Insert new json string into db for that region with active set to "1"
+			 * 
+			 * Need to...
+			 * 1 - copy current prices somewhere safe
+			 * 2 - wipe out current prices entries
+			 * 3 - change pricing model to reflect new schema
+			 * 4 - enter the saved prices as the first entry
+			 * 
+			 * Form modification...
+			 * 1 - have a button for "save as update" and "save as new"
+			 * 
+			 */
 			
 			if (isset($_POST['submitted'])) {
 				$post_data = $_POST;
@@ -285,6 +328,11 @@ while (!$KILL) {
 			$PAGE_TITLE 		= "Material Manager";							/* Title text for this page */
 			$SECTION_HEADER 	= "Update Material";									/* Header text for this page */
 			$PAGE_BODY 			= $ss_path."views/manager/material_update.php";			/* which file to pull into the template */
+	
+			if(isset($_POST['remove'])){
+				$method = "material-remove";
+				break;
+			}
 			
 			if(isset($_POST['submitted'])){
 				$post_data = $_POST;
@@ -349,6 +397,23 @@ while (!$KILL) {
 			//the layout file
 			require($ss_path."views/layouts/manager_shell.php");
 			$KILL = true;
+		break;
+				
+		case 'material-remove':
+			$method = "material-manager";
+			if ( isset($_REQUEST['material_id']) ) {
+				$materialId = (int) $_REQUEST['material_id'];
+				$m = new Material();
+				$m->GetItemObj($materialId);
+				if ( !empty($m->id) ) {
+					$m->RemoveItem($materialId);
+					$message = "The material was removed successfully.";
+					flash($message);
+					break;
+				}
+			}
+			$message = "There was a problem removing the material.";
+			flash($message,"bad");
 		break;
 
 		case 'scrapper-manager':

@@ -22,6 +22,7 @@
     <br style="clear:left" />
     <br style="clear:left" />
 	
-	<input type="submit" name="submitted" value="Update Material" />
+	<input type="submit" name="submitted" value="Update Material" />&nbsp;&nbsp;<input type="submit" name="remove" value="Remove Material" />
+	<p style="color:F00">CAUTION: Removing this material will remove all connected records in the database.</p>
 	</form>
 </div>

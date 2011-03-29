@@ -762,7 +762,7 @@ class Crud {
 	
 	private function _DeleteItem( $itemId ) {
 		$this->database_connection->Open();
-		$query = "DELETE vt, vd, vn, vj FROM " . $this->_TABLE_PREFIX.constant('Crud::_ITEMS') . " AS i LEFT JOIN " . $this->_TABLE_PREFIX.constant('Crud::_VALUES_TABLE_TEXT') . " AS vt ON vt.item_id = i.id LEFT JOIN " . $this->_TABLE_PREFIX.constant('Crud::_VALUES_TABLE_DATES') . " AS vd ON vd.item_id = i.id LEFT JOIN " . $this->_TABLE_PREFIX.constant('Crud::_VALUES_TABLE_NUMBERS') . " AS vn ON vn.item_id = i.id LEFT JOIN " . $this->_TABLE_PREFIX.constant('Crud::_VALUES_TABLE_JOINS') . " AS vj ON vj.item_id = i.id WHERE i.id = $itemId";
+		$query = "DELETE vt, vd, vn, vj FROM " . $this->_TABLE_PREFIX.constant('Crud::_ITEMS') . " AS i LEFT JOIN " . $this->_TABLE_PREFIX.constant('Crud::_VALUES_TABLE_TEXT') . " AS vt ON vt.item_id = i.id LEFT JOIN " . $this->_TABLE_PREFIX.constant('Crud::_VALUES_TABLE_DATES') . " AS vd ON vd.item_id = i.id LEFT JOIN " . $this->_TABLE_PREFIX.constant('Crud::_VALUES_TABLE_NUMBERS') . " AS vn ON vn.item_id = i.id LEFT JOIN " . $this->_TABLE_PREFIX.constant('Crud::_VALUES_TABLE_JOINS') . " AS vj ON vj.item_id = i.id OR vj.value = i.id WHERE i.id = $itemId";
 		$this->database_connection->Query( $query );
 		$query = "DELETE FROM " . $this->_TABLE_PREFIX.constant('Crud::_ITEMS') . " WHERE id = $itemId";
 		$this->database_connection->Query( $query );
