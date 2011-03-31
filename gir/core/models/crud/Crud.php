@@ -805,12 +805,12 @@ class Crud {
 		$text_table = $this->_TABLE_PREFIX.constant('Crud::_VALUES_TABLE_TEXT');
 		$number_table = $this->_TABLE_PREFIX.constant('Crud::_VALUES_TABLE_NUMBERS');
 		$date_table = $this->_TABLE_PREFIX.constant('Crud::_VALUES_TABLE_DATES');
-		$join_table = $this->_TABLE_PREFIX.constant('Crud::_VALUES_TABLE_TEXT'); // used only to produce empty field
+		$join_table = $this->_TABLE_PREFIX.constant('Crud::_VALUES_TABLE_JOINS'); // used only to produce empty field
 		
 		foreach ($properties as $p) {
 			$table = ${$p['type'] . "_table"};
 			$alias = "obj" . $objectNameId . "pn" . $p['property_name_id'];
-			$field_names .= " $alias.value as " . $p['field'] . ",";
+			$field_names .= ($p['type'] != "join") ? " $alias.value as " . $p['field'] . "," : " count($alias.value) as " . $p['field'] . ",";
 			$field_tables .= " LEFT JOIN $table as $alias on $alias.item_id=o.id AND $alias.property_name_id=" . $p['property_name_id'];
 		}
 		$field_names = trim( $field_names, "," );
@@ -819,6 +819,7 @@ class Crud {
 		$query .= " FROM " . $this->_TABLE_PREFIX.constant('Crud::_ITEMS') . " as o";
 		$query .= $field_tables;
 		$query .= " WHERE o.object_name_id = $objectNameId";
+		$query .= " GROUP BY o.id";
 			
 		if ($return_sql){
 			return $query;
