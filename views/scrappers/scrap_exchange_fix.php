@@ -364,13 +364,13 @@ function updatePageData( json ){
     pageData += ' <div id="facility_'+i+'" class="facility_details">';
 //    pageData += ' '+( cur.home_phone != '' ? 'Home: ' + cur.home_phone + '<br />' : '' );
 //    pageData += ' '+( cur.fax_number != '' ? 'Fax: ' + cur.fax_number + '<br />' : '' );
-    pageData += ' '+( cur.website != '' ? 'Website: <a href="' + cur.website + '" target="_blank">go to website</a><br />' : '' );
-    pageData += ' '+( cur.attachments != '' ? 'Attachment: <a href="/downloader?facility_id=' + cur.id + '" target="_blank">download specs</a><br />' : '' );
-    pageData += ' '+( cur.notes != '' ? 'Notes: <blockquote>'+cur.notes+'<blockquote><br />' : '' );
+    pageData += ' '+( cur.website ? 'Website: <a href="' + cur.website + '" target="_blank">go to website</a><br />' : '' );
+    pageData += ' '+( cur.attachments ? 'Attachment: <a href="/downloader?facility_id=' + cur.id + '" target="_blank">download specs</a><br />' : '' );
+    pageData += ' '+( cur.notes ? 'Notes: <blockquote>'+cur.notes+'<blockquote><br />' : '' );
     pageData += ' </div></div></td>';
 		pageData += '	<td style="width:190px">'+cur.company+'</td>';
 		pageData += '	<td style="width:60px">'+cur.category+'</td>';
-		pageData += '	<td style="width:250px">'+cur.address_1+ (cur.address_2 != '' ? '<br />' + cur.address_2 : '') + '<br />' + cur.city+', ' +cur.state_province+' '+ cur.zip_postal_code+'</td>';
+		pageData += '	<td style="width:250px">'+cur.address_1+ ( cur.address_2 ? '<br />' + cur.address_2 : '') + '<br />' + cur.city+', ' +cur.state_province+' '+ cur.zip_postal_code+'</td>';
 		pageData += '	<td style="width:60px">'+cur.state_province+'</td>';
 //		pageData += '	<td style="width:110px">'+cur.first_name+' '+cur.last_name+'';
 //		pageData += '	'+(cur.business_phone != '' ? '<br />' + cur.business_phone : '')+'</td>';
@@ -454,7 +454,7 @@ function createMarkers(){
 		// Store data attributes as property of gmarkers
 		var html = "<div class='infowindow'>" +data[i].company + "<br />" + 
 		data[i].address_1 + "<br />" + 
-        ( data[i].address_2  ? data[i].address_2 + "<br />" : "" ) + 
+        ( data[i].address_2 ? data[i].address_2 + "<br />" : "" ) + 
         data[i].city + ", " + 
         data[i].state_province + ' ' + 
         data[i].zip_postal_code + 
@@ -463,11 +463,12 @@ function createMarkers(){
 //        ( data[i].home_phone != "" ? "Home Phone: " + data[i].home_phone + "<br />" : "" ) + 
 //        ( data[i].mobile_phone != "" ? "Mobile Phone: " + data[i].mobile_phone + "<br />" : "" ) + 
 //        ( data[i].fax_number != "" ? "Fax: " + data[i].fax_number + "<br />" : "" ) + 
-        "<hr />Website: <a href='" + data[i].website + "' target='_blank'>click here</a>" +
+       	( data[i].website ?
+		"<hr />Website: <a href='" + data[i].website + "' target='_blank'>click here</a>" : "" ) +
         "<hr />Get Shipping Quote: <a style='cursor:pointer;' trans_id='"+data[i].id+"' class='ship_quote_button'>click here</a>" +
-       	( data[i].attachments != "" ?
+       	( data[i].attachments ?
         "<hr />Attachment: <a href='/downloader?facility_id="+data[i].id+"'>download specs</a>" : "" ) +
-       	( data[i].notes != "" ?
+       	( data[i].notes ?
         "<hr />Notes: <blockquote>"+data[i].notes+"</blockquote>" : "" ) +
         "<\/div>";
         

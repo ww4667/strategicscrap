@@ -287,6 +287,7 @@ switch($controller_action){
 			// COMMIT DATA TO DB
 			$intotable = 'scrap_registration';
 			$modx->db->insert($fields, $intotable);
+			Mailer::mail_chimp_subscribe($fields); 
 			// SET THANK YOU PAGE
 			$PAGE_BODY = "views/reg_thanks.php";  	/* which file to pull into the template */
 		}
@@ -639,6 +640,7 @@ switch($controller_action){
 					$object['lname'] = $scrapper->last_name;
 					$object['email'] = $newUser->email;
 					Mailer::welcome_email($object);
+					Mailer::mail_chimp_subscribe($object); 
 					//						flash("Welcome to Strategic Scrap! You have successfully been registered. Use the sign-in form above to get started.");
 					redirect_to('/');
 					//						die(print_r($scrapper));
