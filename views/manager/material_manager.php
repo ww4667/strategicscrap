@@ -35,7 +35,10 @@
 				"aoColumnDefs": [
 					{ "bSortable": false, "aTargets": [ 0 ] },
 					{ "bSearchable": false, "aTargets": [ 0 ] }
-			] } );
+				],
+				"iDisplayLength": 100,
+				"aLengthMenu": [[25, 50, 100, -1], [25, 50, 100, "All"]]
+    		 } );
 		});
 	  });
 	})(jQuery);
