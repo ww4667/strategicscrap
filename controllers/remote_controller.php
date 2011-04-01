@@ -64,6 +64,8 @@ function controller_remote( $_controller_remote_method = null,
 						$f = new Facility();
 		//				 get Facilities that have material $val
 						$facilities = $f->getFacilitiesByMaterialId( $v );
+						
+					 
 						foreach ($facilities as $f) {
 							$tmp[] = serialize(array(	'company' =>$f['company'], 
 														'first_name' =>$f['first_name'], 
@@ -101,6 +103,7 @@ function controller_remote( $_controller_remote_method = null,
 					foreach ($tmp as $o) {
 						$op[] = unserialize($o);
 					}
+					
 					foreach ( $op as $key => $row ) {
 					    $names[$key]  = $row['company']; 
 					    // of course, replace 0 with whatever is the date field's index
