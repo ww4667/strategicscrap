@@ -810,7 +810,7 @@ class Crud {
 		foreach ($properties as $p) {
 			$table = ${$p['type'] . "_table"};
 			$alias = "obj" . $objectNameId . "pn" . $p['property_name_id'];
-			$field_names .= ($p['type'] != "join") ? " $alias.value as " . $p['field'] . "," : " count($alias.value) as " . $p['field'] . ",";
+			$field_names .= ($p['type'] != "join") ? " $alias.value as '" . $p['field'] . "'," : " count($alias.value) as " . $p['field'] . ",";
 			$field_tables .= " LEFT JOIN $table as $alias on $alias.item_id=o.id AND $alias.property_name_id=" . $p['property_name_id'];
 		}
 		$field_names = trim( $field_names, "," );
@@ -862,7 +862,7 @@ class Crud {
 		foreach ($properties as $p) {
 			$table = ${$p['type'] . "_table"};
 			$alias = "obj" . $objectNameId . "pn" . $p['property_name_id'];
-			$field_names .= " $alias.value as " . $p['field'] . ",";
+			$field_names .= " $alias.value as '" . $p['field'] . "',";
 			$field_tables .= " LEFT JOIN $table as $alias on $alias.item_id=o.id AND $alias.property_name_id=" . $p['property_name_id'];
 			if ($propertyName == $p['field']) {
 				$whereStatement = " AND q.item_id = o.id AND q.property_name_id = " . $p['property_name_id'] . " AND q.value = '$value'";
