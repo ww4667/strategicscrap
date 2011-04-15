@@ -1,6 +1,6 @@
 <table width="600" border="0" align="left" cellpadding="0" cellspacing="0" bgcolor="#FFFFFF">
   <tr>
-    <td colspan="3"><img src="http://demo.strategicscrap.com/resources/images/strategic_scrap.png" width="350" height="56" alt="Strategic Scrap"></td>
+    <td colspan="3"><img src="https://strategicscrap.com/resources/images/strategic_scrap.png" width="350" height="56" alt="Strategic Scrap"></td>
   </tr>
   <tr>
     <td colspan="3">&nbsp;</td>

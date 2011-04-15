@@ -1,5 +1,5 @@
 <? // if( strtolower($_SERVER["HTTP_HOST"]) == "demo.strategicscrap.com" ) { ?>
-<? if( isset($_GET['test']) ) { ?>
+<? if(! isset($_GET['test']) ) { ?>
 
 <style>
 	h1{display:none;}

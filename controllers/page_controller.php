@@ -29,6 +29,8 @@ switch($controller_action){
 				
 			function getComexData($symbol,$type = null) {
 				$xignite_header = new SoapHeader('http://www.xignite.com/services/', 'Header', array("Username" => "greg@slashwebstudios.com"));
+//				$xignite_header = new SoapHeader('http://www.xignite.com/services/', 'Header', array("Username" => "F8F0E4AB52D34B6E85E21D48FD3B0E25"));
+//				$xignite_header = new SoapHeader('http://www.xignite.com/services/', 'Header', array("Username" => "FDFDBEAF9B004b2eBB2D7A9D1D39F24F"));
 				$client = new soapclient('http://www.xignite.com/xFutures.asmx?WSDL', array('trace' => 1));
 				$client->__setSoapHeaders(array($xignite_header));
 
@@ -78,6 +80,7 @@ switch($controller_action){
 				
 			function getLmeData($symbol,$type = null) {
 				$xignite_header = new SoapHeader('http://www.xignite.com/services/', 'Header', array("Username" => "FDFDBEAF9B004b2eBB2D7A9D1D39F24F"));
+//				$xignite_header = new SoapHeader('http://www.xignite.com/services/', 'Header', array("Username" => "F8F0E4AB52D34B6E85E21D48FD3B0E25"));
 				$client = new soapclient('http://lmemetals.xignite.com/xLMEMetals.asmx?WSDL', array('trace' => 1));
 				$client->__setSoapHeaders(array($xignite_header));
 
@@ -129,22 +132,53 @@ switch($controller_action){
 						break;
 				}
 			}
-				
-			//			$market_data = array(
-			//				"LME Copper" => getLmeData("CU","strip"),
-			//				"LME Aluminium" => getLmeData("AM","strip"),
-			//				"LME Nickel" => getLmeData("NI","strip"),
-			//				"LME Zinc" => getLmeData("ZZ","strip"),
-			//				"LME Lead" => getLmeData("LD","strip"),
-			//				"LME Tin" => getLmeData("TN","strip"),
-			//				"COMEX Copper" => getComexData("HG")
-			//			);
-			$cache_file = $_SERVER['DOCUMENT_ROOT']."/cache/static-market-data.cache";
-			$feed_url = "http://strategicscrap.com/static-market-data";
-			$test_market_data = get_cached_file($cache_file, 900, $feed_url);
-
-			$market_data = json_decode($test_market_data,true);
-			$market_data_timestamp = date("M d, Y, h:ia",filemtime($cache_file))." CST (End of day)";
+			$s = new Scrapper();
+			$user_id = $_SESSION['user']['id'];
+			$scrapper = $s->getScrapperByUserId($user_id);
+			$subscription_type = $scrapper->subscription_type; 
+			if( $subscription_type == "paid" ) {
+				$cache_file = $_SERVER['DOCUMENT_ROOT']."/cache/delayed-market-data.cache";
+				$last = filemtime($cache_file);
+			    $now = time();
+			    $interval = 900; //seconds
+			    // check the cache file
+				if ( !$last || ( $now - $last ) > $interval ) {
+					// cached file is missing or too old, refreshing it
+					
+					
+					$live_market_data = array(
+						"LME Copper" => getLmeData("CU","strip"),
+						"LME Aluminium" => getLmeData("AM","strip"),
+						"LME Nickel" => getLmeData("NI","strip"),
+						"LME Zinc" => getLmeData("ZZ","strip"),
+						"LME Lead" => getLmeData("LD","strip"),
+						"LME Tin" => getLmeData("TN","strip"),
+						"COMEX Copper" => getComexData("HG")
+					);
+					
+					// check for good feed
+					$test = $live_market_data['LME Copper']['cash'];
+					if ($test > 0 && !empty($test) ) {
+						$cache_content = json_encode($live_market_data);
+				        if ( $cache_content ) {
+				            // we got something back
+				            $cache_static = fopen($cache_file, 'wb');
+				            fwrite($cache_static, $cache_content);
+				            fclose($cache_static);
+				        }
+						
+					}
+				}
+				$market_data = json_decode(file_get_contents($cache_file),true);
+				$market_data_timestamp = date("M d, Y, h:ia",filemtime($cache_file))." CST (delayed)";
+			} else {
+				$cache_file = $_SERVER['DOCUMENT_ROOT']."/cache/static-market-data.cache";
+				$feed_url = "http://strategicscrap.com/static-market-data";
+				$test_market_data = get_cached_file($cache_file, 900, $feed_url);
+	
+				$market_data = json_decode($test_market_data,true);
+				$market_data_timestamp = date("M d, Y, h:ia",filemtime($cache_file))." CST (End of day)";
+			}
 
 			//			$market_data = array(
 			//				"LME Copper" => array("cash" => "4.23","3 month" => "4.25","15 month" => "4.13"),
@@ -174,7 +208,8 @@ switch($controller_action){
 			} elseif ( $region == "se" ) {
 				$zipcode = 39901; // Atlanta
 			}
-			if ( $region == "c") {
+//			if ( $region == "c") {
+			if ( $region != "ASDFASDFASDFADSFASDF") {
 				$p = new Pricing();
 				$pricing_array = $p->getPricingByRegion(strtoupper($region));
 				$pricing = array();

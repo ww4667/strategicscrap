@@ -59,7 +59,8 @@
 									    <th>SCRAP TYPE</th>
 									    <th>COST/GT</th>
 									</tr>
-									<? if( $region == "c" ) { ?>
+									<? // if( $region == "c" ) { ?>
+									<? if( $region != "ADSFKASDJLFALKSDJF" ) { ?>
 										<? $i = 0; ?>
 										<? foreach ($pricing as $p) { ?>
 									<tr<?=$i%2?' class="row2"':""?>>
