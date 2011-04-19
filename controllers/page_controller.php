@@ -772,7 +772,7 @@ switch($controller_action){
 					flash( array("Your Account has been updated successfully.") );
 					$obj = new Scrapper();
 					$obj->GetItemObj($item->id);
-					if ( !$obj->isAddressSet() ) {		// zip and address check to use system
+					if ( !$obj->isAddressSet() ) {		// company, work phone, address and zip check to use system
 						$_SESSION['user']['new'] =  1;
 						redirect_to('/my-account');
 					} else {

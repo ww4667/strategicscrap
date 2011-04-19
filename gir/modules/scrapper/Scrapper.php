@@ -160,7 +160,7 @@ class Scrapper extends User {
 	}
 	
 	public function isAddressSet() {
-		if ( empty($this->address_1) || empty($this->city) || empty($this->state_province) || empty($this->postal_code) )
+		if ( empty($this->work_phone) || empty($this->company) || empty($this->address_1) || empty($this->city) || empty($this->state_province) || empty($this->postal_code) )
 			return false;
 		return true;
 	}
