@@ -150,11 +150,11 @@ if(!$gir->auth->authenticate()){
 					
 					
 						<div style="color: #000;clear:both;margin:3px 0;display:block;height: 20px;">
-							<div style="width:200px;float:left;font-weight: 900;">Ship Date:</div>
+							<div style="width:200px;float:left;font-weight: 900;">Ship on or before this date:</div>
 							<label style="color:#000;float:left;font-weight:0;"><input type="text"  id="ship_date" name="ship_date" class="date-pick" /></label></div>
 					
 						<div style="color: #000;clear:both;margin:3px 0;display:block;height: 20px;">
-							<div style="width:200px;float:left;font-weight: 900;">Arrive Date:</div>
+							<div style="width:200px;float:left;font-weight: 900;">Deliver on or before this date:</div>
 							<label style="color:#000;float:left;font-weight:0;"><input type="text"  id="arrive_date" name="arrive_date" class="date-pick" /></label></div>
 					
 						<div style="color: #000;clear:both;margin:3px 0;display:block;height: 20px;">
@@ -216,7 +216,8 @@ if(!$gir->auth->authenticate()){
 	  						var d = selectedDates[0];
 	  						if (d) {
 	  							d = new Date(d);
-	  							$('#arrive_date').dpSetStartDate(d.addDays(1).asString());
+//	  							$('#arrive_date').dpSetStartDate(d.addDays(1).asString());
+	  							$('#arrive_date').dpSetStartDate(d.addDays(0).asString());
 	  						}
   							$('*').unbind('focus.datePicker');
 	  					}

@@ -133,9 +133,12 @@ function controller_remote( $_controller_remote_method = null,
 				$r->CreateItem( $post_data );
 				$request = $r->GetItemObj( $r->newId );
 				$request->status = "0";
-				$request->expiration_date = (strtotime("+14 days", strtotime($request->created_ts)) > strtotime("-2 days", strtotime($request->ship_date))) ? 
-													date("Y-m-d H:i:s", strtotime("-2 days", strtotime($request->ship_date))) : 
-													date("Y-m-d H:i:s", strtotime("+14 days", strtotime($request->created_ts)));
+//				$request->expiration_date = (strtotime("+14 days", strtotime($request->created_ts)) > strtotime("-2 days", strtotime($request->ship_date))) ? 
+//													date("Y-m-d H:i:s", strtotime("-2 days", strtotime($request->ship_date))) : 
+//													date("Y-m-d H:i:s", strtotime("+14 days", strtotime($request->created_ts)));
+				$request->expiration_date = (strtotime("+30 days", strtotime($request->created_ts)) > strtotime("0 days", strtotime($request->ship_date))) ? 
+													date("Y-m-d H:i:s", strtotime("1 days", strtotime($request->ship_date))) :
+													date("Y-m-d H:i:s", strtotime("+30 days", strtotime($request->created_ts)));
 				$request->UpdateItem();
 				// attach facility, scrapper and material to the request
 				$request->addFacility( $post_data['facility_id'] );
@@ -581,7 +584,8 @@ function controller_remote( $_controller_remote_method = null,
 					foreach ($bids as $key => $val) {
 						$b = new Bid();
 						$bid = $b->GetItemObj($val['id']);
-						$expireTS = strtotime("-2 days", strtotime($val['ship_date']));
+//						$expireTS = strtotime("-2 days", strtotime($val['ship_date']));
+						$expireTS = strtotime("1 days", strtotime($val['ship_date']));
 						$nowTS = time();
 						if (!$expireTS > $nowTS) {
 							unset($bids[$key]);

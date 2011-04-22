@@ -862,7 +862,7 @@ class Crud {
 		foreach ($properties as $p) {
 			$table = ${$p['type'] . "_table"};
 			$alias = "obj" . $objectNameId . "pn" . $p['property_name_id'];
-			$field_names .= " $alias.value as '" . $p['field'] . "',";
+			$field_names .= ($p['type'] != "join") ? " $alias.value as '" . $p['field'] . "'," : " count($alias.value) as " . $p['field'] . ",";
 			$field_tables .= " LEFT JOIN $table as $alias on $alias.item_id=o.id AND $alias.property_name_id=" . $p['property_name_id'];
 			if ($propertyName == $p['field']) {
 				$whereStatement = " AND q.item_id = o.id AND q.property_name_id = " . $p['property_name_id'] . " AND q.value = '$value'";
@@ -920,23 +920,34 @@ class Crud {
 		$foreignItemId = $joinObject->id;
 		$properties = $this->_OBJECT_PROPERTIES;
 		$objectName = $this->_OBJECT_NAME;
-		$fields = "";
+		$objectNameId = $this->_OBJECT_NAME_ID;
+		
+		$field_names = "";
+		$field_tables = "";
+		$text_table = $this->_TABLE_PREFIX.constant('Crud::_VALUES_TABLE_TEXT');
+		$number_table = $this->_TABLE_PREFIX.constant('Crud::_VALUES_TABLE_NUMBERS');
+		$date_table = $this->_TABLE_PREFIX.constant('Crud::_VALUES_TABLE_DATES');
+		$join_table = $this->_TABLE_PREFIX.constant('Crud::_VALUES_TABLE_JOINS'); // used only to produce empty field
+		
 		foreach ($properties as $p) {
-			if ($fields == "") {
-				$fields .= " GROUP_CONCAT(IF(pn.label='".$p['field']."', v.value, null)) AS `".$p['field']."`";
+			$table = ${$p['type'] . "_table"};
+			$alias = "obj" . $objectNameId . "pn" . $p['property_name_id'];
+			$field_names .= ($p['type'] != "join") ? " $alias.value as '" . $p['field'] . "'," : " count($alias.value) as " . $p['field'] . ",";
+//			$field_names .= ($p['type'] != "join") ? " $alias.value as '" . $p['field'] . "'," : " null as " . $p['field'] . ",";
+//			$field_names .= " $alias.value as '" . $p['field'] . "',";
+			// unique to this join query
+			if($p['type'] != "join") {
+				$field_tables .= " LEFT JOIN $table as $alias on $alias.item_id=o.id AND $alias.property_name_id=" . $p['property_name_id'];
 			} else {
-				$fields .= ", GROUP_CONCAT(IF(pn.label='".$p['field']."', v.value, null)) AS `".$p['field']."`";
+				$field_tables .= " JOIN $table as $alias on $alias.item_id=o.id AND $alias.value = $foreignItemId";
 			}
 		}
+		$field_names = trim( $field_names, "," );
 		$query = "SELECT o.id, o.created_ts, o.updated_ts, o.object_name_id,";
-		$query .= $fields;
+		$query .= $field_names;
 		$query .= " FROM " . $this->_TABLE_PREFIX.constant('Crud::_ITEMS') . " as o";
-		$query .= " JOIN " . $this->_TABLE_PREFIX.constant('Crud::_OBJECT_NAMES') . " as obj on obj.id = o.object_name_id";
-		$query .= " JOIN " . $this->_TABLE_PREFIX.constant('Crud::_OBJECT_DEFINITIONS') . " as od on od.object_name_id = o.object_name_id";
-		$query .= " JOIN " . $this->_TABLE_PREFIX.constant('Crud::_PROPERTY_NAMES') . " as pn on pn.id = od.property_name_id";
-		$query .= " JOIN 	(SELECT * FROM " . $this->_TABLE_PREFIX.constant('Crud::_VALUES_TABLE_DATES') . " UNION SELECT * FROM " . $this->_TABLE_PREFIX.constant('Crud::_VALUES_TABLE_NUMBERS') . " UNION SELECT * FROM " . $this->_TABLE_PREFIX.constant('Crud::_VALUES_TABLE_TEXT') . ") as v on v.property_name_id = od.property_name_id AND v.item_id = o.id";
-		$query .= " JOIN " . $this->_TABLE_PREFIX.constant('Crud::_VALUES_TABLE_JOINS') . " as vj on vj.value = $foreignItemId AND vj.item_id = o.id";
-		$query .= " WHERE obj.label = '$objectName'";
+		$query .= $field_tables;
+		$query .= " WHERE o.object_name_id = $objectNameId";
 		$query .= " GROUP BY o.id";
 		
 		$result = (array) $this->_RunQuery( $query, true );

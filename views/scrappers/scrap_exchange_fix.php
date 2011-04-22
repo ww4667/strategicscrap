@@ -21,6 +21,9 @@ tr.details td{padding:0}
 .dataTables_scroll{background: #ebebeb}
 div.infoPop{display:block}
 .facility_details_row {background: #DDD;border: solid 2px #999}
+
+.dataTables_wrapper .dataTables_scrollBody {position:relative;overflow:hidden;height:470px}
+
 </style>
 
 <script type="text/javascript">
@@ -78,6 +81,8 @@ var sOut = $(nTr).find("div.facility_details").html();
 					$(nTr).next().addClass("facility_details_row");
 					$(this).addClass("ext");
 				}
+				$('.dataTables_scrollHeadInner table:first').css("top",0);
+				$('#data_table_1').css("top",0);
 				sw.quoteManagerSlider = new sw.app.verticalSlider('#tab1', '.dataTables_scrollBody','#data_table_1',{overflow: "hidden", float: "left", width: "814px"}, {position: "relative"} );
 			} );
 	});
@@ -387,7 +392,8 @@ function updatePageData( json ){
                                       "sScrollY": "470px",
                                       "bPaginate": false,
                                       "bFilter": false,
-                                      "bInfo": false
+                                      "bInfo": false,
+                                      "bAutoWidth": false
                                     });
     } else {
       sw.sTable.fnDestroy();
@@ -399,11 +405,14 @@ function updatePageData( json ){
                                       "sScrollY": "470px",
                                       "bPaginate": false,
                                       "bFilter": false,
-                                      "bInfo": false
+                                      "bInfo": false,
+                                      "bAutoWidth": false
                                     });
   
       }
  
+				$('.dataTables_scrollHeadInner table:first').css("top",0);
+				$('#data_table_1').css("top",0);
   sw.quoteManagerSlider = new sw.app.verticalSlider('#tab1', '.dataTables_scrollBody','#data_table_1',{overflow: "hidden", float: "left", width: "814px"}, {position: "relative"} );
    
 	//$('.scrapRow').css({width: "810px", display: "block"});

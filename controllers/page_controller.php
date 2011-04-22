@@ -173,7 +173,7 @@ switch($controller_action){
 				$market_data_timestamp = date("M d, Y, h:ia",filemtime($cache_file))." CST (delayed)";
 			} else {
 				$cache_file = $_SERVER['DOCUMENT_ROOT']."/cache/static-market-data.cache";
-				$feed_url = "http://strategicscrap.com/static-market-data";
+				$feed_url = "https://strategicscrap.com/static-market-data";
 				$test_market_data = get_cached_file($cache_file, 900, $feed_url);
 	
 				$market_data = json_decode($test_market_data,true);

@@ -34,7 +34,7 @@
 			<table id ="data_table_1" class="stripes" style="width: 559px">
 			<thead>
 			<tr class=""	>
-			    <th style="width:100px">DELIVERY DATE</th>
+			    <th style="width:100px">EXPIRATION</th>
 			    <th style="width:220px">DESCRIPTION</th>
 			    <th style="width:100px">REQUEST DATE</th>
               	<th></th>
@@ -133,6 +133,7 @@
 		<div style="float: left; margin: 3px 0; padding: 5px; background:#ccc;width:490px;font-size:11px;">
 			<strong>Material:</strong> <span id="bid_request_material">No. 1 Machinery Cast</span><br />
 			<strong>Volume in Tons:</strong> <span id="bid_request_quantity">550</span><br />
+			<strong>Shipping Date:</strong> <span id="bid_request_shipping_date">05/13/2010</span><br />
 			<strong>Delivery Date:</strong> <span id="bid_request_delivery_date">05/13/2010</span><br />
 			<strong>Preferred Transporation:</strong> <span id="bid_request_preferred_transporation">Flat Bed</span>
 		</div>
@@ -457,6 +458,7 @@
 	
 	
 	   $("#bid_request_quantity").html( item['volume'] );
+	   $("#bid_request_shipping_date").html( item['ship_date'] );
 	   $("#bid_request_delivery_date").html( item['arrive_date'] );
 	   $("#bid_request_preferred_transporation").html( item['transportation_type'] );
 	   

@@ -14,9 +14,12 @@ class Request extends Crud {
 											array("type"=>"text","label"=>"Transportation Type","field"=>"transportation_type"),
 											array("type"=>"text","label"=>"Volume","field"=>"volume"),
 											array("type"=>"text","label"=>"Special Instructions","field"=>"special_instructions"),
-											array("type"=>"text","label"=>"Scrapper Join","field"=>"join_scrapper"),
-											array("type"=>"text","label"=>"Facility Join","field"=>"join_facility"),
-											array("type"=>"text","label"=>"Material Join","field"=>"join_material"),
+//											array("type"=>"text","label"=>"Scrapper Join","field"=>"join_scrapper"),
+//											array("type"=>"text","label"=>"Facility Join","field"=>"join_facility"),
+//											array("type"=>"text","label"=>"Material Join","field"=>"join_material"),
+											array("type"=>"join","label"=>"Scrapper Join","field"=>"join_scrapper"),
+											array("type"=>"join","label"=>"Facility Join","field"=>"join_facility"),
+											array("type"=>"join","label"=>"Material Join","field"=>"join_material"),
 											array("type"=>"text","label"=>"Request Snapshot","field"=>"request_snapshot"),
 											array("type"=>"number","label"=>"Locked","field"=>"locked"),
 											array("type"=>"number","label"=>"Archived","field"=>"archived"),
@@ -249,16 +252,17 @@ class Request extends Crud {
 	private function _isExpired(){
 		$createdTS = strtotime($this->created_ts);
 		$shipTS = strtotime($this->ship_date);
-		$expiration = strtotime("+14 days",$createdTS);
+		$expiration = strtotime("+30 days",$createdTS);
 		$nowTS = time();
-		if ( $expiration > $nowTS && $shipTS > $nowTS ) {
+//		if ( $expiration > $nowTS && $shipTS < $nowTS ) {
+		if ( $expiration > $nowTS ) {
 			return false; 
 		} else {
 			$this->locked = 1;
 			$this->status = 3;
 			$this->UpdateItem();
 			return true;
-		}
+		}	
 	}
 	
 	private function _getStatusArray() {
