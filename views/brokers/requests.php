@@ -135,7 +135,8 @@
 			<strong>Volume in Tons:</strong> <span id="bid_request_quantity">550</span><br />
 			<strong>Shipping Date:</strong> <span id="bid_request_shipping_date">05/13/2010</span><br />
 			<strong>Delivery Date:</strong> <span id="bid_request_delivery_date">05/13/2010</span><br />
-			<strong>Preferred Transporation:</strong> <span id="bid_request_preferred_transporation">Flat Bed</span>
+			<strong>Preferred Transporation:</strong> <span id="bid_request_preferred_transporation">Flat Bed</span><br />
+			<strong>Special Instructions:</strong> <span id="bid_request_special_instructions">special instructions.</span>
 		</div>
 
 		<fieldset style="width:475px;  padding:10px; margin:5px 0;">
@@ -461,6 +462,7 @@
 	   $("#bid_request_shipping_date").html( item['ship_date'] );
 	   $("#bid_request_delivery_date").html( item['arrive_date'] );
 	   $("#bid_request_preferred_transporation").html( item['transportation_type'] );
+	   $("#bid_request_special_instructions").html( item['special_instructions'] );
 	   
 	 }
       

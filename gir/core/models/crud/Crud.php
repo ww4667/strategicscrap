@@ -875,6 +875,7 @@ class Crud {
 		$query .= " FROM $whereTable as q, " . $this->_TABLE_PREFIX.constant('Crud::_ITEMS') . " as o";
 		$query .= $field_tables;
 		$query .= " WHERE o.object_name_id = $objectNameId" . $whereStatement;
+		$query .= " GROUP BY o.id ";
 		return $this->_RunQuery( $query, true );
 	}
 
