@@ -88,14 +88,20 @@
 			var active = $("#facility_"+num);
 			var lists = $("ul.materials").not(active);
 			var counter = lists.length;
-			lists.slideUp("fast",function(){
-				counter--;
-				if ( !counter ){
-					// Do your stuff
-					active.slideDown("fast");
-					$("ul.new_material").show();
-				}
-			});
+			if (counter > 0 ) {
+				lists.slideUp("fast",function(){
+					counter--;
+					if ( !counter ){
+						// Do your stuff
+						active.slideDown("fast");
+						$("ul.new_material").show();
+					}
+				});
+			} else {
+				// Do your stuff
+				active.slideDown("fast");
+				$("ul.new_material").show();
+			}
 		});
 		
 		$("#new_material").change(function(){
