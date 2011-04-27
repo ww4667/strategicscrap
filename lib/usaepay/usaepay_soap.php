@@ -1,43 +1,37 @@
-<?php
+<?
 // USA ePay PHP Library.
-//	v1.6.8 - January 5th, 2011
+//	v1.6.0 - Aug 18, 2008
 //
 // 	Copyright (c) 2001-2008 USAePay
 //	For assistance please contact devsupport@usaepay.com
-//
 
-define("USAEPAY_VERSION", "1.6.8");
-
-
+define("USAEPAY_VERSION", "1.6.0");
 /**
  * USAePay Transaction Class
- *
  */
 class umTransaction {
 	
 	// Required for all transactions
 	var $key;			// Source key
-	var $pin;			// Source pin (optional)
+	var $pin;     		// Source pin (optional)
 	var $amount;		// the entire amount that will be charged to the customers card 
-							// (including tax, shipping, etc)
-	var $invoice;		// invoice number.  must be unique.  limited to 10 digits.  use orderid if you need longer. 
+						// (including tax, shipping, etc)
+	var $invoice;   	// invoice number.  must be unique.  limited to 10 digits.  use orderid if you need longer. 
 	
 	// Required for Commercial Card support
 	var $ponum;			// Purchase Order Number
 	var $tax;			// Tax
-	var $nontaxable;	// Order is non taxable
 	
 	// Amount details (optional)
 	var $tip; 			// Tip
 	var $shipping;		// Shipping charge
-	var $discount; 	// Discount amount (ie gift certificate or coupon code)
-	var $subtotal; 	// if subtotal is set, then 
-							// subtotal + tip + shipping - discount + tax must equal amount 
-							// or the transaction will be declined.  If subtotal is left blank
-							// then it will be ignored
+	var $discount; 		// Discount amount (ie gift certificate or coupon code)
+	var $subtotal; 		// if subtotal is set, then 
+						// subtotal + tip + shipping - discount + tax must equal amount 
+						// or the transaction will be declined.  If subtotal is left blank
+						// then it will be ignored
 	var $currency;		// Currency of $amount
-	var $allowpartialauth; //set to true if a partial authorization (less than the full $amount)  will be accepted
-		
+	
 	// Required Fields for Card Not Present transacitons (Ecommerce)
 	var $card;			// card number, no dashes, no spaces
 	var $exp;			// expiration date 4 digits no /
@@ -63,18 +57,6 @@ class umTransaction {
 	var $checknum;		// Check Number
 	var $accounttype;       // Checking or Savings
 	var $checkformat;	// Override default check record format
-	var $checkimage_front;    // Check front
-	var $checkimage_back;		// Check back
-	var $auxonus;
-	var $epccode;
-	
-	
-	// Fields required for Secure Vault Payments (Direct Pay)
-	var $svpbank;		// ID of cardholders bank
-	var $svpreturnurl;	// URL that the bank should return the user to when tran is completed
-	var $svpcancelurl; 	// URL that the bank should return the user if they cancel
-	
-	
 
 	// Option parameters
 	var $origauthcode;	// required if running postauth transaction.
@@ -90,7 +72,6 @@ class umTransaction {
 	var $cvv2;			// cvv2 code
 	var $custemail;		// customers email address
 	var $custreceipt;	// send customer a receipt
-	var $custreceiptname;	// name of custom receipt template
 	var $ignoreduplicate; // prevent the system from detecting and folding duplicates
 	var $ip;			// ip address of remote host
 	var $testmode;		// test transaction but don't process it
@@ -111,14 +92,12 @@ class umTransaction {
 	var $cavv;
 	var $eci;
 
-	// Customer Database
-	var $addcustomer;		//  Save transaction as a recurring transaction:  yes/no
-	var $recurring;		// (obsolete,  see the addcustomer)
-	
-	var $schedule;		//  How often to run transaction: daily, weekly, biweekly, monthly, bimonthly, quarterly, annually.  Default is monthly, set to disabled if you don't want recurring billing
+	// Recurring Billing
+	var $recurring;		//  Save transaction as a recurring transaction:  yes/no
+	var $schedule;		//  How often to run transaction: daily, weekly, biweekly, monthly, bimonthly, quarterly, annually.  Default is monthly.
 	var $numleft; 		//  The number of times to run. Either a number or * for unlimited.  Default is unlimited.
 	var $start;			//  When to start the schedule.  Default is tomorrow.  Must be in YYYYMMDD  format.
-	var $end;			//  When to stop running transactions. Default is to run forever.  If both end and numleft are specified, transaction will stop when the earliest condition is met.
+	var $end;			//  When to stop running transactions. Default is to run forever.  If both end and numleft are specified, transaction will stop when the ealiest condition is met.
 	var $billamount;	//  Optional recurring billing amount.  If not specified, the amount field will be used for future recurring billing payments
 	var $billtax;
 	var $billsourcekey;
@@ -139,7 +118,6 @@ class umTransaction {
 	var $website;
 
 	// Shipping Fields
-	var $delivery;		// type of delivery method ('ship','pickup','download')
 	var $shipfname;
 	var $shiplname;
 	var $shipcompany;
@@ -150,39 +128,11 @@ class umTransaction {
 	var $shipzip;
 	var $shipcountry;
 	var $shipphone;
-	
-	// Custom Fields
-	var $custom1;
-	var $custom2;
-	var $custom3;
-	var $custom4;
-	var $custom5;
-	var $custom6;
-	var $custom7;
-	var $custom8;
-	var $custom9;
-	var $custom10;
-	var $custom11;
-	var $custom12;
-	var $custom13;
-	var $custom14;
-	var $custom15;
-	var $custom16;
-	var $custom17;
-	var $custom18;
-	var $custom19;
-	var $custom20;
-	
 
-	// Line items  (see addLine)
-	var $lineitems;
-	
-	
 	var $comments; // Additional transaction details or comments (free form text field supports up to 65,000 chars)
 	
 	var $software; // Allows developers to identify their application to the gateway (for troubleshooting purposes)
 
-	
 	// response fields
 	var $rawresult;		// raw result from gateway
 	var $result;		// full result:  Approved, Declined, Error
@@ -201,23 +151,17 @@ class umTransaction {
 	var $convertedamountcurrency;  // merchants currency
 	var $conversionrate;  // the conversion rate that was used
 	var $custnum;  //  gateway assigned customer ref number for recurring billing
-	var $authamount; // amount that was authorized
-	var $balance;  //remaining balance
-	var $cardlevelresult;
-	var $procrefnum;
 	
 	// Cardinal Response Fields
 	var $acsurl;	// card auth url
 	var $pareq;		// card auth request
 	var $cctransid; // cardinal transid
 
-	
 	// Errors Response Feilds
 	var $error; 		// error message if result is an error
 	var $errorcode; 	// numerical error code
 	var $blank;			// blank response
-	var $transporterror; 	// transport error
-	
+	var $transporterror; 	// transport error	
 	
 	// Constructor
 	function umTransaction()
@@ -229,68 +173,17 @@ class umTransaction {
 		$this->error="Transaction not processed yet.";
 		$this->timeout=45;
 		$this->cardpresent=false;
-		$this->lineitems = array();
 		if(isset($_SERVER['REMOTE_ADDR'])) $this->ip=$_SERVER['REMOTE_ADDR'];
 		$this->software="USAePay PHP API v" . USAEPAY_VERSION;
-
+		// Slash/Web sandbox key: comment out below when ready to go live
+//		$this->key="77dy12M4gS33Wv0X66ZZtrU0ts2GLCyf";
+		// Hawkeye Divorce key: uncomment below when ready to go live
+		$this->key="82159qgyjZQC8Be3MV48luHYhRHcZ3An";
+		// Slash/Web sandbox toggle: comment out below when ready to go live
+//		$this->usesandbox=true;
+		// SSL bypassing: comment out below when ready to go live
+//		$this->ignoresslcerterrors=true;    
 	}
-	
-	/**
-	 * Add a line item to the transaction
-	 *
-	 * @param string $sku
-	 * @param string $name
-	 * @param string $description
-	 * @param double $cost
-	 * @param string $taxable
-	 * @param int $qty
-	 */
-	function addLine($sku, $name, $description, $cost, $qty, $taxable)
-	{		
-		$this->lineitems[] = array(
-				'sku' => $sku,
-				'name' => $name,
-				'description' => $description,
-				'cost' => $cost,
-				'taxable' => $taxable,
-				'qty' => $qty
-			);
-	}
-
-	/**
-	 * Remove all line items
-	 * 
-	 */
-	function clearLines()
-	{
-		$this->lineitems=array();		
-	}
-	
-	/**
-	 * Clear all transaction parameters except for the key and pin. Should be run between transactions if not 
-	 * reinsantiating the umTransaction class
-	 *
-	 */
-	function clearData()
-	{
-		$map =$this->getFieldMap();
-		foreach($map as $apifield => $classfield)
-		{
-			if($classfield=='software' || $classfield=='key' || $classfield=='pin') continue;
-			unset($this->$classfield);
-		}
-		
-		// Set default values.
-		$this->command="sale";
-		$this->result="Error";
-		$this->resultcode="E";
-		$this->error="Transaction not processed yet.";
-		$this->cardpresent=false;
-		$this->lineitems = array();
-		if(isset($_SERVER['REMOTE_ADDR'])) $this->ip=$_SERVER['REMOTE_ADDR'];
-		
-	}
-	
 	/**
 	 * Verify that all required data has been set
 	 *
@@ -299,14 +192,9 @@ class umTransaction {
 	function CheckData()
 	{
 		if(!$this->key) return "Source Key is required";
-		if(in_array(strtolower($this->command), array("cc:capture", "cc:refund", "refund", "check:refund","capture", "creditvoid", 'quicksale', 'quickcredit')))
+		if(in_array(strtolower($this->command), array("cc:capture", "cc:refund", "refund", "check:refund","capture", "creditvoid")))
 		{
 			if(!$this->refnum) return "Reference Number is required";		
-		}else if(in_array(strtolower($this->command), array("svp")))
-		{
-			if(!$this->svpbank) return "Bank ID is required";		
-			if(!$this->svpreturnurl) return "Return URL is required";		
-			if(!$this->svpcancelurl) return "Cancel URL is required";		
 		}  else {
 			if(in_array(strtolower($this->command), array("check:sale","check:credit", "check", "checkcredit","reverseach") )) {
 					if(!$this->account) return "Account Number is required";
@@ -328,7 +216,6 @@ class umTransaction {
 		}
 		return 0;		
 	}
-	
 	/**
 	 * Send transaction to the USAePay Gateway and parse response
 	 *
@@ -347,56 +234,90 @@ class umTransaction {
 			return false;
 		}
 		
-		// populate the data
-		$map = $this->getFieldMap();
-		$data = array();
-		foreach($map as $apifield =>$classfield)
-		{
-			switch($classfield)
-			{
-				case 'nontaxable':
-					if($this->nontaxable) $data['UMnontaxable'] = 'Y';
-					break;
-				case 'checkimage_front':
-				case 'checkimage_back':
-					$data[$apifield] = base64_encode($this->$classfield);
-					break;
-				case 'billsourcekey':
-					if($this->billsourcekey) $data['UMbillsourcekey'] = 'yes';
-					break;
-				case 'cardpresent':
-					if($this->cardpresent) $data['UMcardpresent'] = '1'; 
-					break;
-				case 'allowpartialauth':
-					if($this->allowpartialauth===true) $data['UMallowPartialAuth'] = 'Yes';
-					break;
-				default: 
-					$data[$apifield] = $this->$classfield;
-			}
-		}
-		
-		if(isset($data['UMcheckimagefront']) || isset($data['UMcheckimageback'])) $data['UMcheckimageencoding'] = 'base64';
-		
-		// tack on custom fields
-		for($i=1; $i<=20; $i++)
-		{
-			if($this->{"custom$i"}) $data["UMcustom$i"] = $this->{"custom$i"};
-		}
-		
-		// tack on line level detail
-		$c=1;
-		if(!is_array($this->lineitems)) $this->lineitems=array();
-		foreach($this->lineitems as $lineitem)
-		{
-			$data["UMline{$c}sku"] = $lineitem['sku'];
-			$data["UMline{$c}name"] = $lineitem['name'];
-			$data["UMline{$c}description"] = $lineitem['description'];
-			$data["UMline{$c}cost"] = $lineitem['cost'];
-			$data["UMline{$c}taxable"] = $lineitem['taxable'];
-			$data["UMline{$c}qty"] = $lineitem['qty'];
-			$c++;	
-		}
-				
+		// format the data
+		$data = 
+			array("UMkey" => $this->key, 
+			"UMcommand" => $this->command,
+			"UMauthCode" => $this->origauthcode,
+			"UMcard" => $this->card,
+			"UMexpir" => $this->exp,
+			"UMbillamount" => $this->billamount, 
+			"UMamount" => $this->amount, 
+			"UMinvoice" => $this->invoice, 
+			"UMorderid" => $this->orderid, 
+			"UMponum" => $this->ponum, 
+			"UMtax" => $this->tax, 
+			"UMtip" => $this->tip, 
+			"UMshipping" => $this->shipping, 
+			"UMdiscount" => $this->discount, 
+			"UMsubtotal" => $this->subtotal, 
+			"UMcurrency" => $this->currency, 
+			"UMname" => $this->cardholder,
+			"UMstreet" => $this->street, 
+			"UMzip" => $this->zip,
+			"UMdescription" => $this->description,
+			"UMcomments" => $this->comments,
+			"UMcvv2" => $this->cvv2,
+			"UMip" => $this->ip,
+			"UMtestmode" => $this->testmode,
+			"UMcustemail" => $this->custemail,
+			"UMcustreceipt" => $this->custreceipt,
+			"UMrouting" => $this->routing,
+			"UMaccount" => $this->account,
+			"UMssn" => $this->ssn,
+			"UMdlstate" => $this->dlstate,
+			"UMdlnum" => $this->dlnum,
+			"UMchecknum" => $this->checknum,
+			"UMaccounttype" => $this->accounttype,
+			"UMcheckformat" => $this->checkformat,
+			"UMrecurring" => $this->recurring,
+			"UMbillamount" => $this->billamount,
+			"UMbilltax" => $this->billtax,
+			"UMschedule" => $this->schedule,
+			"UMnumleft" => $this->numleft,
+			"UMstart" => $this->start,
+			"UMexpire" => $this->end,
+			"UMbillsourcekey" => ($this->billsourcekey?"yes":""),
+			"UMbillfname" => $this->billfname,
+			"UMbilllname" => $this->billlname,
+			"UMbillcompany" => $this->billcompany,
+			"UMbillstreet" => $this->billstreet,
+			"UMbillstreet2" => $this->billstreet2,
+			"UMbillcity" => $this->billcity,
+			"UMbillstate" => $this->billstate,
+			"UMbillzip" => $this->billzip,
+			"UMbillcountry" => $this->billcountry,
+			"UMbillphone" => $this->billphone,
+			"UMemail" => $this->email,
+			"UMfax" => $this->fax,
+			"UMwebsite" => $this->website,
+			"UMshipfname" => $this->shipfname,
+			"UMshiplname" => $this->shiplname,
+			"UMshipcompany" => $this->shipcompany,
+			"UMshipstreet" => $this->shipstreet,
+			"UMshipstreet2" => $this->shipstreet2,
+			"UMshipcity" => $this->shipcity,
+			"UMshipstate" => $this->shipstate,
+			"UMshipzip" => $this->shipzip,
+			"UMshipcountry" => $this->shipcountry,
+			"UMshipphone" => $this->shipphone, 
+			"UMcardauth" => $this->cardauth, 
+			"UMpares" => $this->pares, 
+			"UMxid" => $this->xid, 
+			"UMcavv" => $this->cavv, 
+			"UMeci" => $this->eci, 
+			"UMcustid" => $this->custid, 
+			"UMcardpresent" => ($this->cardpresent?"1":"0"), 
+			"UMmagstripe" => $this->magstripe, 
+			"UMdukpt" => $this->dukpt, 
+			"UMtermtype" => $this->termtype, 
+			"UMmagsupport" => $this->magsupport, 
+			"UMcontactless" => $this->contactless, 
+			"UMsignature" => $this->signature, 
+			"UMsoftware" => $this->software, 
+			"UMignoreDuplicate" => $this->ignoreduplicate, 
+			"UMrefNum" => $this->refnum);
+
 		// Create hash if pin has been set.
 		if(trim($this->pin))
 		{
@@ -452,10 +373,6 @@ class umTransaction {
 		$this->error=(isset($tmp["UMerror"])?$tmp["UMerror"]:"");
 		$this->errorcode=(isset($tmp["UMerrorcode"])?$tmp["UMerrorcode"]:"10132");
 		$this->custnum=(isset($tmp["UMcustnum"])?$tmp["UMcustnum"]:"");
-		$this->authamount=(isset($tmp["UMauthAmount"])?$tmp["UMauthAmount"]:"");
-		$this->balance=(isset($tmp["UMremainingBalance"])?$tmp["UMremainingBalance"]:"");
-		$this->cardlevelresult=(isset($tmp["UMcardLevelResult"])?$tmp["UMcardLevelResult"]:"");
-		$this->procrefnum=(isset($tmp["UMprocRefNum"])?$tmp["UMprocRefNum"]:"");
 
 		// Obsolete variable (for backward compatibility) At some point they will no longer be set.
 		$this->avs=(isset($tmp["UMavsResult"])?$tmp["UMavsResult"]:"");
@@ -470,212 +387,6 @@ class umTransaction {
 		return false;
 		
 	}
-	
-	function ProcessQuickSale()
-	{
-		$this->command='quicksale';
-		
-		// check that we have the needed data
-		$tmp=$this->CheckData();
-		if($tmp)
-		{
-			$this->result="Error";
-			$this->resultcode="E";
-			$this->error=$tmp;
-			$this->errorcode=10129;
-			return false;
-		}
-		
-				// Create hash if pin has been set.
-		if(!trim($this->pin))
-		{
-			$this->result="Error";
-			$this->resultcode="E";
-			$this->error='Source key must have pin assigned to run transaction';
-			$this->errorcode=999;
-			return false;
-		}
-		
-		// generate random seed value
-		$seed = microtime(true) . rand();
-		
-		// assemble prehash data
-		$prehash = $this->key . $seed . trim($this->pin);
-		
-		// hash the data
-		$hash = sha1($prehash);
-		
-		
-		$data = '<?xml version="1.0" encoding="UTF-8"?>' .
-				'<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns1="urn:usaepay" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" SOAP-ENV:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/">' . 
-				'<SOAP-ENV:Body>' .
-				'<ns1:runQuickSale>' .
-				'<Token xsi:type="ns1:ueSecurityToken">' .
-				'<ClientIP xsi:type="xsd:string">' . $this->ip . '</ClientIP>' .
-				'<PinHash xsi:type="ns1:ueHash">' .
-				'<HashValue xsi:type="xsd:string">' . $hash . '</HashValue>' .
-				'<Seed xsi:type="xsd:string">' . $seed . '</Seed>' . 
-				'<Type xsi:type="xsd:string">sha1</Type>' .
-				'</PinHash>' .
-				'<SourceKey xsi:type="xsd:string">' . $this->key . '</SourceKey>' .
-				'</Token>' .
-				'<RefNum xsi:type="xsd:integer">' . preg_replace('/[^0-9]/','',$this->refnum) . '</RefNum>' .
-				'<Details xsi:type="ns1:TransactionDetail">' . 
-				'<Amount xsi:type="xsd:double">' . $this->xmlentities($this->amount) . '</Amount>' . 
-				'<Description xsi:type="xsd:string">' . $this->xmlentities($this->description) . '</Description>'.
-				'<Discount xsi:type="xsd:double">' . $this->xmlentities($this->discount) . '</Discount>' .
-				'<Invoice xsi:type="xsd:string">' . $this->xmlentities($this->invoice) . '</Invoice>' .
-				'<NonTax xsi:type="xsd:boolean">' . ($this->nontaxable?'true':'false') . '</NonTax>' .
-				'<OrderID xsi:type="xsd:string">' . $this->xmlentities($this->orderid) . '</OrderID>' .
-				'<PONum xsi:type="xsd:string">' . $this->xmlentities($this->ponum) . '</PONum>' .
-				'<Shipping xsi:type="xsd:double">' . $this->xmlentities($this->shipping) . '</Shipping>' .
-				'<Subtotal xsi:type="xsd:double">' . $this->xmlentities($this->subtotal) . '</Subtotal>' .
-				'<Tax xsi:type="xsd:double">' . $this->xmlentities($this->tax) . '</Tax>' .
-				'<Tip xsi:type="xsd:double">' . $this->xmlentities($this->tip) . '</Tip>' .
-				'</Details>' .
-				'<AuthOnly xsi:type="xsd:boolean">false</AuthOnly>' .
-				'</ns1:runQuickSale>' .
-				'</SOAP-ENV:Body>' .
-				'</SOAP-ENV:Envelope>';
-		
-		// Figure out URL
-		$url = ($this->gatewayurl?$this->gatewayurl:"https://www.usaepay.com/soap/gate/15E7FB61");
-		if($this->usesandbox) $url = "https://sandbox.usaepay.com/soap/gate/15E7FB61";
-		
-		// Post data to Gateway
-		$result=$this->httpPost($url, array('xml'=>$data));
-		
-		
-		if($result===false) return false;
-		
-		if(preg_match('~<AuthCode[^>]*>(.*)</AuthCode>~', $result, $m)) $this->authcode=$m[1];
-		if(preg_match('~<AvsResult[^>]*>(.*)</AvsResult>~', $result, $m)) $this->avs_result=$m[1];
-		if(preg_match('~<AvsResultCode[^>]*>(.*)</AvsResultCode>~', $result, $m)) $this->avs_result_code=$m[1];
-		if(preg_match('~<BatchRefNum[^>]*>(.*)</BatchRefNum>~', $result, $m)) $this->batch=$m[1];
-		if(preg_match('~<CardCodeResult[^>]*>(.*)</CardCodeResult>~', $result, $m)) $this->cvv2_result=$m[1];
-		if(preg_match('~<CardCodeResultCode[^>]*>(.*)</CardCodeResultCode>~', $result, $m)) $this->cvv2_result_code=$m[1];
-		//if(preg_match('~<CardLevelResult[^>]*>(.*)</CardLevelResult>~', $result, $m)) $this->cardlevel_result=$m[1];
-		//if(preg_match('~<CardLevelResultCode[^>]*>(.*)</CardLevelResultCode>~', $result, $m)) $this->cardlevel_result_code=$m[1];
-		if(preg_match('~<ConversionRate[^>]*>(.*)</ConversionRate>~', $result, $m)) $this->conversionrate=$m[1];
-		if(preg_match('~<ConvertedAmount[^>]*>(.*)</ConvertedAmount>~', $result, $m)) $this->convertedamount=$m[1];
-		if(preg_match('~<ConvertedAmountCurrency[^>]*>(.*)</ConvertedAmountCurrency>~', $result, $m)) $this->convertedamountcurrency=$m[1];
-		if(preg_match('~<Error[^>]*>(.*)</Error>~', $result, $m)) $this->error=$m[1];
-		if(preg_match('~<ErrorCode[^>]*>(.*)</ErrorCode>~', $result, $m)) $this->errorcode=$m[1];
-		//if(preg_match('~<isDuplicate[^>]*>(.*)</isDuplicate>~', $result, $m)) $this->isduplicate=$m[1];
-		if(preg_match('~<RefNum[^>]*>(.*)</RefNum>~', $result, $m)) $this->refnum=$m[1];
-		if(preg_match('~<Result[^>]*>(.*)</Result>~', $result, $m)) $this->result=$m[1];
-		if(preg_match('~<ResultCode[^>]*>(.*)</ResultCode>~', $result, $m)) $this->resultcode=$m[1];
-		if(preg_match('~<VpasResultCode[^>]*>(.*)</VpasResultCode>~', $result, $m)) $this->vpas_result_code=$m[1];
-		
-		
-		// Store results
-		if($this->resultcode == "A") return true;
-		return false;
-	}
-	
-	
-	
-	
-	function ProcessQuickCredit()
-	{
-		$this->command='quickcredit';
-		
-		// check that we have the needed data
-		$tmp=$this->CheckData();
-		if($tmp)
-		{
-			$this->result="Error";
-			$this->resultcode="E";
-			$this->error=$tmp;
-			$this->errorcode=10129;
-			return false;
-		}
-		
-				// Create hash if pin has been set.
-		if(!trim($this->pin))
-		{
-			$this->result="Error";
-			$this->resultcode="E";
-			$this->error='Source key must have pin assigned to run transaction';
-			$this->errorcode=999;
-			return false;
-		}
-		
-		// generate random seed value
-		$seed = microtime(true) . rand();
-		
-		// assemble prehash data
-		$prehash = $this->key . $seed . trim($this->pin);
-		
-		// hash the data
-		$hash = sha1($prehash);
-		
-		$data = '<?xml version="1.0" encoding="UTF-8"?>' .
-				'<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns1="urn:usaepay" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" SOAP-ENV:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/">' . 
-				'<SOAP-ENV:Body>' .
-				'<ns1:runQuickCredit>' .
-				'<Token xsi:type="ns1:ueSecurityToken">' .
-				'<ClientIP xsi:type="xsd:string">' . $this->ip . '</ClientIP>' .
-				'<PinHash xsi:type="ns1:ueHash">' .
-				'<HashValue xsi:type="xsd:string">' . $hash . '</HashValue>' .
-				'<Seed xsi:type="xsd:string">' . $seed . '</Seed>' . 
-				'<Type xsi:type="xsd:string">sha1</Type>' .
-				'</PinHash>' .
-				'<SourceKey xsi:type="xsd:string">' . $this->key . '</SourceKey>' .
-				'</Token>' .
-				'<RefNum xsi:type="xsd:integer">' . preg_replace('/[^0-9]/','',$this->refnum) . '</RefNum>' .
-				'<Details xsi:type="ns1:TransactionDetail">' . 
-				'<Amount xsi:type="xsd:double">' . $this->xmlentities($this->amount) . '</Amount>' . 
-				'<Description xsi:type="xsd:string">' . $this->xmlentities($this->description) . '</Description>'.
-				'<Discount xsi:type="xsd:double">' . $this->xmlentities($this->discount) . '</Discount>' .
-				'<Invoice xsi:type="xsd:string">' . $this->xmlentities($this->invoice) . '</Invoice>' .
-				'<NonTax xsi:type="xsd:boolean">' . ($this->nontaxable?'true':'false') . '</NonTax>' .
-				'<OrderID xsi:type="xsd:string">' . $this->xmlentities($this->orderid) . '</OrderID>' .
-				'<PONum xsi:type="xsd:string">' . $this->xmlentities($this->ponum) . '</PONum>' .
-				'<Shipping xsi:type="xsd:double">' . $this->xmlentities($this->shipping) . '</Shipping>' .
-				'<Subtotal xsi:type="xsd:double">' . $this->xmlentities($this->subtotal) . '</Subtotal>' .
-				'<Tax xsi:type="xsd:double">' . $this->xmlentities($this->tax) . '</Tax>' .
-				'<Tip xsi:type="xsd:double">' . $this->xmlentities($this->tip) . '</Tip>' .
-				'</Details>' .
-				'<AuthOnly xsi:type="xsd:boolean">false</AuthOnly>' .
-				'</ns1:runQuickCredit>' .
-				'</SOAP-ENV:Body>' .
-				'</SOAP-ENV:Envelope>';
-		
-		// Figure out URL
-		$url = ($this->gatewayurl?$this->gatewayurl:"https://www.usaepay.com/soap/gate/15E7FB61");
-		if($this->usesandbox) $url = "https://sandbox.usaepay.com/soap/gate/15E7FB61";
-		
-		// Post data to Gateway
-		$result=$this->httpPost($url, array('xml'=>$data));
-		if($result===false) return false;
-		
-		if(preg_match('~<AuthCode[^>]*>(.*)</AuthCode>~', $result, $m)) $this->authcode=$m[1];
-		if(preg_match('~<AvsResult[^>]*>(.*)</AvsResult>~', $result, $m)) $this->avs_result=$m[1];
-		if(preg_match('~<AvsResultCode[^>]*>(.*)</AvsResultCode>~', $result, $m)) $this->avs_result_code=$m[1];
-		if(preg_match('~<BatchRefNum[^>]*>(.*)</BatchRefNum>~', $result, $m)) $this->batch=$m[1];
-		if(preg_match('~<CardCodeResult[^>]*>(.*)</CardCodeResult>~', $result, $m)) $this->cvv2_result=$m[1];
-		if(preg_match('~<CardCodeResultCode[^>]*>(.*)</CardCodeResultCode>~', $result, $m)) $this->cvv2_result_code=$m[1];
-		//if(preg_match('~<CardLevelResult[^>]*>(.*)</CardLevelResult>~', $result, $m)) $this->cardlevel_result=$m[1];
-		//if(preg_match('~<CardLevelResultCode[^>]*>(.*)</CardLevelResultCode>~', $result, $m)) $this->cardlevel_result_code=$m[1];
-		if(preg_match('~<ConversionRate[^>]*>(.*)</ConversionRate>~', $result, $m)) $this->conversionrate=$m[1];
-		if(preg_match('~<ConvertedAmount[^>]*>(.*)</ConvertedAmount>~', $result, $m)) $this->convertedamount=$m[1];
-		if(preg_match('~<ConvertedAmountCurrency[^>]*>(.*)</ConvertedAmountCurrency>~', $result, $m)) $this->convertedamountcurrency=$m[1];
-		if(preg_match('~<Error[^>]*>(.*)</Error>~', $result, $m)) $this->error=$m[1];
-		if(preg_match('~<ErrorCode[^>]*>(.*)</ErrorCode>~', $result, $m)) $this->errorcode=$m[1];
-		//if(preg_match('~<isDuplicate[^>]*>(.*)</isDuplicate>~', $result, $m)) $this->isduplicate=$m[1];
-		if(preg_match('~<RefNum[^>]*>(.*)</RefNum>~', $result, $m)) $this->refnum=$m[1];
-		if(preg_match('~<Result[^>]*>(.*)</Result>~', $result, $m)) $this->result=$m[1];
-		if(preg_match('~<ResultCode[^>]*>(.*)</ResultCode>~', $result, $m)) $this->resultcode=$m[1];
-		if(preg_match('~<VpasResultCode[^>]*>(.*)</VpasResultCode>~', $result, $m)) $this->vpas_result_code=$m[1];
-		
-		
-		// Store results		
-		if($this->resultcode == "A") return true;
-		return false;
-	}
-	
-	
 	/**
 	 * Verify Proper Installation of USAePay class and required PHP Support
 	 *
@@ -890,102 +601,9 @@ class umTransaction {
 		<?php
 	}
 	
-	function getFieldMap()
-	{
-		return array("UMkey" => 'key', 
-			"UMcommand" => 'command',
-			"UMauthCode" => 'origauthcode',
-			"UMcard" => 'card',
-			"UMexpir" => 'exp',
-			"UMbillamount" => 'billamount', 
-			"UMamount" => 'amount', 
-			"UMinvoice" => 'invoice', 
-			"UMorderid" => 'orderid', 
-			"UMponum" => 'ponum', 
-			"UMtax" => 'tax', 
-			"UMnontaxable" => 'nontaxable',
-			"UMtip" => 'tip', 
-			"UMshipping" => 'shipping', 
-			"UMdiscount" => 'discount', 
-			"UMsubtotal" => 'subtotal', 
-			"UMcurrency" => 'currency', 
-			"UMname" => 'cardholder',
-			"UMstreet" => 'street', 
-			"UMzip" => 'zip',
-			"UMdescription" => 'description',
-			"UMcomments" => 'comments',
-			"UMcvv2" => 'cvv2',
-			"UMip" => 'ip',
-			"UMtestmode" => 'testmode',
-			"UMcustemail" => 'custemail',
-			"UMcustreceipt" => 'custreceipt',
-			"UMrouting" => 'routing',
-			"UMaccount" => 'account',
-			"UMssn" => 'ssn',
-			"UMdlstate" => 'dlstate',
-			"UMdlnum" => 'dlnum',
-			"UMchecknum" => 'checknum',
-			"UMaccounttype" => 'accounttype',
-			"UMcheckformat" => 'checkformat',
-			"UMcheckimagefront" => 'checkimage_front',
-			"UMcheckimageback" => 'checkimage_back',
-			"UMaddcustomer" => 'addcustomer',
-			"UMrecurring" => 'recurring',
-			"UMbillamount" => 'billamount',
-			"UMbilltax" => 'billtax',
-			"UMschedule" => 'schedule',
-			"UMnumleft" => 'numleft',
-			"UMstart" => 'start',
-			"UMexpire" => 'end',
-			"UMbillsourcekey" => 'billsourcekey',
-			"UMbillfname" => 'billfname',
-			"UMbilllname" => 'billlname',
-			"UMbillcompany" => 'billcompany',
-			"UMbillstreet" => 'billstreet',
-			"UMbillstreet2" => 'billstreet2',
-			"UMbillcity" => 'billcity',
-			"UMbillstate" => 'billstate',
-			"UMbillzip" => 'billzip',
-			"UMbillcountry" => 'billcountry',
-			"UMbillphone" => 'billphone',
-			"UMemail" => 'email',
-			"UMfax" => 'fax',
-			"UMwebsite" => 'website',
-			"UMshipfname" => 'shipfname',
-			"UMshiplname" => 'shiplname',
-			"UMshipcompany" => 'shipcompany',
-			"UMshipstreet" => 'shipstreet',
-			"UMshipstreet2" => 'shipstreet2',
-			"UMshipcity" => 'shipcity',
-			"UMshipstate" => 'shipstate',
-			"UMshipzip" => 'shipzip',
-			"UMshipcountry" => 'shipcountry',
-			"UMshipphone" => 'shipphone', 
-			"UMcardauth" => 'cardauth', 
-			"UMpares" => 'pares', 
-			"UMxid" => 'xid', 
-			"UMcavv" => 'cavv', 
-			"UMeci" => 'eci', 
-			"UMcustid" => 'custid', 
-			"UMcardpresent" => 'cardpresent', 
-			"UMmagstripe" => 'magstripe', 
-			"UMdukpt" => 'dukpt', 
-			"UMtermtype" => 'termtype', 
-			"UMmagsupport" => 'magsupport', 
-			"UMcontactless" => 'contactless', 
-			"UMsignature" => 'signature', 
-			"UMsoftware" => 'software', 
-			"UMignoreDuplicate" => 'ignoreduplicate', 
-			"UMrefNum" => 'refnum',
-			'UMauxonus' => 'auxonus',
-			'UMepcCode' => 'epccode',
-			'UMcustreceiptname' => 'custreceiptname',
-			'UMallowPartialAuth' => 'allowpartialauth',
-			);
-	}
 	function buildQuery($data)
 	{
-		if(function_exists('http_build_query') && ini_get('arg_separator.output')=='&') return http_build_query($data);
+		if(function_exists('http_build_query')) return http_build_query($data);
 		
 		$tmp=array();
 		foreach($data as $key=>$val) $tmp[] = rawurlencode($key) . '=' . rawurlencode($val);
@@ -1043,7 +661,7 @@ class umTransaction {
 		curl_setopt($ch,CURLOPT_POST,1);
 		curl_setopt($ch,CURLOPT_TIMEOUT, ($this->timeout>0?$this->timeout:45));
 		curl_setopt($ch,CURLOPT_RETURNTRANSFER,1);
-		
+
 		// Bypass ssl errors - A VERY BAD IDEA
 		if($this->ignoresslcerterrors)
 		{
@@ -1064,27 +682,11 @@ class umTransaction {
 			curl_setopt ($ch, CURLOPT_PROXY, $this->proxyurl);
 		}		
 		
-		$soapcall=false;
-		if(is_array($data))
-		{
-			if(array_key_exists('xml',$data)) $soapcall=true;
-		}
+		// rawurlencode data 
+		$data = $this->buildQuery($data);		
 		
-		if($soapcall)
-		{
-			curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-				"Content-type: text/xml;charset=UTF-8",
-				"SoapAction: urn:ueSoapServerAction"
-			));
-			curl_setopt($ch,CURLOPT_POSTFIELDS,$data['xml']);
-			
-		} else {
-			// rawurlencode data 
-			$data = $this->buildQuery($data);		
-			
-			// attach the data
-			curl_setopt($ch,CURLOPT_POSTFIELDS,$data);
-		}
+		// attach the data
+		curl_setopt($ch,CURLOPT_POSTFIELDS,$data);
 		
 		// run the transfer
 		$result=curl_exec ($ch);
@@ -1103,11 +705,7 @@ class umTransaction {
 		}
 		curl_close ($ch);
 		$this->rawresult=$result;
-		
-		if($soapcall) {
-			return $result;	
-		}
-		
+
 		if(!$result) {
 			$this->result="Error";
 			$this->resultcode="E";
@@ -1117,7 +715,7 @@ class umTransaction {
 		}
 		
 		// result will be on the last line of the return
-		$tmp=explode("\n",$result);
+		$tmp=split("\n",$result);
 		$result=$tmp[count($tmp)-1];		
 		
 		return $result;
@@ -1194,13 +792,6 @@ class umTransaction {
 		return $result;
 		
 	}
-	
-	function xmlentities($string)
-	{
-		$string = preg_replace('/[^a-zA-Z0-9 _\-\.\'\r\n]/e', '_uePhpLibPrivateXMLEntities("$0")', $string);
-		return $string;
-	}
-	
 }
 
 
@@ -1217,9 +808,7 @@ class umTransaction {
 //		 4	Diners Club/Carte Blanche
 //		10	Discover
 //		20	enRoute	
-//		28	JCB	
-
-
+//		28	JCB
 /**
  * Evaluates a creditcard number and if valid, returns the card type code
  *
@@ -1295,19 +884,9 @@ function umVerifyCreditCardNumber($ccnum)
 			if(substr($ccnum,0,4) == "6011" && strlen($ccnum) == 16) return 10;
 	}
 
-
 	// couldn't match a card profile. time to call it quits and go home.  this goose is cooked.
 	$umErrStr="Cardnumber did not match any known creditcard profiles";
 	return 0;
 }
-
-
-function _uePhpLibPrivateXMLEntities($num)
-{
-	$chars = array(128 => '&#8364;',130 => '&#8218;',131 => '&#402;', 132 => '&#8222;', 133 => '&#8230;', 134 => '&#8224;', 135 => '&#8225;', 136 => '&#710;', 137 => '&#8240;', 138 => '&#352;', 139 => '&#8249;', 140 => '&#338;', 142 => '&#381;', 145 => '&#8216;',146 => '&#8217;',147 => '&#8220;',148 => '&#8221;',149 => '&#8226;',150 => '&#8211;',151 => '&#8212;',152 => '&#732;', 153 => '&#8482;',154 => '&#353;', 155 => '&#8250;',156 => '&#339;', 158 => '&#382;', 159 => '&#376;');
-	$num = ord($num);
-	return (($num > 127 && $num < 160) ? $chars[$num] : "&#".$num.";" );
-}
-
 
 ?>

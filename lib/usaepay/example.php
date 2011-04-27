@@ -27,8 +27,8 @@ $tran->exp="0312";
 $tran->amount="1.00";			
 $tran->invoice="1234";   		
 $tran->cardholder="Test T Jones"; 	
-//$tran->street="1234 Main Street";	
-//$tran->zip="90036";			
+$tran->street="1234 Main Street";	
+$tran->zip="90036";			
 $tran->description="Online Order";	
 $tran->cvv2="435";				
 
@@ -39,7 +39,7 @@ if($tran->Process())
 {
 	echo "<b>Card approved</b><br>";
 	echo "<b>Authcode:</b> " . $tran->authcode . "<br>";
-	//echo "<b>AVS Result:</b> " . $tran->avs_result . "<br>";
+	echo "<b>AVS Result:</b> " . $tran->avs_result . "<br>";
 	echo "<b>Cvv2 Result:</b> " . $tran->cvv2_result . "<br>";
 } else {
 	echo "<b>Card Declined</b> (" . $tran->result . ")<br>";
