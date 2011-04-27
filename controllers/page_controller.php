@@ -230,9 +230,16 @@ switch($controller_action){
 			$url2 = 'http://feedburner.google.com/fb/a/pingSubmit?bloglink=http://feeds.feedburner.com/StrategicScrapRssMetalNews';
 			$data2 = file_get_contents( $url2,null,null,null,10 );
 			// grab weather data
-			$request_url = "http://xoap.weather.com/weather/local/$zipcode?cc=*&dayf=5&link=xoap&prod=xoap&par=1182592015&key=bd35fd8b6e181b8a";
+			$postal_code = explode("-",$scrapper->postal_code);
+			$postal_code = $postal_code[0];
+			$request_url = "http://xoap.weather.com/weather/local/" . $postal_code . "?cc=*&dayf=5&link=xoap&prod=xoap&par=1182592015&key=bd35fd8b6e181b8a";
 			$xml = simplexml_load_file($request_url) or die("feed not loading");
 			$weather = $xml->xpath('//weather');
+			if ( empty( $weather ) ) {
+				$request_url = "http://xoap.weather.com/weather/local/$zipcode?cc=*&dayf=5&link=xoap&prod=xoap&par=1182592015&key=bd35fd8b6e181b8a";
+				$xml = simplexml_load_file($request_url) or die("feed not loading");
+				$weather = $xml->xpath('//weather');
+			}
 			$weather = $weather[0];
 		} // end else statement for auth
 		//the layout file  -  THIS PART NEEDS TO BE LAST
