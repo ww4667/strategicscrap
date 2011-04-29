@@ -360,9 +360,11 @@ function updateMarkers(){
 		}
 		
 		updatePageData(modData);
+		$('.ship_quote_button_custom').show();
 	});
 	
 	if(checkedItems.length < 1) {
+		$('.ship_quote_button_custom').show();
 		modData = [];
 		updatePageData();
 		$("#mapForm input:radio").removeAttr('disabled');
@@ -397,8 +399,12 @@ function updatePageData( json ){
 		pageData += '	<td style="width:250px">'+cur.address_1+ ( cur.address_2 ? '<br />' + cur.address_2 : '') + '<br />' + cur.city+', ' +cur.state_province+' '+ cur.zip_postal_code+'</td>';
 		pageData += '	<td style="width:60px">'+cur.state_province+'</td>';
 //		pageData += '	<td style="width:110px">'+cur.first_name+' '+cur.last_name+'';
-//		pageData += '	'+(cur.business_phone != '' ? '<br />' + cur.business_phone : '')+'</td>';
-		pageData += '	<td><a trans_id="'+cur.id+'" class="ship_quote_button">shipping quote</a></td>';
+//		pageData += '	'+(cur.business_phone != '' ? '<br />' + cur.business_phone : '')+'</td>';	
+		if (cur.category == "Exporter" || cur.category == "Broker"){
+			pageData += '	<td><a trans_id="'+cur.id+'" class="ship_quote_button">request a quote</a></td>';
+		} else {
+			pageData += '	<td><a trans_id="'+cur.id+'" class="ship_quote_button">shipping quote</a></td>';
+		}
 		pageData += '</tr>';
 		highlight = !highlight;
 	}
@@ -635,7 +641,7 @@ function addTransportFormEventMap(){
 			<div class="oneColMod"><div class="moduleTop"><!-- IE hates empty elements --></div>
 				<div class="moduleContent clearfix">
 					<h3><span>0</span> Search Results 
-						<span class = "ship_quote_button_custom" ><span class = "button">&nbsp;</span>Make a Custom Request</span>
+						<span class = "ship_quote_button_custom" style = "display: none;"><span class = "button">&nbsp;</span>Make a Custom Request</span>
 					</h3>
 					<hr />
 					

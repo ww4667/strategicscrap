@@ -62,6 +62,9 @@ if(!$gir->auth->authenticate()){
 			</script>
 			<div id="transport_request_form">
 				<p>Fill out the form below to receive bids from our national database of logistics experts.</p>
+				<? if ($facility['category'] == "Broker" || $facility['category'] == "Exporter" ){ ?>
+					<p><b>NOTICE:</b> This request will be submitted to this Broker or Exporter </p>	
+				<? }?>
 				<div style="float: left; margin: 3px 0; padding: 5px; background:#ccc;width:490px;font-size:11px;" class = "custom_form">
 					<div style="width:220px; float:left; margin:3px;">
 						<strong>Shipper:</strong><br />
@@ -315,7 +318,7 @@ if(!$gir->auth->authenticate()){
 					$fields_to_post = array("transportation_type", "edit_from_information", "edit_to_information", "volume", "user_id", "facility_id", "material_id", "transportation_id", "ship_date", "arrive_date", "special_instructions", "edit_from_information", "edit_to_information", "from_address_1", "from_address_2", "from_city", "from_state_province", "from_postal_code", "from_work_phone", "from_fax_number", "to_company", "to_address_1", "to_address_2", "to_city", "to_state_province", "to_zip_postal_code", "to_country");
 					?>
 						            	
-					$.post("/controllers/remote/?method=addRequestTest&", 
+					$.post("/controllers/remote/?method=addRequest&", 
 				            {	
 			            	<? 
 			            	foreach ($fields_to_post as $f){ 

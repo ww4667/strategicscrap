@@ -213,6 +213,6 @@ ul.regionBullets li{float:left;width:210px;}
 .custom_form label {width: 57px; clear:both; float: left;}
 .custom_form #from_information input, .custom_form #to_information input {float: left;}
 
-.ship_quote_button_custom { float: right; margin-right: 8px; cursor: pointer;}
-.ship_quote_button_custom .button{ width: 44px; height: 44px;  background: url("/resources/images/buttons/dashboard_action.png") no-repeat 44px 0 transparent;}
-.ship_quote_button_custom .button:hover { background: url("/resources/images/buttons/dashboard_action.png") no-repeat 44px -44px transparent;}
+.ship_quote_button_custom { float: right; margin-right: 20px; cursor: pointer;}
+.ship_quote_button_custom .button{ float: left; margin-right: 4px; width: 22px; height: 22px;  background: url("/resources/images/buttons/dashboard_action.png") no-repeat -22px 0 transparent;}
+.ship_quote_button_custom:hover  .button{ background: url("/resources/images/buttons/dashboard_action.png") no-repeat -22px -22px transparent;}
