@@ -25,20 +25,27 @@ if(!$gir->auth->authenticate()){
 		} else {
 			$_material_id = $_GET['material_id'];
 			$_location = $_GET['id'];
-			$f = new Facility();
-			$f->GetItemObj( $_location );
-			$f->ReadJoins( new Material() );
-			$facility = (array) $f;
+			if ($_location > 0) {
+				$f = new Facility();
+				$f->GetItemObj( $_location );
+				$f->ReadJoins( new Material() );
+				$facility = (array) $f;
+				$isFacility = $facility['object_name_id'] == 1 ? true : false;
+				$message = '';
+				if($isFacility){
+					$message = 'This is not a Facility.';	
+				}
+			} else {
+				$m = new Material();
+				$material_info = $m->GetItemObj( $_material_id );
+				$facility = "";
+			}
 			
 			$u = new Scrapper();
 			$user = $u->getScrappersByUserId( $_SESSION['user']['id'] );
 			$user = $user[0];
 			
-			$isFacility = $facility['object_name_id'] == 1 ? true : false;
-			$message = '';
-			if($isFacility){
-				$message = 'This is not a Facility.';	
-			}
+			
 			?>
 			
 			<script type="text/javascript">
@@ -55,58 +62,110 @@ if(!$gir->auth->authenticate()){
 			</script>
 			<div id="transport_request_form">
 				<p>Fill out the form below to receive bids from our national database of logistics experts.</p>
-				<div style="float: left; margin: 3px 0; padding: 5px; background:#ccc;width:490px;font-size:11px;">
+				<div style="float: left; margin: 3px 0; padding: 5px; background:#ccc;width:490px;font-size:11px;" class = "custom_form">
 					<div style="width:220px; float:left; margin:3px;">
-						<strong>Ship From:</strong><br />
+						<strong>Shipper:</strong><br />
 						<div style="padding:10px;">
 							<strong>Company:</strong> <?=isset($user['company']) ? $user['company'] : ''?><br />
 							<strong>Name:</strong> <?=isset($user['first_name']) && isset($user['last_name']) ? $user['first_name']. ' ' . $user['last_name'] : ''?><br />
 							<hr />
-							<strong>Address:</strong> <?=isset($user['address_1']) ? $user['address_1'] : ''?><br />
-							<?php if(isset($user['address_2']) && $user['address_2'] != ''){ ?>
-							<strong>Address2:</strong> <?=isset($user['address_2']) ? $user['address_2'] : ''?><br />
-							<?php }?>
-							<strong>City:</strong> <?=isset($user['city']) ? $user['city'] : ''?><br />
-							<strong>State:</strong> <?=$user['state_province'] ? $user['state_province'] : ''?><br />
-							<strong>Zip Code:</strong> <?=isset( $user['postal_code'] ) ? $user['postal_code'] : ''?><br />
-							<hr />
-							<strong>Phone:</strong> <?=$user['work_phone'] ? $user['work_phone'] : ''?><br />
-							<strong>Fax:</strong> <?=$user['fax_number'] ? $user['fax_number'] : ''?><br />
-							<strong>Email:</strong> <?=$_SESSION['user']['username']?><br />
+							<strong>Shippers Address:</strong>
+							<br />
+							<input type = "checkbox" class = "enable_fields" data-fieldset="from_information" />Change Information<br />
+							<input type = "hidden" id = "edit_from_information" name = "edit_from_info" value = "false" />
+							<div id = "from_information">
+								<label>Address:</label> <input type ="text" id = "from_address_1" name = "address_1" disabled="true" value = "<?=isset($user['address_1']) ? $user['address_1'] : ''?>"  data-old = "<?=isset($user['address_1']) ? $user['address_1'] : ''?>" /><br />
+								<?php if(isset($user['address_2']) && $user['address_2'] != ''){ ?>
+								<label>Address2:</label>  <input type ="text" id = "from_address_2" name = "address_2" disabled="true" value = "<?=isset($user['address_2']) ? $user['address_2'] : ''?>"  data-old = "<?=isset($user['address_2']) ? $user['address_2'] : ''?>" /><br />
+								<?php }?>
+								<label>City:</label>  <input type ="text" id = "from_city" name = "city" disabled="true" value = "<?=isset($user['city']) ? $user['city'] : ''?>"  data-old = "<?=isset($user['city']) ? $user['city'] : ''?>" /><br />
+								<label>State:</label>  <input type ="text" id = "from_state_province" name = "state_province" disabled="true" value = "<?=$user['state_province'] ? $user['state_province'] : ''?>" data-old = "<?=$user['state_province'] ? $user['state_province'] : ''?>" /><br />
+								<label>Zip Code:</label>  <input type ="text" id = "from_postal_code" name = "postal_code" disabled="true" value = "<?=isset( $user['postal_code'] ) ? $user['postal_code'] : ''?>" data-old = "<?=isset( $user['postal_code'] ) ? $user['postal_code'] : ''?>" /><br />
+								<hr />
+								<label>Phone:</label>  <input type ="text" id = "from_work_phone" name = "work_phone" disabled="true" value = "<?=$user['work_phone'] ? $user['work_phone'] : ''?>" data-old = "<?=$user['work_phone'] ? $user['work_phone'] : ''?>" /><br />
+								<label>Fax:</label>  <input type ="text" id = "from_fax_number" name = "fax_number" disabled="true" value = "<?=$user['fax_number'] ? $user['fax_number'] : ''?>" data-old = "<?=$user['fax_number'] ? $user['fax_number'] : ''?>" /><br />
+								<label>Email:</label>  <?=$_SESSION['user']['username']?><br />
+							</div>
 						</div>
 					</div>
-					<div style="width:220px; float:left; margin:3px;">
-						<strong>Ship To:</strong><br />
-						<div style="padding:10px;">
-		
-							<strong>Company:</strong> <?= $facility['company'] ?><br />
-<?php
-/*
+					<script>
+						$('document').ready(function(){
+						
+							$(".enable_fields").click(function(){
+								
+								fieldset = $(this).attr('data-fieldset');
+								
+								editing = $("#edit_" + fieldset).val();
+								
+								//console.log("fields: " + fieldset + " editing: " + editing );
+								
+								if(editing == "true"){													
+									$("#" + fieldset + " input").attr("disabled", true);
+									$("#" + fieldset + " input").each(function(i,e){
+										el = $(e);
+										el.val(el.attr("data-old"));
+									});
+						
+									$("#edit_" + fieldset).val("false")
+								} else {										
+									$("#" +  fieldset + " input").attr("disabled", false);
+									$("#edit_" + fieldset).val("true")
+								}
+							});
+						});
+					</script>
+						<div style="width:220px; float:left; margin:3px;">
+							<strong>Ship To:</strong><br />
+							<div style="padding:10px;">
+							<? if($_location == 0) {?>
+								<div id = "to_information">
+									<label>Company:</label>
+										<input type ="text" id = "to_company"  name = "to_company"/><br />
+									<hr />
+									<strong>Facility Address:</strong>
+									<div id = "to_information">
+										<label>Address:</label> <input type ="text" id = "to_address_1"  name = "facility_address_1"  /><br />
+										<label>Address2:</label>  <input type ="text" id = "to_address_2" name = "facility_address_2"/><br />
+										<label>City:</label>  <input type ="text" id = "to_city" name = "city"/><br />
+										<label>State:</label>  <input type ="text" id = "to_state_province" name = "facility_state_province" /><br />
+										<label>Zip Code:</label>  <input type ="text" id = "to_zip_postal_code" name = "facility_postal_code" /><br />
+										<label>Country:</label>  <input type ="text" id = "to_country" name = "facility_postal_code" /><br />
+									</div>
+								</div>
+							<? } else {?>
+								<strong>Company:</strong> <?= $facility['company'] ?><br />					
+								<hr />
+								<strong>Address:</strong> <?=isset($facility['address_1']) ? $facility['address_1'] : ''?><br />
+								<?php if(isset($facility['address_2']) && $facility['address_2'] != ''){ ?>
+								<strong>Address 2: </strong> <?=isset($facility['address_2']) ? $facility['address_2'] : ''?><br />
+								<?php } ?>
+								<strong>City:</strong> <?=isset($facility['city']) ? $facility['city'] : ''?><br />
+								<strong>State:</strong> <?=$facility['state_province'] ? $facility['state_province'] : ''?><br />
+								<strong>Zip Code:</strong> <?=$facility['zip_postal_code'] ? $facility['zip_postal_code'] : ''?><br />
+							<?php
+							}
+							/*
+							<hr />
+							<strong>Facility Address:</strong><input type = "checkbox" class = "enable_fields" data-fieldset="to_information" />Change Information<br />
+							<input type = "hidden" id = "edit_to_information" name = "edit_to_info" value = "false" />
+							<div id = "to_information">
+								<strong>Address:</strong> <input type ="text" id = "to_address_1"  name = "facility_address_1" disabled="true" value = "<?=isset($facility['address_1']) ? $facility['address_1'] : ''?>"  data-old = "<?=isset($facility['address_1']) ? $facility['address_1'] : ''?>" /><br />
+								<?php if(isset($facility['address_2']) && $facility['address_2'] != ''){ ?>
+								<strong>Address2:</strong>  <input type ="text" id = "to_address_2" name = "facility_address_2" disabled="true" value = "<?=isset($facility['address_2']) ? $facility['address_2'] : ''?>"  data-old = "<?=isset($facility['address_2']) ? $facility['address_2'] : ''?>" /><br />
+								<?php }?>
+								<strong>City:</strong>  <input type ="text" id = "to_city" name = "city" disabled="true" value = "<?=isset($facility['city']) ? $facility['city'] : ''?>"  data-old = "<?=isset($facility['city']) ? $facility['city'] : ''?>" /><br />
+								<strong>State:</strong>  <input type ="text" id = "to_state_province" name = "facility_state_province" disabled="true" value = "<?=$facility['state_province'] ? $facility['state_province'] : ''?>" data-old = "<?=$facility['state_province'] ? $facility['state_province'] : ''?>" /><br />
+								<strong>Zip Code:</strong>  <input type ="text" id = "to_postal_code" name = "facility_postal_code" disabled="true" value = "<?=isset( $facility['zip_postal_code'] ) ? $facility['zip_postal_code'] : ''?>" data-old = "<?=isset( $facility['zip_postal_code'] ) ? $facility['zip_postal_code'] : ''?>" /><br />
+							</div>
 							<strong>Name:</strong> <?=isset($facility['first_name']) && isset($facility['last_name']) ? $facility['first_name']. ' ' . $facility['last_name'] : ''?><br />
-*/
-?>							
-							<hr />
-							<strong>Address:</strong> <?=isset($facility['address_1']) ? $facility['address_1'] : ''?><br />
-							<?php if(isset($facility['address_2']) && $facility['address_2'] != ''){ ?>
-							<strong>Address 2: </strong> <?=isset($facility['address_2']) ? $facility['address_2'] : ''?><br />
-							<?php } ?>
-							<strong>City:</strong> <?=isset($facility['city']) ? $facility['city'] : ''?><br />
-							<strong>State:</strong> <?=$facility['state_province'] ? $facility['state_province'] : ''?><br />
-							<strong>Zip Code:</strong> <?=$facility['zip_postal_code'] ? $facility['zip_postal_code'] : ''?><br />
-<?php
-/*
-							<hr />
-							<strong>Phone:</strong> <?=$facility['business_phone'] ? $facility['business_phone'] : ''?><br />
-							<strong>Fax:</strong> <?=$facility['fax_number'] ? $facility['fax_number'] : ''?><br />
- */
-?>							
-							
-						</div>
+							*/
+							?>	
+					</div>
 					</div>
 				</div>
 	
 					<input type="hidden" id="user_id" name="user_id" value="<?=isset($user['id']) ? $user['id'] : ''?>" /> 
-					<input type="hidden" id="facility_id" name="facility_id" value="<?=isset($facility['id']) ? $facility['id'] : ''?>" />
+					<input type="hidden" id="facility_id" name="facility_id" value="<?=isset($facility['id']) ? $facility['id'] : $_location ?>" />
 				
 					<?
 					$materialName = "";
@@ -120,6 +179,11 @@ if(!$gir->auth->authenticate()){
 							} 
 							$i++; 
 						}
+					}
+					
+					if(isset($material_info)){
+						print '<input type="hidden" id="material_id" name="material_id" value="'. $material_info->id .'" />';
+						$materialName = $material_info->name;
 					}
 					?>
 					<fieldset style="width:475px; border:1px solid #ccc; padding:10px; margin:5px 0;">
@@ -246,16 +310,21 @@ if(!$gir->auth->authenticate()){
 						$("#facility_id").val() != "" && 
 						$("#ship_date").val() != "" && 
 						$("#arrive_date").val() != "" ) {
-
-				        $.post("/controllers/remote/?method=addRequest&", 
-				            {	volume: $("#volume").val(),
-				            	user_id :  $("#user_id").val(),
-				            	facility_id : $("#facility_id").val(),
-				            	material_id : $("#material_id").val(),
-				            	transportation_type : $("#transportation_type").val(),
-				            	ship_date : $("#ship_date").val(),
-				            	arrive_date : $("#arrive_date").val(),
-				            	special_instructions : $("#special_instructions").val() },
+<?
+					$field_list  = "";
+					$fields_to_post = array("transportation_type", "edit_from_information", "edit_to_information", "volume", "user_id", "facility_id", "material_id", "transportation_id", "ship_date", "arrive_date", "special_instructions", "edit_from_information", "edit_to_information", "from_address_1", "from_address_2", "from_city", "from_state_province", "from_postal_code", "from_work_phone", "from_fax_number", "to_company", "to_address_1", "to_address_2", "to_city", "to_state_province", "to_zip_postal_code", "to_country");
+					?>
+						            	
+					$.post("/controllers/remote/?method=addRequestTest&", 
+				            {	
+			            	<? 
+			            	foreach ($fields_to_post as $f){ 
+			            		$field_list .= $f .' : $("#' . $f . '").val(), ';
+			            	}	
+			            		print trim($field_list, ", "); 
+			            	?>
+			            	},			            	
+			                	
 				           function( data ){
 
 								$("#volume").val(''); 
@@ -271,7 +340,6 @@ if(!$gir->auth->authenticate()){
 								$.colorbox.resize();
 								colorboxTimeOut = setTimeout( function(){ clearTimeout(colorboxTimeOut); $.colorbox.close(); }, 5000 );
 				           });
-				         
 				        return false;
 				    }
 				    

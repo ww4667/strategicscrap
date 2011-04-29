@@ -35,10 +35,13 @@
 	<div class="label"><strong>Category:</strong></div>
 	<div class="value">
 		<select name="category">
-			<option value="">-- Select One --</option>
+<?php
+//			<option value="">-- Select One --</option>
+?>
 			<option value="Mill">Mill</option>
 			<option value="Foundry">Foundry</option>
 			<option value="Exporter">Exporter</option>
+			<option value="Broker">Broker</option>
 		</select>
 	</div>
     <br style="clear:left" />

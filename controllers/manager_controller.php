@@ -723,9 +723,10 @@ while (!$KILL) {
 				// retrieved request object
 				$r = new Request();
 				$request = $r->GetItemObj($itemId);
-				$request->join_scrapper = $request->ReadJoins( new Scrapper() );
-				$request->join_facility = $request->ReadJoins( new Facility() );
-				$request->join_material = $request->ReadJoins( new Material() );
+				$snapshot = json_decode($request->request_snapshot,true);
+//				$request->join_scrapper = $request->ReadJoins( new Scrapper() );
+//				$request->join_facility = $request->ReadJoins( new Facility() );
+//				$request->join_material = $request->ReadJoins( new Material() );
 				// retrieve bid objects in an array
 				$bids = $request->GetBids();
 				$bids_array = array();

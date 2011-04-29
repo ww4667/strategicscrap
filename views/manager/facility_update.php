@@ -60,6 +60,7 @@
 			<option value="Mill" <?= $facility->category == "Mill" ? 'selected="selected"' : "" ?>>Mill</option>
 			<option value="Foundry" <?= $facility->category == "Foundry" ? 'selected="selected"' : "" ?>>Foundry</option>
 			<option value="Exporter" <?= $facility->category == "Exporter" ? 'selected="selected"' : "" ?>>Exporter</option>
+			<option value="Broker" <?= $facility->category == "Broker" ? 'selected="selected"' : "" ?>>Broker</option>
 		</select>
 	</div>
     <br style="clear:left" />

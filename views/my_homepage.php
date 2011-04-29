@@ -322,20 +322,24 @@ $(".scrapQuote td").not("td:has(a)").colorbox({ width:"550", inline:true, href:"
 						var scrapper = get_requests_data['request_snapshot']['scrapper'];
 						var facility = get_requests_data['request_snapshot']['facility'];
 						var r_material = get_requests_data['request_snapshot']['material'];
-						var from = 	scrapper['address_1'] + '<br />' + 
-						( scrapper['address_2'] != '' && scrapper['address_2'] != null ? scrapper['address_2'] + '<br />' : '' ) + 
-						scrapper['city'] + ', ' + 
-						scrapper['state_province'] + ' ' + 
-						scrapper['postal_code'];
+		
+						var fromItem =  (get_requests_data['request_snapshot']['from']) ? get_requests_data['request_snapshot']['from'] : null ;
+						var toItem =  (get_requests_data['request_snapshot']['to']) ? get_requests_data['request_snapshot']['to'] : null ;
+
+						var from = ((  fromItem && fromItem['from_address_1'] != null)? fromItem['from_address_1'] : scrapper['address_1']) + '<br />' + 
+						( ((scrapper['address_2'] != '' && scrapper['address_2'] != null) || ( fromItem && fromItem['from_address_2'] != '' && fromItem['from_address_2'] != null)) ? (( fromItem['from_address_2'] != null)? fromItem['from_address_2'] : scrapper['address_2']) + '<br />' : '' ) + 
+						((  fromItem && fromItem['from_city'] != null)? fromItem['from_city'] : scrapper['city']) + ', ' + 
+						((  fromItem && fromItem['from_state_province'] != null)? fromItem['from_state_province'] : scrapper['state_province']) + ' ' + 
+						((  fromItem && fromItem['from_postal_code'] != null)? fromItem['from_postal_code'] : scrapper['postal_code']);
 						$("#bid_request_ship_from").html( from );
 						
-						var to = facility['address_1'] + '<br />' + 
-						( facility['address_2'] != '' && facility['address_2'] != null ? facility['address_2'] + '<br />' : '' ) + 
-						facility['city'] + ', ' + 
-						facility['state_province'] + ' ' + 
-						facility['postal_code'];
-						$("#bid_request_ship_to").html( to );
-						
+						var to = ((  toItem && toItem['to_address_1'] != null)? toItem['to_address_1'] : facility['address_1']) + '<br />' + 
+						( ((facility['address_2'] != '' && facility['address_2'] != null) || (toItem && toItem['to_address_2'] != '' && toItem['to_address_2'] != null))? (( toItem['to_address_2'] != null)? toItem['to_address_2'] : facility['address_2']) + '<br />' : '' ) + 
+						(( toItem && toItem['to_city'] != null)? toItem['to_city'] : facility['city']) + ', ' + 
+						(( toItem && toItem['to_state_province'] != null)? toItem['to_state_province'] : facility['state_province']) + ' ' + 
+						(( toItem && toItem['to_zip_postal_code'] != null)? toItem['to_zip_postal_code'] : facility['zip_postal_code']);
+						$("#bid_request_ship_to").html( to );						
+
 						var material = 	r_material['name'];
 						$("#bid_request_material").html( material );
 						
@@ -511,7 +515,7 @@ function reloadRequests(){
       $.ajax( {
         "dataType": 'json', 
         "type": "GET", 
-        "url": "/controllers/remote_controller.php?type=data_tables&method=getRequests&uid=<?= $_SESSION['user']['id']  ?>&session_id=<?=session_id();?>",
+        "url": "/controllers/remote/?type=data_tables&method=getRequests&uid=<?= $_SESSION['user']['id']  ?>&session_id=<?=session_id();?>", 
         "session_id":"<?=session_id();?>", 
         "success": function (json) {
           //request_object = json.request_object[0];

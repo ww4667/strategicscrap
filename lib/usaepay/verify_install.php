@@ -15,7 +15,8 @@
 
 
 // Change this path to match the location of your usaepay.php file
-include "/home/usaepay-php/usaepay.php";
+//include "/home/usaepay-php/usaepay.php";
+include "/home/strategi/public_html/lib/usaepay/usaepay.php";
 
 
 $tran=new umTransaction();

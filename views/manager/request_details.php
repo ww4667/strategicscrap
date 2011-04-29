@@ -21,7 +21,7 @@
 	
 	<div><strong>Request Data:</strong><hr /></div>
 	<div class="label"><strong>Material:</strong></div>
-	<div class="value"><?= $request->join_material[0]['name'] ?></div>
+	<div class="value"><?= $snapshot['material']['name'] ?></div>
     <br style="clear:left" />
 	<div class="label"><strong>Volume:</strong></div>
 	<div class="value"><?= $request->volume ?></div>
@@ -33,25 +33,25 @@
 	
 	<div><strong>Scrapper Information:</strong><hr /></div>
 	<div class="label"><strong>Name:</strong></div>
-	<div class="value"><?= $request->join_scrapper[0]['first_name'] . " " . $request->join_scrapper[0]['last_name'] ?></div>
+	<div class="value"><?= $snapshot['scrapper']['first_name'] . " " . $snapshot['scrapper']['last_name'] ?></div>
     <br style="clear:left" />
 	<div class="label"><strong>Originating Address:</strong></div>
-	<div class="value"><?= $request->join_scrapper[0]['address_1'] ?><br />
-	<?= $request->join_scrapper[0]['address_2'] ?><br />
-	<?= $request->join_scrapper[0]['city'] ?>, <?= $request->join_scrapper[0]['state_province'] ?> <?= $request->join_scrapper[0]['postal_code'] ?><br />
-	<?= $request->join_scrapper[0]['country'] ?></div>
+	<div class="value"><?= $snapshot['scrapper']['address_1'] ?><br />
+	<?= $snapshot['scrapper']['address_2'] ?><br />
+	<?= $snapshot['scrapper']['city'] ?>, <?= $snapshot['scrapper']['state_province'] ?> <?= $snapshot['scrapper']['postal_code'] ?><br />
+	<?= $snapshot['scrapper']['country'] ?></div>
     <br style="clear:left" />
     <br style="clear:left" />
 	
 	<div><strong>Receiving Facility Information:</strong><hr /></div>
 	<div class="label"><strong>Facility Name:</strong></div>
-	<div class="value"><?= $request->join_facility[0]['company'] ?></div>
+	<div class="value"><?= $snapshot['facility']['company'] ?></div>
     <br style="clear:left" />
 	<div class="label"><strong>Destination Address:</strong></div>
-	<div class="value"><?= $request->join_facility[0]['address_1'] ?><br />
-	<?= $request->join_facility[0]['address_2'] ?><br />
-	<?= $request->join_facility[0]['city'] ?>, <?= $request->join_facility[0]['state_province'] ?> <?= $request->join_facility[0]['zip_postal_code'] ?><br />
-	<?= $request->join_facility[0]['country'] ?></div>
+	<div class="value"><?= $snapshot['facility']['address_1'] ?><br />
+	<?= $snapshot['facility']['address_2'] ?><br />
+	<?= $snapshot['facility']['city'] ?>, <?= $snapshot['facility']['state_province'] ?> <?= $snapshot['facility']['zip_postal_code'] ?><br />
+	<?= $snapshot['facility']['country'] ?></div>
     <br style="clear:left" />
 </div>
 <div class="sectionHeader">Submitted Bids: <?= count($bids) ?></div>

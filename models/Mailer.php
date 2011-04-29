@@ -110,6 +110,59 @@ class Mailer{
 		$mail->send();
 	}
 
+	static function scrap_broker_request($i_object){
+		$mail = new Zend_Mail();
+		$mail->setFrom('do_not_reply@strategicscrap.com', 'Strategic Scrap');
+		$mail->setSubject("Strategic Scrap :: A bid request has been submitted from the Scrap Exchange");
+
+		// Set plain text for email
+		$request = $i_object->request_snapshot;
+		$body_text = "The details of your bid request are below. Contact the requester directly with your bid for this request.";
+		$body_text .= "\r\n\r\n";
+		$body_text .= "Details:";
+		$body_text .= "\r\n";
+		$body_text .= "Contact: " . $request['scrapper']['first_name'] . " " . $request['scrapper']['last_name'];
+		$body_text .= "\r\n\r\n";
+		$body_text .= "Phone: " . isset($request['from']) ? $request['from']['from_work_phone'] : $request['scrapper']['work_phone'];
+		$body_text .= "\r\n";
+		$body_text .= "Email: " . $i_object->user['email'];
+		$body_text .= "\r\n\r\n";
+		$body_text .= "Material: " . $request['material']['name'];
+		$body_text .= "\r\n";
+		$body_text .= "Volume: " . $i_object->volume;
+		$body_text .= "\r\n\r\n";
+//		$body_text .= "Ship from:";
+//		$body_text .= "\r\n";
+//		$body_text .= $request['scrapper']['company'];
+//		$body_text .= "\r\n";
+//		$body_text .= $request['scrapper']['address_1'] . ", " . $request['scrapper']['address_2'] . ", " . $request['scrapper']['city'] . ", " . $request['scrapper']['state_province'] . " " . $request['scrapper']['postal_code'];
+//		$body_text .= "\r\n\r\n";
+//		$body_text .= "Ship to:";
+//		$body_text .= $request['facility']['company'];
+//		$body_text .= "\r\n";
+//		$body_text .= $request['facility']['address_1'] . ", " . $request['facility']['address_2'] . ", " . $request['facility']['city'] . ", " . $request['facility']['state_province'] . " " . $request['facility']['zip_postal_code'];
+//		$body_text .= "\r\n\r\n";
+//		$body_text .= "Transportation Type: " . $request['transportation_type'];
+//		$body_text .= "\r\n";
+//		$body_text .= "Ship on or before: " . $request['ship_date'];
+//		$body_text .= "\r\n";
+//		$body_text .= "Deliver on or before: " . $request['deliver_date'];
+//		$body_text .= "\r\n";
+		$body_text .= "Special Instructions:";
+		$body_text .= "\r\n";
+		$body_text .= $i_object->special_instructions;
+
+		$mail->setBodyText($body_text);
+		$mail->addTo($request['facility']['email'], $request['facility']['first_name'] . " " . $request['facility']['last_name']);
+		
+		//include_user_message_body(TEMPLATE_TO_USE, BODY_FILE_TO_USE, OBJECT_FOR_POPULATING_EMAIL_CONTENTS)
+		$message = Mailer::include_user_message_body("base_template","scrap_broker_request",$i_object); //the template to use from /views/mailer (minus the ".php")
+		
+		//setting both bodyText AND bodyHtml sends a multipart message for people with text vs. html
+		$mail->setBodyHtml($message);
+		$mail->send();
+	}
+
 	static function reset_password_email($i_object){
 		$mail = new Zend_Mail();
 		$mail->setFrom('do_not_reply@strategicscrap.com', 'Strategic Scrap');

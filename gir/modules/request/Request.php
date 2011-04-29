@@ -101,7 +101,6 @@ class Request extends Crud {
 			$item = $this->GetCurrentItem();
 			$this->RemoveValueJoin($item['id'], $materialId);
 		}
-		
 	}
 	
 	public function getMaterials( $itemId = null ) {
@@ -174,6 +173,10 @@ class Request extends Crud {
 	
 	public function getStatusArray() {
 		return $this->_getStatusArray();
+	}
+	
+	public function sendScrapBrokerEmail() {
+		return $this->_sendScrapBrokerEmail();
 	}
 	
 	public function sendBidAlert( $scrapperId = null ) {
@@ -280,6 +283,20 @@ class Request extends Crud {
 			$this->status = $statusId;
 			$this->UpdateItem();
 		}
+	}
+
+	private function _sendScrapBrokerEmail() {
+		// email the scrap broker that a bid request has been created.
+		include_once($_SERVER['DOCUMENT_ROOT'].'/models/Mailer.php');
+		$request = $this;
+		$request->request_snapshot = json_decode( $this->request_snapshot, true );
+		$s = new Scrapper();
+		$s->GetItemObj( $request->request_snapshot['scrapper']['id'] );
+		$s->getUsers();
+		$request->user = $s->join_user[0];
+		$object = $request;
+		Mailer::scrap_broker_request($object);
+		return true;
 	}
 }
 ?>

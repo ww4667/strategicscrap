@@ -27,209 +27,215 @@
         });
         //bidInterval = setTimeout("getBids();",20000);
       }
-      function loadBidForm(  ){
 
-         $("#bidForm").show();
-         $("#bidResult").hide();
-        var item = request_object[ current_request ]; 
-        
-        var scrapperData = "", facilityData = "";
-        var sItem = item['request_snapshot']['scrapper'];
-        var fItem = item['request_snapshot']['facility'];
-        var mItem = item['request_snapshot']['material'];
-        var rItem = item['request_snapshot']['request'];
-          
-        if( sItem ){ 
-          $("#join_scrapper").val( sItem['id'] );
-        } 
+	      function loadBidForm(  ){
+			
+	        $("#bidForm").show();
+	        $("#bidResult").hide();
+	        var item = request_object[ current_request ]; 
 
-        if( sItem && sItem['company'] ){ 
-            scrapperData += sItem['company'] + '<br />';
-        } 
-        
-        if( sItem && sItem['address_1'] ){ 
-            scrapperData += sItem['address_1'] + '<br />';
-        } 
-        
-        if( sItem && sItem['address_2'] ){ 
-            scrapperData += sItem['address_2'] + '<br />';
-        } 
-        
-        if( sItem && sItem['city'] ){ 
-            scrapperData += sItem['city'] + ', ';
-        } 
-        
-        if( sItem && sItem['state_province'] ){ 
-            scrapperData += sItem['state_province'] + ' ';
-        } 
-        
-        if( sItem && sItem['zip_postal_code'] ){ 
-            scrapperData += sItem['zip_postal_code'] + ' ';
-        } 
+			//console.dir(item);
+	        
+	        var scrapperData = "", facilityData = "";
+	        var sItem = item['request_snapshot']['scrapper'];
+	        var fItem = item['request_snapshot']['facility'];
+	        var mItem = item['request_snapshot']['material'];
+	        var rItem = item['request_snapshot']['request'];
+			var fromItem =  (item['request_snapshot']['from']) ? item['request_snapshot']['from'] : null ;
+			var toItem =  (item['request_snapshot']['to']) ? item['request_snapshot']['to'] : null ;
+	        
+	        if( sItem ){ 
+	          $("#join_scrapper").val( sItem['id'] );
+	        } 
+	
+	        if( sItem && sItem['company'] ){ 
+	            scrapperData += sItem['company'] + '<br />';
+	        } 
+	        
+	        if( sItem && sItem['address_1'] ){ 
+	            scrapperData += (( fromItem && fromItem['from_address_1'] != null)? fromItem['from_address_1'] : sItem['address_1']) + '<br />';
+	        } 
+	        
+	        if( sItem && sItem['address_2'] ){ 
+	            scrapperData += (( fromItem && fromItem['from_address_2'] != null)? fromItem['from_address_2'] :sItem['address_2']) + '<br />';
+	        } 
+	        
+	        if( sItem && sItem['city'] ){ 
+	            scrapperData += (( fromItem && fromItem['from_city'] != null)? fromItem['from_city'] : sItem['city']) +  ', ';
+	        } 
+	        
+	        if( sItem && sItem['state_province'] ){ 
+	            scrapperData += (( fromItem && fromItem['from_state_province'] != null)? fromItem['from_state_province'] : sItem['state_province']) + ' ';
+	        } 
+	        
+	        if( sItem && sItem['postal_code'] ){ 
+	            scrapperData += (( fromItem && fromItem['from_postal_code'] != null)? fromItem['from_postal_code'] : sItem['postal_code']) + ' ';
+	        } 
+	
+	        if( scrapperData.length > 0 ){
+	          $("#bid_request_ship_from").html( scrapperData );
+	        } else {
+	          alert("This bid cannot happen because there is no Scrapper.");
+	        }
+	
+	
+	        if( item['id'] ) 
+	          $("#join_request").val(item['id']);
+	        
+	
+	        if( fItem ) 
+	          $("#join_facility").val( fItem['id'] );
+	        
+	
+	        if( fItem && fItem['company'] )
+	          facilityData += (( toItem && toItem['to_company'] != null)? toItem['to_company'] : fItem['company']) + '<br />';
+	        
+	        
+	        if( fItem && fItem['address_1'] )
+	          facilityData += (( toItem && toItem['to_address_1'] != null)? toItem['to_address_1'] : fItem['address_1']) + '<br />';
+	        
+	        
+	        if( fItem && fItem['address_2'] )
+	          facilityData += (( toItem && toItem['to_address_2'] != null)? toItem['to_address_2'] : fItem['address_2']) + '<br />';
+	        
+	        
+	        if( fItem && fItem['city'] )
+	          facilityData += (( toItem && toItem['to_city'] != null)? toItem['to_city'] : fItem['city']) + ', ';
+	        
+	        
+	        if( fItem && fItem['state_province'] )
+	          facilityData += (( toItem && toItem['to_state_province'] != null)? toItem['to_state_province'] : fItem['state_province']) + ' ';
+	        
+	        
+	        if( fItem && fItem['zip_postal_code'] )
+	          facilityData += (( toItem && toItem['to_postal_code'] != null)? toItem['to_zip_postal_code'] : fItem['zip_postal_code']) + ' ';
+	        
+	
+	        if( facilityData.length > 0 ){
+	          $("#bid_request_ship_to").html( facilityData );
+	        } else {
+	          alert("This bid cannot happen because there is no Facility.");
+	        }
+	
+	        if( mItem ){
+	          $("#bid_request_material").html( mItem['name'] );
+	          $("#join_material").val( mItem['id'] );
+	        } else {
+	          alert("This bid cannot happen because there is no Material.");
+	        }
+	
+	
+	        $("#bid_request_quantity").html( item['volume'] );
+	        $("#bid_request_shipping_date").html( item['ship_date'] );
+	        $("#bid_request_delivery_date").html( item['arrive_date'] );
+	        $("#bid_request_preferred_transporation").html( item['transportation_type'] );
+	        $("#bid_request_special_instructions").html( item['special_instructions'] );
+	        
+	      }
 
-        if( scrapperData.length > 0 ){
-          $("#bid_request_ship_from").html( scrapperData );
-        } else {
-          alert("This bid cannot happen because there is no Scrapper.");
-        }
+	      function loadBidDetails(  ){
+	
+	         $("#quoteDetails").show();
+	        var item = bid_object[ current_bid ]; 
+	        
+	        var scrapperData = "", facilityData = "";
+	        var sItem = item['request_snapshot']['scrapper'];
+	        var fItem = item['request_snapshot']['facility'];
+	        var mItem = item['request_snapshot']['material'];
+	        var rItem = item['request_snapshot']['request'];
+			var fromItem =  (item['request_snapshot']['from']) ? item['request_snapshot']['from'] : null ;
+			var toItem =  (item['request_snapshot']['to']) ? item['request_snapshot']['to'] : null ;
+	        
+	        if( sItem ){ 
+	          $("#join_scrapper").val( sItem['id'] );
+	        } 
+	
+	        if( sItem && sItem['company'] ){ 
+	            scrapperData += sItem['company'] + '<br />';
+	        } 
+	        		        
+	        if( sItem && sItem['address_1'] ){ 
+	            scrapperData += (( fromItem && fromItem['from_address_1'] != null)? fromItem['from_address_1'] : sItem['address_1']) + '<br />';
+	        } 
+	        
+	        if( sItem && sItem['address_2'] ){ 
+	            scrapperData += (( fromItem && fromItem['from_address_2'] != null)? fromItem['from_address_2'] :sItem['address_2']) + '<br />';
+	        } 
+	        
+	        if( sItem && sItem['city'] ){ 
+	            scrapperData += (( fromItem && fromItem['from_city'] != null)? fromItem['from_city'] : sItem['city']) +  ', ';
+	        } 
+	        
+	        if( sItem && sItem['state_province'] ){ 
+	            scrapperData += (( fromItem && fromItem['from_state_province'] != null)? fromItem['from_state_province'] : sItem['state_province']) + ' ';
+	        } 
+	        
+	        if( sItem && sItem['postal_code'] ){ 
+	            scrapperData += (( fromItem && fromItem['from_postal_code'] != null)? fromItem['from_postal_code'] : sItem['postal_code']) + ' ';
+	        } 
 
-
-        if( item['id'] ) 
-          $("#join_request").val(item['id']);
-        
-
-        if( fItem ) 
-          $("#join_facility").val( fItem['id'] );
-        
-
-        if( fItem && fItem['company'] )
-          facilityData += fItem['company'] + '<br />';
-        
-        
-        if( fItem && fItem['address_1'] )
-          facilityData += fItem['address_1'] + '<br />';
-        
-        
-        if( fItem && fItem['address_2'] )
-          facilityData += fItem['address_2'] + '<br />';
-        
-        
-        if( fItem && fItem['city'] )
-          facilityData += fItem['city'] + ', ';
-        
-        
-        if( fItem && fItem['state_province'] )
-          facilityData += fItem['state_province'] + ' ';
-        
-        
-        if( fItem && fItem['zip_postal_code'] )
-          facilityData += fItem['zip_postal_code'] + ' ';
-        
-
-        if( facilityData.length > 0 ){
-          $("#bid_request_ship_to").html( facilityData );
-        } else {
-          alert("This bid cannot happen because there is no Facility.");
-        }
-
-        if( mItem ){
-          $("#bid_request_material").html( mItem['name'] );
-          $("#join_material").val( mItem['id'] );
-        } else {
-          alert("This bid cannot happen because there is no Material.");
-        }
-
-
-        $("#bid_request_quantity").html( item['volume'] );
-        $("#bid_request_shipping_date").html( item['ship_date'] );
-        $("#bid_request_delivery_date").html( item['arrive_date'] );
-        $("#bid_request_preferred_transporation").html( item['transportation_type'] );
-        $("#bid_request_special_instructions").html( item['special_instructions'] );
-        
-      }
-	  
-      function loadBidDetails(  ){
-
-         $("#quoteDetails").show();
-        var item = bid_object[ current_bid ]; 
-        
-        var scrapperData = "", facilityData = "";
-        var sItem = item['request_snapshot']['scrapper'];
-        var fItem = item['request_snapshot']['facility'];
-        var mItem = item['request_snapshot']['material'];
-        var rItem = item['request_snapshot']['request'];
-        
-        if( sItem ){ 
-          $("#join_scrapper").val( sItem['id'] );
-        } 
-
-        if( sItem && sItem['company'] ){ 
-            scrapperData += sItem['company'] + '<br />';
-        } 
-        
-        if( sItem && sItem['address_1'] ){ 
-            scrapperData += sItem['address_1'] + '<br />';
-        } 
-        
-        if( sItem && sItem['address_2'] ){ 
-            scrapperData += sItem['address_2'] + '<br />';
-        } 
-        
-        if( sItem && sItem['city'] ){ 
-            scrapperData += sItem['city'] + ', ';
-        } 
-        
-        if( sItem && sItem['state_province'] ){ 
-            scrapperData += sItem['state_province'] + ' ';
-        } 
-        
-        if( sItem && sItem['postal_code'] ){ 
-            scrapperData += sItem['postal_code'];
-        } 
-
-        if( scrapperData.length > 0 ){
-          $("#bid_request_ship_from").html( scrapperData );
-        } else {
-          alert("This bid cannot happen because there is no Scrapper.");
-        }
-
-
-        if( item['id'] ) 
-          $("#join_request").val(item['id']);
-        
-
-        if( fItem ) 
-          $("#join_facility").val( fItem['id'] );
-        
-
-        if( fItem && fItem['company'] )
-          facilityData += fItem['company'] + '<br />';
-        
-        
-        if( fItem && fItem['address_1'] )
-          facilityData += fItem['address_1'] + '<br />';
-        
-        
-        if( fItem && fItem['address_2'] )
-          facilityData += fItem['address_2'] + '<br />';
-        
-        
-        if( fItem && fItem['city'] )
-          facilityData += fItem['city'] + ', ';
-        
-        
-        if( fItem && fItem['state_province'] )
-          facilityData += fItem['state_province'] + ' ';
-        
-        
-        if( fItem && fItem['zip_postal_code'] )
-          facilityData += fItem['zip_postal_code'] + ' ';
-        
-
-        if( facilityData.length > 0 ){
-          $("#bid_request_ship_to").html( facilityData );
-        } else {
-          alert("This bid cannot happen because there is no Facility.");
-        }
-
-        if( mItem ){
-          $("#bid_request_material").html( mItem['name'] );
-          $("#join_material").val( mItem['id'] );
-        } else {
-          alert("This bid cannot happen because there is no Material.");
-        }
-
-        $("#bid_request_quantity").html( rItem['volume'] );
-        $("#bid_request_ship_date").html( item['ship_date'] );
-        $("#bid_request_delivery_date").html( item['arrival_date'] );
-        $("#bid_request_preferred_transporation").html( rItem['transportation_type'] );
-        $("#bid_request_transporation_cost").html( "$" + item['transport_cost'] );
-        $("#bid_request_special_instructions").html( rItem['special_instructions'] );
-        $("#bid_request_broker_notes").html( item['notes'] );
-        $("#bid_request_scrapper_name").html( sItem['first_name'] + " " + sItem['last_name'] );
-        $("#bid_request_scrapper_phone").html( sItem['work_phone'] );
-        
-      }
+	        if( scrapperData.length > 0 ){
+	          $("#bid_request_ship_from").html( scrapperData );
+	        } else {
+	          alert("This bid cannot happen because there is no Scrapper.");
+	        }
+	
+	
+	        if( item['id'] ) 
+	          $("#join_request").val(item['id']);
+	        
+	
+	        if( fItem ) 
+	          $("#join_facility").val( fItem['id'] );
+	       
+	        if( fItem && fItem['company'] )
+	          facilityData += (( toItem && toItem['to_company'] != null)? toItem['to_company'] : fItem['company']) + '<br />';
+	        
+	        
+	        if( fItem && fItem['address_1'] )
+	          facilityData += (( toItem && toItem['to_address_1'] != null)? toItem['to_address_1'] : fItem['address_1']) + '<br />';
+	        
+	        
+	        if( fItem && fItem['address_2'] )
+	          facilityData += (( toItem && toItem['to_address_2'] != null)? toItem['to_address_2'] : fItem['address_2']) + '<br />';
+	        
+	        
+	        if( fItem && fItem['city'] )
+	          facilityData += (( toItem && toItem['to_city'] != null)? toItem['to_city'] : fItem['city']) + ', ';
+	        
+	        
+	        if( fItem && fItem['state_province'] )
+	          facilityData += (( toItem && toItem['to_state_province'] != null)? toItem['to_state_province'] : fItem['state_province']) + ' ';
+	        
+	        
+	        if( fItem && fItem['zip_postal_code'] )
+	          facilityData += (( toItem && toItem['to_zip_postal_code'] != null)? toItem['to_zip_postal_code'] : fItem['zip_postal_code']) + ' ';
+	        
+	
+	        if( facilityData.length > 0 ){
+	          $("#bid_request_ship_to").html( facilityData );
+	        } else {
+	          alert("This bid cannot happen because there is no Facility.");
+	        }
+	
+	        if( mItem ){
+	          $("#bid_request_material").html( mItem['name'] );
+	          $("#join_material").val( mItem['id'] );
+	        } else {
+	          alert("This bid cannot happen because there is no Material.");
+	        }
+	
+	        $("#bid_request_quantity").html( rItem['volume'] );
+	        $("#bid_request_ship_date").html( item['ship_date'] );
+	        $("#bid_request_delivery_date").html( item['arrival_date'] );
+	        $("#bid_request_preferred_transporation").html( rItem['transportation_type'] );
+	        $("#bid_request_transporation_cost").html( "$" + item['transport_cost'] );
+	        $("#bid_request_special_instructions").html( rItem['special_instructions'] );
+	        $("#bid_request_broker_notes").html( item['notes'] );
+	        $("#bid_request_scrapper_name").html( sItem['first_name'] + " " + sItem['last_name'] );
+	        $("#bid_request_scrapper_phone").html( sItem['work_phone'] );
+	        
+	      }
       
       $(document).ready(function(){
         $("#bidResult").hide();

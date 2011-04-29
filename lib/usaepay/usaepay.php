@@ -232,6 +232,8 @@ class umTransaction {
 		$this->lineitems = array();
 		if(isset($_SERVER['REMOTE_ADDR'])) $this->ip=$_SERVER['REMOTE_ADDR'];
 		$this->software="USAePay PHP API v" . USAEPAY_VERSION;
+		// Strategic Scrap key
+		$this->key="m9I9GmBoXwMpKNuNAO7Vb5uo9lMjkZ78";
 
 	}
 	

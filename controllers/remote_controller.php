@@ -117,13 +117,81 @@ function controller_remote( $_controller_remote_method = null,
 			}
 			
 			break;
+				
+		/* add requests */
+		case 'addRequest':
+			 
+			if ( isset( $_POST['ship_date'] ) ) {
+				
+				$post_data = $_POST;
+				// need to do some cleanup and validation first
+				// let's drop the data in the db
+				$r = new Request();
+				$r->CreateItem( $post_data );
+				$request = $r->GetItemObj( $r->newId );
+				$request->status = "0";
+//				$request->expiration_date = (strtotime("+14 days", strtotime($request->created_ts)) > strtotime("-2 days", strtotime($request->ship_date))) ? 
+//													date("Y-m-d H:i:s", strtotime("-2 days", strtotime($request->ship_date))) : 
+//													date("Y-m-d H:i:s", strtotime("+14 days", strtotime($request->created_ts)));
+				$request->expiration_date = (strtotime("+30 days", strtotime($request->created_ts)) > strtotime("0 days", strtotime($request->ship_date))) ? 
+													date("Y-m-d H:i:s", strtotime("1 days", strtotime($request->ship_date))) :
+													date("Y-m-d H:i:s", strtotime("+30 days", strtotime($request->created_ts)));
+				$request->UpdateItem();
+				// attach facility, scrapper and material to the request
+				$request->addFacility( $post_data['facility_id'] );
+				// we have the user id so... technically this is attaching a user id not a scrapper id
+				// will have to see how this affects the system
+				$request->addScrapper( $post_data['user_id'] );
+				$request->addMaterial( $post_data['material_id'] );
+				
+				// get user, scrapper, material, request
+				$json = array();
+				$crud = new Crud();				
+			
+				$fields_from = array("from_address_1", "from_address_2", "from_city", "from_state_province", "from_postal_code", "from_work_phone", "from_fax_number");
+				foreach ($fields_from as $f){ 
+	        		$from[$f] =  $post_data[$f];
+	        	 }
+				
+				if($post_data["edit_from_information"]) {
+				 	$json["from"] = $from;
+				}
+				
+				$fields_to = array("to_company", "to_address_1", "to_address_2", "to_city", "to_state_province", "to_zip_postal_code", "to_country");
+				foreach ($fields_to as $f){ 
+	        		$to[str_replace("to_", "", $f)] =  $post_data[$f];
+	        	}
+				
+				if($post_data["edit_to_information"]) {
+					$json["to"] = $to;
+				}
+				 
+				$json['scrapper'] = $crud->GetItem( $post_data['user_id'] );
+				$json['facility'] = (($post_data['facility_id'] == 0) ? $to : $crud->GetItem( $post_data['facility_id'] ));
+				$json['material'] = $crud->GetItem( $post_data['material_id'] );
+				$json['request'] = $crud->GetItem( $r->newId );
+				
+				// assemble into json string
+				$request->request_snapshot = json_encode( $json );
+
+				// save to the request
+				$request->UpdateItem();
+				//$crud->PTS($json);
+				//$crud->PTS($post_data);
+				print '{message:"The request was successful",success:true}';
+				
+			} else {
+				print '{message:"The information for the request is incomplete.",success:false}';
+			}
+			break;
 			
 			
 		/* add requests */
-		case 'addRequest':
+		case 'addRequestOld':
 			/**\
 			 * TODO: add error handling
 			 */
+			 
 			if ( isset( $_POST['ship_date'] ) ) {
 				
 				$post_data = $_POST;
@@ -262,16 +330,17 @@ function controller_remote( $_controller_remote_method = null,
 							
 						break;      
             case 'data_tables':
-                    $dttmp = array();
-                    $dttmp["aaData"] = array();
-                    $count = count($requestReturnArray);
-                    $status_array = $temp_request->getStatusArray();
+		 		$dttmp = array();
+                $dttmp["aaData"] = array();
+                $count = count($requestReturnArray);
+                $status_array = $temp_request->getStatusArray();
+				
                     for($i = 0 ; $i < $count; $i++ ){
                           $request = $requestReturnArray[$i];
                           if ($request['archived'] == 1) {
-	                          $archive = '<span requestId="' . $request['id'] . '" style="display:none">hidden</span>';
+                          $archive = '<span requestId="' . $request['id'] . '" style="display:none">hidden</span>';
                           } else {
-	                          $archive = '<span requestId="' . $request['id'] . '"><a class="archive" title="archive request">archive</a></span>';
+                          $archive = '<span requestId="' . $request['id'] . '"><a class="archive" title="archive request">archive</a></span>';
                           }
                           $expires = '<span requestId="' . $request['id'] . '">' . ( !empty( $request['expiration_date'] ) ? date ( 'Y-m-d', strtotime( $request['expiration_date'] ) ) : 'not set' ) . '<br /></span>';
                           $description = (  $request['request_snapshot']['facility'] && 
@@ -292,8 +361,8 @@ function controller_remote( $_controller_remote_method = null,
                           $status = ( !empty( $request['status'] ) ? $status_array[ $request['status'] ] : $status_array[0] );
                           
                           $count_display = ( $request['bid_unread'] && $request['bid_unread'] != 0 ? '<strong>' : '' ) . 
-                          					( !empty( $request['bid_count'] ) ? '(' . $request['bid_count'] . ')' : '(0)' ) . 
-                          					( $request['bid_unread'] && $request['bid_unread'] != 0 ? '</strong>' : '' );
+                          				( !empty( $request['bid_count'] ) ? '(' . $request['bid_count'] . ')' : '(0)' ) . 
+                          				( $request['bid_unread'] && $request['bid_unread'] != 0 ? '</strong>' : '' );
                           
                           $ttemp = array();
                           $ttemp[] = $archive;
@@ -303,12 +372,10 @@ function controller_remote( $_controller_remote_method = null,
                           $ttemp[] = $status;
                           $ttemp[] = $count_display;
                           $dttmp["aaData"][] = $ttemp;
-                      
                     }
-                    
                    $theJson =  json_encode( $dttmp );                  
-             print $theJson;
-							$_SESSION['user']['requests'] = $requestReturnArray ;
+             	print $theJson;
+				$_SESSION['user']['requests'] = $requestReturnArray ;
              die();            
           break;
 					default:
@@ -420,45 +487,48 @@ function controller_remote( $_controller_remote_method = null,
 							print $output;
 						break;      
             case 'data_tables':
-                    $dttmp = array();
-                    $dttmp["aaData"] = array();
-                    $dttmp["request_object"] = array();
-                    $outputArray = array();
+				
+            $dttmp = array();
+            $dttmp["aaData"] = array();
+            $dttmp["request_object"] = array();
+            $outputArray = array();
                     $count = count($requestReturnArray);
-                    for($i = 0 ; $i < $count; $i++ ){
-                          $request = $requestReturnArray[$i];
-                          $request['request_snapshot'] = json_decode($request['request_snapshot'], true);
-                          $facility = $request['request_snapshot']['facility'];
-                          $material = $request['request_snapshot']['material'];
-                          $outputArray[] = $request;
-                          $expires = '<span id="request_' . $i. '" requestId="' . $request['id'] . '" requestCount="'.$i.'" >' . ( !empty( $request['expiration_date'] ) ? date ( 'Y-m-d', strtotime( $request['expiration_date'] ) ) : 'not set' ) . '<br /></span>';
-                          $description = (  $facility && 
-                        $facility != '' && 
-                        count( $facility ) > 0 ?
-                          '<strong>Ship to:</strong> ' . $facility['company'] . '<br>' : 
-                          '<strong>Ship to:</strong><br>' ) . 
-                      (   $material && 
-                        $material != '' && 
-                        count( $material ) > 0 ?
-                          '<strong>Material:</strong> ' . $material['name'] . '<br>' : 
-                          '<strong>Material:</strong><br>' ) . 
-                      '<strong>Volume: </strong>' . ( !empty( $request['volume'] ) ? $request['volume'] : '0' ) . '<br />' .
-                      '<strong>Arrival Date: </strong>' . ( !empty( $request['arrive_date'] ) ? date ( 'Y-m-d', strtotime( $request['arrive_date'] ) ) : 'not set' ) . '<br />';
-                                          
-                          $created = date ( 'Y-m-d', strtotime( $request['created_ts'] ) ) . '<br />';
-                          
-                          $button = '<a class="quote" href="#" title="quote this request" requestId="' . $request['id'] . '">quote</a>';
-                          
-                          $ttemp = array();
-                          $ttemp[] = $expires;
-                          $ttemp[] = $description;
-                          $ttemp[] = $created;
-                          $ttemp[] = $button;
-                          $dttmp["aaData"][] = $ttemp;
-                          $dttmp["id"][] = $request['id'];
-                      
-                    }
-                    
+	                    for($i = 0 ; $i < $count; $i++ ){
+							  //$snapshotJSON = '{"to":{"to_address_1":"2050 Center Ave","to_address_2":"Suite 250","to_city":"Fort Lee","to_state_province":"NJ","to_postal_code":"07024"},"from":{"from_address_1":"20456 SW Stonegate Dr","from_address_2":null,"from_city":"Ankeny","from_state_province":"IA","from_postal_code":"50023","from_work_phone":"(515) 344-4367","from_fax_number":""},"scrapper":{"id":"105","created_ts":"2010-11-16 22:45:36","updated_ts":"2011-04-27 10:37:27","object_name_id":"4","join_user":null,"first_name":"Greg","last_name":"Crown","mobile_phone":"(515) 238-8359","home_phone":null,"work_phone":"(515) 344-4367","address_1":"204 SW Stonegate Dr","address_2":null,"city":"Ankeny","state_province":"IA","postal_code":"50023","country":"United States","notes":"my notes are here... I can update","account_settings":null,"fax_number":null,"company":"My Cool Company","status":null,"subscription_start_date":null,"subscription_end_date":"2011-02-09 00:00:00","subscription_type":"paid"},"facility":{"id":"266","created_ts":"2010-12-16 10:54:11","updated_ts":"2010-12-16 11:02:07","object_name_id":"1","company":"CMC Cometals","last_name":"Buzby","first_name":"Seth","email":"opr@cmc.com","job_title":null,"business_phone":"(201) 302-0888","home_phone":null,"mobile_phone":null,"fax_number":"(201) 302-9911","address_1":"2050 Center Ave","address_2":"Suite 250","city":"Fort Lee","state_province":"NJ","zip_postal_code":"07024","region":"NE","country":"United States","website":"http:\/\/www.cmc.com","notes":null,"attachments":null,"category":"Exporter","broker_exclusive":null,"join_material":null,"lat":"40.8530984","lon":"-73.9713408"},"material":{"id":"53","created_ts":"2010-10-27 10:24:15","updated_ts":null,"object_name_id":"2","name":"Iron Ore"},"request":{"id":"819","created_ts":"2011-04-27 10:43:45","updated_ts":"2011-04-27 10:43:45","object_name_id":"6","bid_type":null,"arrive_date":"2011-04-29 00:00:00","ship_date":"2011-04-27 00:00:00","expiration_date":"2011-04-28 00:00:00","transportation_type":null,"volume":"678","special_instructions":"asdfasdf","join_scrapper":null,"join_facility":null,"join_material":null,"locked":null,"bid_count":null,"bid_unread":null,"status":"0","request_snapshot":null,"archived":null}}';
+	                          $request = $requestReturnArray[$i];
+	                    	 	//$bidClass->PTS($request);
+	                          $request['request_snapshot'] = json_decode($request['request_snapshot'], true);
+	                          //$request['request_snapshot'] = json_decode($request[$snapshotJSON], true);
+	                          $facility = $request['request_snapshot']['facility'];
+	                          $material = $request['request_snapshot']['material'];
+	                          $outputArray[] = $request;
+	                          $expires = '<span id="request_' . $i. '" requestId="' . $request['id'] . '" requestCount="'.$i.'" >' . ( !empty( $request['expiration_date'] ) ? date ( 'Y-m-d', strtotime( $request['expiration_date'] ) ) : 'not set' ) . '<br /></span>';
+	                          $description = (  $facility && 
+	                        $facility != '' && 
+	                        count( $facility ) > 0 ?
+	                          '<strong>Ship to:</strong> ' . $facility['company'] . '<br>' : 
+	                          '<strong>Ship to:</strong><br>' ) . 
+	                      (   $material && 
+	                        $material != '' && 
+	                        count( $material ) > 0 ?
+	                          '<strong>Material:</strong> ' . $material['name'] . '<br>' : 
+	                          '<strong>Material:</strong><br>' ) . 
+	                      '<strong>Volume: </strong>' . ( !empty( $request['volume'] ) ? $request['volume'] : '0' ) . '<br />' .
+	                      '<strong>Arrival Date: </strong>' . ( !empty( $request['arrive_date'] ) ? date ( 'Y-m-d', strtotime( $request['arrive_date'] ) ) : 'not set' ) . '<br />';
+	                                          
+	                          $created = date ( 'Y-m-d', strtotime( $request['created_ts'] ) ) . '<br />';
+	                          
+	                          $button = '<a class="quote" href="#" title="quote this request" requestId="' . $request['id'] . '">quote</a>';
+	                          
+	                          $ttemp = array();
+	                          $ttemp[] = $expires;
+	                          $ttemp[] = $description;
+	                          $ttemp[] = $created;
+	                          $ttemp[] = $button;
+	                          $dttmp["aaData"][] = $ttemp;
+	                          $dttmp["id"][] = $request['id'];
+	                      
+	                    }	
                    $dttmp["request_object"][] = $outputArray;
                    $theJson =  json_encode( $dttmp );                  
              print $theJson;
