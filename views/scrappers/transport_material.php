@@ -62,9 +62,11 @@ if(!$gir->auth->authenticate()){
 			</script>
 			<div id="transport_request_form">
 				<p>Fill out the form below to receive bids from our national database of logistics experts.</p>
-				<? if ($facility['category'] == "Broker" || $facility['category'] == "Exporter" ){ ?>
-					<p><b>NOTICE:</b> This request will be submitted to this Broker or Exporter </p>	
-				<? }?>
+				<? 	if ($facility){
+						if ($facility['category'] == "Broker" || $facility['category'] == "Exporter" ){ ?>
+						<p><b>NOTICE:</b> This request will be submitted to this Broker or Exporter </p>	
+				<? 		}
+					}?>
 				<div style="float: left; margin: 3px 0; padding: 5px; background:#ccc;width:490px;font-size:11px;" class = "custom_form">
 					<div style="width:220px; float:left; margin:3px;">
 						<strong>Shipper:</strong><br />
@@ -82,9 +84,8 @@ if(!$gir->auth->authenticate()){
 								<label>Address2:</label>  <input type ="text" id = "from_address_2" name = "address_2" disabled="true" value = "<?=isset($user['address_2']) ? $user['address_2'] : ''?>"  data-old = "<?=isset($user['address_2']) ? $user['address_2'] : ''?>" /><br />
 								<?php }?>
 								<label>City:</label>  <input type ="text" id = "from_city" name = "city" disabled="true" value = "<?=isset($user['city']) ? $user['city'] : ''?>"  data-old = "<?=isset($user['city']) ? $user['city'] : ''?>" /><br />
-								<label>State:</label>  <input type ="text" id = "from_state_province" name = "state_province" disabled="true" value = "<?=$user['state_province'] ? $user['state_province'] : ''?>" data-old = "<?=$user['state_province'] ? $user['state_province'] : ''?>" /><br />
-								<label>Zip Code:</label>  <input type ="text" id = "from_postal_code" name = "postal_code" disabled="true" value = "<?=isset( $user['postal_code'] ) ? $user['postal_code'] : ''?>" data-old = "<?=isset( $user['postal_code'] ) ? $user['postal_code'] : ''?>" /><br />
-								<hr />
+								<label>State:</label>  <input type ="text" id = "from_state_province" class = "state_field" name = "state_province" disabled="true" value = "<?=$user['state_province'] ? $user['state_province'] : ''?>" data-old = "<?=$user['state_province'] ? $user['state_province'] : ''?>" />
+								<label class = "zip_label">Zip</label>  <input type ="text" id = "from_postal_code" class = "zip_field" name = "postal_code" disabled="true" value = "<?=isset( $user['postal_code'] ) ? $user['postal_code'] : ''?>" data-old = "<?=isset( $user['postal_code'] ) ? $user['postal_code'] : ''?>" /><br />
 								<label>Phone:</label>  <input type ="text" id = "from_work_phone" name = "work_phone" disabled="true" value = "<?=$user['work_phone'] ? $user['work_phone'] : ''?>" data-old = "<?=$user['work_phone'] ? $user['work_phone'] : ''?>" /><br />
 								<label>Fax:</label>  <input type ="text" id = "from_fax_number" name = "fax_number" disabled="true" value = "<?=$user['fax_number'] ? $user['fax_number'] : ''?>" data-old = "<?=$user['fax_number'] ? $user['fax_number'] : ''?>" /><br />
 								<label>Email:</label>  <?=$_SESSION['user']['username']?><br />
@@ -130,8 +131,8 @@ if(!$gir->auth->authenticate()){
 										<label>Address:</label> <input type ="text" id = "to_address_1"  name = "facility_address_1"  /><br />
 										<label>Address2:</label>  <input type ="text" id = "to_address_2" name = "facility_address_2"/><br />
 										<label>City:</label>  <input type ="text" id = "to_city" name = "city"/><br />
-										<label>State:</label>  <input type ="text" id = "to_state_province" name = "facility_state_province" /><br />
-										<label>Zip Code:</label>  <input type ="text" id = "to_zip_postal_code" name = "facility_postal_code" /><br />
+										<label>State:</label>  <input type ="text" class = "state_field" id = "to_state_province" name = "facility_state_province" />
+										<label class = "zip_label">Zip:</label>  <input type ="text" class = "zip_field" id = "to_zip_postal_code" name = "facility_postal_code" /><br />
 										<label>Country:</label>  <input type ="text" id = "to_country" name = "facility_postal_code" /><br />
 									</div>
 								</div>

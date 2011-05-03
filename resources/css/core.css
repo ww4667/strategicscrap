@@ -105,8 +105,13 @@ a:active	{outline:none;}
 #transportRequest .more{float:right;margin:10px 20px 0 0;text-decoration:underline;}
 #marketData h3 {float:left}
 #marketData .more{float:right;margin:10px 20px 0 0;text-decoration:underline;}
+#marketData .tabBox {min-height: 210px;}
+.change_amount, .change_percent	{text-decoration:none;outline:none; font-weight: bold; cursor: pointer;}
+.change_amount:hover, .change_percent:hover		{text-decoration:underline;}
+.positive {color: #0F0;}
+.negative {color: #F00;}
 
-.myhome .filter, .dataTables_filter{background:#777;color:#fff;line-height:40px;padding-left:20px}
+.myhome .filter, .dataTables_filter{background:#777;color:#fff;line-height:40px;padding-left:20px; width: 538px;}
 .myhome .filter div, .dataTables_filter div{float:left;margin-right:20px;}
 
 /*
@@ -211,8 +216,14 @@ ul.regionBullets li{float:left;width:210px;}
 .custom_form #from_information{margin-top: 5px;}
 .custom_form #from_information, .custom_form #to_information {line-height: 24px;}
 .custom_form label {width: 57px; clear:both; float: left;}
+.custom_form label.zip_label {width: 27px; float: left; margin-left: 4px; clear: none;}
+.custom_form .zip_field {width: 57px; float: left;}
+.custom_form .state_field {width: 40px; float: left;}
 .custom_form #from_information input, .custom_form #to_information input {float: left;}
 
 .ship_quote_button_custom { float: right; margin-right: 20px; cursor: pointer;}
 .ship_quote_button_custom .button{ float: left; margin-right: 4px; width: 22px; height: 22px;  background: url("/resources/images/buttons/dashboard_action.png") no-repeat -22px 0 transparent;}
 .ship_quote_button_custom:hover  .button{ background: url("/resources/images/buttons/dashboard_action.png") no-repeat -22px -22px transparent;}
+
+
+

@@ -16,6 +16,223 @@
 				<div class="leftCol">
 					<div class="lowerArea">
 						<div id="marketData" class="twoColMod"><div class="moduleTop"><!-- IE hates empty elements --></div>
+						<? if (isset($_GET["test"])) { 
+								$market_json = json_decode('{"cash":[{"material":"LME Copper","last":"4.23","high":"4.23","low":"4.19","open":"4.22","change":".01","change_percent":"0.23%"},{"material":"LME Aluminum","last":"4.21","high":"4.23","low":"4.19","open":"4.22","change":"-.01","change_percent":"-0.23%"},{"material":"LME Nickel","last":"4.22","high":"4.22","low":"4.19","open":"4.22","change":".00","change_percent":"0.00%"},{"material":"LME Zinc","last":"4.23","high":"4.23","low":"4.19","open":"4.22","change":".01","change_percent":"0.23%"},{"material":"LME Lead","last":"4.23","high":"4.23","low":"4.19","open":"4.22","change":".01","change_percent":"0.23%"},{"material":"LME Tin","last":"4.23","high":"4.23","low":"4.19","open":"4.22","change":".01","change_percent":"0.23%"},{"material":"COMEX Copper ","last":"4.23","high":"4.23","low":"4.19","open":"4.22","change":".01","change_percent":"0.23%"}],"three_month":[{"material":"LME Copper","last":"4.28","high":"4.28","low":"4.19","open":"4.22","change":".01","change_percent":"0.23%"},{"material":"LME Aluminum","last":"4.28","high":"4.28","low":"4.19","open":"4.22","change":".01","change_percent":"0.23%"},{"material":"LME Nickel","last":"4.28","high":"4.28","low":"4.19","open":"4.22","change":".01","change_percent":"0.23%"},{"material":"LME Zinc","last":"4.28","high":"4.28","low":"4.19","open":"4.22","change":".01","change_percent":"0.23%"},{"material":"LME Lead","last":"4.28","high":"4.28","low":"4.19","open":"4.22","change":".01","change_percent":"0.23%"},{"material":"LME Tin","last":"4.28","high":"4.28","low":"4.19","open":"4.22","change":".01","change_percent":"0.23%"},{"material":"COMEX Copper ","last":"4.28","high":"4.28","low":"4.19","open":"4.22","change":".01","change_percent":"0.23%"}],"fifteen_month":[{"material":"LME Copper","last":"4.34","high":"4.34","low":"4.19","open":"4.22","change":".01","change_percent":"0.23%"},{"material":"LME Aluminum","last":"4.34","high":"4.34","low":"4.19","open":"4.22","change":".01","change_percent":"0.23%"},{"material":"LME Nickel","last":"4.34","high":"4.34","low":"4.19","open":"4.22","change":".01","change_percent":"0.23%"},{"material":"LME Zinc","last":"4.34","high":"4.34","low":"4.19","open":"4.22","change":".01","change_percent":"0.23%"},{"material":"LME Lead","last":"4.34","high":"4.34","low":"4.19","open":"4.22","change":".01","change_percent":"0.23%"},{"material":"LME Tin","last":"4.34","high":"4.34","low":"4.19","open":"4.22","change":".01","change_percent":"0.23%"},{"material":"COMEX Copper ","last":"4.34","high":"4.34","low":"4.19","open":"4.22","change":".01","change_percent":"0.23%"}]}');
+?>
+
+<style>
+
+#marketData .ui-tabs-nav {
+    list-style: none;
+    margin: 0;
+    padding: 0 0 0 0px;
+	border-bottom: none;
+	width:150px;
+	float: right;
+}
+#marketData .ui-tabs-nav:after { /* clearing without presentational markup, IE gets extra treatment */
+    display: block;
+    clear: both;
+    content: " ";
+}
+#marketData .ui-tabs-nav li {
+    float: left;
+    margin: 0 5px 0 0;
+    min-width: 40px; /* be nice to Opera */
+}
+#marketData .ui-tabs-nav a, #marketData .ui-tabs-nav a span {
+    display: block;
+    background: none;
+}
+#marketData .ui-tabs-nav a {
+    position: relative;
+    top: 1px;
+    z-index: 2;
+    padding-left: 0;
+    font-size: 12px;
+    font-weight: bold;
+    line-height: 40px;
+    text-align: center;
+    text-decoration: none;
+    white-space: nowrap; /* required in IE 6 */    
+}
+
+#marketData .ui-tabs-nav a:visited{color:#fa6c15;}
+
+#marketData .ui-tabs-nav .ui-tabs-selected a {
+    color: #fa6c15;
+}
+#marketData .ui-tabs-nav .ui-tabs-selected a, #marketData .ui-tabs-nav a:hover, #marketData .ui-tabs-nav a:focus, #marketData .ui-tabs-nav a:active {
+    background-position: 100% -99px;
+    outline: 0; /* prevent dotted border in Firefox */
+	text-decoration:none;
+}
+#marketData .ui-tabs-nav a, #marketData .ui-tabs-nav .ui-tabs-disabled a:hover, #marketData .ui-tabs-nav .ui-tabs-disabled a:focus, #marketData .ui-tabs-nav .ui-tabs-disabled a:active {
+    background-position: 100% -82px;
+	color:#999;
+}
+#marketData .ui-tabs-nav a span {
+    width: 40px; /* IE 6 treats width as min-width */
+    min-width: 40px;
+    height: 41px; /* IE 6 treats height as min-height */
+    min-height: 35px;
+    padding-right: 0;
+}
+#marketData *>.ui-tabs-nav a span { /* hide from IE 6 */
+    width: auto;
+    height: auto;
+}
+#marketData .ui-tabs-nav .ui-tabs-selected a span {}
+#marketData .ui-tabs-nav .ui-tabs-selected a span,#marketData  .ui-tabs-nav a:hover span,#marketData  .ui-tabs-nav a:focus span,#marketData  .ui-tabs-nav a:active span {
+    background-position: 0 -40px;
+    color: #000;
+}
+#marketData .ui-tabs-nav a span, #marketData .ui-tabs-nav .ui-tabs-disabled a:hover span,#marketData .ui-tabs-nav .ui-tabs-disabled a:focus span,#marketData  .ui-tabs-nav .ui-tabs-disabled a:active span {
+    background-position: 0 0;
+}
+#marketData .ui-tabs-nav .ui-tabs-selected a:link, #marketData .ui-tabs-nav .ui-tabs-selected a:visited, #marketData .ui-tabs-nav .ui-tabs-disabled a:link, #marketData .ui-tabs-nav .ui-tabs-disabled a:visited { /* @ Opera, use pseudo classes otherwise it confuses cursor... */
+    cursor: text;
+}
+#marketData .ui-tabs-nav a:hover, .ui-tabs-nav a:focus, .ui-tabs-nav a:active { /* @ Opera, we need to be explicit again here now... */
+    cursor: pointer;
+}
+#marketData .ui-tabs-nav .ui-tabs-disabled {
+    opacity: .4;
+}
+#marketData .ui-tabs-container {
+    border-top: none;
+    padding: 1em 8px;
+    background: #fff; /* declare background color for container to avoid distorted fonts in IE while fading */
+}
+#marketData .ui-tabs-loading em {
+    padding: 0 0 0 20px;
+    background: none;
+}
+</style>
+							<script>
+							$('document').ready(function(){
+								$(".change_amount").click(function(){
+									$(".change_amount").hide();
+									$(".change_percent").show();
+									//$(".change_percent", $(this).parent()).show();
+									//$(this).hide();
+								})
+							
+								$(".change_percent").click(function(){
+									//$( ".change_amount", $(this).parent()).show();
+									//$(this).hide();
+									$(".change_amount").show();
+									$(".change_percent").hide();
+								})
+							});
+							
+							</script>
+
+							<div class="moduleContent">
+								<h3>Market Data</h3>
+								<div class="updated-timestamp">Updated: <?= str_replace(" (delayed)","",$market_data_timestamp)?></div>
+									<ul id="tabs-market">
+										<li><a href="#tab_cash"><span>CASH</span></a></li>
+										<li><a href="#tab_3mo"><span>3MO</span></a></li>
+										<li><a href="#tab_15mo"><span>15MO</span></a></li>
+									</ul>
+								<hr style="margin-bottom:0" />
+								<div class="tabBox">
+									<div id="tab_cash">
+										<table>
+											<thead>
+												<tr class="row2">
+												    <th style = "width: 105px;">USD/LB</th>
+												    <th>LAST</th>
+												    <th>HIGH/LOW</th>
+												    <th>OPEN</th>
+												    <th style = "width: 95px;">CHANGE (#/%)</th>
+												</tr>
+											</thead>
+											<?
+											$i=0;
+											foreach ($market_json->cash as $m) {
+												
+												$extra_class = ($m->change > 0)? "positive": "negative";
+												if ($m->change == 0) $extra_class = "";
+											?>
+											<tr<?=$i%2?' class="row2"':""?>>
+											    <td><?=$m->material ?></td>
+											    <td><?=$m->last?></td>
+											    <td><?=$m->high?>/<?=$m->low?></td>
+											    <td><?=$m->open?></td>
+											    <td class = "<?=$extra_class?>"><span class = "change_amount"><?=$m->change?></span><span class = "change_percent" style = "display: none;"><?=$m->change_percent?></span></td>
+											</tr>
+											<?
+											$i++;
+											}
+											?>
+										</table>
+									</div>
+									<div id="tab_3mo">
+										<table>
+											<thead>
+												<tr class="row2">
+												    <th style = "width: 105px;">USD/LB</th>
+												    <th>LAST</th>
+												    <th>HIGH/LOW</th>
+												    <th>OPEN</th>
+												    <th style = "width: 95px;">CHANGE (#/%)</th>
+												</tr>
+											</thead>
+											<?
+											$i=0;
+											foreach ($market_json->three_month as $m) {
+												$extra_class = ($m->change > 0)? "positive": "negative";
+												if ($m->change == 0) $extra_class = "";
+											?>
+											<tr<?=$i%2?' class="row2"':""?>>
+											    <td><?=$m->material ?></td>
+											    <td><?=$m->last?></td>
+											    <td><?=$m->high?>/<?=$m->low?></td>
+											    <td><?=$m->open?></td>
+											    <td class = "<?=$extra_class?>"><span class = "change_amount"><?=$m->change?></span><span class = "change_percent" style = "display: none;"><?=$m->change_percent?></span></td>
+											</tr>
+											<?
+											$i++;
+											}
+											?>
+										</table>
+									</div>
+									<div id="tab_15mo">
+										<table>
+											<thead>
+												<tr class="row2">
+												    <th style = "width: 105px;">USD/LB</th>
+												    <th>LAST</th>
+												    <th>HIGH/LOW</th>
+												    <th>OPEN</th>
+												    <th style = "width: 95px;">CHANGE (#/%)</th>
+												</tr>
+											</thead>
+											<?
+											$i=0;
+											foreach ($market_json->fifteen_month as $m) {
+												$extra_class = ($m->change > 0)? "positive": "negative";
+												if ($m->change == 0) $extra_class = "";
+											?>
+											<tr<?=$i%2?' class="row2"':""?>>
+											    <td><?=$m->material ?></td>
+											    <td><?=$m->last?></td>
+											    <td><?=$m->high?>/<?=$m->low?></td>
+											    <td><?=$m->open?></td>
+											    <td class = "<?=$extra_class?>"><span class = "change_amount"><?=$m->change?></span><span class = "change_percent" style = "display: none;"><?=$m->change_percent?></span></td>
+											</tr>
+											<?
+											$i++;
+											}
+											?>
+										</table>
+									</div>
+								</div>
+							</div>
+
+						<? } else { ?>
 							<div class="moduleContent">
 								<h3>Market Data</h3>
 								<div class="updated-timestamp">Updated: <?=$market_data_timestamp?></div>
@@ -45,7 +262,9 @@
 								}
 								?>
 								</table>
-							</div><div class="moduleBottom"><!-- IE hates empty elements --></div>	
+							</div>
+							<? } ?>
+							<div class="moduleBottom"><!-- IE hates empty elements --></div>	
 						</div>
 					</div>
 					<div class="upperLeftCol">
@@ -141,8 +360,8 @@
 							<div class="moduleContent clearfix">
 								<h3>Strategic News</h3>
 								<hr />
-								<div id ="twitter-wrapper">
-  								<div id="twitter-pane">
+								<div id ="twitter-wrapper" style = "position: relative;">
+  								<div id="twitter-pane" style = "position: relative;">
   								   <div id="twitterFeed">
                      </div>
   								</div>
@@ -183,7 +402,7 @@
 						        </div>
 						        */
 						        ?>
-								<table id = "data_table_1" style = "width: 559px;">
+								<table id = "data_table_1" style = "width: 559px; position: relative;">
 									<thead>
 										<tr class="row2">
 										    <th>&nbsp;</th>
@@ -255,14 +474,14 @@
 						</ul>
 						<div class="tabBox">
 							<div id="tab1">
-							 <div id="pane1">
+							 <div id="pane1" style = "position: relative;">
 								 <div id="content1">
 								  <!-- IE hates empty elements -->
 							   </div>
 							 </div>
 							</div>
 							<div id="tab2">
-               <div id="pane2">
+               <div id="pane2" style = "position: relative;">
   								<div id="content2">
   									<!-- IE hates empty elements -->
   								</div>
@@ -271,7 +490,7 @@
 						</div>
 					</div><div class="moduleBottom"><!-- IE hates empty elements --></div>
 					</div>
-					<div id="latestNews" class="oneColMod"><div class="moduleTop"><!-- IE hates empty elements --></div>
+					<div id="quickVote" class="oneColMod"><div class="moduleTop"><!-- IE hates empty elements --></div>
 						<div class="moduleContent">
 						<h3>Quick Vote</h3>
 						<hr />
@@ -284,7 +503,6 @@
 
 <script type="text/javascript">
 var scrapQuoteTimeout = null;
-
 
 function activateScrapQuote(){
 
@@ -501,7 +719,7 @@ function reloadRequests(){
     
       //request_object = json.request_object[0];
       activateScrapQuote();
-      sw.recentRequestsrSlider = new sw.app.verticalSlider('#transportRequest', '.dataTables_scrollBody','#data_table_1',{overflow: "hidden", float: "left", width: "541px"}, {position: "relative"} );
+      sw.recentRequestsrSlider = new sw.app.verticalSlider('#transportRequest', '.dataTables_scrollBody','#data_table_1',{overflow: "hidden", float: "left", width: "541px", position: "relative"}, {position: "relative"} );
             
     });
 }
@@ -529,7 +747,7 @@ function reloadRequests(){
               "bPaginate": false,
 //              "bFilter": false,
               "bInfo": true ,
-              "sDom": '<"filter"<"checks">i><t>',
+              "sDom": '<"filter clearfix"<"checks">i><t>',
 	      		"oLanguage": {
 	      			"sLengthMenu": "Display _MENU_ records per page",
 	      			// "sZeroRecords": "Nothing found - sorry",
@@ -548,8 +766,11 @@ function reloadRequests(){
                 },
               "fnInitComplete": function() {
                 activateScrapQuote();
-                 sw.quoteManagerSlider = new sw.app.verticalSlider('#transportRequest', '.dataTables_scrollBody','#data_table_1',{overflow: "hidden", float: "left", width: "541px"}, {position: "relative"} );
+                 sw.quoteManagerSlider = new sw.app.verticalSlider('#transportRequest', '.dataTables_scrollBody','#data_table_1',{overflow: "hidden", float: "left", width: "541px", position: "relative"}, {position: "relative"} );
               }
+				,"fnDrawCallback": function() {
+					sw.quoteManagerSlider = new sw.app.verticalSlider('#transportRequest', '.dataTables_scrollBody','#data_table_1',{overflow: "hidden", float: "left", width: "541px", position: "relative"}, {position: "relative"} );
+              	}
             });
 
           // ADD the checkboxes to the filter bar
@@ -594,6 +815,10 @@ function reloadRequests(){
         });
        
         $('#latestNews').tabs();
+	<? if (isset($_GET["test"])) { ?>
+        $('#marketData').tabs();
+	<? } ?>
+
       });
 </script>
 				

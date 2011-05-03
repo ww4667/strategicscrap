@@ -48,6 +48,7 @@ sw.app.verticalSlider = function(wrapper, pane, content, pane_css, content_css){
     } else {
       /* extend body to right edge */
     // console.log("setting pane.width()  - " + $(wrapper + " " + pane).width() + " - "+ $(wrapper).width()); 
+       $(wrapper + " #slider-wrap").remove();
       $(wrapper + " " + pane).width(($(wrapper).width() - 1));
      //console.log("set pane.width()  - " + $(wrapper + " " + pane).width()); 
     }
