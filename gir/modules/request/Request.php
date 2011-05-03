@@ -258,7 +258,7 @@ class Request extends Crud {
 		$expiration = strtotime("+30 days",$createdTS);
 		$nowTS = time();
 //		if ( $expiration > $nowTS && $shipTS < $nowTS ) {
-		if ( $expiration > $nowTS ) {
+		if ( $nowTS < $this->expiration_date ) {
 			return false; 
 		} else {
 			$this->locked = 1;

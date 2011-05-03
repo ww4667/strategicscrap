@@ -28,11 +28,12 @@
  
   var sw = {"app":{}};
   
-</script>
+	</script>
 
 <!--   <link href="/resources/css/jquery-ui-1.8.6.custom.css" rel="stylesheet" type="text/css" />   -->
 <!-- css for verticalSlider -->
     <style type="text/css">
+		#upgrade_browser_bar {background-color: #fcfdde;	width: 100%; border-top: solid 1px #000; border-bottom: solid 1px #000; text-align: center; padding:5px 0px 5px 0px;}
       #scroll-pane { float:left;overflow: auto; width: 535px; height:300px;position:relative;border:1px solid gray;margin-left:0;margin-bottom:0;display:inline}
       #scroll-content {position:absolute;top:0;left:0}
       .scroll-content-item {background-color:#fcfcfc;color:#003366;width:100px;height:100px;float:left;margin:10px;font-size:3em;line-height:96px;text-align:center;border:1px solid gray;display:inline;}
@@ -82,8 +83,15 @@
       window.open(this.href); // pop a new window
       return false; // return false to keep the actual link click from actuating
     });
+
+
+ 	if($.browser.msie && $.browser.version <= 7 ) {
+		$("<div id='upgrade_browser_bar'>You are using an unsupported browser. Please switch to a newer version: <a href='http://getfirefox.com'>FireFox</a>, <a href='http://www.google.com/chrome/'>Chrome</a>, <a href='http://www.apple.com/safari/'>Safari</a> or <a href='http://windows.microsoft.com/en-US/internet-explorer/downloads/ie'>Internet Explorer</a>. Thanks!&nbsp; </div> ").prependTo("body");
+    }
+
   });
     
+
 </script>
 
   <link href="/resources/css/tabs.css" rel="stylesheet" type="text/css" />
