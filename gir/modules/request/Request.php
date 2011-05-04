@@ -255,10 +255,11 @@ class Request extends Crud {
 	private function _isExpired(){
 		$createdTS = strtotime($this->created_ts);
 		$shipTS = strtotime($this->ship_date);
-		$expiration = strtotime("+30 days",$createdTS);
+//		$expiration = strtotime("+30 days",$createdTS);
+		$expiration = strtotime($this->expiration_date);
 		$nowTS = time();
 //		if ( $expiration > $nowTS && $shipTS < $nowTS ) {
-		if ( $expiration > $nowTS ) {
+		if ( $nowTS < $expiration ) {
 			return false; 
 		} else {
 			$this->locked = 1;

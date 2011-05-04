@@ -133,7 +133,7 @@ class Broker extends User {
 		$query .= " AND bd.id = j2.item_id AND r.id = j2.value";
 		$query .= " AND br.id = " . $this->id;
 		$query .= " ) as q on q.id = nr.id";
-		$query .= " WHERE q.id IS NULL AND nr.expiration_date > '$today'";
+		$query .= " WHERE q.id IS NULL AND nr.expiration_date > '$today' AND nr.locked IS NULL";
 		return $this->Query( $query, true );
 	}
     

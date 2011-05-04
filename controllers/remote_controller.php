@@ -600,8 +600,8 @@ function controller_remote( $_controller_remote_method = null,
 					/* update status property of request*/
 					$requestStatus = $requestClass->ReadPropertyByName("status");
 					if( isset( $requestStatus['id'] ) ){
-						if( !$requestClass->UpdateValueNumber( 1, $requestStatus['id'], 1  ) ){
-							$requestClass->AddValueNumber( 1, $requestStatus['id'], 1  );
+						if( !$requestClass->UpdateValueNumber( $post_data['join_request'], $requestStatus['id'], 1  ) ){
+							$requestClass->AddValueNumber( $post_data['join_request'], $requestStatus['id'], 1  );
 						}
 					}
 				}

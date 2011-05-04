@@ -143,6 +143,15 @@ class Scrapper extends User {
 		$i = 0;
 		while( $i < count($joins) ){
 			$joins[$i]['request_snapshot'] = json_decode( $joins[$i]['request_snapshot'], true );
+			// check for and set expired requests
+			if( $joins[$i]['status'] == 0 || $joins[$i]['status'] == 1 ){
+				$obj = $request->GetItemObj($joins[$i]['id']);
+				if( $obj->IsExpired() ) {
+					$joins[$i]['status'] == 3;
+					$joins[$i]['locked'] == 1;
+				}
+			}
+			
 			$requestReturnArray[] = $joins[$i];
 //			$ra = $joins[$i];
 //			
