@@ -1,0 +1,7 @@
+.tmp*
+.DS_*
+/old.hg
+.settings/com.aptana.editor.php.prefs
+/.settings
+.buildpath
+/jsonsample.txt

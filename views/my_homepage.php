@@ -15,9 +15,9 @@
 
 				<div class="leftCol">
 					<div class="lowerArea">
-						<div id="marketData" class="twoColMod"><div class="moduleTop"><!-- IE hates empty elements --></div>
+						<div id="marketData" class="twoColMod" style="position:relative;"><div class="moduleTop"><!-- IE hates empty elements --></div>
 						<? if (isset($_GET["test"])) { 
-								$market_json = json_decode('{"cash":[{"material":"LME Copper","last":"4.23","high":"4.23","low":"4.19","open":"4.22","change":".01","change_percent":"0.23%"},{"material":"LME Aluminum","last":"4.21","high":"4.23","low":"4.19","open":"4.22","change":"-.01","change_percent":"-0.23%"},{"material":"LME Nickel","last":"4.22","high":"4.22","low":"4.19","open":"4.22","change":".00","change_percent":"0.00%"},{"material":"LME Zinc","last":"4.23","high":"4.23","low":"4.19","open":"4.22","change":".01","change_percent":"0.23%"},{"material":"LME Lead","last":"4.23","high":"4.23","low":"4.19","open":"4.22","change":".01","change_percent":"0.23%"},{"material":"LME Tin","last":"4.23","high":"4.23","low":"4.19","open":"4.22","change":".01","change_percent":"0.23%"},{"material":"COMEX Copper ","last":"4.23","high":"4.23","low":"4.19","open":"4.22","change":".01","change_percent":"0.23%"}],"three_month":[{"material":"LME Copper","last":"4.28","high":"4.28","low":"4.19","open":"4.22","change":".01","change_percent":"0.23%"},{"material":"LME Aluminum","last":"4.28","high":"4.28","low":"4.19","open":"4.22","change":".01","change_percent":"0.23%"},{"material":"LME Nickel","last":"4.28","high":"4.28","low":"4.19","open":"4.22","change":".01","change_percent":"0.23%"},{"material":"LME Zinc","last":"4.28","high":"4.28","low":"4.19","open":"4.22","change":".01","change_percent":"0.23%"},{"material":"LME Lead","last":"4.28","high":"4.28","low":"4.19","open":"4.22","change":".01","change_percent":"0.23%"},{"material":"LME Tin","last":"4.28","high":"4.28","low":"4.19","open":"4.22","change":".01","change_percent":"0.23%"},{"material":"COMEX Copper ","last":"4.28","high":"4.28","low":"4.19","open":"4.22","change":".01","change_percent":"0.23%"}],"fifteen_month":[{"material":"LME Copper","last":"4.34","high":"4.34","low":"4.19","open":"4.22","change":".01","change_percent":"0.23%"},{"material":"LME Aluminum","last":"4.34","high":"4.34","low":"4.19","open":"4.22","change":".01","change_percent":"0.23%"},{"material":"LME Nickel","last":"4.34","high":"4.34","low":"4.19","open":"4.22","change":".01","change_percent":"0.23%"},{"material":"LME Zinc","last":"4.34","high":"4.34","low":"4.19","open":"4.22","change":".01","change_percent":"0.23%"},{"material":"LME Lead","last":"4.34","high":"4.34","low":"4.19","open":"4.22","change":".01","change_percent":"0.23%"},{"material":"LME Tin","last":"4.34","high":"4.34","low":"4.19","open":"4.22","change":".01","change_percent":"0.23%"},{"material":"COMEX Copper ","last":"4.34","high":"4.34","low":"4.19","open":"4.22","change":".01","change_percent":"0.23%"}]}');
+								// $market_json = json_decode('{"cash":[{"material":"LME Copper","last":"4.23","high":"4.23","low":"4.19","open":"4.22","change":".01","change_percent":"0.23%"},{"material":"LME Aluminum","last":"4.21","high":"4.23","low":"4.19","open":"4.22","change":"-.01","change_percent":"-0.23%"},{"material":"LME Nickel","last":"4.22","high":"4.22","low":"4.19","open":"4.22","change":".00","change_percent":"0.00%"},{"material":"LME Zinc","last":"4.23","high":"4.23","low":"4.19","open":"4.22","change":".01","change_percent":"0.23%"},{"material":"LME Lead","last":"4.23","high":"4.23","low":"4.19","open":"4.22","change":".01","change_percent":"0.23%"},{"material":"LME Tin","last":"4.23","high":"4.23","low":"4.19","open":"4.22","change":".01","change_percent":"0.23%"},{"material":"COMEX Copper ","last":"4.23","high":"4.23","low":"4.19","open":"4.22","change":".01","change_percent":"0.23%"}],"three_month":[{"material":"LME Copper","last":"4.28","high":"4.28","low":"4.19","open":"4.22","change":".01","change_percent":"0.23%"},{"material":"LME Aluminum","last":"4.28","high":"4.28","low":"4.19","open":"4.22","change":".01","change_percent":"0.23%"},{"material":"LME Nickel","last":"4.28","high":"4.28","low":"4.19","open":"4.22","change":".01","change_percent":"0.23%"},{"material":"LME Zinc","last":"4.28","high":"4.28","low":"4.19","open":"4.22","change":".01","change_percent":"0.23%"},{"material":"LME Lead","last":"4.28","high":"4.28","low":"4.19","open":"4.22","change":".01","change_percent":"0.23%"},{"material":"LME Tin","last":"4.28","high":"4.28","low":"4.19","open":"4.22","change":".01","change_percent":"0.23%"},{"material":"COMEX Copper ","last":"4.28","high":"4.28","low":"4.19","open":"4.22","change":".01","change_percent":"0.23%"}],"fifteen_month":[{"material":"LME Copper","last":"4.34","high":"4.34","low":"4.19","open":"4.22","change":".01","change_percent":"0.23%"},{"material":"LME Aluminum","last":"4.34","high":"4.34","low":"4.19","open":"4.22","change":".01","change_percent":"0.23%"},{"material":"LME Nickel","last":"4.34","high":"4.34","low":"4.19","open":"4.22","change":".01","change_percent":"0.23%"},{"material":"LME Zinc","last":"4.34","high":"4.34","low":"4.19","open":"4.22","change":".01","change_percent":"0.23%"},{"material":"LME Lead","last":"4.34","high":"4.34","low":"4.19","open":"4.22","change":".01","change_percent":"0.23%"},{"material":"LME Tin","last":"4.34","high":"4.34","low":"4.19","open":"4.22","change":".01","change_percent":"0.23%"},{"material":"COMEX Copper ","last":"4.34","high":"4.34","low":"4.19","open":"4.22","change":".01","change_percent":"0.23%"}]}');
 ?>
 
 <style>
@@ -109,8 +109,68 @@
     background: none;
 }
 </style>
-							<script>
+						<script type='text/javascript'><!--//<![CDATA[
+							
+							var last = (<?= $last ?> * 1000);
+							var next = last + default_interval;
+							var now = +new Date();
+							var interval = next - now;
+							var default_interval = 120000;
+							
+							interval = (interval > 0 ) ? interval : default_interval;
+							var update_interval = null;
+							//console.log (interval);
+							function startRequests( interval_delay ){				
+								update_interval = setInterval(function(){
+								var v = +new Date();
+								
+									$.ajax({
+									  url: '/controllers/remote/?method=get-market-data&v=' + v,
+									  beforeSend: function(){
+									  	$('#refreshing-overlay').show();
+									  },
+									  success: function(data) {	
+									  
+									  	
+									  	$('#refreshing-overlay').hide();
+									  	$("#market-data-div").html(data);
+									  	$("#market-data-div").addClass("updated");
+										$(".change_amount").click(function(){
+											$(".change_amount").hide();
+											$(".change_percent").show();
+										})
+									
+										$(".change_percent").click(function(){
+											$(".change_amount").show();
+											$(".change_percent").hide();
+										})
+							 	
+	        							$('#marketData').tabs("destroy");
+	        							$('#marketData').tabs();
+									  	}
+									});
+							    	if (interval_delay != default_interval){
+								  		interval = default_interval;
+								  		stopInterval(interval);
+								  	}
+								},interval_delay); 
+								
+							}
+							
+							function stopInterval(interval_delay){
+								//console.log("kill it");
+								clearInterval(update_interval);
+								if (interval_delay > 0){
+									startRequests(interval_delay);
+								}
+							}
+										
+								//console.log(interval);
+								startRequests(interval);
+								
 							$('document').ready(function(){
+							
+							
 								$(".change_amount").click(function(){
 									$(".change_amount").hide();
 									$(".change_percent").show();
@@ -126,110 +186,15 @@
 								})
 							});
 							
-							</script>
+							//]]>--></script>
 
-							<div class="moduleContent">
-								<h3>Market Data</h3>
-								<div class="updated-timestamp">Updated: <?= str_replace(" (delayed)","",$market_data_timestamp)?></div>
-									<ul id="tabs-market">
-										<li><a href="#tab_cash"><span>CASH</span></a></li>
-										<li><a href="#tab_3mo"><span>3MO</span></a></li>
-										<li><a href="#tab_15mo"><span>15MO</span></a></li>
-									</ul>
-								<hr style="margin-bottom:0" />
-								<div class="tabBox">
-									<div id="tab_cash">
-										<table>
-											<thead>
-												<tr class="row2">
-												    <th style = "width: 105px;">USD/LB</th>
-												    <th>LAST</th>
-												    <th>HIGH/LOW</th>
-												    <th>OPEN</th>
-												    <th style = "width: 95px;">CHANGE (#/%)</th>
-												</tr>
-											</thead>
-											<?
-											$i=0;
-											foreach ($market_json->cash as $m) {
-												
-												$extra_class = ($m->change > 0)? "positive": "negative";
-												if ($m->change == 0) $extra_class = "";
-											?>
-											<tr<?=$i%2?' class="row2"':""?>>
-											    <td><?=$m->material ?></td>
-											    <td><?=$m->last?></td>
-											    <td><?=$m->high?>/<?=$m->low?></td>
-											    <td><?=$m->open?></td>
-											    <td class = "<?=$extra_class?>"><span class = "change_amount"><?=$m->change?></span><span class = "change_percent" style = "display: none;"><?=$m->change_percent?></span></td>
-											</tr>
-											<?
-											$i++;
-											}
-											?>
-										</table>
-									</div>
-									<div id="tab_3mo">
-										<table>
-											<thead>
-												<tr class="row2">
-												    <th style = "width: 105px;">USD/LB</th>
-												    <th>LAST</th>
-												    <th>HIGH/LOW</th>
-												    <th>OPEN</th>
-												    <th style = "width: 95px;">CHANGE (#/%)</th>
-												</tr>
-											</thead>
-											<?
-											$i=0;
-											foreach ($market_json->three_month as $m) {
-												$extra_class = ($m->change > 0)? "positive": "negative";
-												if ($m->change == 0) $extra_class = "";
-											?>
-											<tr<?=$i%2?' class="row2"':""?>>
-											    <td><?=$m->material ?></td>
-											    <td><?=$m->last?></td>
-											    <td><?=$m->high?>/<?=$m->low?></td>
-											    <td><?=$m->open?></td>
-											    <td class = "<?=$extra_class?>"><span class = "change_amount"><?=$m->change?></span><span class = "change_percent" style = "display: none;"><?=$m->change_percent?></span></td>
-											</tr>
-											<?
-											$i++;
-											}
-											?>
-										</table>
-									</div>
-									<div id="tab_15mo">
-										<table>
-											<thead>
-												<tr class="row2">
-												    <th style = "width: 105px;">USD/LB</th>
-												    <th>LAST</th>
-												    <th>HIGH/LOW</th>
-												    <th>OPEN</th>
-												    <th style = "width: 95px;">CHANGE (#/%)</th>
-												</tr>
-											</thead>
-											<?
-											$i=0;
-											foreach ($market_json->fifteen_month as $m) {
-												$extra_class = ($m->change > 0)? "positive": "negative";
-												if ($m->change == 0) $extra_class = "";
-											?>
-											<tr<?=$i%2?' class="row2"':""?>>
-											    <td><?=$m->material ?></td>
-											    <td><?=$m->last?></td>
-											    <td><?=$m->high?>/<?=$m->low?></td>
-											    <td><?=$m->open?></td>
-											    <td class = "<?=$extra_class?>"><span class = "change_amount"><?=$m->change?></span><span class = "change_percent" style = "display: none;"><?=$m->change_percent?></span></td>
-											</tr>
-											<?
-											$i++;
-											}
-											?>
-										</table>
-									</div>
-								</div>
+							<div id = "market-data-div" class="moduleContent">
+								<? require_once($_SERVER['DOCUMENT_ROOT']."/views/scrappers/scrap_market_data.php"); ?>
+							</div>
+							<div id = "refreshing-overlay" style = "display:none;color: #fff;background: #000;position: absolute;top:52px; left:0;opacity:0.5;filter:alpha(opacity=50);width: 559px;">
+								<div style='width: 135px; margin:0 auto; padding: 91px 0;'><img src = '/resources/images/loading.gif' style='float: left; margin-right: 8px;' />
+									<b style = 'line-height: 32px;'>refreshing...</b>
+									<br class = 'clearAll' /></div>
 							</div>
 
 						<? } else { ?>
@@ -376,7 +341,7 @@
 								Updated: <?=date('M d, Y, g:ia T',strtotime($weather->cc->lsup))?><br />
 								<img src="/resources/images/weather/icons/93x93/<?=$weather->cc->icon?>.png" alt="<?=$weather->cc->t?>" style="float:left;" /><div style="color:#999;font-size:60px;margin:10px;float:left"><?=$weather->cc->tmp?>&deg;<span style="font-size:30px">F</span></div>
 								<div style="clear:both;">
-								<strong><a href="#" style="text-decoration:underline;">Details</a></strong><br /><br />
+								<strong><a href="http://www.weather.com/weather/today/<? echo !$postal_code?$zipcode:$postal_code ?>" style="text-decoration:underline;" target="_blank">Details</a></strong><br /><br />
 								<p class="note">Weather data provided by <a href="http://www.weather.com/">The Weather Channel</a> and <a href="http://www.weather.com/">weather.com</a></p>
 								</div>
 								</div>
@@ -551,11 +516,11 @@ $(".scrapQuote td").not("td:has(a)").colorbox({ width:"550", inline:true, href:"
 						((  fromItem && fromItem['from_postal_code'] != null)? fromItem['from_postal_code'] : scrapper['postal_code']);
 						$("#bid_request_ship_from").html( from );
 						
-						var to = ((  toItem && toItem['to_address_1'] != null)? toItem['to_address_1'] : facility['address_1']) + '<br />' + 
-						( ((facility['address_2'] != '' && facility['address_2'] != null) || (toItem && toItem['to_address_2'] != '' && toItem['to_address_2'] != null))? (( toItem['to_address_2'] != null)? toItem['to_address_2'] : facility['address_2']) + '<br />' : '' ) + 
-						(( toItem && toItem['to_city'] != null)? toItem['to_city'] : facility['city']) + ', ' + 
-						(( toItem && toItem['to_state_province'] != null)? toItem['to_state_province'] : facility['state_province']) + ' ' + 
-						(( toItem && toItem['to_zip_postal_code'] != null)? toItem['to_zip_postal_code'] : facility['zip_postal_code']);
+						var to = ((  toItem != null && toItem['to_address_1'] != null)? toItem['to_address_1'] : facility['address_1']) + '<br />' + 
+						( (facility['address_2'] != '' && facility['address_2'] != null) ? facility['address_2'] + '<br />' : '' ) + 
+						(( toItem != null && toItem['to_city'] != null)? toItem['to_city'] : facility['city']) + ', ' + 
+						(( toItem != null && toItem['to_state_province'] != null)? toItem['to_state_province'] : facility['state_province']) + ' ' + 
+						(( toItem != null && toItem['to_zip_postal_code'] != null)? toItem['to_zip_postal_code'] : facility['zip_postal_code']);
 						$("#bid_request_ship_to").html( to );						
 
 						var material = 	r_material['name'];
@@ -777,6 +742,7 @@ function reloadRequests(){
           
           var filter_html = '<div><input type="checkbox" name="filter_complete" checked="checked" value="complete" /> complete</div>'
       				    + '<div><input type="checkbox" name="filter_expired" checked="checked" value="expired" /> expired</div>'
+      				    + '<div><input type="checkbox" name="filter_active" checked="checked" value="active" /> active</div>'
       				    + '<div><input type="checkbox" name="filter_waiting" checked="checked" value="waiting" /> waiting</div>'
       				    + '<div><input type="checkbox" name="filter_archived" value="archived" /> archived</div>'
       				    + '<div style="clear:both;float:none"><!-- IE hates empty elemenets --></div>';

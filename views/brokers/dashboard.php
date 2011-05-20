@@ -84,7 +84,7 @@
 	        
 	
 	        if( fItem ) 
-	          $("#join_facility").val( fItem['id'] );
+	          $("#join_facility").val( fItem['id'] != null ? fItem['id'] : 0 );
 	        
 	
 	        if( fItem && fItem['company'] )
@@ -783,7 +783,7 @@ var bid_object;
 					var d = selectedDates[0];
 					if (d) {
 						d = new Date(d);
-						$('#arrival_date').dpSetStartDate(d.addDays(1).asString());
+						$('#arrival_date').dpSetStartDate(d.addDays(0).asString());
 					}
 					$('*').unbind('focus.datePicker');
 				}

@@ -14,7 +14,6 @@ sw.app.verticalSlider = function(wrapper, pane, content, pane_css, content_css){
 
     /*calculate the height that the scrollbar handle should be*/
     var difference = $(content).height()-$(pane).height();//eg it's 200px longer
-    
     if(difference>0) {
        var proportion = difference / $(content).height();//eg 200px/500px
        var handleHeight = Math.round((1-proportion)*$(pane).height());//set the proportional height - round it to make sure everything adds up correctly later on

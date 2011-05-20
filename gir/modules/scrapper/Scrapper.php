@@ -28,6 +28,7 @@ class Scrapper extends User {
 											array("type"=>"date","label"=>"Subscription Start Date","field"=>"subscription_start_date"),
 											array("type"=>"date","label"=>"Subscription End Date","field"=>"subscription_end_date"),
 											array("type"=>"text","label"=>"Subscription Type","field"=>"subscription_type"),
+											array("type"=>"text","label"=>"USAEPAY Customer Number","field"=>"customer_number"),
 											array("type"=>"text","label"=>"Account Settings","field"=>"account_settings")
 										);
 	
@@ -173,6 +174,100 @@ class Scrapper extends User {
 			return false;
 		return true;
 	}
+	
+	public function getMarketData($symbol,$type = null) {
+		// LME DATA
+		$xignite_header = new SoapHeader('http://www.xignite.com/services/', 'Header', array("Username" => "FDFDBEAF9B004b2eBB2D7A9D1D39F24F"));
+		$client = new soapclient('http://globalfutures.xignite.com/xGlobalFutures.asmx?WSDL', array('trace' => 1));
+		$client->__setSoapHeaders(array($xignite_header));
+
+		$contracts = array(	'cash'			=> 0,
+							'three_month'	=> 3,
+							'fifteen_month'	=> 15	);
+		
+		$symbols = array(	'CU'	=> 'LME Copper',
+							'AM'	=> 'LME Aluminum',
+							'NI'	=> 'LME Nickel',
+							'ZZ'	=> 'LME Zinc',
+							'LD'	=> 'LME Lead',
+							'TN'	=> 'LME Tin'	);
+		
+		$marketData = new stdClass;
+		
+		foreach ($contracts as $option => $c) {
+			foreach ($symbols as $symbol => $name) {
+				$params = array(
+								'Identifier'	=> $symbol,
+								'Year'			=> '0',
+								'Month'			=> $c,
+								'Day'			=> '0',
+								'Exchange'		=> 'LME',
+								'Currency'		=> 'USD'
+								);
+				$result = $client->GetLMEFutureQuote($params);
+				
+				$tempObject = new stdClass;
+				$tempObject->symbol = $symbol;
+				$tempObject->material = $name;
+				$tempObject->last = number_format($result->GetLMEFutureQuoteResult->Last/2204.62262,2);
+				$tempObject->high = number_format($result->GetLMEFutureQuoteResult->High/2204.62262,2);
+				$tempObject->low = number_format($result->GetLMEFutureQuoteResult->Low/2204.62262,2);
+				$tempObject->open = number_format($result->GetLMEFutureQuoteResult->Open/2204.62262,2);
+				$tempObject->previous_close = number_format($result->GetLMEFutureQuoteResult->PreviousClose/2204.62262,2);
+				$tempObject->settle = number_format($result->GetLMEFutureQuoteResult->Settle/2204.62262,2);
+				$tempObject->change = number_format($result->GetLMEFutureQuoteResult->Change/2204.62262,2);
+				$tempObject->change_percent = $result->GetLMEFutureQuoteResult->PercentChange;
+				$marketData->{$option}[] = $tempObject;
+			}
+		}
+		// COMEX DATA
+		$xignite_header = new SoapHeader('http://www.xignite.com/services/', 'Header', array("Username" => "greg@slashwebstudios.com"));
+		$client = new soapclient('http://www.xignite.com/xFutures.asmx?WSDL', array('trace' => 1));
+		$client->__setSoapHeaders(array($xignite_header));
+		
+		// month year checker
+		if(date("n")+3 > 12) {
+			$month3 = date("n")-9;
+			$year3 = date("Y")+1; 
+			$month15 = date("n")-9;
+			$year15 = date("Y")+2; 
+		} else {
+			$month3 = date("n")+3;
+			$year3 = date("Y"); 
+			$month15 = date("n")+3;
+			$year15 = date("Y")+1; 
+		}
+		
+		$contracts = array(	'cash'	=> array("month"=>"0","year"=>"0"),
+					'three_month'	=> array("month"=>$month3,"year"=>$year3),
+					'fifteen_month'	=> array("month"=>$month15,"year"=>$year15)	);
+		
+		foreach ($contracts as $c => $data) {
+			// create an array of parameters
+			$param = array(
+			               'Symbol' => "HG",
+			               'Day' => "0",
+			               'Month' => $data['month'],
+			               'Year' => $data['year']
+			);
+			// call the service, passing the parameters and the name of the operation
+			$result = $client->GetDelayedFuture($param);
+			$tempObject = new stdClass;
+			$tempObject->symbol = "HG";
+			$tempObject->material = "COMEX Copper";
+			$tempObject->last = number_format($result->GetDelayedFutureResult->Last,2);
+			$tempObject->high = number_format($result->GetDelayedFutureResult->High,2);
+			$tempObject->low = number_format($result->GetDelayedFutureResult->Low,2);
+			$tempObject->open = number_format($result->GetDelayedFutureResult->Open,2);
+			$tempObject->previous_close = number_format($result->GetDelayedFutureResult->PreviousClose,2);
+			$tempObject->settle = number_format($result->GetDelayedFutureResult->Settle,2);
+			$tempObject->change = number_format($result->GetDelayedFutureResult->Change,2);
+			$tempObject->change_percent = $result->GetDelayedFutureResult->PercentChange;
+			$marketData->{$c}[] = $tempObject;
+		}
+		
+		return $marketData;
+	}
     
 	/*
 	 * PRIVATE FUNCTIONS
@@ -221,6 +316,53 @@ class Scrapper extends User {
 		}
 		
 		return $output_array;
+	}
+	
+	private function _processPayment( $transaction, $options = null ) {
+		require($_SERVER['DOCUMENT_ROOT'].'/lib/usaepay/usaepay.php');
+
+		$clean = array();
+		foreach ( $transaction as $t ) {
+			$clean[] = trim( $t );
+		}
+		
+		// Instantiate USAePay client object
+		$tran=new umTransaction();
+		
+		$tran->command='authonly';		
+		$tran->card=$clean['cardnum'];		
+		$tran->exp=$clean['ccmonth'].$clean['ccyear'];			
+		$tran->invoice="INVOICE12345";   		
+		$tran->cardholder=$clean['cardname']; 	
+		$tran->description="Strategic Scrap :: " . $description;
+		// check for custom options
+		$tran->amount = (!empty( $options['amount'] ) && isset( $options['amount'] ) ) ? $options['amount'] : "699.00";
+		$tran->billamount = (!empty( $options['billamount'] ) && isset( $options['billamount'] ) ) ? $options['billamount'] : "699.00";
+		$tran->discount = (!empty( $options['discount'] ) && isset( $options['discount'] ) ) ? $options['discount'] : "0";
+		$tran->addcustomer = "Yes";
+		$tran->schedule = "annually"; // daily, weekly, biweekly, monthly, bimonthly, quarterly, biannually, annually 
+		// $tran->start = date("Ymd",strtotime("tomorrow")); // default is tomorrow if not set 
+		// $tran->cvv2="435";		
+		// $tran->ignoresslcerterrors = true;		
+		/* customer details */
+		$tran->billcompany = $clean['company'];
+		$tran->billlname = $clean['last_name'];
+		$tran->billfname = $clean['first_name'];
+		$tran->billstreet = $clean['address_1'];
+		$tran->billcity = $clean['city'];
+		$tran->billstate = $clean['state'];
+		$tran->billzip = $clean['zip'];
+		$tran->email = $clean['email'];
+		$tran->billphone = $clean['phone'];
+		$tran->billcountry = "United States";
+		
+		if($tran->Process()){
+			//Success
+			return $tran;
+		} else {
+			//Fail
+			return $tran->error;
+		}
 	}
 }
 ?>

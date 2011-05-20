@@ -13,6 +13,7 @@
 			<th width="">City</th>
 			<th width="">State/Province</th>
 			<th width="">Region</th>
+			<th width="">Type</th>
 			<th width="">Material Count</th>
 			<th width="65">Created</th>
 			<th width="65">Updated</th>
@@ -28,6 +29,7 @@
 			<td><?php echo ucwords($facility['city']); ?></td>
 			<td><?php echo strtoupper($facility['state_province']); ?></td>
 			<td><?php echo strtoupper($facility['region']); ?></td>
+			<td><?php echo $facility['category']; ?></td>
 			<td><?php echo $facility['join_material']; ?></td>
 			<td><?php echo date("Y-m-d", strtotime($facility['created_ts'])) ?></td>
 			<td><?php echo !is_null($facility['updated_ts']) ? date("Y-m-d", strtotime($facility['updated_ts'])) : date("Y-m-d", strtotime($facility['created_ts'])) ?></td>

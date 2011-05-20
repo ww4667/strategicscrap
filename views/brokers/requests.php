@@ -376,6 +376,7 @@
 	   var fItem = item['request_snapshot']['facility'];
 	   var mItem = item['request_snapshot']['material'];
 	   var rItem = item['request_snapshot']['request'];
+			var fromItem =  (item['request_snapshot']['from']) ? item['request_snapshot']['from'] : null ;
 	     
 	   if( sItem ){ 
 	     $("#join_scrapper").val( sItem['id'] );
@@ -386,24 +387,24 @@
 	   } 
 	   
 	   if( sItem && sItem['address_1'] ){ 
-	       scrapperData += sItem['address_1'] + '<br />';
-	   } 
-	   
-	   if( sItem && sItem['address_2'] ){ 
-	       scrapperData += sItem['address_2'] + '<br />';
-	   } 
-	   
-	   if( sItem && sItem['city'] ){ 
-	       scrapperData += sItem['city'] + ', ';
-	   } 
-	   
-	   if( sItem && sItem['state_province'] ){ 
-	       scrapperData += sItem['state_province'] + ' ';
-	   } 
-	   
-	   if( sItem && sItem['zip_postal_code'] ){ 
-	       scrapperData += sItem['zip_postal_code'] + ' ';
-	   } 
+	            scrapperData += (( fromItem && fromItem['from_address_1'] != null)? fromItem['from_address_1'] : sItem['address_1']) + '<br />';
+	        } 
+	        
+	        if( sItem && sItem['address_2'] ){ 
+	            scrapperData += (( fromItem && fromItem['from_address_2'] != null)? fromItem['from_address_2'] :sItem['address_2']) + '<br />';
+	        } 
+	        
+	        if( sItem && sItem['city'] ){ 
+	            scrapperData += (( fromItem && fromItem['from_city'] != null)? fromItem['from_city'] : sItem['city']) +  ', ';
+	        } 
+	        
+	        if( sItem && sItem['state_province'] ){ 
+	            scrapperData += (( fromItem && fromItem['from_state_province'] != null)? fromItem['from_state_province'] : sItem['state_province']) + ' ';
+	        } 
+	        
+	        if( sItem && sItem['postal_code'] ){ 
+	            scrapperData += (( fromItem && fromItem['from_postal_code'] != null)? fromItem['from_postal_code'] : sItem['postal_code']) + ' ';
+	        } 
 	
 	   if( scrapperData.length > 0 ){
 	     $("#bid_request_ship_from").html( scrapperData );
@@ -417,7 +418,7 @@
 	   
 	
 	   if( fItem ) 
-	     $("#join_facility").val( fItem['id'] );
+	     $("#join_facility").val( fItem['id'] != null ? fItem['id'] : 0 );
 	   
 	
 	   if( fItem && fItem['company'] )
@@ -519,7 +520,7 @@
   				var d = selectedDates[0];
   				if (d) {
   					d = new Date(d);
-  					$('#arrival_date').dpSetStartDate(d.addDays(1).asString());
+  					$('#arrival_date').dpSetStartDate(d.addDays(0).asString());
   				}
   				$('*').unbind('focus.datePicker');
   			}

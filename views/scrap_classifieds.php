@@ -1,5 +1,5 @@
   <script type="text/javascript">
-  $(document).ready(function() {
+  $('document').ready(function() {
         $('#scrapClassifieds').tabs();
 			
 		$('#watch_video').hover(function(){ 
@@ -13,10 +13,10 @@
 	       $(this).attr('src', '/resources/images/buttons/post_a_classified.png'); 
 		});
    
-   sw.tabOneSlider = new sw.app.verticalSlider('#tab1', '#tab-1-pane','#tab-1-content',{overflow: "hidden", float: "left", height: "645px", width: "547px"}, {position: "relative"} );
-   sw.tabTwoSlider = new sw.app.verticalSlider('#tab2', '#tab-2-pane','#tab-2-content',{overflow: "hidden", float: "left", height: "645px", width: "547px"}, {position: "relative"} );    
-   sw.tabOneSlider = new sw.app.verticalSlider('#tab3', '#tab-3-pane','#tab-3-content',{overflow: "hidden", float: "left", height: "645px", width: "547px"}, {position: "relative"} );
-   sw.tabTwoSlider = new sw.app.verticalSlider('#tab4', '#tab-4-pane','#tab-4-content',{overflow: "hidden", float: "left", height: "645px", width: "547px"}, {position: "relative"} );
+  	sw.tabOneSlider = new sw.app.verticalSlider('#tab11', '#tab-1-pane','#tab-1-content',{overflow: "hidden", float: "left", height: "645px", width: "547px",position: "relative"}, {position: "relative"} );
+   sw.tabThreeSlider = new sw.app.verticalSlider('#tab3', '#tab-3-pane','#tab-3-content',{overflow: "hidden", float: "left", height: "645px", width: "547px",position: "relative"}, {position: "relative"} );
+   sw.tabFourSlider = new sw.app.verticalSlider('#tab4', '#tab-4-pane','#tab-4-content',{overflow: "hidden", float: "left", height: "645px", width: "547px",position: "relative"}, {position: "relative"} );
+   sw.tabTwoSlider = new sw.app.verticalSlider('#tab22', '#tab-2-pane','#tab-2-content',{overflow: "hidden", float: "left", height: "645px", width: "547px",position: "relative"}, {position: "relative"} );    
 
    $('.classifiedLink').colorbox({ width: "550", inline:true, href:"#listingDescription1", 
        onComplete:function(){ 
@@ -41,29 +41,29 @@
 	</div>
 					  	
 	<ul id="tabs-scrapClass">
-		<li><a href="#tab1"><span>For Sale</span></a></li>
-		<li><a href="#tab2"><span>Wanted</span></a></li>
+		<li><a href="#tab22"><span>Wanted</span></a></li>
+		<li><a href="#tab11"><span>For Sale</span></a></li>
 		<li><a href="#tab3"><span>Auctions</span></a></li>
 		<li><a href="#tab4"><span>Jobs</span></a></li>
 	</ul>
 	
 	<div class="tabBox">
 		
-		<div id="tab1">
-    <div id="tab-1-pane" style="position:relative">
-      <div id="tab-1-content">
-        [[Ditto? &parents=`36`&orderBy=`publishedon ASC` &display=`500` &total=`500` &tpl=`scrap_row_white` &tplAlt=`scrap_row_gray`]]
-        </div><!-- tab1 conent -->
-    </div><!-- tab1 pane -->
-		</div><!-- tab1 -->
-		
-		<div id="tab2">
+		<div id="tab22">
     <div id="tab-2-pane" style="position:relative">
       <div id="tab-2-content">
 		[[Ditto? &parents=`37`&orderBy=`publishedon ASC` &display=`500` &total=`500` &tpl=`scrap_row_white` &tplAlt=`scrap_row_gray`]]
         </div><!-- tab2 conent -->
     </div><!-- tab2 pane -->
 		</div><!-- tab2 -->
+		
+		<div id="tab11">
+    <div id="tab-1-pane" style="position:relative">
+      <div id="tab-1-content">
+        [[Ditto? &parents=`36`&orderBy=`publishedon ASC` &display=`500` &total=`500` &tpl=`scrap_row_white` &tplAlt=`scrap_row_gray`]]
+        </div><!-- tab1 conent -->
+    </div><!-- tab1 pane -->
+		</div><!-- tab1 -->
 		
 		<div id="tab3">
     <div id="tab-3-pane" style="position:relative">

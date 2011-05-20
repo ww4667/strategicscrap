@@ -20,6 +20,7 @@ switch($controller_action){
 		} else {
 			// page 'template variables'
 			$PAGE_BODY = "views/my_homepage.php";  	/* which file to pull into the template */
+			
 			/*
 			 *
 			 * symbols being used
@@ -171,6 +172,36 @@ switch($controller_action){
 				}
 				$market_data = json_decode(file_get_contents($cache_file),true);
 				$market_data_timestamp = date("M d, Y, h:ia",filemtime($cache_file))." CST (delayed)";
+				
+				// begin new market data		
+				if($_GET['test']){
+					$cache_file = $_SERVER['DOCUMENT_ROOT']."/cache/new-market-data.cache";
+					$last = filemtime($cache_file);
+				    $now = time();
+				    $interval = 30; //seconds
+				    // check the cache file
+					if ( !$last || ( $now - $last ) > $interval ) {
+						// cached file is missing or too old, refreshing it
+						$sss = new Scrapper();
+						$live_market_data = $sss->getMarketData(1,1);
+						// check for good feed
+						$test = $live_market_data->cash[0];
+						if ( !empty($test) ) {
+							$cache_content = json_encode($live_market_data);
+					        if ( $cache_content ) {
+					            // we got something back
+					            $cache_static = fopen($cache_file, 'wb');
+					            fwrite($cache_static, $cache_content);
+					            fclose($cache_static);
+					        }
+							
+						}
+					}
+					$market_json = json_decode(file_get_contents($cache_file));
+					$market_data_timestamp = date("M d, Y, h:ia",filemtime($cache_file))." CST (delayed)";
+				}
+				// end new market data		
+				
 			} else {
 				$cache_file = $_SERVER['DOCUMENT_ROOT']."/cache/static-market-data.cache";
 				$feed_url = "https://strategicscrap.com/static-market-data";
@@ -236,6 +267,7 @@ switch($controller_action){
 			$xml = simplexml_load_file($request_url) or die("feed not loading");
 			$weather = $xml->xpath('//weather');
 			if ( empty( $weather ) ) {
+				$postal_code = false;
 				$request_url = "http://xoap.weather.com/weather/local/$zipcode?cc=*&dayf=5&link=xoap&prod=xoap&par=1182592015&key=bd35fd8b6e181b8a";
 				$xml = simplexml_load_file($request_url) or die("feed not loading");
 				$weather = $xml->xpath('//weather');
@@ -600,13 +632,18 @@ switch($controller_action){
 		//			require($_SERVER['DOCUMENT_ROOT']."/views/layouts/shell.php");
 		break;
 
+	/* MAKE PAYMENT **************************************** */
+	case 'scrap-payment':
+		require_ssl();
+		break;
+
 	/* REGISTER **************************************** */
 	case 'scrap-registration':
 		require_ssl();
 		include_once($_SERVER['DOCUMENT_ROOT'].'/models/Mailer.php');
 		//include_once($_SERVER['DOCUMENT_ROOT'].'/models/Mailer.php');
 		$SUBSCRIPTION_DURATION = "+1 year";
-		$PROMOTION = "+60 days";
+		$PROMOTION = "+30 days";
 		$PAGE_BODY = "views/registration/signup_form.php";  	/* which file to pull into the template */
 		if(isset($_SESSION['post_data_'.$controller_action])) {
 			$post_data = $_SESSION['post_data_'.$controller_action];
