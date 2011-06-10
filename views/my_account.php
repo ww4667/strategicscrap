@@ -41,6 +41,65 @@
 <li><label class="firstLabel">Verify Password:</label><input name="verify_password" type="password" /></li>
 </ul>
 </fieldset>
+<?php if($_GET["test"]) {?>
+<pre>
+<?php print_r($_SESSION) ;?>
+</pre>
+	<input type="hidden" name = "changing_payment_method" id="changing_payment_method" value = "false" />
+<? if( $epay_info != null && ($_SESSION["merchant"]->merchtype == 0 || $_SESSION["merchant"]->merchtype == 3)) {?>
+	<label>Payment Method</label>
+	<input type="hidden" name = "usa_epay_id" value = "<?= $_SESSION["merchant"]->usa_epay_id ?>"/>
+	<input type="hidden" name = "epay_payment_id" id="epay_payment_id" value = "<?= $epay_info->PaymentMethods[0]->MethodID ?>" />
+	<span style="padding-left:10px">
+		<?= $epay_info->PaymentMethods[0]->CreditCardData->CardNumber ?> <span class = "faux_link" id = "change_payment_method">Change</span><span class = "faux_link" id = "change_payment_method_cancel" style="display: none;">Cancel</span>
+	</span><br />
+<? } ?>	
+
+<fieldset>
+<legend>Payment Information:</legend>
+<ul class="form">
+<li><label>Email:</label><input name="email" type="text" value="<?=$user->email?>" /></li>
+</ul>
+<ul class="form hii">
+<li><label class="firstLabel">New Password:</label><input name="password" type="password" /></li>
+<li><label class="firstLabel">Verify Password:</label><input name="verify_password" type="password" /></li>
+</ul>
+</fieldset>
+
+<script type="text/javascript">
+$('document').ready(function(){
+
+	$("#change_payment_method").click(function(){		
+	 	$('#cardnum_changed').addClass('required');
+	 	$('#cardname_changed').addClass('required');
+		$('.open_payment_div').slideUp({duration:500, easing: 'swing'});
+		$('#payment_change').slideDown();
+	 	$('.open_payment_div').removeClass('open_payment_div');
+	 	$('#terms_agreement_changed').addClass('required');
+		$('#payment_changed').addClass("open_payment_div");
+		$("#change_payment_method").hide();
+		$("#change_payment_method_cancel").show();
+		$("#changing_payment_method").val("true");
+	 	
+	});
+	
+	
+	$("#change_payment_method_cancel").click(function(){			
+	 	$('#cardnum_changed').removeClass('required');
+	 	$('#cardname_changed').removeClass('required');
+		$('#payment_change').slideUp({duration:500, easing: 'swing'});
+		$('.open_payment_div').removeClass('open_payment_div');
+	 	$('#terms_agreement_changed').removeClass('required');
+		$("#change_payment_method_cancel").hide();
+		$("#change_payment_method").show();
+		$("#changing_payment_method").val("false");
+	 	
+	});
+
+
+});
+</script>
+<?php } ?>
 </form>
 <script type="text/javascript">
 	$('#submitAccountUpdate').hover(function(){ 

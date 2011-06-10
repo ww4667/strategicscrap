@@ -84,27 +84,35 @@
 			</div>
 		</div><div class="moduleBottom"><!-- IE hates empty elements --></div>
 	</div>
-	<div id="latestNews" class="oneColMod"><div class="moduleTop"><!-- IE hates empty elements --></div>
-		<div class="moduleContent">
-			<h3>Strategic News</h3>
-			<hr />
-			<p><strong>New Logistics Dashboard</strong><br />
-			Strategic Scrap has improved your broker experience with the addition of the logistics dashboard.<br />
-			<a href="#">More...</a></p>
-		</div><div class="moduleBottom"><!-- IE hates empty elements --></div>
-	</div>
-	<div id="disclaimer" class="oneColMod"><div class="moduleTop"><!-- IE hates empty elements --></div>
-		<div class="moduleContent">
-			<h3>Disclaimer and Assumptions</h3>
-			<hr />
-			<p><strong>Delivery Date</strong><br />
-			All loads must be delivered within 3 days of deliver date unless noted otherwise</p>
-			<p><strong>Pickup/Delivery Times</strong><br />
-			Pickup times are to be between 7am-3pm facilty timezone. Delivery times are specific to receiving facility and should be coordinated by the transportaion broker.</p>
-			<p><strong>Operations</strong><br />
-			Credit-checks are the responsibility of transporation brokers. Strategic Scrap is not responsible for breeched agreements.</p>
-		</div><div class="moduleBottom"><!-- IE hates empty elements --></div>
-	</div>
+  <?php
+  /*
+  <div id="latestNews" class="oneColMod"><div class="moduleTop"><!-- IE hates empty elements --></div>
+    <div class="moduleContent">
+      <h3>Strategic News</h3>
+      <hr />
+      <p><strong>New Logistics Dashboard</strong><br />
+      Strategic Scrap has improved your broker experience with the addition of the logistics dashboard.<br />
+      <a href="#">More...</a></p>
+    </div><div class="moduleBottom"><!-- IE hates empty elements --></div>
+  </div>
+  */
+  ?>
+  <div id="disclaimer" class="oneColMod"><div class="moduleTop"><!-- IE hates empty elements --></div>
+    <div class="moduleContent">
+      <h3>Take Note</h3>
+      <hr />
+      <p><strong>Pickup/Delivery Times</strong><br />
+      Pickup times are to be between 7am-3pm facilty timezone. Delivery times are specific to receiving facility and should be coordinated by the transportaion broker.</p>
+      <p><strong>Operations</strong><br />
+      Credit-checks are the responsibility of transporation brokers. Strategic Scrap is not responsible for breeched agreements.</p>
+      <p><strong>Quote Manager</strong><br />
+      Click on quotes for more details.<br />
+      Contact information and additional notes live in these details.</p>
+      <p><strong>Accepted Bids</strong><br />
+      After the bid is accepted, it is the responsibility of the Transportation Broker to arrange final details.<br />
+      Do not move loads without first contacting the Scrap Dealer.</p>
+    </div><div class="moduleBottom"><!-- IE hates empty elements --></div>
+  </div>
 </div>
 </div>
 <script type="text/javascript">

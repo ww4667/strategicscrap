@@ -603,8 +603,8 @@ function addTransportFormEvent( ){
 <div style="display:none">
   <div id="trannyForm" style="padding:20px; background:#fff;">
     <div>
-      <h2>Transportation Request</h2>
-      <hr />
+<?php //  	<h2>Transportation Request</h2>
+      //	<hr /> ?>
       <div id="transport_form">
       </div>
       <div id="transport_loading">Loading Transport Form</div>

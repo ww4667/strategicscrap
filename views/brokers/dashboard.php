@@ -384,6 +384,8 @@
       </div>
     </div><div class="moduleBottom"><!-- IE hates empty elements --></div>
   </div>
+  <?php
+  /*
   <div id="latestNews" class="oneColMod"><div class="moduleTop"><!-- IE hates empty elements --></div>
     <div class="moduleContent">
       <h3>Strategic News</h3>
@@ -393,16 +395,22 @@
       <a href="#">More...</a></p>
     </div><div class="moduleBottom"><!-- IE hates empty elements --></div>
   </div>
+  */
+  ?>
   <div id="disclaimer" class="oneColMod"><div class="moduleTop"><!-- IE hates empty elements --></div>
     <div class="moduleContent">
-      <h3>Disclaimer and Assumptions</h3>
+      <h3>Take Note</h3>
       <hr />
-      <p><strong>Delivery Date</strong><br />
-      All loads must be delivered within 3 days of deliver date unless noted otherwise.</p>
       <p><strong>Pickup/Delivery Times</strong><br />
       Pickup times are to be between 7am-3pm facilty timezone. Delivery times are specific to receiving facility and should be coordinated by the transportaion broker.</p>
       <p><strong>Operations</strong><br />
       Credit-checks are the responsibility of transporation brokers. Strategic Scrap is not responsible for breeched agreements.</p>
+      <p><strong>Quote Manager</strong><br />
+      Click on quotes for more details.<br />
+      Contact information and additional notes live in these details.</p>
+      <p><strong>Accepted Bids</strong><br />
+      After the bid is accepted, it is the responsibility of the Transportation Broker to arrange final details.<br />
+      Do not move loads without first contacting the Scrap Dealer.</p>
     </div><div class="moduleBottom"><!-- IE hates empty elements --></div>
   </div>
 </div>
@@ -429,8 +437,8 @@
 		<div style="float: left; margin: 3px 0; padding: 5px; background:#ccc;width:490px;font-size:11px;">
 			<strong>Material:</strong> <span id="bid_request_material">No. 1 Machinery Cast</span><br />
 			<strong>Volume in Tons:</strong> <span id="bid_request_quantity">550</span><br />
-			<strong>Shipping Date:</strong> <span id="bid_request_shipping_date">05/13/2010</span><br />
-			<strong>Delivery Date:</strong> <span id="bid_request_delivery_date">05/13/2010</span><br />
+			<strong>Ship on or before:</strong> <span id="bid_request_shipping_date">05/13/2010</span><br />
+			<strong>Deliver on or before:</strong> <span id="bid_request_delivery_date">05/13/2010</span><br />
 			<strong>Preferred Transporation:</strong> <span id="bid_request_preferred_transporation">Flat Bed</span><br />
 			<strong>Special Instructions:</strong> <span id="bid_request_special_instructions">special instructions.</span>
 		</div>
@@ -495,8 +503,8 @@
 		<div style="float: left; margin: 3px 0; padding: 5px; background:#ccc;width:490px;font-size:11px;">
 			<strong>Material:</strong> <span id="bid_request_material">No. 1 Machinery Cast</span><br />
 			<strong>Volume in Tons:</strong> <span id="bid_request_quantity">550</span><br />
-			<strong>Ship Date:</strong> <span id="bid_request_ship_date">05/13/2010</span><br />
-			<strong>Delivery Date:</strong> <span id="bid_request_delivery_date">05/13/2010</span><br /><br />
+			<strong>Ship on or before:</strong> <span id="bid_request_ship_date">05/13/2010</span><br />
+			<strong>Deliver on or before:</strong> <span id="bid_request_delivery_date">05/13/2010</span><br /><br />
 			<strong>Preferred Transporation Type:</strong> <span id="bid_request_preferred_transporation">Flat Bed</span><br />
 			<strong>Transporation Cost:</strong> <span id="bid_request_transporation_cost">$1000</span><br /><br />
 			<strong>Instructions:</strong> <span id="bid_request_special_instructions">none</span><br />

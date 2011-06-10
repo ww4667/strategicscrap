@@ -27,7 +27,7 @@
     margin: 0;
     padding: 0 0 0 0px;
 	border-bottom: none;
-	width:150px;
+	width:95px;
 	float: right;
 }
 #marketData .ui-tabs-nav:after { /* clearing without presentational markup, IE gets extra treatment */
@@ -110,7 +110,7 @@
 }
 </style>
 						<script type='text/javascript'><!--//<![CDATA[
-							
+							<?php if ($last == null) $last = time(); ?>
 							var last = (<?= $last ?> * 1000);
 							var next = last + default_interval;
 							var now = +new Date();

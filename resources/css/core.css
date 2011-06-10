@@ -85,6 +85,7 @@ a:active	{outline:none;}
 .upperRightCol{float:left;width:273px;}
 
 .moduleContent h3{color:#f86c13;text-transform:uppercase;padding:10px 0 10px 20px;}
+#transportAverages .moduleContent h3{width: 251px;}
 .moduleContent p{padding:3px 10px;}
 .note{font-size:7px;}
 .moduleContent table{width:100%;margin:0;padding:0;border-collapse:collapse;}
@@ -213,13 +214,13 @@ ul.regionBullets li{float:left;width:210px;}
 
 .brokerDashboard tr.quoteDetails:hover{color:#F86C13;cursor:pointer;}
 
+.custom_form #from_information input, .custom_form #to_information input {float: left; width: 130px;}
 .custom_form #from_information{margin-top: 5px;}
 .custom_form #from_information, .custom_form #to_information {line-height: 24px;}
 .custom_form label {width: 57px; clear:both; float: left;}
 .custom_form label.zip_label {width: 27px; float: left; margin-left: 4px; clear: none;}
-.custom_form .zip_field {width: 57px; float: left;}
-.custom_form .state_field {width: 40px; float: left;}
-.custom_form #from_information input, .custom_form #to_information input {float: left;}
+.custom_form #from_information input.zip_field, .custom_form #to_information input.zip_field{width: 57px; float: left;}
+.custom_form #from_information input.state_field, .custom_form #to_information input.state_field{width: 40px; float: left;}
 
 .ship_quote_button_custom { float: right; margin-right: 20px; cursor: pointer;}
 .ship_quote_button_custom .button{ float: left; margin-right: 4px; width: 22px; height: 22px;  background: url("/resources/images/buttons/dashboard_action.png") no-repeat -22px 0 transparent;}

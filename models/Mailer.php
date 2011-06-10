@@ -78,6 +78,22 @@ class Mailer{
 		$mail->send();
 	}
 
+	static function expiring_payment_method($i_object){
+		$mail = new Zend_Mail();
+		$mail->setFrom('do_not_reply@strategicscrap.com', 'Strategic Scrap');
+
+		$mail->setSubject("Your Strategic Scrap Payment Method has Expired- Update Today!");
+		$mail->setBodyText("in order for your subscription to renew, you need to login and update your payment method as it has expired.");
+		$mail->addTo($i_object['email'], $i_object['fname'] . " " . $i_object['lname']);
+		
+		//include_user_message_body(TEMPLATE_TO_USE, BODY_FILE_TO_USE, OBJECT_FOR_POPULATING_EMAIL_CONTENTS)
+		$message = Mailer::include_user_message_body("base_template","expiring_payment_method",$i_object); //the template to use from /views/mailer (minus the ".php")
+		
+		//setting both bodyText AND bodyHtml sends a multipart message for people with text vs. html
+		$mail->setBodyHtml($message);
+		$mail->send();
+	}
+
 	static function accepted_bid_alert($i_object){
 		$mail = new Zend_Mail();
 		$mail->setFrom('do_not_reply@strategicscrap.com', 'Strategic Scrap');

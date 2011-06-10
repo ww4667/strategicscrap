@@ -136,8 +136,57 @@ switch($controller_action){
 			$s = new Scrapper();
 			$user_id = $_SESSION['user']['id'];
 			$scrapper = $s->getScrapperByUserId($user_id);
-			$subscription_type = $scrapper->subscription_type; 
+			$subscription_type = $scrapper->subscription_type;
+			if($_GET['test_payment']){
+				
+				//$s->PTS($scrapper);
+				if ( !$scrapper->isPaymentMethodValid() ) {// zip and address check to use system
+					
+					$message = array();
+					$message[] = "You need to have a valid method to pay for your subscription.";
+					flash($message,'bad');
+
+					$_SESSION['user']['invalid_payment'] =  1;
+					redirect_to('/payment-information');
+				} else {
+					unset($_SESSION['user']['invalid_payment']);
+				}
+			}
+			
 			if( $subscription_type == "paid" ) {
+				
+				// begin new market data		
+				if($_GET['test']){
+					
+					$cache_file = $_SERVER['DOCUMENT_ROOT']."/cache/new-market-data.cache";
+					$market_json_tmp = json_decode(file_get_contents($cache_file));
+					$last = filemtime($cache_file);
+				    $now = time();
+				    $interval = 30; //seconds
+				    // check the cache file
+					if ( !$last || ( $now - $last ) > $interval ) {
+						// cached file is missing or too old, refreshing it
+						$sss = new Scrapper();
+						$live_market_data = $sss->getMarketData(1,1);
+						// check for good feed
+						$test = $live_market_data->cash[0];
+						if ( !empty($test) ) {
+							$cache_content = json_encode($live_market_data);
+					        if ( $cache_content ) {
+					            // we got something back
+					            $cache_static = fopen($cache_file, 'wb');
+					            fwrite($cache_static, $cache_content);
+					            fclose($cache_static);
+					        }
+							
+						}
+					}
+					$market_json_new = json_decode(file_get_contents($cache_file));
+					$market_json = ($market_json_new) ? $market_json_new : $market_json_tmp; 
+					$market_data_timestamp = date("M d, Y, h:ia",filemtime($cache_file))." CST (delayed)";
+				// end new market data		
+				} else {
+					
 				$cache_file = $_SERVER['DOCUMENT_ROOT']."/cache/delayed-market-data.cache";
 				$last = filemtime($cache_file);
 			    $now = time();
@@ -172,35 +221,7 @@ switch($controller_action){
 				}
 				$market_data = json_decode(file_get_contents($cache_file),true);
 				$market_data_timestamp = date("M d, Y, h:ia",filemtime($cache_file))." CST (delayed)";
-				
-				// begin new market data		
-				if($_GET['test']){
-					$cache_file = $_SERVER['DOCUMENT_ROOT']."/cache/new-market-data.cache";
-					$last = filemtime($cache_file);
-				    $now = time();
-				    $interval = 30; //seconds
-				    // check the cache file
-					if ( !$last || ( $now - $last ) > $interval ) {
-						// cached file is missing or too old, refreshing it
-						$sss = new Scrapper();
-						$live_market_data = $sss->getMarketData(1,1);
-						// check for good feed
-						$test = $live_market_data->cash[0];
-						if ( !empty($test) ) {
-							$cache_content = json_encode($live_market_data);
-					        if ( $cache_content ) {
-					            // we got something back
-					            $cache_static = fopen($cache_file, 'wb');
-					            fwrite($cache_static, $cache_content);
-					            fclose($cache_static);
-					        }
-							
-						}
-					}
-					$market_json = json_decode(file_get_contents($cache_file));
-					$market_data_timestamp = date("M d, Y, h:ia",filemtime($cache_file))." CST (delayed)";
 				}
-				// end new market data		
 				
 			} else {
 				$cache_file = $_SERVER['DOCUMENT_ROOT']."/cache/static-market-data.cache";
@@ -570,10 +591,12 @@ switch($controller_action){
 					case 'scrapper':
 						$obj = new Scrapper();
 						$obj->getScrapperByUserId($_SESSION['user']['id']);
+						$_SESSION["user"]["customer_number"] = $obj->customer_number;
 						if ( !$obj->isAddressSet() ) {// zip and address check to use system
 							$_SESSION['user']['new'] =  1;
 							redirect_to('/my-account');
 						}
+						
 						// find what region scrapper belongs to.
 						$state = $obj->state_province;
 						$f = new Facility();
@@ -693,6 +716,32 @@ switch($controller_action){
 			//				if( !isZip($post_data['postal_code']) )
 			//					$error_messages[] = "Zip Code cannot be empty.";
 			// setup the new user!
+			if(isset($post_data["card_number"])){
+				$u = new User();
+		
+				$data['source_key'] = $usa_epay_source_key;
+				$data['source_pin'] = $usa_epay_pin;
+				$data['payment_info'] = "Strategic Scrap :: ";
+				
+				$post_data["trans_amount"] = "699.00";
+				$post_data["trans_description"] = "Annual Membership";
+				$post_data["recurring"] = true;
+				$post_data["trans_recur_description"] = "Strategic Scrap Annual Membership Renewal";
+				$post_data["trans_recur_enabled"] = "Yes";
+				$post_data["trans_recur_schedule"] = "Annually";
+				$p = new Payment($data);
+				
+				$transaction = $p->send_payment_transaction_soap($post_data);
+				//$u->PTS($transaction, "TRANSACTION");
+				if($transaction["success"]){
+					$post_data["customer_number"] = (string)$transaction["customernumber"];	
+					$post_data["payment_method_status"] = 1;		
+				} else {
+					$error_messages[] = $transaction["error"];
+				}
+				//$u->PTS($post_data, "POST DATA");
+				//die();
+			}
 			if(count($error_messages) == 0) {
 				$post_data['salt'] = $u->GetSalt($post_data['email']);
 				$post_data['password'] = $u->SetPassword($post_data['password'], $post_data['salt']);
@@ -754,10 +803,10 @@ switch($controller_action){
 			redirect_to('/');
 		} else {
 			$PAGE_BODY = "views/my_account.php";  	/* which file to pull into the template */
-
 			// grab user object
 			$user = new User();
 			$user->GetItemObj( $_SESSION['user']['id'] );
+						
 			// get the correct user type object
 			$group = ucfirst( $_SESSION['user']['group'] );
 			$item = new $group();
@@ -851,7 +900,159 @@ switch($controller_action){
 			require($_SERVER['DOCUMENT_ROOT']."/views/layouts/shell.php");
 		}
 		break;
+/* MY ACCOUNT SETTINGS **************************************** */
+	case 'payment-information':
+		require_ssl();
+		if(!$gir->auth->authenticate()){
+			$message = array();
+			$message[] = "You need to login to update your Payment Information.";
+			flash($message,'bad');
+			redirect_to('/');
+		} else {
+			$PAGE_BODY = "views/payment_information.php";  	/* which file to pull into the template */
 
+			// grab user object
+			$user = new User();
+			$user->GetItemObj( $_SESSION['user']['id'] );
+				
+			$data['source_key'] = $usa_epay_source_key;
+			$data['source_pin'] = $usa_epay_pin;
+			$data['payment_info'] = "Strategic Scrap :: ";
+			
+			$p = new Payment($data);
+			
+			$epay_info = $p->get_epay_customer_info($_SESSION["user"]["customer_number"]);
+			
+			// get the correct user type object
+			$group = ucfirst( $_SESSION['user']['group'] );
+			$item = new $group();
+			$joins = $item->ReadForeignJoins( $user );
+			$item->GetItemObj( $joins[0]['id'] );
+			
+			if(isset($_GET["expire_check"])){
+				//echo "start: " . time();
+				$expiring = $item->getScrappersUpForRenewal(date("Y-m-d"),30);
+				//echo "<br />Finish:" . time();
+				//echo "<br />epay start: " . time();
+				$expiring_epay = $p->get_expired_before_next_billing();
+				//echo "<br />Finish:" . time();
+				$expire_check = array();
+				$expire_notify = array();
+				foreach($expiring as $e){
+					$row["fname"] = $e->first_name ;
+					$row["lname"] = $e->last_name;
+					$row["customer_number"] = $e->customer_number;
+					$row["end_date"] = $e->subscription_end_date;
+					$row["scrapper_id"] = $e->id;
+					
+					$expire_check[] = $row;
+				}
+				//$user->PTS($expiring_epay, "Expiring before next billing");
+				
+				foreach($expiring_epay["expiring"] as $epay){
+					//echo "<br />" . $epay;
+					foreach($expire_check as $e){
+						if($epay == $e["customer_number"]){
+							//echo " = " . $e["customer_number"];
+							$expire_notify[] = $e;
+						}
+					}
+				}
+				$item->sendExpiredCardNotifications($expire_notify);
+				//$user->PTS($item->sendExpiredCardNotifications($expire_notify), "Expiring Email: ");
+				//$user->PTS($expire_notify, "Expire notify: ");
+			}
+			if ($group == 'Scrapper') {
+				$redirect_url = "/scrap-exchange";
+			} else {
+				$redirect_url = "/broker-admin";
+			}
+
+			// check for update submit
+			if ( isset($_POST['PaymentUpdate']) ) {
+				$error_messages = array();
+				$post_data = $_POST;
+				// clean post data
+				foreach ($post_data as $key => $val) {
+					$post_data[$key] = is_string($post_data[$key]) ? trim($val) : $post_data[$key];
+				}
+				
+				if($post_data["changing_payment_method"] == true && !empty($_SESSION["user"]["customer_number"])) {
+					$post_data["usa_epay_id"] = $_SESSION["user"]["customer_number"];
+					$transaction = $p->update_epay_payment_method($post_data);
+				} else {
+					
+					$post_data["trans_amount"] = "699.00";
+					$post_data["trans_description"] = "Annual Membership";
+					$post_data["recurring"] = true;
+					$post_data["trans_recur_description"] = "Strategic Scrap Annual Membership Renewal";
+					$post_data["trans_recur_enabled"] = "Yes";
+					$post_data["trans_recur_schedule"] = "Annually";
+					
+					$transaction = $p->send_payment_transaction_soap($post_data);
+				}
+				//$user->PTS($transaction);
+				
+				if($transaction["success"]){
+					
+					
+					flash( array($transaction["message"]));
+					$obj = new Scrapper();
+					$obj->GetItemObj($item->id);
+					
+					//Set the payment method status to 1 for true for valid card info
+					$obj->payment_method_status = 1;
+					
+					if(isset($transaction["customernumber"])){
+						$obj->customer_number = (string)$transaction["customernumber"];
+						$obj->subscription_type = "paid";
+						$_SESSION["user"]["customer_number"] = $transaction["customernumber"];
+						//$user->PTS($obj);
+					}
+					
+						$obj->UpdateItem();
+					
+					//die();
+				
+					
+//					if ( !$obj->isAddressSet() ) {		// company, work phone, address and zip check to use system
+//						$_SESSION['user']['new'] =  1;
+//						redirect_to('/payment-information');
+//					} else {
+//						unset( $_SESSION['user']['new'] );
+//					}
+
+					// find what region scrapper belongs to.
+					$state = $obj->state_province;
+					$f = new Facility();
+					$region = $f->setRegion($state);
+					// send them there.
+					if ($region == "NE")
+					redirect_to('/regions/northeast');
+					if ($region == "C")
+					redirect_to('/regions/central');
+					if ($region == "S")
+					redirect_to('/regions/south');
+					if ($region == "SE")
+					redirect_to('/regions/southeast');
+					if ($region == "W")
+					redirect_to('/regions/west');
+					// couldn't determine region.
+					redirect_to('/regions');
+					
+				} else {
+					
+					$error_messages[] = $transaction["error"];
+					
+					flash( $error_messages, "bad" );
+					redirect_to('/payment-information');
+				}
+			}
+			//the layout file  -  THIS PART NEEDS TO BE LAST
+			require($_SERVER['DOCUMENT_ROOT']."/views/layouts/shell.php");
+		}
+		break;
+		
 	/* SPEC DOWNLOADER FOR FACILITIES **************************************** */
 	case 'spec-downloader':
 		if (isset($_GET['facility_id'])) {

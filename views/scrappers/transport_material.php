@@ -61,12 +61,25 @@ if(!$gir->auth->authenticate()){
 			});
 			</script>
 			<div id="transport_request_form">
-				<p>Fill out the form below to receive bids from our national database of logistics experts.</p>
 				<? 	if ($facility){
 						if ($facility['category'] == "Broker" || $facility['category'] == "Exporter" ){ ?>
-						<p><b>NOTICE:</b> This request will be submitted to this Broker or Exporter </p>	
-				<? 		}
-					}?>
+						<h2>TRANSPORTATION AND SCRAP REQUEST</h2>
+						<hr />
+						<p>This request form will be sent to our transportation network for shipping quotes. <br/>
+						A pricing request will also be sent to the scrap broker listed below via email. Scrap brokers will contact you at their discretion.</p>	
+				<? 		} else { ?>
+						<h2>TRANSPORTATION REQUEST</h2>
+						<hr />
+						<p>This request form will be sent to our transportation network for shipping quotes. 
+				<?php 	
+//						<p>Fill out the form below to receive bids from our national database of logistics experts.</p>
+				} 
+					} else { ?>
+						<h2>TRANSPORTATION REQUEST</h2>
+						<hr />
+						<p>This request form will be sent to our transportation network for shipping quotes. 
+					
+					<?php }?>
 				<div style="float: left; margin: 3px 0; padding: 5px; background:#ccc;width:490px;font-size:11px;" class = "custom_form">
 					<div style="width:220px; float:left; margin:3px;">
 						<strong>Shipper:</strong><br />

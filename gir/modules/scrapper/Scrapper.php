@@ -29,6 +29,7 @@ class Scrapper extends User {
 											array("type"=>"date","label"=>"Subscription End Date","field"=>"subscription_end_date"),
 											array("type"=>"text","label"=>"Subscription Type","field"=>"subscription_type"),
 											array("type"=>"text","label"=>"USAEPAY Customer Number","field"=>"customer_number"),
+											array("type"=>"number","label"=>"Payment Method Status","field"=>"payment_method_status"),
 											array("type"=>"text","label"=>"Account Settings","field"=>"account_settings")
 										);
 	
@@ -121,6 +122,10 @@ class Scrapper extends User {
 		return $this->_getScrappersUpForRenewal( $compare_date, $days_out );
 	}
 	
+	public function sendExpiredCardNotifications( $data) {
+		return $this->_sendExpiredCardNotifications( $data );
+	}
+	
 	/**
 	 * Returns array of all Requests made by the scrapper
 	 * @return Object
@@ -168,111 +173,158 @@ class Scrapper extends User {
 		
 		return $requestReturnArray;
 	}
-	
+
 	public function isAddressSet() {
 		if ( empty($this->work_phone) || empty($this->company) || empty($this->address_1) || empty($this->city) || empty($this->state_province) || empty($this->postal_code) )
 			return false;
 		return true;
 	}
+	public function isPaymentMethodValid() {
+		if ( empty($this->payment_method_status) || ($this->payment_method_status != 1))
+			return false;
+		return true;
+	}
 	
 	public function getMarketData($symbol,$type = null) {
-		// LME DATA
-		$xignite_header = new SoapHeader('http://www.xignite.com/services/', 'Header', array("Username" => "FDFDBEAF9B004b2eBB2D7A9D1D39F24F"));
-		$client = new soapclient('http://globalfutures.xignite.com/xGlobalFutures.asmx?WSDL', array('trace' => 1));
-		$client->__setSoapHeaders(array($xignite_header));
-
-		$contracts = array(	'cash'			=> 0,
-							'three_month'	=> 3,
-							'fifteen_month'	=> 15	);
-		
-		$symbols = array(	'CU'	=> 'LME Copper',
-							'AM'	=> 'LME Aluminum',
-							'NI'	=> 'LME Nickel',
-							'ZZ'	=> 'LME Zinc',
-							'LD'	=> 'LME Lead',
-							'TN'	=> 'LME Tin'	);
 		
 		$marketData = new stdClass;
 		
-		foreach ($contracts as $option => $c) {
-			foreach ($symbols as $symbol => $name) {
-				$params = array(
-								'Identifier'	=> $symbol,
-								'Year'			=> '0',
-								'Month'			=> $c,
-								'Day'			=> '0',
-								'Exchange'		=> 'LME',
-								'Currency'		=> 'USD'
-								);
-				$result = $client->GetLMEFutureQuote($params);
-				
-				$tempObject = new stdClass;
-				$tempObject->symbol = $symbol;
-				$tempObject->material = $name;
-				$tempObject->last = number_format($result->GetLMEFutureQuoteResult->Last/2204.62262,2);
-				$tempObject->high = number_format($result->GetLMEFutureQuoteResult->High/2204.62262,2);
-				$tempObject->low = number_format($result->GetLMEFutureQuoteResult->Low/2204.62262,2);
-				$tempObject->open = number_format($result->GetLMEFutureQuoteResult->Open/2204.62262,2);
-				$tempObject->previous_close = number_format($result->GetLMEFutureQuoteResult->PreviousClose/2204.62262,2);
-				$tempObject->settle = number_format($result->GetLMEFutureQuoteResult->Settle/2204.62262,2);
-				$tempObject->change = number_format($result->GetLMEFutureQuoteResult->Change/2204.62262,2);
-				$tempObject->change_percent = $result->GetLMEFutureQuoteResult->PercentChange;
-				$marketData->{$option}[] = $tempObject;
+		try{
+			// LME DATA
+			$xignite_header = new SoapHeader('http://www.xignite.com/services/', 'Header', array("Username" => "FDFDBEAF9B004b2eBB2D7A9D1D39F24F"));
+			$client = new soapclient('http://globalfutures.xignite.com/xGlobalFutures.asmx?WSDL', array('trace' => 1));
+			$client->__setSoapHeaders(array($xignite_header));
+//	
+//			$contracts = array(	'cash'			=> 0,
+//								'three_month'	=> 3,
+//								'fifteen_month'	=> 15	);
+	
+			$contracts = array(	'cash'			=> 0,
+								'three_month'	=> 3	);
+			
+			$symbols = array(	'CU'	=> 'LME Copper',
+								'AM'	=> 'LME Aluminum',
+								'NI'	=> 'LME Nickel',
+								'ZZ'	=> 'LME Zinc',
+								'LD'	=> 'LME Lead',
+								'TN'	=> 'LME Tin'	);
+			
+			
+			foreach ($contracts as $option => $c) {
+				foreach ($symbols as $symbol => $name) {
+					$params = array(
+									'Identifier'	=> $symbol,
+									'Year'			=> '0',
+									'Month'			=> $c,
+									'Day'			=> '0',
+									'Exchange'		=> 'LME',
+									'Currency'		=> 'USD'
+									);
+					$result = $client->GetLMEFutureQuote($params);
+					
+					$tempObject = new stdClass;
+					$tempObject->symbol = $symbol;
+					$tempObject->material = $name;
+					$tempObject->last = number_format($result->GetLMEFutureQuoteResult->Last/2204.62262,2);
+					$tempObject->high = number_format($result->GetLMEFutureQuoteResult->High/2204.62262,2);
+					$tempObject->low = number_format($result->GetLMEFutureQuoteResult->Low/2204.62262,2);
+					$tempObject->open = number_format($result->GetLMEFutureQuoteResult->Open/2204.62262,2);
+					$tempObject->previous_close = number_format($result->GetLMEFutureQuoteResult->PreviousClose/2204.62262,2);
+					$tempObject->settle = number_format($result->GetLMEFutureQuoteResult->Settle/2204.62262,2);
+					$tempObject->change = number_format($result->GetLMEFutureQuoteResult->Change/2204.62262,2);
+					$tempObject->change_percent = $result->GetLMEFutureQuoteResult->PercentChange;
+					$marketData->{$option}[] = $tempObject;
+				}
 			}
-		}
-		// COMEX DATA
-		$xignite_header = new SoapHeader('http://www.xignite.com/services/', 'Header', array("Username" => "greg@slashwebstudios.com"));
-		$client = new soapclient('http://www.xignite.com/xFutures.asmx?WSDL', array('trace' => 1));
-		$client->__setSoapHeaders(array($xignite_header));
-		
-		// month year checker
-		if(date("n")+3 > 12) {
-			$month3 = date("n")-9;
-			$year3 = date("Y")+1; 
-			$month15 = date("n")-9;
-			$year15 = date("Y")+2; 
-		} else {
-			$month3 = date("n")+3;
-			$year3 = date("Y"); 
-			$month15 = date("n")+3;
-			$year15 = date("Y")+1; 
-		}
-		
-		$contracts = array(	'cash'	=> array("month"=>"0","year"=>"0"),
-					'three_month'	=> array("month"=>$month3,"year"=>$year3),
-					'fifteen_month'	=> array("month"=>$month15,"year"=>$year15)	);
-		
-		foreach ($contracts as $c => $data) {
-			// create an array of parameters
-			$param = array(
-			               'Symbol' => "HG",
-			               'Day' => "0",
-			               'Month' => $data['month'],
-			               'Year' => $data['year']
-			);
-			// call the service, passing the parameters and the name of the operation
-			$result = $client->GetDelayedFuture($param);
-			$tempObject = new stdClass;
-			$tempObject->symbol = "HG";
-			$tempObject->material = "COMEX Copper";
-			$tempObject->last = number_format($result->GetDelayedFutureResult->Last,2);
-			$tempObject->high = number_format($result->GetDelayedFutureResult->High,2);
-			$tempObject->low = number_format($result->GetDelayedFutureResult->Low,2);
-			$tempObject->open = number_format($result->GetDelayedFutureResult->Open,2);
-			$tempObject->previous_close = number_format($result->GetDelayedFutureResult->PreviousClose,2);
-			$tempObject->settle = number_format($result->GetDelayedFutureResult->Settle,2);
-			$tempObject->change = number_format($result->GetDelayedFutureResult->Change,2);
-			$tempObject->change_percent = $result->GetDelayedFutureResult->PercentChange;
-			$marketData->{$c}[] = $tempObject;
-		}
-		
-		return $marketData;
+			// COMEX DATA
+			$xignite_header = new SoapHeader('http://www.xignite.com/services/', 'Header', array("Username" => "greg@slashwebstudios.com"));
+			$client = new soapclient('http://www.xignite.com/xFutures.asmx?WSDL', array('trace' => 1));
+			$client->__setSoapHeaders(array($xignite_header));
+			
+			// month year checker
+			if(date("n")+3 > 12) {
+				$month3 = date("n")-9;
+				$year3 = date("Y")+1; 
+				$month15 = date("n")-9;
+				$year15 = date("Y")+2; 
+			} else {
+				$month3 = date("n")+3;
+				$year3 = date("Y"); 
+				$month15 = date("n")+3;
+				$year15 = date("Y")+1; 
+			}
+//			
+//			$contracts = array(	'cash'	=> array("month"=>"0","year"=>"0"),
+//						'three_month'	=> array("month"=>$month3,"year"=>$year3),
+//						'fifteen_month'	=> array("month"=>$month15,"year"=>$year15)	);
+			
+			$contracts = array(	'cash'	=> array("month"=>"0","year"=>"0"),
+						'three_month'	=> array("month"=>$month3,"year"=>$year3)	);
+			
+			foreach ($contracts as $c => $data) {
+				// create an array of parameters
+				$param = array(
+				               'Symbol' => "HG",
+				               'Day' => "0",
+				               'Month' => $data['month'],
+				               'Year' => $data['year']
+				);
+				// call the service, passing the parameters and the name of the operation
+				$result = $client->GetDelayedFuture($param);
+				$tempObject = new stdClass;
+				$tempObject->symbol = "HG";
+				$tempObject->material = "COMEX Copper";
+				$tempObject->last = number_format($result->GetDelayedFutureResult->Last,2);
+				$tempObject->high = number_format($result->GetDelayedFutureResult->High,2);
+				$tempObject->low = number_format($result->GetDelayedFutureResult->Low,2);
+				$tempObject->open = number_format($result->GetDelayedFutureResult->Open,2);
+				$tempObject->previous_close = number_format($result->GetDelayedFutureResult->PreviousClose,2);
+				$tempObject->settle = number_format($result->GetDelayedFutureResult->Settle,2);
+				$tempObject->change = number_format($result->GetDelayedFutureResult->Change,2);
+				$tempObject->change_percent = $result->GetDelayedFutureResult->PercentChange;
+				$marketData->{$c}[] = $tempObject;
+			}
+					
+		} 
+		 
+		catch (SoapFault $e) { 
+			$marketData->status = 0;
+			$marketData->error = "Error loading feed data.";
+			
+		 } 
+		  return $marketData; 
 	}
     
 	/*
 	 * PRIVATE FUNCTIONS
 	 */
     private function _privateFunction() {
+    }
+	
+    private function _sendExpiredCardNotifications($data) {
+		include_once($_SERVER['DOCUMENT_ROOT'].'/models/Mailer.php');
+    		$u = new User();
+    		$s = new Scrapper();
+    		
+    		foreach($data as $d){
+    			$scrapper = $s->GetItemObj($d["scrapper_id"]);
+				$s->PTS($scrapper);
+				if (!empty($scrapper)){
+					$scrapper->payment_method_status = 2;
+					$scrapper->UpdateItem();
+					$users = $scrapper -> ReadJoins($u);
+					$user = $users[0];
+					$userId = $user["id"];
+					$user = $u->GetItemObj( $userId );
+					//convert time to m/d/Y for the email.
+					$timestamp = strtotime($d["end_date"]);
+					$d["end_date"] = date("m/d/Y", $timestamp);
+					$d["email"] = $user->email;		
+					Mailer::expiring_payment_method($d);
+				}
+    		}
+    		
+    	
     }
 		
 	private function _getScrappersUpForRenewal( $compare_date, $days_out ) {
@@ -294,9 +346,9 @@ class Scrapper extends User {
 		$query = "SELECT * FROM (SELECT o.id, o.created_ts, o.updated_ts, o.object_name_id,";
 		$query .= $fields;
 		$query .= " FROM " . $this->_TABLE_PREFIX.constant('Crud::_ITEMS') . " as o";
-		$query .= " LEFT JOIN " . $this->_TABLE_PREFIX.constant('Crud::_OBJECT_DEFINITIONS') . " as od on od.object_name_id = o.object_name_id";
-		$query .= " LEFT JOIN " . $this->_TABLE_PREFIX.constant('Crud::_PROPERTY_NAMES') . " as pn on pn.id = od.property_name_id";
-		$query .= " LEFT JOIN 	(SELECT * FROM " . $this->_TABLE_PREFIX.constant('Crud::_VALUES_TABLE_DATES') . " UNION SELECT * FROM " . $this->_TABLE_PREFIX.constant('Crud::_VALUES_TABLE_NUMBERS') . " UNION SELECT * FROM " . $this->_TABLE_PREFIX.constant('Crud::_VALUES_TABLE_TEXT') . ") as v on v.property_name_id = od.property_name_id AND v.item_id = o.id";
+		$query .= " JOIN " . $this->_TABLE_PREFIX.constant('Crud::_OBJECT_DEFINITIONS') . " as od on od.object_name_id = o.object_name_id";
+		$query .= " JOIN " . $this->_TABLE_PREFIX.constant('Crud::_PROPERTY_NAMES') . " as pn on pn.id = od.property_name_id";
+		$query .= " JOIN 	(SELECT * FROM " . $this->_TABLE_PREFIX.constant('Crud::_VALUES_TABLE_DATES') . " UNION SELECT * FROM " . $this->_TABLE_PREFIX.constant('Crud::_VALUES_TABLE_NUMBERS') . " UNION SELECT * FROM " . $this->_TABLE_PREFIX.constant('Crud::_VALUES_TABLE_TEXT') . ") as v on v.property_name_id = od.property_name_id AND v.item_id = o.id";
 		$query .= " WHERE o.object_name_id = $objectNameId";
 		$query .= " GROUP BY o.id) as tbl";
 		$query .= " WHERE subscription_end_date = '$query_date'";

@@ -59,6 +59,7 @@
 		.clear{clear:both}
 		.dataTables_empty{text-align:center}
 		.example_alt_pagination div.dataTables_info{width:40%}
+		.sortabletable{clear:both}
 	</style>
 </head>
 <body ondragstart="return false">

@@ -1,4 +1,3 @@
-
 		<h2><strong>You have a bid request.</strong><br></h2>
           <table width="95%" border="0" cellspacing="0" cellpadding="10">
             <tr>

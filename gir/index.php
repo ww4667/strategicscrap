@@ -41,6 +41,7 @@ require_once($modulesDirectory."/pricing/Pricing.php");
 
 // include application modules
 require_once($librariesDirectory."/usaepay/usaepay.php");
+require_once($librariesDirectory."/usaepay/Payment.php");
 // require_once($includesDirectory."/great_inlude_file.php");
 
 // get controller and method from page request
