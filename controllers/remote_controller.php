@@ -59,7 +59,9 @@ function controller_remote( $_controller_remote_method = null,
 				    $now = time();
 				    $interval = 30; //seconds
 				    // check the cache file
-					if ( !$last || ( $now - $last ) > $interval ) {
+    			    $day = date("D",$last);
+				    $hour_minute = date("Gi",$last);
+    				if ( (!$last || ( $now - $last ) > $interval) && ($day != "Sat" || $day != "Sun") && ($hour_minute >= 740 || $hour_minute <= 1340) ) {
 						// cached file is missing or too old, refreshing it
 						$sss = new Scrapper();
 						$live_market_data = $sss->getMarketData(1,1);

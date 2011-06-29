@@ -36,7 +36,7 @@
 	<li><label>Card Number:</label><input id = "card_number" name="card_number" type="text" value="<?=$post_data['card_number']?>" /></li>
 	</ul>
 	<ul class="form hii">
-	<li><label class="firstLabel">Verification Code:</label><input id = "card_code" name="card_code" type="text" value="<?=$post_data['card_code']?>" /></li>
+	<li><label class="firstLabel">Verification Code:</label><input id = "card_code" name="card_code" type="text" value="<?=$post_data['card_code']?>" class="required" /></li>
 	<li style='clear: both;'><label>Expiration Date:</label>
 	<?= month_select('ccmonth','ccmonth','ccmonth') ?> <?= year_select(date('y'),(date('y')+10),'ccyear','ccyear') ?></li>
 	<?php //print month_select("expire_month"); ?>
@@ -48,7 +48,7 @@
 	The purchase price you have selected above will be billed to your credit card and will automatically renew your subscription at the end of your agreed upon term. 
 	</li>
 	<li>
-	<input style="width:20px" type="checkbox" name="agree" /> I have read and agree to the <a style="text-decoration:underline" href="/terms-and-conditions" target="blank">Terms and Conditions</a>.
+	<input style="width:20px" type="checkbox" name="agree" class="required" /> I have read and agree to the <a style="text-decoration:underline" href="/terms-and-conditions" target="blank">Terms and Conditions</a>.
 	</li>
 	</ul>
 	<div class="submitButton">

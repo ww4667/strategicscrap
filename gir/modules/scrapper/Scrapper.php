@@ -117,9 +117,13 @@ class Scrapper extends User {
 			return false;
 		}
 	}
-	
+
 	public function getScrappersUpForRenewal( $compare_date, $days_out='30' ) {
 		return $this->_getScrappersUpForRenewal( $compare_date, $days_out );
+	}
+	
+	public function getExpiredScrappers( $compare_date, $days_out='0' ) {
+		return $this->_getExpiredScrappers( $compare_date, $days_out );
 	}
 	
 	public function sendExpiredCardNotifications( $data) {
@@ -179,10 +183,17 @@ class Scrapper extends User {
 			return false;
 		return true;
 	}
+	
 	public function isPaymentMethodValid() {
 		if ( empty($this->payment_method_status) || ($this->payment_method_status != 1))
 			return false;
 		return true;
+	}
+
+	public function isSubscriptionExpired() {
+		if ( empty($this->subscription_end_date) || (strtotime($this->subscription_end_date) < strtotime(Date("m/d/Y"))))
+			return true;
+		return false;
 	}
 	
 	public function getMarketData($symbol,$type = null) {
@@ -231,7 +242,9 @@ class Scrapper extends User {
 					$tempObject->open = number_format($result->GetLMEFutureQuoteResult->Open/2204.62262,2);
 					$tempObject->previous_close = number_format($result->GetLMEFutureQuoteResult->PreviousClose/2204.62262,2);
 					$tempObject->settle = number_format($result->GetLMEFutureQuoteResult->Settle/2204.62262,2);
-					$tempObject->change = number_format($result->GetLMEFutureQuoteResult->Change/2204.62262,2);
+//					$tempObject->change = number_format($result->GetLMEFutureQuoteResult->Change/2204.62262,2);
+					$diff = $tempObject->last - $tempObject->previous_close;
+					$tempObject->change = number_format($diff,2);
 					$tempObject->change_percent = $result->GetLMEFutureQuoteResult->PercentChange;
 					$marketData->{$option}[] = $tempObject;
 				}
@@ -280,7 +293,9 @@ class Scrapper extends User {
 				$tempObject->open = number_format($result->GetDelayedFutureResult->Open,2);
 				$tempObject->previous_close = number_format($result->GetDelayedFutureResult->PreviousClose,2);
 				$tempObject->settle = number_format($result->GetDelayedFutureResult->Settle,2);
-				$tempObject->change = number_format($result->GetDelayedFutureResult->Change,2);
+//				$tempObject->change = number_format($result->GetDelayedFutureResult->Change,2);
+				$diff = $tempObject->last - $tempObject->open;
+				$tempObject->change = number_format($diff,2);
 				$tempObject->change_percent = $result->GetDelayedFutureResult->PercentChange;
 				$marketData->{$c}[] = $tempObject;
 			}
@@ -308,7 +323,7 @@ class Scrapper extends User {
     		
     		foreach($data as $d){
     			$scrapper = $s->GetItemObj($d["scrapper_id"]);
-				$s->PTS($scrapper);
+				//$s->PTS($scrapper);
 				if (!empty($scrapper)){
 					$scrapper->payment_method_status = 2;
 					$scrapper->UpdateItem();
@@ -354,6 +369,50 @@ class Scrapper extends User {
 		$query .= " WHERE subscription_end_date = '$query_date'";
 		$query .= " AND (status = '' OR status = 'active')";
 		
+		$scrappers_array = $this->Query( $query, true );
+		
+		$output_array = array();
+		foreach ($scrappers_array as $scrapper) {
+			$s = new Scrapper();
+			$s->GetItemObj($scrapper['id']);
+			$user = new User();
+			$users = $s->ReadJoins( $user );
+			$s->join_user = '';
+			$s->email = $users[0]['email'];
+			$output_array[] = $s;
+		}
+		
+		return $output_array;
+	}
+	
+	private function _getExpiredScrappers( $compare_date, $days_out ) {
+		$scrappers_array = array();
+		
+		$query_date = date("Y-m-d 00:00:00",strtotime("+" . $days_out . " days",strtotime($compare_date)));
+		
+		$objectNameId = $this->_OBJECT_NAME_ID;
+		
+		$properties = $this->_OBJECT_PROPERTIES;
+		$fields = ""; 
+		foreach ($properties as $p) {
+			if ($fields == "") {
+				$fields .= " MAX(IF(pn.label='".$p['field']."', v.value, '')) AS `".$p['field']."`";
+			} else {
+				$fields .= ", MAX(IF(pn.label='".$p['field']."', v.value, '')) AS `".$p['field']."`";
+			}
+		}
+		$query = "SELECT * FROM (SELECT o.id, o.created_ts, o.updated_ts, o.object_name_id,";
+		$query .= $fields;
+		$query .= " FROM " . $this->_TABLE_PREFIX.constant('Crud::_ITEMS') . " as o";
+		$query .= " JOIN " . $this->_TABLE_PREFIX.constant('Crud::_OBJECT_DEFINITIONS') . " as od on od.object_name_id = o.object_name_id";
+		$query .= " JOIN " . $this->_TABLE_PREFIX.constant('Crud::_PROPERTY_NAMES') . " as pn on pn.id = od.property_name_id";
+		$query .= " JOIN 	(SELECT * FROM " . $this->_TABLE_PREFIX.constant('Crud::_VALUES_TABLE_DATES') . " UNION SELECT * FROM " . $this->_TABLE_PREFIX.constant('Crud::_VALUES_TABLE_NUMBERS') . " UNION SELECT * FROM " . $this->_TABLE_PREFIX.constant('Crud::_VALUES_TABLE_TEXT') . ") as v on v.property_name_id = od.property_name_id AND v.item_id = o.id";
+		$query .= " WHERE o.object_name_id = $objectNameId";
+		$query .= " GROUP BY o.id) as tbl";
+		$query .= " WHERE subscription_end_date <= '$query_date'";
+		$query .= " AND (status = '' OR status = 'active')";
+		
+		//echo $query;
 		$scrappers_array = $this->Query( $query, true );
 		
 		$output_array = array();

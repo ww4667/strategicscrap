@@ -15,8 +15,11 @@ switch($controller_action){
 	/* HOMEPAGE FOR SCRAPPERS **************************************** */
 	case 'my-homepage':
 		require_ssl();
-		if(!$gir->auth->authenticate()){
+		if( !$gir->auth->authenticate() || $_SESSION['user']['group'] != "scrapper" ){
 			$PAGE_BODY = "views/scrappers/my_homepages_demo.php";  	/* which file to pull into the template */
+			$message = array();
+			$message[] = "You need to be logged in as a scrapper to use this feature.";
+			flash($message,'bad');
 		} else {
 			// page 'template variables'
 			$PAGE_BODY = "views/my_homepage.php";  	/* which file to pull into the template */
@@ -137,10 +140,21 @@ switch($controller_action){
 			$user_id = $_SESSION['user']['id'];
 			$scrapper = $s->getScrapperByUserId($user_id);
 			$subscription_type = $scrapper->subscription_type;
+			if($_GET['test_expired']){
+				//echo "is subscription valid [" . 
+				if($scrapper->isSubscriptionExpired()){
+					
+					$message = array();
+					$message[] = "Your subscription has expired.";
+					flash($message,'bad');
+					redirect_to('/payment-information');
+				}
+			}
+			
 			if($_GET['test_payment']){
 				
 				//$s->PTS($scrapper);
-				if ( !$scrapper->isPaymentMethodValid() ) {// zip and address check to use system
+				if ( !$scrapper->isPaymentMethodValid() ) {
 					
 					$message = array();
 					$message[] = "You need to have a valid method to pay for your subscription.";
@@ -164,7 +178,9 @@ switch($controller_action){
 				    $now = time();
 				    $interval = 30; //seconds
 				    // check the cache file
-					if ( !$last || ( $now - $last ) > $interval ) {
+				    $day = date("D",$last);
+				    $hour_minute = date("Gi",$last);
+					if ( (!$last || ( $now - $last ) > $interval) && $day != "Sat" && $day != "Sun" && $hour_minute >= 740 && $hour_minute <= 1340 ) {
 						// cached file is missing or too old, refreshing it
 						$sss = new Scrapper();
 						$live_market_data = $sss->getMarketData(1,1);
@@ -178,7 +194,6 @@ switch($controller_action){
 					            fwrite($cache_static, $cache_content);
 					            fclose($cache_static);
 					        }
-							
 						}
 					}
 					$market_json_new = json_decode(file_get_contents($cache_file));
@@ -332,8 +347,11 @@ switch($controller_action){
 	/* Scrap Exchange */
 	case 'scrap-exchange':
 		require_ssl();
-		if(!$gir->auth->authenticate()){
+		if( !$gir->auth->authenticate() || $_SESSION['user']['group'] != "scrapper" ){
 			$PAGE_BODY = "views/scrappers/scrap_exchange_demo.php";  	/* which file to pull into the template */
+			$message = array();
+			$message[] = "You need to be logged in as a scrapper to use this feature.";
+			flash($message,'bad');
 		} else {
 			if ( isset($_SESSION['user']['new']) ) { // zip and address check to use system
 				redirect_to('/my-account');
@@ -592,6 +610,13 @@ switch($controller_action){
 						$obj = new Scrapper();
 						$obj->getScrapperByUserId($_SESSION['user']['id']);
 						$_SESSION["user"]["customer_number"] = $obj->customer_number;
+						
+						if ( !empty($_SESSION["redirect_url"] ) ) {// zip and address check to use system
+							$url = $_SESSION["redirect_url"];
+							$_SESSION["redirect_url"]  = "";
+							redirect_to($url);
+						}
+						
 						if ( !$obj->isAddressSet() ) {// zip and address check to use system
 							$_SESSION['user']['new'] =  1;
 							redirect_to('/my-account');
@@ -659,6 +684,140 @@ switch($controller_action){
 	case 'scrap-payment':
 		require_ssl();
 		break;
+		
+	/* REGISTER PAID **************************************** */
+	case 'paid-registration':
+		require_ssl();
+		include_once($_SERVER['DOCUMENT_ROOT'].'/models/Mailer.php');
+		//include_once($_SERVER['DOCUMENT_ROOT'].'/models/Mailer.php');
+		$SUBSCRIPTION_DURATION = "+1 year";
+		//$PROMOTION = "+30 days";
+		$PAGE_BODY = "views/registration/paid_registration.php";  	/* which file to pull into the template */
+		if(isset($_SESSION['post_data_'.$controller_action])) {
+			$post_data = $_SESSION['post_data_'.$controller_action];
+			unset($_SESSION['post_data_'.$controller_action]);
+		} else {
+			$post_data = isset($_POST['email']) ? $_POST : "";
+		}
+		if ( isset($_POST['try_it']) ) {
+			if (trim($_POST['name']) != "") {
+				if ( preg_match('/\s/',trim($_POST['name'])) > 0 ) {
+					$name_array = preg_split("/[\s,]+/",$_POST['name']);
+					$post_data['first_name'] = $name_array[0];
+					$post_data['last_name'] = $name_array[1];
+				} else {
+					$post_data['first_name'] = trim($_POST['name']);
+				}
+			}
+		} else if ( isset($_POST['email']) && !isset($_POST['try_it']) ) {
+			$error_messages = array();
+			foreach ($_POST as $key => $val) {
+				$post_data[$key] = trim($val);
+			}
+			// let's validate this data first!
+			// all fields should have data in them so we need only check for email dups and format_phone($phone)
+			if( $post_data['first_name'] == "" )
+			$error_messages[] = "First Name field cannot be left empty.";
+			if( $post_data['last_name'] == "" )
+			$error_messages[] = "Last Name field cannot be left empty.";
+			$post_data['email'] = strtolower($post_data['email']);
+			$u = new User();
+			$users = $u->GetItemsObjByPropertyValue( 'email', $post_data['email'] );
+			if( $post_data['email'] == "" )
+			$error_messages[] = "Email field cannot be left empty.";
+			elseif( !isValidEmail($post_data['email']) )
+			$error_messages[] = "Email field must contain a valid email address.";
+			elseif( count($users) > 0 )
+			$error_messages[] = "Email is already being used.";
+			if( $post_data['password'] == "" )
+			$error_messages[] = "Password field cannot be left empty.";
+			if( $post_data['verify_password'] != $post_data['password'] )
+			$error_messages[] = "Verify Password does not match Password field.";
+			//				$post_data['work_phone'] = format_phone($post_data['work_phone']);
+			//				if( strlen($post_data['work_phone']) != 14 )
+			//					$error_messages[] = "Phone field must have 10 digits.";
+			//				if( $post_data['state_province'] == "" )
+			//					$error_messages[] = "State/Province selection missing.";
+			//				if( !isZip($post_data['postal_code']) )
+			//					$error_messages[] = "Zip Code cannot be empty.";
+			// setup the new user!
+			if(isset($post_data["card_number"])){
+				$u = new User();
+		
+				$data['source_key'] = $usa_epay_source_key;
+				$data['source_pin'] = $usa_epay_pin;
+				$data['payment_info'] = "Strategic Scrap :: ";
+				
+				$post_data["trans_amount"] = "699.00";
+				$post_data["trans_description"] = "Annual Membership";
+				$post_data["recurring"] = true;
+				$post_data["trans_recur_description"] = "Strategic Scrap Annual Membership Renewal";
+				$post_data["trans_recur_enabled"] = "Yes";
+				$post_data["trans_recur_schedule"] = "Annually";
+				$p = new Payment($data);
+				
+				$transaction = $p->send_payment_transaction_soap($post_data);
+				//$u->PTS($transaction, "TRANSACTION");
+				if($transaction["success"]){
+					$post_data["customer_number"] = (string)$transaction["customernumber"];	
+					$post_data["payment_method_status"] = 1;		
+				} else {
+					$error_messages[] = $transaction["error"];
+				}
+				//$u->PTS($post_data, "POST DATA");
+				//die();
+			}
+			if(count($error_messages) == 0) {
+				$post_data['salt'] = $u->GetSalt($post_data['email']);
+				$post_data['password'] = $u->SetPassword($post_data['password'], $post_data['salt']);
+				$u = new User();
+				$newUser = $u->CreateItem($post_data);
+				if ( $newUser && !isset($_GET['broker']) ) {
+					$post_data['subscription_start_date'] = date("Y-m-d 00:00:00",strtotime("+1 day",time()));
+					// promotion check
+					if ( isset($PROMOTION) && !empty($PROMOTION) ) {
+						$post_data['subscription_type'] = $PROMOTION;
+						$post_data['subscription_end_date'] = date("Y-m-d 00:00:00",strtotime($PROMOTION,strtotime($post_data['subscription_start_date'])));
+					} else {
+						$post_data['subscription_type'] = $SUBSCRIPTION_DURATION;
+						$post_data['subscription_end_date'] = date("Y-m-d 00:00:00",strtotime($SUBSCRIPTION_DURATION,strtotime($post_data['subscription_start_date'])));
+					}
+					$post_date['status'] = 'ACTIVE';
+					// setup the new scrapper!
+					$s = new Scrapper();
+					$newScrapper = $s->CreateItem($post_data);
+					$scrapper = $s->GetItemObj($newScrapper->newId);
+					$scrapper->addUser($newUser->newId);
+					// send welcome email to user
+					$object['fname'] = $scrapper->first_name;
+					$object['lname'] = $scrapper->last_name;
+					$object['email'] = $newUser->email;
+					Mailer::welcome_email($object);
+					Mailer::mail_chimp_subscribe($object); 
+					//						flash("Welcome to Strategic Scrap! You have successfully been registered. Use the sign-in form above to get started.");
+					redirect_to('/');
+					//						die(print_r($scrapper));
+				} else {
+					// setup the new broker!
+					$b = new Broker();
+					$newBroker = $b->CreateItem($post_data);
+					$broker = $b->GetItemObj($newBroker->newId);
+					$broker->addUser($newUser->newId);
+					//						flash("Welcome to Strategic Scrap! You have successfully been registered. Use the sign-in form above to get started.");
+					redirect_to('/');
+					//						die(print_r($broker));
+				}
+			} else {
+				flash($error_messages,'bad');
+				$_SESSION['post_data_'.$controller_action] = $post_data;
+				redirect_to('/scrap-registration');
+				//					die("Hmmmm. something didn't work right.");
+			}
+		}
+		//the layout file  -  THIS PART NEEDS TO BE LAST
+		require($_SERVER['DOCUMENT_ROOT']."/views/layouts/shell.php");
+		break;
+		
 
 	/* REGISTER **************************************** */
 	case 'scrap-registration':
@@ -900,13 +1059,14 @@ switch($controller_action){
 			require($_SERVER['DOCUMENT_ROOT']."/views/layouts/shell.php");
 		}
 		break;
-/* MY ACCOUNT SETTINGS **************************************** */
+/* PAYMENT INFORMATION **************************************** */
 	case 'payment-information':
 		require_ssl();
 		if(!$gir->auth->authenticate()){
 			$message = array();
 			$message[] = "You need to login to update your Payment Information.";
 			flash($message,'bad');
+			$_SESSION["redirect_url"] = "/payment-information";
 			redirect_to('/');
 		} else {
 			$PAGE_BODY = "views/payment_information.php";  	/* which file to pull into the template */
@@ -914,7 +1074,7 @@ switch($controller_action){
 			// grab user object
 			$user = new User();
 			$user->GetItemObj( $_SESSION['user']['id'] );
-				
+			
 			$data['source_key'] = $usa_epay_source_key;
 			$data['source_pin'] = $usa_epay_pin;
 			$data['payment_info'] = "Strategic Scrap :: ";
@@ -928,6 +1088,25 @@ switch($controller_action){
 			$item = new $group();
 			$joins = $item->ReadForeignJoins( $user );
 			$item->GetItemObj( $joins[0]['id'] );
+			//$user->PTS($item);
+			
+			if(isset($_GET["expired_check"])){
+				
+				$check_date = (isset($_GET["check_date"]) ? $_GET["check_date"] : "2011-06-27");
+				echo "Checking for Scappers expiring on or before [ " . $check_date . " ]<br />";
+				$expired = $item->getExpiredScrappers($check_date,0);
+				foreach($expired as $e){
+					$row["fname"] = $e->first_name ;
+					$row["lname"] = $e->last_name;
+					$row["customer_number"] = $e->customer_number;
+					$row["end_date"] = $e->subscription_end_date;
+					$row["new_end_date"] = $check_date;
+					$row["scrapper_id"] = $e->id;
+					
+					$expire_check[] = $row;
+				}
+				$user->PTS($expire_check);
+			}	
 			
 			if(isset($_GET["expire_check"])){
 				//echo "start: " . time();
@@ -995,7 +1174,6 @@ switch($controller_action){
 				
 				if($transaction["success"]){
 					
-					
 					flash( array($transaction["message"]));
 					$obj = new Scrapper();
 					$obj->GetItemObj($item->id);
@@ -1006,6 +1184,7 @@ switch($controller_action){
 					if(isset($transaction["customernumber"])){
 						$obj->customer_number = (string)$transaction["customernumber"];
 						$obj->subscription_type = "paid";
+						$obj->subscription_end_date = date("Y-m-d 00:00:00",strtotime("+1 year",strtotime($obj->subscription_end_date)));
 						$_SESSION["user"]["customer_number"] = $transaction["customernumber"];
 						//$user->PTS($obj);
 					}

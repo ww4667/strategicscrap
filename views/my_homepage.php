@@ -214,16 +214,22 @@
 								</tr>
 								<?
 								$i=0;
-								foreach ($market_data as $lbl => $val) {
+								if(!empty($market_data)){
+									foreach ($market_data as $lbl => $val) {
+									?>
+									<tr<?=$i%2?' class="row2"':""?>>
+									    <td><?=$lbl?></td>
+									    <td><?=$val['cash']?></td>
+									    <td><?=$val['3 month']?></td>
+									    <td><?=$val['15 month']?></td>
+									</tr>
+									<?
+									$i++;
+									}
+								} else {
 								?>
-								<tr<?=$i%2?' class="row2"':""?>>
-								    <td><?=$lbl?></td>
-								    <td><?=$val['cash']?></td>
-								    <td><?=$val['3 month']?></td>
-								    <td><?=$val['15 month']?></td>
-								</tr>
+									<tr><td colspan = "4" style ="padding-top: 80px; text-align: center;">There was an error loading the data</td></tr>
 								<?
-								$i++;
 								}
 								?>
 								</table>
@@ -236,8 +242,11 @@
 						<div id="regionalPricing" class="oneColMod"><div class="moduleTop"><!-- IE hates empty elements --></div>
 							<div class="moduleContent">
 								<h3>Regional Ferrous Pricing</h3>
-								<hr />
-								<p style="padding-bottom:10px">Updated: <?= isset($pricing_timestamp) ? $pricing_timestamp : "demo data"?></p>
+								<hr style="margin-bottom: 0" />
+								<div id="marketData-wrapper" style="position: relative">
+								<div id="marketData-pane" style="position: relative; margin-bottom: 10px">
+								<div id="marketData-content">
+								<p style="padding-bottom:10px; padding-top:10px">Updated: <?= isset($pricing_timestamp) ? $pricing_timestamp : "demo data"?></p>
 								<table>
 									<tr class="row2">
 									    <th>SCRAP TYPE</th>
@@ -316,6 +325,9 @@
 									</tr>
 									<? } ?>
 								</table>
+								</div>
+								</div>
+								</div>
 								<p>All prices are shown in US dollars per gross ton(GT) or (2,240lbs) of material delivered to the consumer unless otherwise noted.</p>
 							</div><div class="moduleBottom"><!-- IE hates empty elements --></div>
 						</div>
