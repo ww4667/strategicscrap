@@ -1,6 +1,6 @@
 
 
-<script type="text/javascript" src="http://ajax.microsoft.com/ajax/jquery.validate/1.6/jquery.validate.min.js"></script> 
+<script type="text/javascript" src="https://ajax.microsoft.com/ajax/jquery.validate/1.6/jquery.validate.min.js"></script> 
 <p>Your Payment Information.</p>
 <form action="" class="clearfix" method="post" id="payment_change">
 <!-- <input name="id" type="hidden" value="<?=$item->id?>" /> -->

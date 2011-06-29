@@ -29,7 +29,7 @@
 	----------------------------------------------------- */
 	//using "subscription_end_date" find all users that are exactly "X" days from expiring
 	$scrapper = new Scrapper();
-	$scrappers = $scrapper->getScrappersUpForRenewal(date("Y-m-d 00:00:00"), 30);
+	$scrappers = $scrapper->getScrappersUpForRenewal(date("Y-m-d 00:00:00"), 7);
 	
 	foreach($scrappers as $s){
 		//send each an email reminder
@@ -37,7 +37,7 @@
 		$object['lname'] = $s->last_name;
 		$object['email'] = $s->email;
 		
-		Mailer::expire_reminder_30($object);
+		Mailer::expire_reminder_7($object);
 		sleep(1);
 	}
 		

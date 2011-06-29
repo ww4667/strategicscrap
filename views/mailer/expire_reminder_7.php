@@ -1,12 +1,11 @@
 
-		<h2><strong>Your Payment Method has Expired.</strong><br></h2>
+		<h2><strong><?=$object['fname']?>, how's your free trial treating you?</strong><br></h2>
           <table width="95%" border="0" cellspacing="0" cellpadding="10">
             <tr>
               <td bgcolor="#F5F5F5" style="background-color:#F5F5F5;font-size:12px;font-family:Arial, Helvetica, sans-serif;line-height:20px;color:#666">
 				<!--BODY CONTENT START-->
-				<p><b><?= $object["fname"] ?> <?= $object["lname"] ?>,</b></p>
-				 <p>Your membership will expire on - <?= $object["end_date"] ?> - and your payment method has expired, or will expire before the subscription is renewed.</p>
-				 <p>Please login at <a href="https://strategicscrap.com/payment-information">Click Here</a> to and update your payment method.</p>
+				 <p>This is just a friendly reminder that you have 7 days left on your StrategicScrap.com free trial.</p>
+				 <p><a href="https://strategicscrap.com/payment-information">Click Here</a> to add your payment information and extend your membership.</p>
 				<!--BODY CONTENT END-->
 				</td>
               </tr>

@@ -62,12 +62,28 @@ class Mailer{
 		$mail->send();
 	}
 
+	static function expire_reminder_7($i_object){
+		$mail = new Zend_Mail();
+		$mail->setFrom('do_not_reply@strategicscrap.com', 'Strategic Scrap');
+
+		$mail->setSubject("Your Strategic Scrap Trial Is Almost Over - Renew Today!");
+		$mail->setBodyText("This is just a friendly reminder to let you know that you have 7 Days Left in your Strategic Scrap free trial. Don't miss out on all sorts of great stuff! Visit https://strategicscrap.com/payment-information enter your payment information and continue your membership!");
+		$mail->addTo($i_object['email'], $i_object['fname'] . " " . $i_object['lname']);
+		
+		//include_user_message_body(TEMPLATE_TO_USE, BODY_FILE_TO_USE, OBJECT_FOR_POPULATING_EMAIL_CONTENTS)
+		$message = Mailer::include_user_message_body("base_template","expire_reminder_7",$i_object); //the template to use from /views/mailer (minus the ".php")
+		
+		//setting both bodyText AND bodyHtml sends a multipart message for people with text vs. html
+		$mail->setBodyHtml($message);
+		$mail->send();
+	}
+
 	static function expire_reminder_0($i_object){
 		$mail = new Zend_Mail();
 		$mail->setFrom('do_not_reply@strategicscrap.com', 'Strategic Scrap');
 
 		$mail->setSubject("Your Strategic Scrap Trial Is Over - Renew Today!");
-		$mail->setBodyText("There's still time to renew! We value your membership, and we are extending an incredible offer to you. Visit http://strategicscrap.com to find out more. Don't miss out!");
+		$mail->setBodyText("There's still time to renew! We value your membership, and we are extending an incredible offer to you. Visit https://strategicscrap.com/payment-information to enter your payment information. Don't miss out!");
 		$mail->addTo($i_object['email'], $i_object['fname'] . " " . $i_object['lname']);
 		
 		//include_user_message_body(TEMPLATE_TO_USE, BODY_FILE_TO_USE, OBJECT_FOR_POPULATING_EMAIL_CONTENTS)
@@ -82,8 +98,8 @@ class Mailer{
 		$mail = new Zend_Mail();
 		$mail->setFrom('do_not_reply@strategicscrap.com', 'Strategic Scrap');
 
-		$mail->setSubject("Your Strategic Scrap Payment Method has Expired- Update Today!");
-		$mail->setBodyText("in order for your subscription to renew, you need to login and update your payment method as it has expired.");
+		$mail->setSubject("Your Strategic Scrap Payment Method has Expired - Update Today!");
+		$mail->setBodyText("In order for your subscription to renew, you need to visit https://strategicscrap.com/payment-information and update your payment method as it has expired.");
 		$mail->addTo($i_object['email'], $i_object['fname'] . " " . $i_object['lname']);
 		
 		//include_user_message_body(TEMPLATE_TO_USE, BODY_FILE_TO_USE, OBJECT_FOR_POPULATING_EMAIL_CONTENTS)
