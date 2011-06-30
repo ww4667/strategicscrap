@@ -29,7 +29,7 @@ class Scrapper extends User {
 											array("type"=>"date","label"=>"Subscription End Date","field"=>"subscription_end_date"),
 											array("type"=>"text","label"=>"Subscription Type","field"=>"subscription_type"),
 											array("type"=>"text","label"=>"USAEPAY Customer Number","field"=>"customer_number"),
-											array("type"=>"number","label"=>"Payment Method Status","field"=>"payment_method_status"),
+											array("type"=>"number","label"=>"Payment Method Status","field"=>"payment_method_status"),/* 0 - not paid, 1 - current, 2 - expired card needs updated */
 											array("type"=>"text","label"=>"Account Settings","field"=>"account_settings")
 										);
 	
