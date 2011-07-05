@@ -170,7 +170,7 @@ switch($controller_action){
 			if( $subscription_type == "paid" ) {
 				
 				// begin new market data		
-				if($_GET['test']){
+//				if($_GET['test']){
 					
 					$cache_file = $_SERVER['DOCUMENT_ROOT']."/cache/new-market-data.cache";
 					$market_json_tmp = json_decode(file_get_contents($cache_file));
@@ -199,44 +199,47 @@ switch($controller_action){
 					$market_json_new = json_decode(file_get_contents($cache_file));
 					$market_json = ($market_json_new) ? $market_json_new : $market_json_tmp; 
 					$market_data_timestamp = date("M d, Y, h:ia",filemtime($cache_file))." CST (delayed)";
+
 				// end new market data		
-				} else {
+//				} else {
 					
-				$cache_file = $_SERVER['DOCUMENT_ROOT']."/cache/delayed-market-data.cache";
-				$last = filemtime($cache_file);
-			    $now = time();
-			    $interval = 900; //seconds
-			    // check the cache file
-				if ( !$last || ( $now - $last ) > $interval ) {
-					// cached file is missing or too old, refreshing it
-					
-					
-					$live_market_data = array(
-						"LME Copper" => getLmeData("CU","strip"),
-						"LME Aluminium" => getLmeData("AM","strip"),
-						"LME Nickel" => getLmeData("NI","strip"),
-						"LME Zinc" => getLmeData("ZZ","strip"),
-						"LME Lead" => getLmeData("LD","strip"),
-						"LME Tin" => getLmeData("TN","strip"),
-						"COMEX Copper" => getComexData("HG")
-					);
-					
-					// check for good feed
-					$test = $live_market_data['LME Copper']['cash'];
-					if ($test > 0 && !empty($test) ) {
-						$cache_content = json_encode($live_market_data);
-				        if ( $cache_content ) {
-				            // we got something back
-				            $cache_static = fopen($cache_file, 'wb');
-				            fwrite($cache_static, $cache_content);
-				            fclose($cache_static);
-				        }
-						
-					}
-				}
-				$market_data = json_decode(file_get_contents($cache_file),true);
-				$market_data_timestamp = date("M d, Y, h:ia",filemtime($cache_file))." CST (delayed)";
-				}
+//				$cache_file = $_SERVER['DOCUMENT_ROOT']."/cache/delayed-market-data.cache";
+//				$last = filemtime($cache_file);
+//			    $now = time();
+//			    $interval = 900; //seconds
+//			    // check the cache file
+//				if ( !$last || ( $now - $last ) > $interval ) {
+//					// cached file is missing or too old, refreshing it
+//					
+//					
+//					$live_market_data = array(
+//						"LME Copper" => getLmeData("CU","strip"),
+//						"LME Aluminium" => getLmeData("AM","strip"),
+//						"LME Nickel" => getLmeData("NI","strip"),
+//						"LME Zinc" => getLmeData("ZZ","strip"),
+//						"LME Lead" => getLmeData("LD","strip"),
+//						"LME Tin" => getLmeData("TN","strip"),
+//						"COMEX Copper" => getComexData("HG")
+//					);
+//					
+//					// check for good feed
+//					$test = $live_market_data['LME Copper']['cash'];
+//					if ($test > 0 && !empty($test) ) {
+//						$cache_content = json_encode($live_market_data);
+//				        if ( $cache_content ) {
+//				            // we got something back
+//				            $cache_static = fopen($cache_file, 'wb');
+//				            fwrite($cache_static, $cache_content);
+//				            fclose($cache_static);
+//				        }
+//						
+//					}
+//				}
+//				$market_data = json_decode(file_get_contents($cache_file),true);
+//				$market_data_timestamp = date("M d, Y, h:ia",filemtime($cache_file))." CST (delayed)";
+
+				// end test if
+//				}
 				
 			} else {
 				$cache_file = $_SERVER['DOCUMENT_ROOT']."/cache/static-market-data.cache";

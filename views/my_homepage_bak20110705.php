@@ -16,6 +16,9 @@
 				<div class="leftCol">
 					<div class="lowerArea">
 						<div id="marketData" class="twoColMod" style="position:relative;"><div class="moduleTop"><!-- IE hates empty elements --></div>
+						<? if (isset($_GET["test"])) { 
+								// $market_json = json_decode('{"cash":[{"material":"LME Copper","last":"4.23","high":"4.23","low":"4.19","open":"4.22","change":".01","change_percent":"0.23%"},{"material":"LME Aluminum","last":"4.21","high":"4.23","low":"4.19","open":"4.22","change":"-.01","change_percent":"-0.23%"},{"material":"LME Nickel","last":"4.22","high":"4.22","low":"4.19","open":"4.22","change":".00","change_percent":"0.00%"},{"material":"LME Zinc","last":"4.23","high":"4.23","low":"4.19","open":"4.22","change":".01","change_percent":"0.23%"},{"material":"LME Lead","last":"4.23","high":"4.23","low":"4.19","open":"4.22","change":".01","change_percent":"0.23%"},{"material":"LME Tin","last":"4.23","high":"4.23","low":"4.19","open":"4.22","change":".01","change_percent":"0.23%"},{"material":"COMEX Copper ","last":"4.23","high":"4.23","low":"4.19","open":"4.22","change":".01","change_percent":"0.23%"}],"three_month":[{"material":"LME Copper","last":"4.28","high":"4.28","low":"4.19","open":"4.22","change":".01","change_percent":"0.23%"},{"material":"LME Aluminum","last":"4.28","high":"4.28","low":"4.19","open":"4.22","change":".01","change_percent":"0.23%"},{"material":"LME Nickel","last":"4.28","high":"4.28","low":"4.19","open":"4.22","change":".01","change_percent":"0.23%"},{"material":"LME Zinc","last":"4.28","high":"4.28","low":"4.19","open":"4.22","change":".01","change_percent":"0.23%"},{"material":"LME Lead","last":"4.28","high":"4.28","low":"4.19","open":"4.22","change":".01","change_percent":"0.23%"},{"material":"LME Tin","last":"4.28","high":"4.28","low":"4.19","open":"4.22","change":".01","change_percent":"0.23%"},{"material":"COMEX Copper ","last":"4.28","high":"4.28","low":"4.19","open":"4.22","change":".01","change_percent":"0.23%"}],"fifteen_month":[{"material":"LME Copper","last":"4.34","high":"4.34","low":"4.19","open":"4.22","change":".01","change_percent":"0.23%"},{"material":"LME Aluminum","last":"4.34","high":"4.34","low":"4.19","open":"4.22","change":".01","change_percent":"0.23%"},{"material":"LME Nickel","last":"4.34","high":"4.34","low":"4.19","open":"4.22","change":".01","change_percent":"0.23%"},{"material":"LME Zinc","last":"4.34","high":"4.34","low":"4.19","open":"4.22","change":".01","change_percent":"0.23%"},{"material":"LME Lead","last":"4.34","high":"4.34","low":"4.19","open":"4.22","change":".01","change_percent":"0.23%"},{"material":"LME Tin","last":"4.34","high":"4.34","low":"4.19","open":"4.22","change":".01","change_percent":"0.23%"},{"material":"COMEX Copper ","last":"4.34","high":"4.34","low":"4.19","open":"4.22","change":".01","change_percent":"0.23%"}]}');
+?>
 
 <style>
 
@@ -194,6 +197,44 @@
 									<br class = 'clearAll' /></div>
 							</div>
 
+						<? } else { ?>
+							<div class="moduleContent">
+								<h3>Market Data</h3>
+								<div class="updated-timestamp">Updated: <?=$market_data_timestamp?></div>
+								<div class="more">
+									<div class="refreshBtn"><a id="reloadRequestsMD">refresh</a></div>
+								</div>
+								<hr style="margin-bottom:0" />
+								<table>
+								<tr class="row2">
+								    <th>USD/LB</th>
+								    <th>CASH</th>
+								    <th>3 MONTH</th>
+								    <th>15 MONTH</th>
+								</tr>
+								<?
+								$i=0;
+								if(!empty($market_data)){
+									foreach ($market_data as $lbl => $val) {
+									?>
+									<tr<?=$i%2?' class="row2"':""?>>
+									    <td><?=$lbl?></td>
+									    <td><?=$val['cash']?></td>
+									    <td><?=$val['3 month']?></td>
+									    <td><?=$val['15 month']?></td>
+									</tr>
+									<?
+									$i++;
+									}
+								} else {
+								?>
+									<tr><td colspan = "4" style ="padding-top: 80px; text-align: center;">There was an error loading the data</td></tr>
+								<?
+								}
+								?>
+								</table>
+							</div>
+							<? } ?>
 							<div class="moduleBottom"><!-- IE hates empty elements --></div>	
 						</div>
 					</div>
@@ -752,7 +793,9 @@ function reloadRequests(){
         });
        
         $('#latestNews').tabs();
+	<? if (isset($_GET["test"])) { ?>
         $('#marketData').tabs();
+	<? } ?>
 
       });
 </script>
