@@ -62,7 +62,8 @@ class Payment {
 		$item = array();
 		
 		//for live server use 'www' for test server use 'sandbox'0AE595C1
-	  	$wsdl='http://sandbox.usaepay.com/soap/gate/0AE595C1/usaepay.wsdl';
+//	  	$wsdl='http://sandbox.usaepay.com/soap/gate/0AE595C1/usaepay.wsdl';
+	  	$wsdl='http://www.usaepay.com/soap/gate/0AE595C1/usaepay.wsdl';
 	 
 	  	// instantiate SoapClient object as $client
 	  	$client = new SoapClient($wsdl);

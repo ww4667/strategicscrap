@@ -20,6 +20,11 @@ switch($controller_action){
 			$message = array();
 			$message[] = "You need to be logged in as a scrapper to use this feature.";
 			flash($message,'bad');
+		} elseif ($_SESSION['user']['status'] == "EXPIRED") {
+			$message = array();
+			$message[] = "Your subscription has expired. Add your payment information to continue using your StrategicScrap.com account.";
+			flash($message,'bad');
+			redirect_to('/payment-information');
 		} else {
 			// page 'template variables'
 			$PAGE_BODY = "views/my_homepage.php";  	/* which file to pull into the template */
@@ -355,6 +360,11 @@ switch($controller_action){
 			$message = array();
 			$message[] = "You need to be logged in as a scrapper to use this feature.";
 			flash($message,'bad');
+		} elseif ($_SESSION['user']['status'] == "EXPIRED") {
+			$message = array();
+			$message[] = "Your subscription has expired. Add your payment information to continue using your StrategicScrap.com account.";
+			flash($message,'bad');
+			redirect_to('/payment-information');
 		} else {
 			if ( isset($_SESSION['user']['new']) ) { // zip and address check to use system
 				redirect_to('/my-account');
@@ -623,6 +633,14 @@ switch($controller_action){
 						if ( !$obj->isAddressSet() ) {// zip and address check to use system
 							$_SESSION['user']['new'] =  1;
 							redirect_to('/my-account');
+						}
+						
+						if ( $obj->status == "EXPIRED" ) {// zip and address check to use system
+							$_SESSION['user']['status'] =  "EXPIRED";
+							$message = array();
+							$message[] = "Your subscription has expired. Add your payment information to continue using your StrategicScrap.com account.";
+							flash($message,'bad');
+							redirect_to('/payment-information');
 						}
 						
 						// find what region scrapper belongs to.
@@ -1188,6 +1206,8 @@ switch($controller_action){
 						$obj->customer_number = (string)$transaction["customernumber"];
 						$obj->subscription_type = "paid";
 						$obj->subscription_end_date = date("Y-m-d 00:00:00",strtotime("+1 year",strtotime($obj->subscription_end_date)));
+						$obj->status = "";
+						unset($_SESSION['user']['status']);
 						$_SESSION["user"]["customer_number"] = $transaction["customernumber"];
 						//$user->PTS($obj);
 					}

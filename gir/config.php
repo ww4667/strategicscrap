@@ -20,8 +20,8 @@ $defaultModule = "facility";
 // $dbUsername = "root";
 // $dbPassword = "";
 
-//$usa_epay_source_key 	= "m9I9GmBoXwMpKNuNAO7Vb5uo9lMjkZ78";
-$usa_epay_source_key 	= "KewO3jn8Gtqxizo1ATEPbnkOZl2ZJ7S8"; //slash test key for scrap
+$usa_epay_source_key 	= "m9I9GmBoXwMpKNuNAO7Vb5uo9lMjkZ78";
+//$usa_epay_source_key 	= "KewO3jn8Gtqxizo1ATEPbnkOZl2ZJ7S8"; //slash test key for scrap
 $usa_epay_pin			= "2580";
 
 // VDC vars...

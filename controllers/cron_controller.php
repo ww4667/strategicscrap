@@ -32,6 +32,12 @@
 	$scrappers = $scrapper->getScrappersUpForRenewal(date("Y-m-d 00:00:00"), 7);
 	
 	foreach($scrappers as $s){
+		echo count($scrappers);
+		echo "<br />";
+		echo $s->status;
+		echo "<br />";
+		echo $s->subscription_type;
+		
 		//send each an email reminder
 		$object['fname'] = $s->first_name;
 		$object['lname'] = $s->last_name;
@@ -49,17 +55,23 @@
 	$scrappers = $scrapper->getScrappersUpForRenewal(date("Y-m-d 00:00:00"), 0);
 	
 	foreach($scrappers as $s){
+		echo count($scrappers);
+		echo "<br />";
+		echo $s->status;
+		echo "<br />";
+		echo $s->subscription_type;
+
 		//send each an email reminder
 		$object['fname'] = $s->first_name;
 		$object['lname'] = $s->last_name;
 		$object['email'] = $s->email;
 		
-		Mailer::expire_reminder_0($object);
-		sleep(1);
+//		Mailer::expire_reminder_0($object);
+//		sleep(1);
 	
 		//change status
-		$s->status = "EXPIRED";
-		unset($s->email); // because it gets added to the db for the scrapper object somehow otherwise.
-		$s->UpdateItem();
+//		$s->status = "EXPIRED";
+//		unset($s->email); // because it gets added to the db for the scrapper object somehow otherwise.
+//		$s->UpdateItem();
 	}
 ?>
