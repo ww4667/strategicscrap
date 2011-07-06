@@ -210,6 +210,15 @@ function controller_remote( $_controller_remote_method = null,
 
 				// save to the request
 				$request->UpdateItem();
+				
+				if( $post_data['send_broker_email'] ) {
+					include_once($_SERVER['DOCUMENT_ROOT'].'/models/Mailer.php');
+					$s = new Scrapper();
+					$scrapper = $s->GetItemObj($post_data['user_id']);
+					$scrapper->GetUsers();
+					$request->user = $scrapper->join_user[0];
+					Mailer::scrap_broker_request($request);
+				}
 				//$crud->PTS($json);
 				//$crud->PTS($post_data);
 				print '{message:"The request was successful",success:true}';

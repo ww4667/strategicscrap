@@ -5,6 +5,7 @@
 				<!--BODY CONTENT START-->
 				 <p>The details of your bid request are below. Contact the requester directly with your bid for this request.</p>
 				 <h3>Request Details:</h3>
+				 <p><strong>Company:</strong> <? echo $object->request_snapshot['scrapper']['company'] ?></p>
 				 <p><strong>Contact:</strong> <? echo $object->request_snapshot['scrapper']['first_name'] ?> <? echo $object->request_snapshot['scrapper']['last_name'] ?></p>
 				 <p><strong>Phone:</strong> <? echo isset($object->request_snapshot['from']) ? $object->request_snapshot['from']['from_work_phone'] : $object->request_snapshot['scrapper']['work_phone'] ?><br />
 				 <strong>Email:</strong> <? echo $object->user['email'] ?></p>

@@ -67,6 +67,7 @@ if(!$gir->auth->authenticate()){
 						<hr />
 						<p>This request form will be sent to our transportation network for shipping quotes. <br/>
 						A pricing request will also be sent to the scrap broker listed below via email. Scrap brokers will contact you at their discretion.</p>	
+						<?php  $send_broker_email = true; ?>
 				<? 		} else { ?>
 						<h2>TRANSPORTATION REQUEST</h2>
 						<hr />
@@ -89,6 +90,7 @@ if(!$gir->auth->authenticate()){
 							<hr />
 							<strong>Shippers Address:</strong>
 							<br />
+							<input type = "hidden" id = "send_broker_email" name = "send_broker_email" value = "<?php echo ($send_broker_email) ? "true" : "false" ?> ?>" />
 							<input type = "checkbox" class = "enable_fields" data-fieldset="from_information" />Change Information<br />
 							<input type = "hidden" id = "edit_from_information" name = "edit_from_info" value = "false" />
 							<div id = "from_information">
@@ -329,7 +331,7 @@ if(!$gir->auth->authenticate()){
 						$("#arrive_date").val() != "" ) {
 <?
 					$field_list  = "";
-					$fields_to_post = array("transportation_type", "edit_from_information", "edit_to_information", "volume", "user_id", "facility_id", "material_id", "transportation_id", "ship_date", "arrive_date", "special_instructions", "edit_from_information", "edit_to_information", "from_address_1", "from_address_2", "from_city", "from_state_province", "from_postal_code", "from_work_phone", "from_fax_number", "to_company", "to_address_1", "to_address_2", "to_city", "to_state_province", "to_zip_postal_code", "to_country");
+					$fields_to_post = array("send_broker_email", "transportation_type", "edit_from_information", "edit_to_information", "volume", "user_id", "facility_id", "material_id", "transportation_id", "ship_date", "arrive_date", "special_instructions", "edit_from_information", "edit_to_information", "from_address_1", "from_address_2", "from_city", "from_state_province", "from_postal_code", "from_work_phone", "from_fax_number", "to_company", "to_address_1", "to_address_2", "to_city", "to_state_province", "to_zip_postal_code", "to_country");
 					?>
 						            	
 					$.post("/controllers/remote/?method=addRequest&", 

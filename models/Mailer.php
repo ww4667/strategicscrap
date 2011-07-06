@@ -148,10 +148,13 @@ class Mailer{
 		$mail->setSubject("Strategic Scrap :: A bid request has been submitted from the Scrap Exchange");
 
 		// Set plain text for email
-		$request = $i_object->request_snapshot;
+		$request = json_decode($i_object->request_snapshot,true);
+		$i_object->request_snapshot = $request;
 		$body_text = "The details of your bid request are below. Contact the requester directly with your bid for this request.";
 		$body_text .= "\r\n\r\n";
 		$body_text .= "Details:";
+		$body_text .= "\r\n";
+		$body_text .= "Company: " . $request['scrapper']['company'];
 		$body_text .= "\r\n";
 		$body_text .= "Contact: " . $request['scrapper']['first_name'] . " " . $request['scrapper']['last_name'];
 		$body_text .= "\r\n\r\n";
@@ -163,23 +166,6 @@ class Mailer{
 		$body_text .= "\r\n";
 		$body_text .= "Volume: " . $i_object->volume;
 		$body_text .= "\r\n\r\n";
-//		$body_text .= "Ship from:";
-//		$body_text .= "\r\n";
-//		$body_text .= $request['scrapper']['company'];
-//		$body_text .= "\r\n";
-//		$body_text .= $request['scrapper']['address_1'] . ", " . $request['scrapper']['address_2'] . ", " . $request['scrapper']['city'] . ", " . $request['scrapper']['state_province'] . " " . $request['scrapper']['postal_code'];
-//		$body_text .= "\r\n\r\n";
-//		$body_text .= "Ship to:";
-//		$body_text .= $request['facility']['company'];
-//		$body_text .= "\r\n";
-//		$body_text .= $request['facility']['address_1'] . ", " . $request['facility']['address_2'] . ", " . $request['facility']['city'] . ", " . $request['facility']['state_province'] . " " . $request['facility']['zip_postal_code'];
-//		$body_text .= "\r\n\r\n";
-//		$body_text .= "Transportation Type: " . $request['transportation_type'];
-//		$body_text .= "\r\n";
-//		$body_text .= "Ship on or before: " . $request['ship_date'];
-//		$body_text .= "\r\n";
-//		$body_text .= "Deliver on or before: " . $request['deliver_date'];
-//		$body_text .= "\r\n";
 		$body_text .= "Special Instructions:";
 		$body_text .= "\r\n";
 		$body_text .= $i_object->special_instructions;

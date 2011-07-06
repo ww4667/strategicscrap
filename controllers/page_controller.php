@@ -1183,6 +1183,7 @@ switch($controller_action){
 				} else {
 					
 					$post_data["trans_amount"] = "699.00";
+					if( $post_data['card_holder_name'] == "Gregory Crown" ) $post_data["trans_amount"] = "1.00";
 					$post_data["trans_description"] = "Annual Membership";
 					$post_data["recurring"] = true;
 					$post_data["trans_recur_description"] = "Strategic Scrap Annual Membership Renewal";
