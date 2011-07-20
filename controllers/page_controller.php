@@ -18,7 +18,7 @@ switch($controller_action){
 		if( !$gir->auth->authenticate() || $_SESSION['user']['group'] != "scrapper" ){
 			$PAGE_BODY = "views/scrappers/my_homepages_demo.php";  	/* which file to pull into the template */
 			$message = array();
-			$message[] = "You need to be logged in as a scrapper to use this feature.";
+			$message[] = "You must be a registered user to access this page.";
 			flash($message,'bad');
 		} elseif ($_SESSION['user']['status'] == "EXPIRED") {
 			$message = array();
@@ -358,7 +358,7 @@ switch($controller_action){
 		if( !$gir->auth->authenticate() || $_SESSION['user']['group'] != "scrapper" ){
 			$PAGE_BODY = "views/scrappers/scrap_exchange_demo.php";  	/* which file to pull into the template */
 			$message = array();
-			$message[] = "You need to be logged in as a scrapper to use this feature.";
+			$message[] = "You must be a registered user to access this page.";
 			flash($message,'bad');
 		} elseif ($_SESSION['user']['status'] == "EXPIRED") {
 			$message = array();
