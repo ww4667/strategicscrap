@@ -4,7 +4,7 @@
 	}
 	
 	require_once($_SERVER['DOCUMENT_ROOT']."/gir/index.php");
-	include_once($_SERVER['DOCUMENT_ROOT'].'/models/Mailer.php');
+	require_once($_SERVER['DOCUMENT_ROOT'].'/models/Mailer.php');
 	
 	/* --------------------------------------------------
 	Find All Requests That Are NOT "complete" or "expired"
@@ -52,7 +52,7 @@
 	----------------------------------------------------- */
 	//using "subscription_end_date" find all users that expired today
 	$scrapper = new Scrapper();
-	$scrappers = $scrapper->getScrappersUpForRenewal(date("Y-m-d 00:00:00"), 0);
+	$scrappers = $scrapper->getExpiredScrappers(date("Y-m-d 00:00:00"), 0);
 	
 	foreach($scrappers as $s){
 		echo count($scrappers);
@@ -66,12 +66,12 @@
 		$object['lname'] = $s->last_name;
 		$object['email'] = $s->email;
 		
-//		Mailer::expire_reminder_0($object);
-//		sleep(1);
+		Mailer::expire_reminder_0($object);
+		sleep(1);
 	
 		//change status
-//		$s->status = "EXPIRED";
-//		unset($s->email); // because it gets added to the db for the scrapper object somehow otherwise.
-//		$s->UpdateItem();
+		$s->status = "EXPIRED";
+		unset($s->email); // because it gets added to the db for the scrapper object somehow otherwise.
+		$s->UpdateItem();
 	}
 ?>
