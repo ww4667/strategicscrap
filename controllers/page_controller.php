@@ -247,6 +247,11 @@ switch($controller_action){
 //				}
 				
 			} else {
+				// set message for trial accounts
+				$message = array();
+				$message[] = 'Are you enjoying your free trial? <a href="/payment-information">Upgrade your account today!</a><br />Preview a sample of the <a id="grid-sample" href="/resources/images/market_data_grid_sample.gif">Market Data Grid</a> for paid accounts.';
+				flash($message);
+				
 				$cache_file = $_SERVER['DOCUMENT_ROOT']."/cache/static-market-data.cache";
 				$feed_url = "https://strategicscrap.com/static-market-data";
 				$test_market_data = get_cached_file($cache_file, 900, $feed_url);
@@ -369,6 +374,16 @@ switch($controller_action){
 			if ( isset($_SESSION['user']['new']) ) { // zip and address check to use system
 				redirect_to('/my-account');
 			}
+			// check if trial account and set message
+			$s = new Scrapper();
+			$user_id = $_SESSION['user']['id'];
+			$scrapper = $s->getScrapperByUserId($user_id);
+			if( $scrapper->subscription_type != "paid" ) {
+				$message = array();
+				$message[] = 'Are you enjoying your free trial? <a href="/payment-information">Upgrade your account today!</a><br />Preview a sample of the <a id="grid-sample" href="/resources/images/market_data_grid_sample.gif">Market Data Grid</a> for paid accounts.';
+				flash($message);
+			}
+			
 			$PAGE_BODY = "views/scrappers/scrap_exchange_fix.php";  	/* which file to pull into the template */
 			//				$f = new Facility();
 			//				$facilities = $f->GetAllItemsObj(); // painfully slow... never do this.
