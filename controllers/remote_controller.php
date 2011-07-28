@@ -199,10 +199,15 @@ function controller_remote( $_controller_remote_method = null,
 				if($post_data["edit_to_information"]) {
 					$json["to"] = $to;
 				}
+				
+				if($post_data["custom_material"]) {
+					$material = array("name"=>$post_data['custom_material']);
+				}
 				 
 				$json['scrapper'] = $crud->GetItem( $post_data['user_id'] );
 				$json['facility'] = (($post_data['facility_id'] == 0) ? $to : $crud->GetItem( $post_data['facility_id'] ));
-				$json['material'] = $crud->GetItem( $post_data['material_id'] );
+				$json['material'] = (($post_data['material_id'] == 0) ? $material : $crud->GetItem( $post_data['material_id'] ));
+//				$json['material'] = $crud->GetItem( $post_data['material_id'] );
 				$json['request'] = $crud->GetItem( $r->newId );
 				
 				// assemble into json string

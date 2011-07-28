@@ -38,7 +38,7 @@ class Request extends Crud {
 	public function addMaterial( $materialId = null ){
 		$item = $this->GetCurrentItem();
 		$material = $this->GetItem($materialId);
-		$this->SetCurrentItem($item); // need to reset Current item back to the facility
+		$this->SetCurrentItem($item); // need to reset Current item back to the request
 		if(count($material)>0){
 			$material_join_property = null;
 			$arr = $this->_OBJECT_PROPERTIES;
@@ -58,7 +58,7 @@ class Request extends Crud {
 	public function addFacility( $facilityId = null ){
 		$item = $this->GetCurrentItem();
 		$facility = $this->GetItem($facilityId);
-		$this->SetCurrentItem($item); // need to reset Current item back to the facility
+		$this->SetCurrentItem($item); // need to reset Current item back to the request
 		if(count($facility)>0){
 			$facility_join_property = null;
 			$arr = $this->_OBJECT_PROPERTIES;
@@ -78,7 +78,7 @@ class Request extends Crud {
 	public function addScrapper( $scrapperId = null ){
 		$item = $this->GetCurrentItem();
 		$scrapper = $this->GetItem($scrapperId);
-		$this->SetCurrentItem($item); // need to reset Current item back to the facility
+		$this->SetCurrentItem($item); // need to reset Current item back to the request
 		if(count($scrapper)>0){
 			$scrapper_join_property = null;
 			$arr = $this->_OBJECT_PROPERTIES;
