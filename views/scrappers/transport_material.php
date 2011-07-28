@@ -36,8 +36,11 @@ if(!$gir->auth->authenticate()){
 					$message = 'This is not a Facility.';	
 				}
 			} else {
-				$m = new Material();
-				$material_info = $m->GetItemObj( $_material_id );
+				// check for custom material transportation request
+				if($_material_id > 0){
+					$m = new Material();
+					$material_info = $m->GetItemObj( $_material_id );
+				}
 				$facility = "";
 			}
 			
@@ -68,15 +71,15 @@ if(!$gir->auth->authenticate()){
 						<p>This request form will be sent to our transportation network for shipping quotes. <br/>
 						A pricing request will also be sent to the scrap broker listed below via email. Scrap brokers will contact you at their discretion.</p>	
 						<?php  $send_broker_email = true; ?>
-				<? 		} else { ?>
+						<? } else { ?>
 						<h2>TRANSPORTATION REQUEST</h2>
 						<hr />
 						<p>This request form will be sent to our transportation network for shipping quotes. 
-				<?php 	
+					<?php 	
 //						<p>Fill out the form below to receive bids from our national database of logistics experts.</p>
-				} 
+						} 
 					} else { ?>
-						<h2>TRANSPORTATION REQUEST</h2>
+						<h2><?=($_material_id == 0) ? "CUSTOM " : ""?>TRANSPORTATION REQUEST</h2>
 						<hr />
 						<p>This request form will be sent to our transportation network for shipping quotes. 
 					
@@ -204,12 +207,27 @@ if(!$gir->auth->authenticate()){
 						print '<input type="hidden" id="material_id" name="material_id" value="'. $material_info->id .'" />';
 						$materialName = $material_info->name;
 					}
+					
+					if($_material_id == 0){
+						print '<input type="hidden" id="material_id" name="material_id" value="' . $_material_id . '" />';
+					}
 					?>
 					<fieldset style="width:475px; border:1px solid #ccc; padding:10px; margin:5px 0;">
 					
 						<div style="color: #000;clear:both;margin:3px 0;display:block;height: 20px;">
+							<?php
+							if($_material_id == 0){
+							?>
+							<div style="width:200px;float:left;font-weight: 900;">What do you need transported?</div>
+							<label style="color:#000;float:left;font-weight:0;"><input type="text" id="custom_material" name="custom_material" value="" /></label></div>
+							<?php
+							} else {
+							?>
 							<div style="width:200px;float:left;font-weight: 900;">Shipping Material:</div>
 							<label style="color:#000;float:left;font-weight:0;"><?=$materialName?></label></div>
+							<?php
+							}
+							?>
 					
 						<div style="color: #000;clear:both;margin:3px 0;display:block;height: 20px;">
 							<div style="width:200px;float:left;font-weight: 900;">Volume in Tons:</div>
@@ -326,12 +344,14 @@ if(!$gir->auth->authenticate()){
 						$("#transportation_type option:selected").val() != "" && 
 						$("#material_id").val() != "" && 
 						$("#user_id").val() != "" && 
-						$("#facility_id").val() != "" && 
+						$("#facility_id").val() != "" &&
+						<?php // ADDED CHECK FOR EMPTY MATERIAL ON CUSTOM MATERIAL REQUEST ?> 
+						<?php if($_material_id == 0) { ?>$("#custom_material").val() != "" &&<?php } ?> 
 						$("#ship_date").val() != "" && 
 						$("#arrive_date").val() != "" ) {
 <?
 					$field_list  = "";
-					$fields_to_post = array("send_broker_email", "transportation_type", "edit_from_information", "edit_to_information", "volume", "user_id", "facility_id", "material_id", "transportation_id", "ship_date", "arrive_date", "special_instructions", "edit_from_information", "edit_to_information", "from_address_1", "from_address_2", "from_city", "from_state_province", "from_postal_code", "from_work_phone", "from_fax_number", "to_company", "to_address_1", "to_address_2", "to_city", "to_state_province", "to_zip_postal_code", "to_country");
+					$fields_to_post = array("send_broker_email", "transportation_type", "edit_from_information", "edit_to_information", "volume", "user_id", "facility_id", "material_id", "custom_material", "transportation_id", "ship_date", "arrive_date", "special_instructions", "edit_from_information", "edit_to_information", "from_address_1", "from_address_2", "from_city", "from_state_province", "from_postal_code", "from_work_phone", "from_fax_number", "to_company", "to_address_1", "to_address_2", "to_city", "to_state_province", "to_zip_postal_code", "to_country");
 					?>
 						            	
 					$.post("/controllers/remote/?method=addRequest&", 

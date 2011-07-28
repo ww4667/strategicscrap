@@ -461,7 +461,7 @@
 	
 	   if( mItem ){
 	     $("#bid_request_material").html( mItem['name'] );
-	     $("#join_material").val( mItem['id'] );
+	     $("#join_material").val( mItem['id'] != null ? mItem['id'] : 0 );
 	   } else {
 	     alert("This bid cannot happen because there is no Material.");
 	   }

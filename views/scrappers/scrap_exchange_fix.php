@@ -104,6 +104,24 @@ var sOut = $(nTr).find("div.facility_details").html();
 			} 
 		});
 			
+		$(".ship_quote_button_custom_material").colorbox({ width:"550", inline:true, href:"#trannyForm", 
+		    onComplete:function(){ 
+				trans_id = $( this ).attr( "trans_id" ); 
+		    	$("#transport_loading").show();
+		    	$("#transport_form").hide();
+		    	$("#transport_success").hide();
+		    	$("#transport_error").hide();
+		    	$.colorbox.resize();
+		    	$('#transport_form').load('/views/scrappers/transport_material.php?session_id=<?=session_id();?>&id=0&material_id=0',
+					function(){
+				    	$("#transport_loading").hide();
+				    	$("#transport_form").show();
+				    	$.colorbox.resize();
+					}
+				); 
+			} 
+		});
+			
 	});
 </script>
 
@@ -634,14 +652,14 @@ function addTransportFormEventMap(){
 		<? } ?>
 	</div>
 		<br style="clear:both;" />
-		<br />
+		<div class = "ship_quote_button_custom_material"><span class = "button">&nbsp;</span>Request a shipping quote for equipment or custom commodity.</div>
 		<br style="clear:both;" />
 		
 		<div class="fullCol">
 			<div class="oneColMod"><div class="moduleTop"><!-- IE hates empty elements --></div>
 				<div class="moduleContent clearfix">
 					<h3><span>0</span> Search Results 
-						<span class = "ship_quote_button_custom" style = "display: none;"><span class = "button">&nbsp;</span>Make a Custom Request</span>
+						<span class = "ship_quote_button_custom" style = "display: none;"><span class = "button">&nbsp;</span>Request a shipping quote to a custom destination.</span>
 					</h3>
 					<hr />
 					
