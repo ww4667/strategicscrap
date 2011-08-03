@@ -652,7 +652,7 @@ function addTransportFormEventMap(){
 		<? } ?>
 	</div>
 		<br style="clear:both;" />
-		<div class = "ship_quote_button_custom_material"><span class = "button">&nbsp;</span>Request a shipping quote for equipment or custom commodity.</div>
+		<div class = "ship_quote_button_custom_material"><span class = "button">&nbsp;</span>Request a custom shipping quote. Ship whatever you want!</div>
 		<br style="clear:both;" />
 		
 		<div class="fullCol">
