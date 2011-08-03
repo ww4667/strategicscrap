@@ -168,8 +168,13 @@ function controller_remote( $_controller_remote_method = null,
 //													date("Y-m-d H:i:s", strtotime("-2 days", strtotime($request->ship_date))) : 
 //													date("Y-m-d H:i:s", strtotime("+14 days", strtotime($request->created_ts)));
 				$request->expiration_date = (strtotime("+30 days", strtotime($request->created_ts)) > strtotime("0 days", strtotime($request->ship_date))) ? 
-													date("Y-m-d H:i:s", strtotime("1 days", strtotime($request->ship_date))) :
+													date("Y-m-d H:i:s", strtotime("+1 days", strtotime($request->ship_date))) :
 													date("Y-m-d H:i:s", strtotime("+30 days", strtotime($request->created_ts)));
+				if( $post_data['send_broker_email'] ) {
+					$request->expiration_date = date("Y-m-d H:i:s", strtotime("-1 day", strtotime($request->created_ts)));
+					$request->locked = "1";
+					$request->status = "3";
+				}
 				$request->UpdateItem();
 				// attach facility, scrapper and material to the request
 				$request->addFacility( $post_data['facility_id'] );

@@ -66,10 +66,12 @@ if(!$gir->auth->authenticate()){
 			<div id="transport_request_form">
 				<? 	if ($facility){
 						if ($facility['category'] == "Broker" || $facility['category'] == "Exporter" ){ ?>
-						<h2>TRANSPORTATION AND SCRAP REQUEST</h2>
+						<h2>SCRAP PRICING REQUEST</h2>
 						<hr />
-						<p>This request form will be sent to our transportation network for shipping quotes. <br/>
-						A pricing request will also be sent to the scrap broker listed below via email. Scrap brokers will contact you at their discretion.</p>	
+						<p>A pricing request will be sent to the company below upon submission of this form. You will be contacted at their discretion.</p>
+						<br />
+						<p>To request a transportation bid, use the GENERIC TRANSPORTATION REQUEST FORM link on the main page.</p>
+						<br />
 						<?php  $send_broker_email = true; ?>
 						<? } else { ?>
 						<h2>TRANSPORTATION REQUEST</h2>
@@ -86,14 +88,14 @@ if(!$gir->auth->authenticate()){
 					<?php }?>
 				<div style="float: left; margin: 3px 0; padding: 5px; background:#ccc;width:490px;font-size:11px;" class = "custom_form">
 					<div style="width:220px; float:left; margin:3px;">
-						<strong>Shipper:</strong><br />
+						<strong>Requester:</strong><br />
 						<div style="padding:10px;">
 							<strong>Company:</strong> <?=isset($user['company']) ? $user['company'] : ''?><br />
 							<strong>Name:</strong> <?=isset($user['first_name']) && isset($user['last_name']) ? $user['first_name']. ' ' . $user['last_name'] : ''?><br />
 							<hr />
-							<strong>Shippers Address:</strong>
+							<strong>Requester Address:</strong>
 							<br />
-							<input type = "hidden" id = "send_broker_email" name = "send_broker_email" value = "<?php echo ($send_broker_email) ? "true" : "false" ?> ?>" />
+							<input type = "hidden" id = "send_broker_email" name = "send_broker_email" value = "<?php echo ($send_broker_email) ? "true" : "false" ?>" />
 							<input type = "checkbox" class = "enable_fields" data-fieldset="from_information" />Change Information<br />
 							<input type = "hidden" id = "edit_from_information" name = "edit_from_info" value = "false" />
 							<div id = "from_information">
@@ -137,7 +139,7 @@ if(!$gir->auth->authenticate()){
 						});
 					</script>
 						<div style="width:220px; float:left; margin:3px;">
-							<strong>Ship To:</strong><br />
+							<strong><?php echo ($send_broker_email) ? "Send" : "Ship" ?> To:</strong><br />
 							<div style="padding:10px;">
 							<? if($_location == 0) {?>
 								<div id = "to_information">
@@ -232,7 +234,9 @@ if(!$gir->auth->authenticate()){
 						<div style="color: #000;clear:both;margin:3px 0;display:block;height: 20px;">
 							<div style="width:200px;float:left;font-weight: 900;">Volume in Tons:</div>
 							<label style="color:#000;float:left;font-weight:0;"><input type="text"  id="volume" name="volume" /></label></div>
-	                                    
+	                    <?php if ($send_broker_email) { ?>
+	                    <div style="display:none">
+	                    <?php } ?>                
 						<div style="color: #000;clear:both;margin:3px 0;display:block;height: 20px;">
 							<div style="width:200px;float:left;font-weight: 900;">Preferred Transportation:</div>
 							<label style="color:#000;float:left;font-weight:0;">
@@ -244,7 +248,7 @@ if(!$gir->auth->authenticate()){
 								    <option value="step_deck">Step Deck</option>
 								    <option value="gondola_open_top">Gondola/Open Top</option>
 								    <option value="export_containers">Export Container</option>
-								    <option value="end_dumps">End Dump</option>
+								    <option value="end_dumps" <?php echo ($send_broker_email) ? 'selected="selected"' : "" ?>>End Dump</option>
 								</select>
 							</label>
 						</div>
@@ -252,11 +256,15 @@ if(!$gir->auth->authenticate()){
 					
 						<div style="color: #000;clear:both;margin:3px 0;display:block;height: 20px;">
 							<div style="width:200px;float:left;font-weight: 900;">Ship on or before this date:</div>
-							<label style="color:#000;float:left;font-weight:0;"><input type="text"  id="ship_date" name="ship_date" class="date-pick" /></label></div>
+							<label style="color:#000;float:left;font-weight:0;"><input type="text"  id="ship_date" name="ship_date" class="date-pick" <?php echo ($send_broker_email) ? 'value="' . date("Y/m/d") . '" ' : "" ?>/></label></div>
 					
 						<div style="color: #000;clear:both;margin:3px 0;display:block;height: 20px;">
 							<div style="width:200px;float:left;font-weight: 900;">Deliver on or before this date:</div>
-							<label style="color:#000;float:left;font-weight:0;"><input type="text"  id="arrive_date" name="arrive_date" class="date-pick" /></label></div>
+							<label style="color:#000;float:left;font-weight:0;"><input type="text"  id="arrive_date" name="arrive_date" class="date-pick" <?php echo ($send_broker_email) ? 'value="' . date("Y/m/d") . '" ' : "" ?>/></label></div>
+
+	                    <?php if ($send_broker_email) { ?>
+	                    </div>
+	                    <?php } ?>                
 					
 						<div style="color: #000;clear:both;margin:3px 0;display:block;height: 20px;">
 							<div style="width:200px;float:left;font-weight: 900;">Special Instructions:</div>
