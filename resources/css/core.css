@@ -226,7 +226,7 @@ ul.regionBullets li{float:left;width:210px;}
 .ship_quote_button_custom .button{ float: left; margin-right: 4px; margin-top: -3px; width: 22px; height: 22px;  background: url("/resources/images/buttons/dashboard_action.png") no-repeat -22px 0 transparent;}
 .ship_quote_button_custom:hover  .button{ background: url("/resources/images/buttons/dashboard_action.png") no-repeat -22px -22px transparent;}
 
-.ship_quote_button_custom_material { cursor: pointer; color: #000; font-weight: 700; font-size: 13px; margin: 20px 0 10px}
+.ship_quote_button_custom_material { cursor: pointer; color: #000; font-weight: 700; font-size: 13px; margin: 20px 0 10px; position: absolute; top: 112px; left: 570px}
 .ship_quote_button_custom_material .button{ float: left; margin-right: 4px; margin-top: -3px; width: 22px; height: 22px;  background: url("/resources/images/buttons/dashboard_action.png") no-repeat -22px 0 transparent;}
 .ship_quote_button_custom_material:hover  .button{ background: url("/resources/images/buttons/dashboard_action.png") no-repeat -22px -22px transparent;}
 

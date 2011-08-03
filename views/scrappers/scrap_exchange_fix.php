@@ -85,7 +85,7 @@ var sOut = $(nTr).find("div.facility_details").html();
 				$('#data_table_1').css("top",0);
 				sw.quoteManagerSlider = new sw.app.verticalSlider('#tab1', '.dataTables_scrollBody','#data_table_1',{overflow: "hidden", float: "left", width: "814px"}, {position: "relative"} );
 			} );
-			
+/*			
 		$(".ship_quote_button_custom").colorbox({ width:"550", inline:true, href:"#trannyForm", 
 		    onComplete:function(){ 
 				trans_id = $( this ).attr( "trans_id" ); 
@@ -103,6 +103,7 @@ var sOut = $(nTr).find("div.facility_details").html();
 				); 
 			} 
 		});
+*/
 			
 		$(".ship_quote_button_custom_material").colorbox({ width:"550", inline:true, href:"#trannyForm", 
 		    onComplete:function(){ 
@@ -378,11 +379,13 @@ function updateMarkers(){
 		}
 		
 		updatePageData(modData);
-		$('.ship_quote_button_custom').show();
+		// not using this anymore
+//		$('.ship_quote_button_custom').show();
 	});
 	
 	if(checkedItems.length < 1) {
-		$('.ship_quote_button_custom').show();
+		// not using this anymore
+//		$('.ship_quote_button_custom').show();
 		modData = [];
 		updatePageData();
 		$("#mapForm input:radio").removeAttr('disabled');
@@ -632,7 +635,9 @@ function addTransportFormEventMap(){
 </script>
 	
 <!-- DONE JEREMIAH -->
-
+<p style="padding:0">To ship to a mill or foundry, select a scrap type and click on "shipping quote" link below.<br>
+For all other shipping requests, use "Blank transportation request form."</p>
+<div class = "ship_quote_button_custom_material"><span class = "button">&nbsp;</span>Blank transportation request form.</div>
 <div id="mapForm" style="padding:20px 6px">
 	<h3>Ferrous Scrap Types</h3>
 	<div>
@@ -652,9 +657,7 @@ function addTransportFormEventMap(){
 		<? } ?>
 	</div>
 		<br style="clear:both;" />
-		<div class = "ship_quote_button_custom_material"><span class = "button">&nbsp;</span>Request a custom shipping quote. Ship whatever you want!</div>
-		<br style="clear:both;" />
-		
+		<br />
 		<div class="fullCol">
 			<div class="oneColMod"><div class="moduleTop"><!-- IE hates empty elements --></div>
 				<div class="moduleContent clearfix">

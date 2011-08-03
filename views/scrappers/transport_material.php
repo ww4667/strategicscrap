@@ -20,6 +20,7 @@ if(!$gir->auth->authenticate()){
 	if( $_SESSION['user']['group'] != 'scrapper' ){
 		print "This feature is reserved.";
 	} else {
+		$send_broker_email = false; // was blowing up stuff otherwise.
 		if(!isset($_GET['id'])){
 			print "You need a location for this feature to work. Please select a location from <a href='/scrap-exchange'>Scrap Exchange</a>.";
 		} else {
