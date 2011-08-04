@@ -71,7 +71,7 @@ if(!$gir->auth->authenticate()){
 						<hr />
 						<p>A pricing request will be sent to the company below upon submission of this form. You will be contacted at their discretion.</p>
 						<br />
-						<p>To request a transportation bid, use the GENERIC TRANSPORTATION REQUEST FORM link on the main page.</p>
+						<p>To request a transportation bid, use the BLANK TRANSPORTATION REQUEST FORM link on the main page.</p>
 						<br />
 						<?php  $send_broker_email = true; ?>
 						<? } else { ?>
