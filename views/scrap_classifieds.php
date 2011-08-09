@@ -33,11 +33,10 @@
 
 <div id="scrapClassifieds" class="classifiedListing">
 	<div>
-		<div style="float:left"><a class="watch_video" href="https://www.youtube.com/embed/1kIim6cMN_w"><img src="/resources/images/buttons/watch_video.png" alt="watch a video" id="watch_video" /></a></div>
-		<div style="float:left;margin-left:20px"><a href="mailto:classifieds@strategicscrap.com?subject=I would like to post a scrap classified&body=Fill%20out%20details%20of%20the%20classified%20you%20would%20like%20to%20post%20below.%0A%0A*Please%20specify%20if%20you%20want%20to%20buy%20or%20sell.%0A%0ACompany%3A%20%0AContact%3A%20%0AEmail%3A%20%0APhone%3A%20%0ADescription%3A%0A%0A%0AQuantity%3A%20%0APrice%3A%20"><img src="/resources/images/buttons/post_a_classified.png" alt="post a classified"  id="post_a_classified" /></a></div>
-		<div style="clear:both;padding:20px 0">
-		If you would like us to post your classified, please call us at 866-796-7272 or email us at classifieds@strategicscrap.com.<br /><strong>Members post for FREE!</strong>
+		<div>
+			Members post for free! $35/listing for non-members.
 		</div>
+		<div style="padding:20px 0"><a href="mailto:classifieds@strategicscrap.com?subject=I would like to post a equipment classified&body=Fill%20out%20details%20of%20the%20classified%20you%20would%20like%20to%20post%20below.%0A%0A*Please%20specify%20if%20you%20want%20to%20buy%20or%20sell.%0A%0ACompany%3A%20%0AContact%3A%20%0AEmail%3A%20%0APhone%3A%20%0ADescription%3A%0A%0A%0AQuantity%3A%20%0APrice%3A%20"><img src="/resources/images/buttons/post_a_classified.png" alt="post a classified"  id="post_a_classified" /></a></div>
 	</div>
 					  	
 	<ul id="tabs-scrapClass">
@@ -52,7 +51,7 @@
 		<div id="tab22">
     <div id="tab-2-pane" style="position:relative">
       <div id="tab-2-content">
-		[[Ditto? &parents=`37`&orderBy=`publishedon ASC` &display=`500` &total=`500` &tpl=`scrap_row_white` &tplAlt=`scrap_row_gray`]]
+		[[Ditto? &parents=`37`&orderBy=`pub_date DESC` &display=`500` &total=`500` &tpl=`scrap_row_white` &tplAlt=`scrap_row_gray`]]
         </div><!-- tab2 conent -->
     </div><!-- tab2 pane -->
 		</div><!-- tab2 -->
@@ -60,7 +59,7 @@
 		<div id="tab11">
     <div id="tab-1-pane" style="position:relative">
       <div id="tab-1-content">
-        [[Ditto? &parents=`36`&orderBy=`publishedon ASC` &display=`500` &total=`500` &tpl=`scrap_row_white` &tplAlt=`scrap_row_gray`]]
+        [[Ditto? &parents=`36`&orderBy=`pub_date DESC` &display=`500` &total=`500` &tpl=`scrap_row_white` &tplAlt=`scrap_row_gray`]]
         </div><!-- tab1 conent -->
     </div><!-- tab1 pane -->
 		</div><!-- tab1 -->
@@ -68,7 +67,7 @@
 		<div id="tab3">
     <div id="tab-3-pane" style="position:relative">
       <div id="tab-3-content">
-		[[Ditto? &parents=`51`&orderBy=`publishedon ASC` &display=`500` &total=`500` &tpl=`auction_row_white` &tplAlt=`auction_row_gray`]]
+		[[Ditto? &parents=`51`&orderBy=`pub_date DESC` &display=`500` &total=`500` &tpl=`auction_row_white` &tplAlt=`auction_row_gray`]]
         </div><!-- tab3 conent -->
     </div><!-- tab3 pane -->
 		</div><!-- tab3 -->
@@ -76,7 +75,7 @@
 		<div id="tab4">
     <div id="tab-4-pane" style="position:relative">
       <div id="tab-4-content">
-		[[Ditto? &parents=`53`&orderBy=`publishedon ASC` &display=`500` &total=`500` &tpl=`job_row_white` &tplAlt=`job_row_gray`]]
+		[[Ditto? &parents=`53`&orderBy=`pub_date DESC` &display=`500` &total=`500` &tpl=`job_row_white` &tplAlt=`job_row_gray`]]
         </div><!-- tab4 conent -->
     </div><!-- tab4 pane -->
 		</div><!-- tab4 -->
