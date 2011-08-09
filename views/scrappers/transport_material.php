@@ -384,7 +384,7 @@ if(!$gir->auth->authenticate()){
 								$("#arrive_date").val(''); 
 								$("#special_instructions").val('');
 								$("#transport_request_form").hide();
-								$("#transport_request_response").html('<h2>Success!</h2><p>Your transport request has been submitted and added to your dashboard. You can close this window, or it will be scrapped.</p>').show();
+								$("#transport_request_response").html('<h2>Success!</h2><p>Your request has been submitted and added to your dashboard. You can close this window, or it will be scrapped.</p>').show();
 								$.colorbox.resize();
 								colorboxTimeOut = setTimeout( function(){ clearTimeout(colorboxTimeOut); $.colorbox.close(); }, 5000 );
 				           });

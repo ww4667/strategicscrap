@@ -363,7 +363,7 @@
 					<div class="lowerArea" style="clear:both">
 						<div class="twoColMod" id="transportRequest"><div class="moduleTop"><!-- IE hates empty elements --></div>
 							<div class="moduleContent clearfix">
-								<h3>Transportation Requests</h3>
+								<h3>Scrap Exchange Requests</h3>
 						      <div class="more">
 						        <div class="refreshBtn"><a id="reloadRequests">refresh</a></div>
 						      </div>
