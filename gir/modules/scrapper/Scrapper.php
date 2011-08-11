@@ -239,12 +239,14 @@ class Scrapper extends User {
 					$tempObject->last = number_format($result->GetLMEFutureQuoteResult->Last/2204.62262,2);
 					$tempObject->high = number_format($result->GetLMEFutureQuoteResult->High/2204.62262,2);
 					$tempObject->low = number_format($result->GetLMEFutureQuoteResult->Low/2204.62262,2);
-					$tempObject->open = number_format($result->GetLMEFutureQuoteResult->Open/2204.62262,2);
+//					$tempObject->open = number_format($result->GetLMEFutureQuoteResult->Open/2204.62262,2);
+					$tempObject->open = number_format(($result->GetLMEFutureQuoteResult->Last-$result->GetLMEFutureQuoteResult->Change)/2204.62262,2);
 					$tempObject->previous_close = number_format($result->GetLMEFutureQuoteResult->PreviousClose/2204.62262,2);
 					$tempObject->settle = number_format($result->GetLMEFutureQuoteResult->Settle/2204.62262,2);
-//					$tempObject->change = number_format($result->GetLMEFutureQuoteResult->Change/2204.62262,2);
-					$diff = $tempObject->last - $tempObject->previous_close;
-					$tempObject->change = number_format($diff,2);
+					$tempObject->change = number_format($result->GetLMEFutureQuoteResult->Change/2204.62262,3);
+//					$diff = $tempObject->last - $tempObject->previous_close;
+//					$diff = $tempObject->last - $tempObject->open;
+//					$tempObject->change = number_format($diff,2);
 					$tempObject->change_percent = $result->GetLMEFutureQuoteResult->PercentChange;
 					$marketData->{$option}[] = $tempObject;
 				}
@@ -295,7 +297,7 @@ class Scrapper extends User {
 				$tempObject->settle = number_format($result->GetDelayedFutureResult->Settle,2);
 //				$tempObject->change = number_format($result->GetDelayedFutureResult->Change,2);
 				$diff = $tempObject->last - $tempObject->open;
-				$tempObject->change = number_format($diff,2);
+				$tempObject->change = number_format($diff,3);
 				$tempObject->change_percent = $result->GetDelayedFutureResult->PercentChange;
 				$marketData->{$c}[] = $tempObject;
 			}

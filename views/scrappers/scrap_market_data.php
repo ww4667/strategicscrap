@@ -33,7 +33,10 @@
 					    <td><?=$m->material ?></td>
 					    <td><?=$m->last?></td>
 					    <td><?=$m->high?>/<?=$m->low?></td>
+					    <td><?=$m->open?></td>
+					    <?php /*
 					    <td><? echo ($m->symbol == "HG") ? $m->open : $m->previous_close ?></td>
+					    */ ?>
 					    <td class = "<?=$extra_class?>"><span class = "change_amount"><?=$m->change?></span><span class = "change_percent" style = "display: none;"><?=$m->change_percent?>%</span></td>
 					</tr>
 					<?
