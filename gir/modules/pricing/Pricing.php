@@ -11,6 +11,7 @@ class Pricing extends Crud {
 	protected $_OBJECT_PROPERTIES = array(
 											array("type"=>"text","label"=>"Region","field"=>"region"),
 											array("type"=>"text","label"=>"Price","field"=>"price"),
+											array("type"=>"text","label"=>"Broker Price","field"=>"broker_price"),
 											array("type"=>"join","label"=>"Material Join","field"=>"join_material")
 										);	
 	

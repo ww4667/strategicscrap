@@ -253,7 +253,7 @@ while (!$KILL) {
 				$post_data = $_POST;
 				// unset empty vars from the (mat) array
 				foreach ($post_data['mat'] as $lbl => $val) {
-					if (empty($val)) unset($post_data['mat'][$lbl]);
+					if (empty($val['price']) && empty($val['broker_price'])) unset($post_data['mat'][$lbl]);
 				}
 				$materials = $post_data['mat'];
 				if (!empty($materials)) {
@@ -264,7 +264,8 @@ while (!$KILL) {
 						$p->RemoveItem($d['id']);
 					}
 					foreach ($materials as $lbl => $val) {
-						$post_data['price'] = number_format($val,2);
+						$post_data['price'] = number_format($val['price'],2);
+						$post_data['broker_price'] = number_format($val['broker_price'],2);
 						$p = new Pricing();
 						$pricing = $p->CreateItem($post_data);
 						$pricing->addMaterial($lbl);

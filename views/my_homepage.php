@@ -256,11 +256,20 @@
 									<? if( $region != "ADSFKASDJLFALKSDJF" ) { ?>
 										<? $i = 0; ?>
 										<? foreach ($pricing as $p) { ?>
+											<? if( !empty($p->price) ) { ?>
 									<tr<?=$i%2?' class="row2"':""?>>
 									    <td><?= $p->join_material[0]['name'] ?></td>
 									    <td><?= $p->price ?></td>
 									</tr>
-										<? $i++; ?>
+											<? $i++; ?>
+											<? } ?>
+											<? if( !empty($p->broker_price) ) { ?>
+									<tr<?=$i%2?' class="row2"':""?>>
+									    <td><?= $p->join_material[0]['name'] ?></td>
+									    <td>*<?= $p->broker_price ?></td>
+									</tr>
+											<? $i++; ?>
+											<? } ?>
 										<? } ?>
 									<? } else { ?>
 									<tr>
@@ -328,7 +337,8 @@
 								</div>
 								</div>
 								</div>
-								<p>All prices are shown in US dollars per gross ton(GT) or (2,240lbs) of material delivered to the consumer unless otherwise noted.</p>
+								<p>All prices are shown in US dollars per gross ton(GT) or (2,240lbs) of material delivered to the consumer unless otherwise noted.<br />
+								* denotes broker buying prices</p>
 							</div><div class="moduleBottom"><!-- IE hates empty elements --></div>
 						</div>
 					</div>
