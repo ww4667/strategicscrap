@@ -170,7 +170,7 @@ function controller_remote( $_controller_remote_method = null,
 				$request->expiration_date = (strtotime("+30 days", strtotime($request->created_ts)) > strtotime("0 days", strtotime($request->ship_date))) ? 
 													date("Y-m-d H:i:s", strtotime("+1 days", strtotime($request->ship_date))) :
 													date("Y-m-d H:i:s", strtotime("+30 days", strtotime($request->created_ts)));
-				if( $post_data['send_broker_email'] ) {
+				if( $post_data['send_broker_email'] == "true" ) {
 					$request->expiration_date = date("Y-m-d H:i:s", strtotime("-1 day", strtotime($request->created_ts)));
 					$request->locked = "1";
 					$request->status = "3";
