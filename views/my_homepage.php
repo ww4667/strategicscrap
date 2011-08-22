@@ -589,6 +589,7 @@ $(".scrapQuote td").not("td:has(a)").colorbox({ width:"550", inline:true, href:"
 												arrival_date 	=	bid_data[i].arrival_date;
 												notes 			=	bid_data[i].notes;
 												status 			=	bid_data[i].status;
+												company			=	bid_data[i].join_broker[0]['company'];
 
 												
 												bid_op = ( get_requests_data.status < 2 ?  
@@ -596,6 +597,7 @@ $(".scrapQuote td").not("td:has(a)").colorbox({ width:"550", inline:true, href:"
 																'	<div style="float:left;width:329px;">' : 
 																'<div class="bid" style="display:table;padding:5px 5px 5px 10px;border:3px solid #ccc;">' +
 																'	<div style="float:left;width:429px;">' ) +
+															'		<strong>Broker:</strong> '+company+'<br />' + 
 															'		<strong>Cost:</strong> '+transport_cost+'<br />' + 
 															'		<strong>Material Price:</strong>'+material_price+' <br />'+
 															'		<strong>Ship Date:</strong>'+ship_date+' <br />'+

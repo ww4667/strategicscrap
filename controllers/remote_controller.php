@@ -10,6 +10,8 @@ error_reporting(E_ALL);
 require_once($_SERVER['DOCUMENT_ROOT']."/gir/core/models/crud/Crud.php");
 require_once($_SERVER['DOCUMENT_ROOT']."/gir/modules/request/Request.php");
 require_once($_SERVER['DOCUMENT_ROOT']."/gir/modules/bid/Bid.php");
+require_once($_SERVER['DOCUMENT_ROOT']."/gir/core/modules/user/User.php");
+require_once($_SERVER['DOCUMENT_ROOT']."/gir/modules/broker/Broker.php");
 
 
 if( !empty($_GET['session_id']) ) session_id($_GET['session_id']);
@@ -707,6 +709,8 @@ function controller_remote( $_controller_remote_method = null,
 					foreach ($bids as $key => $val) {
 						$b = new Bid();
 						$bid = $b->GetItemObj($val['id']);
+						$bids[$key]['join_broker'] = $b->ReadJoins( new Broker() );
+						$bid->join_broker = '';
 //						$expireTS = strtotime("-2 days", strtotime($val['ship_date']));
 						$expireTS = strtotime("1 days", strtotime($val['ship_date']));
 						$nowTS = time();
