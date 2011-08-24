@@ -397,11 +397,14 @@ function controller_remote( $_controller_remote_method = null,
                           } else {
                           $archive = '<span requestId="' . $request['id'] . '"><a class="archive" title="archive request">archive</a></span>';
                           }
-                          $expires = '<span requestId="' . $request['id'] . '">' . ( !empty( $request['expiration_date'] ) ? date ( 'Y-m-d', strtotime( $request['expiration_date'] ) ) : 'not set' ) . '<br /></span>';
+                          $expires = '<span requestId="' . $request['id'] . '">' . ( !empty( $request['expiration_date'] ) ? ( ( $request['request_snapshot']['facility']['category'] == 'Broker' || $request['request_snapshot']['facility']['category'] == 'Exporter' ) ? 'NA' : date ( 'Y-m-d', strtotime( $request['expiration_date'] ) ) ) : 'not set' ) . '<br /></span>';
                           $description = (  $request['request_snapshot']['facility'] && 
                                           $request['request_snapshot']['facility'] != '' && 
                                           count( $request['request_snapshot']['facility'] ) > 0 ?
-                                            '<strong>Ship to:</strong> ' .$request['request_snapshot']['facility']['company'] . '<br>' : 
+                                          	( ( $request['request_snapshot']['facility']['category'] == 'Broker' || $request['request_snapshot']['facility']['category'] == 'Exporter' )
+                                          		? '<strong>Sent to:</strong> '
+                                          		: '<strong>Ship to:</strong> ' )
+                                          	 . $request['request_snapshot']['facility']['company'] . '<br>' : 
                                             '<strong>Ship to:</strong><br>' ) . 
                                           (   $request['request_snapshot']['material'] && 
                                             $request['request_snapshot']['material'] != '' && 
@@ -409,15 +412,20 @@ function controller_remote( $_controller_remote_method = null,
                                               '<strong>Material:</strong> ' . $request['request_snapshot']['material']['name'] . '<br>' : 
                                               '<strong>Material:</strong><br>' ) . 
                                           '<strong>Volume: </strong>' . ( !empty( $request['volume'] ) ? $request['volume'] : '0' ) . '<br />' .
-                                          '<strong>Delivery Date: </strong>' . ( !empty( $request['arrive_date'] ) ? date ( 'Y-m-d', strtotime( $request['arrive_date'] ) ) : 'not set' ) . '<br />';
+                                          ( ( $request['request_snapshot']['facility']['category'] == 'Broker' || $request['request_snapshot']['facility']['category'] == 'Exporter' )
+                                          	? '<strong>Quote By: </strong>'
+                                          	: '<strong>Delivery Date: </strong>' )
+                                          . ( !empty( $request['arrive_date'] ) ? date ( 'Y-m-d', strtotime( $request['arrive_date'] ) ) : 'not set' ) . '<br />';
                                           
                           $created = date ( 'Y-m-d', strtotime( $request['created_ts'] ) ) . '<br />';
                           
-                          $status = ( !empty( $request['status'] ) ? $status_array[ $request['status'] ] : $status_array[0] );
+                          $status = ( $request['request_snapshot']['facility']['category'] == 'Broker' || $request['request_snapshot']['facility']['category'] == 'Exporter' ) ? $status_array[1] :
+                          			( !empty( $request['status'] ) ? $status_array[ $request['status'] ] : $status_array[0] );
                           
-                          $count_display = ( $request['bid_unread'] && $request['bid_unread'] != 0 ? '<strong>' : '' ) . 
+                          $count_display = ( $request['request_snapshot']['facility']['category'] == 'Broker' || $request['request_snapshot']['facility']['category'] == 'Exporter' ) ? 'NA' :
+                          				( ( $request['bid_unread'] && $request['bid_unread'] != 0 ? '<strong>' : '' ) . 
                           				( !empty( $request['bid_count'] ) ? '(' . $request['bid_count'] . ')' : '(0)' ) . 
-                          				( $request['bid_unread'] && $request['bid_unread'] != 0 ? '</strong>' : '' );
+                          				( $request['bid_unread'] && $request['bid_unread'] != 0 ? '</strong>' : '' ) );
                           
                           $ttemp = array();
                           $ttemp[] = $archive;

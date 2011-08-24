@@ -515,6 +515,7 @@ $(".scrapQuote td").not("td:has(a)").colorbox({ width:"550", inline:true, href:"
     	current_request = $( this ).parent().attr( "requestid" ); 
     	$("#request_loading").show();
     	$("#request_data").hide();
+    	$("#scrap_bid_request_data").hide();
     	$("#request_success").hide();
     	$("#request_error").hide();
     	$.colorbox.resize();
@@ -538,24 +539,37 @@ $(".scrapQuote td").not("td:has(a)").colorbox({ width:"550", inline:true, href:"
 						((  fromItem && fromItem['from_postal_code'] != null)? fromItem['from_postal_code'] : scrapper['postal_code']);
 						$("#bid_request_ship_from").html( from );
 						
-						var to = ((  toItem != null && toItem['to_address_1'] != null)? toItem['to_address_1'] : facility['address_1']) + '<br />' + 
+						var to = ((  toItem != null && toItem['to_company'] != null)? toItem['to_company'] : facility['company']) + '<br />' + 
+						((  toItem != null && toItem['to_address_1'] != null)? toItem['to_address_1'] : facility['address_1']) + '<br />' + 
 						( (facility['address_2'] != '' && facility['address_2'] != null) ? facility['address_2'] + '<br />' : '' ) + 
 						(( toItem != null && toItem['to_city'] != null)? toItem['to_city'] : facility['city']) + ', ' + 
 						(( toItem != null && toItem['to_state_province'] != null)? toItem['to_state_province'] : facility['state_province']) + ' ' + 
 						(( toItem != null && toItem['to_zip_postal_code'] != null)? toItem['to_zip_postal_code'] : facility['zip_postal_code']);
-						$("#bid_request_ship_to").html( to );						
+						// checking for category exporter,broker to toggle different details view
+						var broker_view = false;
+						var facility_category = facility['category'];
+						if (facility_category == 'Broker') broker_view = true;
+						if (facility_category == 'Exporter') broker_view = true;
+						$("#bid_request_ship_to").html( to );
+						$("#scrap_bid_request_ship_to").html( to );
 
 						var material = 	r_material['name'];
 						$("#bid_request_material").html( material );
+						$("#scrap_bid_request_material").html( material );
 						
 						var volume = 	get_requests_data['volume'];
 						$("#bid_request_quantity").html( volume );
+						$("#scrap_bid_request_quantity").html( volume );
 						
 						var delivery_date = 	get_requests_data['arrive_date'];
 						$("#bid_request_delivery_date").html( delivery_date );
 						
 						var transportation = 	get_requests_data['transportation_type'];
 						$("#bid_request_preferred_transporation").html( transportation );
+						
+						var special_instructions = 	get_requests_data['special_instructions'];
+						$("#bid_request_notes").html( special_instructions );
+						$("#scrap_bid_request_notes").html( special_instructions );
 
 						$("#bid_data").html('');
 						
@@ -663,7 +677,11 @@ $(".scrapQuote td").not("td:has(a)").colorbox({ width:"550", inline:true, href:"
 										}
 
 								    	$("#request_loading").hide();
-								    	$("#request_data").show(500, function(){ $.colorbox.resize();  });
+								    	if (broker_view) {
+								    		$("#scrap_bid_request_data").show(500, function(){ $.colorbox.resize();  });
+								    	} else {
+								    		$("#request_data").show(500, function(){ $.colorbox.resize();  });
+								    	}
 								});
 						
 				}); 
@@ -817,13 +835,26 @@ function reloadRequests(){
     <div id="bidForm">
       <h2>REQUEST</h2>
       <hr />
+      <div id="scrap_bid_request_data" style="display:none">
+		<strong>Request sent to:</strong><br /><span id="scrap_bid_request_ship_to" style="display:block;padding: 0 0 0 10px;"><!--  --></span><br />
+		<strong>Material:</strong> <span id="scrap_bid_request_material"><!--  --></span><br />
+		<strong>Volume (tons):</strong> <span id="scrap_bid_request_quantity"><!--  --></span><br />
+		<strong>Special Instructions:</strong> <span id="scrap_bid_request_notes"><!--  --></span><br />
+		<br />
+      	<hr />
+		<h2>BIDS</h2>
+		<div>
+			Your scrap pricing request has been sent to this company. You should be contacted directly with bids. 
+		</div>
+      </div>
       <div id="request_data">
 		<strong>Ship from:</strong><br /><span id="bid_request_ship_from" style="display:block;padding: 0 0 0 10px;"><!--  --></span> <br />
 		<strong>Ship to:</strong><br /><span id="bid_request_ship_to" style="display:block;padding: 0 0 0 10px;"><!--  --></span><br />
 		<strong>Material:</strong> <span id="bid_request_material"><!--  --></span><br />
 		<strong>Volume (tons):</strong> <span id="bid_request_quantity"><!--  --></span><br />
 		<strong>Delivery Date:</strong> <span id="bid_request_delivery_date"><!--  --></span><br />
-		<strong>Preferred Transporation:</strong> <span id="bid_request_preferred_transporation"><!--  --></span>
+		<strong>Preferred Transporation:</strong> <span id="bid_request_preferred_transporation"><!--  --></span><br />
+		<strong>Special Instructions:</strong> <span id="bid_request_notes"><!--  --></span><br />
 		<br />
       	<hr />
 		<h2>BIDS</h2>
