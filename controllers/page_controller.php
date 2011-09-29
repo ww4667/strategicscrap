@@ -14,6 +14,8 @@ switch($controller_action){
 
 	/* HOMEPAGE FOR SCRAPPERS **************************************** */
 	case 'my-homepage':
+		$temp_time_start = microtime(true);
+		error_log( "starting to load homepage: " . (microtime(true) - $temp_time_start) . " seconds so far..." );
 		require_ssl();
 		if( !$gir->auth->authenticate() || $_SESSION['user']['group'] != "scrapper" ){
 			$PAGE_BODY = "views/scrappers/my_homepages_demo.php";  	/* which file to pull into the template */
@@ -177,6 +179,7 @@ switch($controller_action){
 				// begin new market data		
 //				if($_GET['test']){
 					
+			error_log('ready to grab market-data cache: ' . (microtime(true) - $temp_time_start) . ' seconds so far . . .');
 					$cache_file = $_SERVER['DOCUMENT_ROOT']."/cache/new-market-data.cache";
 					$market_json_tmp = json_decode(file_get_contents($cache_file));
 					$last = filemtime($cache_file);
@@ -186,6 +189,7 @@ switch($controller_action){
 				    $day = date("D",$last);
 				    $hour_minute = date("Gi",$last);
 					if ( (!$last || ( $now - $last ) > $interval) && $day != "Sat" && $day != "Sun" && $hour_minute >= 740 && $hour_minute <= 1340 ) {
+			error_log('inside get new market-data loop: ' . (microtime(true) - $temp_time_start) . ' seconds so far . . .');
 						// cached file is missing or too old, refreshing it
 						$sss = new Scrapper();
 						$live_market_data = $sss->getMarketData(1,1);
@@ -195,9 +199,11 @@ switch($controller_action){
 							$cache_content = json_encode($live_market_data);
 					        if ( $cache_content ) {
 					            // we got something back
+			error_log('ready to save new market-data to file: ' . (microtime(true) - $temp_time_start) . ' seconds so far . . .');
 					            $cache_static = fopen($cache_file, 'wb');
 					            fwrite($cache_static, $cache_content);
 					            fclose($cache_static);
+			error_log('done saving to file: ' . (microtime(true) - $temp_time_start) . ' seconds so far . . .');
 					        }
 						}
 					}
@@ -305,18 +311,21 @@ switch($controller_action){
 				//				print "</pre>";
 			}
 			// ping feedburner
-			$url1 = 'http://feedburner.google.com/fb/a/pingSubmit?bloglink=http://feeds.feedburner.com/StrategicScrapRssBusinessNews';
-			$data1 = file_get_contents( $url1,null,null,null,10 );
-			$url2 = 'http://feedburner.google.com/fb/a/pingSubmit?bloglink=http://feeds.feedburner.com/StrategicScrapRssMetalNews';
-			$data2 = file_get_contents( $url2,null,null,null,10 );
+			// using CRON now
+//			$url1 = 'http://feedburner.google.com/fb/a/pingSubmit?bloglink=http%3A%2F%2Ffeeds.feedburner.com/StrategicScrapRssBusinessNews';
+//			$data1 = file_get_contents( $url1,null,null,null,10 );
+//			$url2 = 'http://feedburner.google.com/fb/a/pingSubmit?bloglink=http%3A%2F%2Ffeeds.feedburner.com%2FStrategicScrapRssMetalNews';
+//			$data2 = file_get_contents( $url2,null,null,null,10 );
 			// grab weather data
 			$postal_code = explode("-",$scrapper->postal_code);
 			$postal_code = $postal_code[0];
+	error_log('hitting weather feed: ' . (microtime(true) - $temp_time_start) . ' seconds so far . . .');
 			$request_url = "http://xoap.weather.com/weather/local/" . $postal_code . "?cc=*&dayf=5&link=xoap&prod=xoap&par=1182592015&key=bd35fd8b6e181b8a";
 			$xml = simplexml_load_file($request_url) or die("feed not loading");
 			$weather = $xml->xpath('//weather');
 			if ( empty( $weather ) ) {
 				$postal_code = false;
+	error_log('hitting weather feed default if needed: ' . (microtime(true) - $temp_time_start) . ' seconds so far . . .');
 				$request_url = "http://xoap.weather.com/weather/local/$zipcode?cc=*&dayf=5&link=xoap&prod=xoap&par=1182592015&key=bd35fd8b6e181b8a";
 				$xml = simplexml_load_file($request_url) or die("feed not loading");
 				$weather = $xml->xpath('//weather');
@@ -324,6 +333,7 @@ switch($controller_action){
 			$weather = $weather[0];
 		} // end else statement for auth
 		//the layout file  -  THIS PART NEEDS TO BE LAST
+	error_log('finally ready to show this page!: ' . (microtime(true) - $temp_time_start) . ' seconds so far . . .');
 		require($_SERVER['DOCUMENT_ROOT']."/views/layouts/shell.php");
 		//			die();
 		break;
