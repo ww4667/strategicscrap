@@ -23,27 +23,36 @@ sw.app.verticalSlider = function(wrapper, pane, content, pane_css, content_css){
        $(wrapper + " " + pane).after('<\div id="slider-wrap"><\div id="slider-vertical"><\/div><\/div>');//append the necessary divs so they're only there if needed
        $(wrapper + " #slider-wrap").height($(wrapper + " " + pane).height());//set the height of the slider bar to that of the scroll pane
 
-
+       slider_value = 100;
+       
+       content_position = $(content).position();
+       if( content_position.top < 0){
+    	   slider_value = 100 - (100 * ((content_position.top * -1) / difference)) ;
+       }
+       
        /*set up the slider*/
        $(wrapper + ' #slider-vertical').slider({
           orientation: 'vertical',
           range: 'max',
           min: 0,
           max: 100,
-          value: 100,
+          value: slider_value,
           slide: function(event, ui) {
              var topValue = -((100-ui.value)*difference/100);
              $(content).css({top:topValue});//move the top up (negative value) by the percentage the slider has been moved times the difference in height
           }
        });
-
-      /* set the handle height and bottom margin so the middle of the handle is in line with the slider*/
+            /* set the handle height and bottom margin so the middle of the handle is in line with the slider*/
        $(wrapper + " .ui-slider-handle").css({height:handleHeight,'margin-bottom':-0.5*handleHeight});
 
        var origSliderHeight = $(wrapper + " #slider-vertical").height();//read the original slider height
        var sliderHeight = origSliderHeight - handleHeight ;//the height through which the handle can move needs to be the original height minus the handle height
        var sliderMargin =  (origSliderHeight - sliderHeight)*0.5;//so the slider needs to have both top and bottom margins equal to half the difference
        $(wrapper + " .ui-slider").css({height:sliderHeight,'margin-top':sliderMargin});//set the slider height and margins
+      
+ 
+       
+       
     } else {
       /* extend body to right edge */
     // console.log("setting pane.width()  - " + $(wrapper + " " + pane).width() + " - "+ $(wrapper).width()); 
