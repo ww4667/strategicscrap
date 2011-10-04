@@ -1,4 +1,4 @@
-[[Wayfinder? &startId=`0` &firstClass=`home` &excludeDocs=`4,12,13,14,15,16` &level=`2` &hereClass=`current` &outerTpl=`outerTpl` &rowTpl=`rowTpl` &parentRowTpl=`parentRowTpl` &innerTpl=`innerTpl` &innerRowTpl=`innerRowTpl`]]
+[[Wayfinder? &startId=`0` &firstClass=`home` &excludeDocs=`4,12,13,14,15,16,240,209` &level=`2` &hereClass=`current` &outerTpl=`outerTpl` &rowTpl=`rowTpl` &parentRowTpl=`parentRowTpl` &innerTpl=`innerTpl` &innerRowTpl=`innerRowTpl`]]
 
 <!--
 <ul id="mainnav">
