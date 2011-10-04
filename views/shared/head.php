@@ -1,6 +1,7 @@
 <div class="header">
-	<div id="twitter_badge">
-		<a href="http://twitter.com/strategicscrap" title="follow us on twitter">follow us on twitter</a>
+	<div id="social_badges">
+		<a class="twitter_badge" href="http://twitter.com/strategicscrap" title="follow us on twitter">follow us on twitter</a>
+		<a class="facebook_badge" href="https://www.facebook.com/pages/StrategicScrapcom/247385998629789" title="join us on facebook">join us on facebook</a>
 	</div>
 	<div id="sign_in">
 		<? if(isset($_SESSION['user']['loggedIn'])) { ?>

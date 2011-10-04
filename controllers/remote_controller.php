@@ -81,7 +81,7 @@ function controller_remote( $_controller_remote_method = null,
 							
 						}
 					}
-					$market_json = json_decode(file_get_contents($cache_file));
+					$market_json = json_decode(@file_get_contents($cache_file));
 					$market_data_timestamp = date("M d, Y, h:ia",filemtime($cache_file))." CST (delayed)";
 					
 					include($_SERVER['DOCUMENT_ROOT']."/views/scrappers/scrap_market_data.php");

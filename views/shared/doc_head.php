@@ -64,7 +64,11 @@
   <script src="/resources/js/jScrollPane.js" type="text/javascript"></script>
   <script src="/resources/js/jquery.dataTables.min.js" type="text/javascript"></script>
   <script src="/resources/js/vertical-slider.js" type="text/javascript"></script>
+  <?php if( strpos($_SERVER['REQUEST_URI'],"/regions/") === 0 ){ ?>
+  <script src="/resources/js/jquery.tweet.js" type="text/javascript"></script>
 
+  <link href="/resources/css/jquery.tweet.css" rel="stylesheet" type="text/css" />
+  <?php } ?>
 	<!-- DATE -->
   	<link href="/resources/css/datePicker.css" rel="stylesheet" type="text/css" />
   	<link href="/resources/css/datePicker.popup.css" rel="stylesheet" type="text/css" />
@@ -77,7 +81,7 @@
 <script type="text/javascript">
   	Date.format = 'yyyy/mm/dd';
     $(document).ready(function(){
-    $("#twitter_badge a")
+    $("#social_badges a")
     .addClass("external")
     .click(function(){
       window.open(this.href); // pop a new window
@@ -88,6 +92,9 @@
  	if($.browser.msie && $.browser.version <= 7 ) {
 		$("<div id='upgrade_browser_bar'>You are using an unsupported browser. Please switch to a newer version: <a href='http://getfirefox.com'>FireFox</a>, <a href='http://www.google.com/chrome/'>Chrome</a>, <a href='http://www.apple.com/safari/'>Safari</a> or <a href='http://windows.microsoft.com/en-US/internet-explorer/downloads/ie'>Internet Explorer</a>. Thanks!&nbsp; </div> ").prependTo("body");
     }
+
+ 	  <?php if( strpos($_SERVER['REQUEST_URI'],"/region/posters/fixed/") === 0 ){ ?>
+ 	  <?php } ?>
 
   });
     

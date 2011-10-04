@@ -1,6 +1,6 @@
 			<div class="footerLinks">
 				
-				[[Wayfinder? &startId=`0` &firstClass=`first` &level=`1` &includeDocs=`1,2,3,5,6` &hereClass=`current`]]
+				[[Wayfinder? &startId=`0` &firstClass=`first` &level=`1` &includeDocs=`1,2,3,5,6,240` &hereClass=`current`]]
 				
 				<!--
 				<ul>
@@ -13,7 +13,7 @@
 				</ul>
 				-->
 				
-				[[Wayfinder? &startId=`0` &firstClass=`first` &level=`1` &includeDocs=`12,13,14,15,16` &hereClass=`current`]]
+				[[Wayfinder? &startId=`0` &firstClass=`first` &level=`1` &includeDocs=`12,13,14,209,15,16` &hereClass=`current`]]
 				
 				<!--
 				<ul>

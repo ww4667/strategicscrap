@@ -181,7 +181,7 @@ switch($controller_action){
 					
 			error_log('ready to grab market-data cache: ' . (microtime(true) - $temp_time_start) . ' seconds so far . . .');
 					$cache_file = $_SERVER['DOCUMENT_ROOT']."/cache/new-market-data.cache";
-					$market_json_tmp = json_decode(file_get_contents($cache_file));
+//					$market_json_temp = json_decode($cache_content);
 					$last = filemtime($cache_file);
 				    $now = time();
 				    $interval = 30; //seconds
@@ -205,10 +205,11 @@ switch($controller_action){
 					            fclose($cache_static);
 			error_log('done saving to file: ' . (microtime(true) - $temp_time_start) . ' seconds so far . . .');
 					        }
+//							$market_json_new = json_decode($cache_content);
 						}
 					}
-					$market_json_new = json_decode(file_get_contents($cache_file));
-					$market_json = ($market_json_new) ? $market_json_new : $market_json_tmp; 
+//					$market_json = ($market_json_new) ? $market_json_new : $market_json_tmp;
+					$market_json = json_decode(@file_get_contents($cache_file)); 
 					$market_data_timestamp = date("M d, Y, h:ia",filemtime($cache_file))." CST (delayed)";
 
 				// end new market data		
@@ -458,6 +459,25 @@ switch($controller_action){
 		require($_SERVER['DOCUMENT_ROOT']."/views/layouts/shell.php");
 		break;
 
+	/* Introduction-Rework (home) */
+	case 'intro_rework':
+		// page 'template variables'
+		//			$PAGE_BODY = "views/intro_screen.php";  	/* which file to pull into the template */
+		//			if(isset($_GET['new']))
+		
+		$cache_file = $_SERVER['DOCUMENT_ROOT']."/cache/static-market-data.cache";
+		$feed_url = "https://strategicscrap.com/static-market-data";
+		$test_market_data = get_cached_file($cache_file, 900, $feed_url);
+
+		$market_data = json_decode($test_market_data,true);
+		$market_data_timestamp = date("M d, Y, h:ia",filemtime($cache_file))." CST";
+		
+		$PAGE_BODY = "views/intro_screen_rework.php";  	/* which file to pull into the template */
+			
+		//the layout file  -  THIS PART NEEDS TO BE LAST
+		require($_SERVER['DOCUMENT_ROOT']."/views/layouts/shell.php");
+		break;
+		
 	/* Broker Dashboard */
 	case 'broker-dashboard':
 		require_ssl();
