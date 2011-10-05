@@ -100,7 +100,7 @@ var sws = {};
 	 
 	    <div>
 	        <ul id="slides">
-	        	[[Ditto? &parents=`224`&orderBy=`menuindex ASC` &display=`3` &total=`3` &tpl=`hp_image_carousel_item`]]
+	        	[[Ditto? &parents=`224`&orderBy=`menuindex ASC` &display=`5` &total=`5` &tpl=`hp_image_carousel_item`]]
 	        </ul>
 	        <div class="clear"></div>
 	    </div>
@@ -160,7 +160,7 @@ var sws = {};
 				<hr style="margin-bottom:0" />
 				
 	        <ul id="slides_news">
-	        	[[Ditto? &parents=`225`&orderBy=`menuindex ASC` &display=`3` &total=`3` &tpl=`hp_news_carousel_item`]]
+	        	[[Ditto? &parents=`225`&orderBy=`menuindex ASC` &display=`5` &total=`5` &tpl=`hp_news_carousel_item`]]
 	        </ul>
 	    <div id="buttons_news" style = "">
 	        <a href="#" id="prev_news">prev</a>
@@ -205,9 +205,9 @@ var sws = {};
 	
 </div>
 <div class="rightCol">
-	<div id ="activate_walkthrough">
-		show walkthrough
-	</div>
+	<span id ="activate_walkthrough" class = "first_time_here"><!--  --></span>
+	<a href = "/scrap-registration" class = "free_30_day_trial"><!--  --></a>
+	<br class = "clear"/>
 	<div id="latestNews" class="oneColMod"><div class="moduleTop"><!-- IE hates empty elements --></div>
 		<div class="moduleContent clearfix">
 		<h3>Latest News</h3>
@@ -289,9 +289,15 @@ a#next_news:hover {background:#f99;}
 #scrap_walkthrough {background: #fff; width: 680px; padding: 10px;}
 #scrap_walkthrough .pages {list-style: none; margin: 0;}
 #walkthrough_controls{clear: both;}
+.walkthrough_choice{cursor: pointer;}
 
 .walkthrough_image {width: 350px; float: left;}
 .walkthrough_text{width: 300px; float: left; margin: 0 10px;}
+
+.first_time_here{cursor: pointer; float: left; background:url(/resources/images/buttons/first_time_here.png) 0px 0px; width: 248px; height: 46px; margin: 30px 0 20px 10px;}
+.first_time_here:hover{background:url(/resources/images/buttons/first_time_here_hover.png) 0px 0px; width: 248px; height: 46px;}
+.free_30_day_trial{cursor: pointer; float: left; background:url(/resources/images/buttons/free_30_day_trial.png) 0px 0px; width: 248px; height: 46px;margin:0 0 72px 10px;}
+.free_30_day_trial:hover{background:url(/resources/images/buttons/free_30_day_trial_hover.png) 0px 0px; width: 248px; height: 46px;}
 
 </style>
 <script type="text/javascript">
