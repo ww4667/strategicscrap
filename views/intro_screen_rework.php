@@ -117,7 +117,7 @@ var sws = {};
 				<h3>Market Data</h3>
 				<div class="updated-timestamp">Updated: <?=$market_data_timestamp?></div>
 				<div class="more">
-					<a id="reloadRequestsMD">Click here for live data</a>
+					<a href = "/scrap-registration">Click here for live data</a>
 				</div>
 				<hr style="margin-bottom:0" />
 				<table>
@@ -248,6 +248,7 @@ var sws = {};
 			<span id = "walkthrough_prev">Previous</span>
 			<span id = "walkthrough_next">Next</span>
 		</div>
+		<br class = "clear"/>
 	</div>
 </div>
 <style type="text/css">
@@ -272,24 +273,25 @@ button.cancelButton:hover{background:url(/resources/images/buttons/cancel_hover.
 .slide_text { line-height: 28px; font-size: 24px; left: 10px; position: absolute; top: 132px; color: #fff; z-index: 10; }
 .slide_text_background { background: #777; width: 560px; height: 72px; opacity: .5; position: absolute; top: 122px; z-index: 5; }
 #buttons a { display:block; width:31px; height:32px; text-indent:-999em; float:left; outline:0; }
-a#prev { background:url(arrow.gif) 0 -31px no-repeat; }
-a#prev:hover { background:url(arrow.gif) 0 0 no-repeat; }
-a#next { background:url(arrow.gif) -32px -31px no-repeat; }
-a#next:hover { background:url(arrow.gif) -32px 0 no-repeat; }
+a#prev { background:url(/resources/images/dashboard_action_sprite.png) 0 -88px no-repeat; }
+a#prev:hover { background:url(/resources/images/dashboard_action_sprite.png) -22px -88px no-repeat; }
+a#next { background:url(/resources/images/dashboard_action_sprite.png) -32px -31px no-repeat; }
+a#next:hover { background:url(/resources/images/dashboard_action_sprite.png) -32px 0 no-repeat; }
 .clear {clear:both}
 .hide{display: none;}
-#buttons_news{position: absolute; top: 51px; left: 497px; width: 62px;}
-#buttons_news a {display:block; width:31px; height:26px; text-indent:-999em; float:left; outline:0;}
-a#prev_news {background:#f9f;}
-a#prev_news:hover {background:#9ff;}
-a#next_news {background:#99f;}
-a#next_news:hover {background:#f99;}
+#buttons_news{position: absolute; top: 53px; left: 505px; width: 52px;}
+#buttons_news a {display:block; width:22px; height:22px; text-indent:-999em; float:left; outline:0; margin: 0 2px}
+a#prev_news {background:url(/resources/images/dashboard_action_sprite.png) -88px 0 no-repeat;}
+a#prev_news:hover {background:url(/resources/images/dashboard_action_sprite.png) -88px -22px no-repeat;}
+a#next_news {background:url(/resources/images/dashboard_action_sprite.png) -66px 0 no-repeat;}
+a#next_news:hover {background:url(/resources/images/dashboard_action_sprite.png) -66px -22px no-repeat;}
 #slides_news {overflow:hidden; /* fix ie overflow issue */ position:relative; width:560px; height:26px; margin: 0;}
-#slides_news li { width:545px; height:26px; float:left; line-height: 26px; font-size: 12px; padding-left: 15px; }
+#slides_news li { width:545px; height:26px; float:left; margin-top: 3px;line-height: 26px; font-size: 12px; padding-left: 15px; }
 #scrap_walkthrough {background: #fff; width: 680px; padding: 10px;}
 #scrap_walkthrough .pages {list-style: none; margin: 0;}
-#walkthrough_controls{clear: both;}
+#walkthrough_controls{clear: both; margin-top: 8px; float: left; width: 100%;}
 .walkthrough_choice{cursor: pointer;}
+.walkthrough_choice:hover{color: #000;}
 
 .walkthrough_image {width: 350px; float: left;}
 .walkthrough_text{width: 300px; float: left; margin: 0 10px;}
@@ -298,6 +300,11 @@ a#next_news:hover {background:#f99;}
 .first_time_here:hover{background:url(/resources/images/buttons/first_time_here_hover.png) 0px 0px; width: 248px; height: 46px;}
 .free_30_day_trial{cursor: pointer; float: left; background:url(/resources/images/buttons/free_30_day_trial.png) 0px 0px; width: 248px; height: 46px;margin:0 0 72px 10px;}
 .free_30_day_trial:hover{background:url(/resources/images/buttons/free_30_day_trial_hover.png) 0px 0px; width: 248px; height: 46px;}
+
+#walkthrough_prev{text-indent: -5000px; cursor: pointer; float: left; background:url(/resources/images/buttons/back_btn.png) 0px 0px; width: 130px; height: 32px;margin:0 0 0 10px;}
+#walkthrough_prev:hover{background:url(/resources/images/buttons/back_btn_hover.png) 0px 0px;}
+#walkthrough_next{text-indent: -5000px; cursor: pointer; float: right; background:url(/resources/images/buttons/next_btn.png) 0px 0px; width: 130px; height: 32px;margin:0 0 0 10px;}
+#walkthrough_next:hover{background:url(/resources/images/buttons/next_btn_hover.png) 0px 0px;}
 
 </style>
 <script type="text/javascript">
