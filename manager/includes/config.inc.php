@@ -3,13 +3,13 @@
  *	MODx Configuration file
  */
 
-$DOMAIN_CHECK = explode(".",$_SERVER["HTTP_HOST"]);
+$DOMAIN_CHECK = array_flip( explode( ".",$_SERVER["HTTP_HOST"] ) );
 
-if ( in_array("slashwebstudios",$DOMAIN_CHECK) ) {
+if ( isset( $DOMAIN_CHECK["slashwebstudios"] ) ) {
 	$database_user = 'stagings_user';
 	$database_password = 'H=D?98!s{)Xc';
 	$dbase = '`stagings_strategi_scrap`';
-} else if ( in_array("local",$DOMAIN_CHECK) ) {
+} else if ( isset( $DOMAIN_CHECK["local"] ) ) {
 	$database_user = 'root';
 	$database_password = 'root';
 	$dbase = '`strategi_scrap`';

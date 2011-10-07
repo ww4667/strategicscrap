@@ -26,13 +26,13 @@ $usa_epay_pin			= "2580";
 
 // VDC vars...
 
-$DOMAIN_CHECK = explode(".",$_SERVER["HTTP_HOST"]);
+$DOMAIN_CHECK = array_flip( explode( ".",$_SERVER["HTTP_HOST"] ) );
 
-if ( in_array("slashwebstudios",$DOMAIN_CHECK) ) {
+if ( isset( $DOMAIN_CHECK["slashwebstudios"] ) ) {
 	$dbUsername = 'stagings_user';
 	$dbPassword = 'H=D?98!s{)Xc';
 	$dbName = '`stagings_strategi_scrap`';
-} else if ( in_array("local",$DOMAIN_CHECK) ) {
+} else if ( isset( $DOMAIN_CHECK["local"] ) ) {
 	$dbUsername = 'root';
 	$dbPassword = 'root';
 	$dbName = '`strategi_scrap`';
