@@ -315,7 +315,8 @@ a#next_news:hover {background:url(/resources/images/dashboard_action_sprite.png)
         $('#latestNews').tabs();
         
         $("#activate_walkthrough").click(function(){
-        	$.colorbox({width:"705px", height:"536px", inline:true, href:"#scrap_walkthrough"});
+//        	$.colorbox({width:"705px", height:"536px", inline:true, href:"#scrap_walkthrough"});
+        	$.colorbox({width:"705px", inline:true, href:"#scrap_walkthrough"});
         })
         
         
