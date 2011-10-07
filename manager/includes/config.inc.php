@@ -2,14 +2,29 @@
 /**
  *	MODx Configuration file
  */
+
+$DOMAIN_CHECK = explode(".",$_SERVER["HTTP_HOST"]);
+
+if ( in_array("slashwebstudios",$DOMAIN_CHECK) ) {
+	$database_user = 'stagings_user';
+	$database_password = 'H=D?98!s{)Xc';
+	$dbase = '`stagings_strategi_scrap`';
+} else if ( in_array("local",$DOMAIN_CHECK) ) {
+	$database_user = 'root';
+	$database_password = 'root';
+	$dbase = '`strategi_scrap`';
+} else {
+	$database_user = 'strategi_scrap';
+	$database_password = 'T,uUUAfOi#T1';
+	$dbase = '`strategi_scrap`';
+}
+
+$database_server = 'localhost';
 $database_type = 'mysql';
-$database_server = 'mysql307.ixwebhosting.com';
-$database_user = 'silvers_scrap';
-$database_password = '20Scrap10';
 $database_connection_charset = 'utf8';
 $database_connection_method = 'SET NAMES';
-$dbase = '`silvers_scrap`';
 $table_prefix = 'modx_';
+
 error_reporting(E_ALL & ~E_NOTICE);
 
 $lastInstallTime = 1271347208;
