@@ -16,8 +16,8 @@ RewriteCond %{HTTP_USER_AGENT} ^.*internal\ dummy\ connection.*$ [NC]
 RewriteRule .* - [F,L]
 
 # Force SSL for the whole site
-RewriteCond %{SERVER_PORT} 80
-RewriteRule ^(.*)$ https://strategicscrap.com/$1 [R,L]
+#RewriteCond %{SERVER_PORT} 80
+#RewriteRule ^(.*)$ https://strategicscrap.com/$1 [R,L]
 
 # Rewrite domain.com -> www.domain.com -- used with SEO Strict URLs plugin
 #RewriteCond %{HTTP_HOST} .
@@ -25,9 +25,9 @@ RewriteRule ^(.*)$ https://strategicscrap.com/$1 [R,L]
 #RewriteRule (.*) http://www.example.com/$1 [R=301,L]
 
 # Redirect www urls to non-www
-RewriteEngine on
-RewriteCond %{HTTP_HOST} !^strategicscrap\.com
-RewriteRule (.*) https://strategicscrap.com/$1 [R=301,L] 
+#RewriteEngine on
+#RewriteCond %{HTTP_HOST} !^strategicscrap\.com
+#RewriteRule (.*) https://strategicscrap.com/$1 [R=301,L] 
 
 # MAPDATA REWRITE
 RewriteRule ^mapdata/([^/\.]+)$ /mapdata/$1/ [L]
