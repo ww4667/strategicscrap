@@ -187,16 +187,16 @@ var sws = {};
 				[[Ditto? &parents=`227`&orderBy=`menuindex ASC` &display=`1` &total=`1` &tpl=`blog_feed_row`]]
 			</div>
 			<div class = "blog_row">
-				[[Ditto? &parents=`227`&orderBy=`menuindex ASC` &display=`1` &total=`1` &tpl=`blog_feed_row`]]
+				[[Ditto? &parents=`279`&orderBy=`menuindex ASC` &display=`1` &total=`1` &tpl=`blog_feed_row`]]
 			</div>
 			<div class = "blog_row">
-				[[Ditto? &parents=`227`&orderBy=`menuindex ASC` &display=`1` &total=`1` &tpl=`blog_feed_row`]]
+				[[Ditto? &parents=`281`&orderBy=`menuindex ASC` &display=`1` &total=`1` &tpl=`blog_feed_row`]]
 			</div>
 			<div class = "blog_row">
-				[[Ditto? &parents=`227`&orderBy=`menuindex ASC` &display=`1` &total=`1` &tpl=`blog_feed_row`]]
+				[[Ditto? &parents=`281`&orderBy=`menuindex ASC` &start=`1` &display=`1` &total=`1` &tpl=`blog_feed_row`]]
 			</div>
 			<div class = "blog_row">
-				[[Ditto? &parents=`227`&orderBy=`menuindex ASC` &display=`1` &total=`1` &tpl=`blog_feed_row`]]
+				[[Ditto? &parents=`284`&orderBy=`menuindex ASC` &display=`1` &total=`1` &tpl=`blog_feed_row`]]
 			</div>
 			
 		</div>
@@ -234,10 +234,15 @@ var sws = {};
 		</div>
 	</div><div class="moduleBottom"><!-- IE hates empty elements --></div>
 	</div>
+	{{intro_66_33_AdBlock}}
 </div>
 <div class = "hide">
 	<div id ="scrap_walkthrough">
 		<div id ="walkthrough_choices">
+		<h3>Tell us who you are to see how StrategicScrap.com can work for you.</h3>
+		<br /><br />
+		<p style="font-size: 300%">I'm a...</p>
+		<br /><br />
 <!--		Build group buttons         -->
 		[[Ditto? &parents=`229`&orderBy=`menuindex ASC` &display=`12` &total=`12` &tpl=`hp_walkthrough_group_buttons`]]
 			<br style="clear: both;" />
@@ -254,7 +259,8 @@ var sws = {};
 <style type="text/css">
 
 .dataTables_scroll{background: #ebebeb;}
-.walkthrough_choice{float: left; margin: 4px 10px;background:url(/resources/images/buttons/blank_large_button.png);width:230px;height:46px;text-align: center; line-height: 46px; text-transform: uppercase; font-weight: bold; color: #fff;border:none;}
+#walkthrough_choices{text-align:center; padding:40px;}
+.walkthrough_choice{float: left; margin: 4px 30px;background:url(/resources/images/buttons/blank_large_button.png);width:230px;height:46px;text-align: center; line-height: 46px; text-transform: uppercase; font-weight: bold; color: #fff;border:none;}
 button.acceptButton{background:url(/resources/images/buttons/accept_bid.png);width:130px;height:32px;text-indent:-5000px;border:none;}
 button.sureButton{background:url(/resources/images/buttons/confirm.png);width:130px;height:32px;text-indent:-5000px;border:none;}
 button.cancelButton{background:url(/resources/images/buttons/cancel.png);width:130px;height:32px;text-indent:-5000px;border:none;margin-top:5px}
@@ -267,9 +273,10 @@ button.cancelButton:hover{background:url(/resources/images/buttons/cancel_hover.
 .myhome a.archive:hover{background-position: 0px -22px}
 	
 #carousel { position: relative; width:560px; height:194px; margin:0 auto; }
-#slides { overflow:hidden; /* fix ie overflow issue */ position:relative; width:560px; height:194px; border:1px solid #ccc; margin: 0;}
-#slides li { width:560px; height:194px; float:left; }
+#slides { overflow:hidden; /* fix ie overflow issue */ position:relative; width:560px; height:194px; margin: 0;}
+#slides li { width:560px; height:194px; float:left; list-style: none; }
 #slides li img { padding:0; }
+#slides li a { float: left; width: 560px; margin:0; }
 .slide_text { line-height: 28px; font-size: 24px; left: 10px; position: absolute; top: 132px; color: #fff; z-index: 10; }
 .slide_text_background { background: #777; width: 560px; height: 72px; opacity: .5; position: absolute; top: 122px; z-index: 5; }
 #buttons a { display:block; width:31px; height:32px; text-indent:-999em; float:left; outline:0; }
@@ -316,6 +323,7 @@ a#next_news:hover {background:url(/resources/images/dashboard_action_sprite.png)
         
         $("#activate_walkthrough").click(function(){
 //        	$.colorbox({width:"705px", height:"536px", inline:true, href:"#scrap_walkthrough"});
+			reset_walkthrough();
         	$.colorbox({width:"705px", inline:true, href:"#scrap_walkthrough"});
         })
         
@@ -376,7 +384,7 @@ a#next_news:hover {background:url(/resources/images/dashboard_action_sprite.png)
 	var default_colorbox_close = $.colorbox.close;
 	$.colorbox.close = function(){
 	  default_colorbox_close();
-      reset_walkthrough();
+      //reset_walkthrough();
 	};
 	
 	function reset_walkthrough(){
@@ -387,6 +395,7 @@ a#next_news:hover {background:url(/resources/images/dashboard_action_sprite.png)
 		//$("#scrapper_walkthrough").hide();
 		$(".walkthrough_group").hide();
 		$("#walkthrough_prev").hide();
+		$("#walkthrough_next").show();
 		
 	}
 </script>

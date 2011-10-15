@@ -29,7 +29,7 @@
   var sw = {"app":{}};
   
 	</script>
-
+<script type="text/javascript">var switchTo5x=true;</script><script type="text/javascript" src="https://ws.sharethis.com/button/buttons.js"></script><script type="text/javascript">stLight.options({publisher:'144f5866-b3c9-4a80-8f35-4007df29cf59'});</script>
 <!--   <link href="/resources/css/jquery-ui-1.8.6.custom.css" rel="stylesheet" type="text/css" />   -->
 <!-- css for verticalSlider -->
     <style type="text/css">
