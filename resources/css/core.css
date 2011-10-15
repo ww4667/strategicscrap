@@ -236,21 +236,32 @@ ul.regionBullets li{float:left;width:210px;}
     font-weight: bold;
     margin: 10px 0 0 10px;
 }
+.blog .leftCol {font-size:14px}
+.blog .leftCol .blog_by_line {color:#666;}
+.blog .leftCol .social_links {float:none;}
+.blog .leftCol p {margin:0 1em 1em;}
+.blog .leftCol h3,
+.blog .leftCol h4,
+.blog .leftCol h5 {margin:0 1em .2em}
+.blog .leftCol a {color:#F96C14;}
+.blog .leftCol a:hover {text-decoration:underline;}
 .blog_row {
     margin: 20px 0 0;
 }
-.blog_category {
+.blog_category,.blog_category a {
     color: #F86C13;
     font-size: 11px;
     font-weight: bold;
     padding: 4px 0 10px;
     text-transform: uppercase;
+	float: left;
 }
 .blog_title {
     color: #000000;
     font-family: Arial,Helvetica,sans-serif;
     font-size: 22px;
     margin: 0 0 5px;
+	clear: both;
 }
 .blog_by_line {
     color: #CCCCCC;
@@ -269,4 +280,12 @@ ul.regionBullets li{float:left;width:210px;}
     font-weight: bold;
 }
 
+.blog_item {
+    clear: both;float: left; margin: 10px 0; /* padding: 10px 0 ; border-bottom: 2px solid #ccc; */
+}
+
+.social_links {float: right;}
+.scrapex .social_links {display:none} /* Josh says no... */
+.region .social_links {float:none;margin-bottom:10px;}
+.clear_both{clear: both;}
 

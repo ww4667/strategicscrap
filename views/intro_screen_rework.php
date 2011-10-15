@@ -234,6 +234,7 @@ var sws = {};
 		</div>
 	</div><div class="moduleBottom"><!-- IE hates empty elements --></div>
 	</div>
+	{{intro_66_33_AdBlock}}
 </div>
 <div class = "hide">
 	<div id ="scrap_walkthrough">
