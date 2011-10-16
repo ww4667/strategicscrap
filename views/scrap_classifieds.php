@@ -10,7 +10,7 @@ Scrap Classifieds!
 		if(!isset($_SESSION)) session_start();
 		
 		require_once($_SERVER['DOCUMENT_ROOT']."/gir/index.php");
-	}
+	} 
 	
 	$categoryOne = new Category();
 	$classifiedOne = new Classified();
