@@ -16,7 +16,7 @@ switch($controller_action){
 	case 'my-homepage':
 		$temp_time_start = microtime(true);
 		error_log( "starting to load homepage: " . (microtime(true) - $temp_time_start) . " seconds so far..." );
-		require_ssl();
+//		require_ssl();
 		if( !$gir->auth->authenticate() || $_SESSION['user']['group'] != "scrapper" ){
 			$PAGE_BODY = "views/scrappers/my_homepages_demo.php";  	/* which file to pull into the template */
 			$message = array();
@@ -640,7 +640,7 @@ switch($controller_action){
 
 	/* SCRAP LOGIN **************************************** */
 	case 'scrap-login':
-		require_ssl();
+//		require_ssl();
 		$error_messages = array();
 			
 		if ( (isset($_POST['username']) && $_POST['username'] != "") && (isset($_POST['password']) && $_POST['password'] != "") ) {

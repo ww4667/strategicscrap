@@ -35,7 +35,7 @@ if ( isset( $DOMAIN_CHECK["slashwebstudios"] ) ) {
 } else if ( isset( $DOMAIN_CHECK["local"] ) ) {
 	$dbUsername = 'root';
 	$dbPassword = 'root';
-	$dbName = '`strategi_scrap`';
+	$dbName = 'strategi_scrap';
 } else {
 	$dbUsername = 'strategi_scrap';
 	$dbPassword = 'T,uUUAfOi#T1';

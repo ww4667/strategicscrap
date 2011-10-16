@@ -1,9 +1,9 @@
 {
-"LME Copper":{"cash":"4.35","3 month":"4.37","15 month":"4.37"},
-"LME Aluminium":{"cash":"1.23","3 month":"1.24","15 month":"1.27"},
-"LME Nickel":{"cash":"12.09","3 month":"12.11","15 month":"11.92"},
-"LME Zinc":{"cash":"1.05","3 month":"1.07","15 month":"1.09"},
-"LME Lead":{"cash":"1.21","3 month":"1.19","15 month":"1.18"},
-"LME Tin":{"cash":"14.82","3 month":"14.82","15 month":"14.80"},
-"COMEX Copper":{"cash":"4.33","3 month":"4.41","15 month":""}
+"LME Copper":{"cash":"3.32","3 month":"3.33","15 month":"3.34"},
+"LME Aluminum":{"cash":"0.98","3 month":"1.00","15 month":"1.03"},
+"LME Nickel":{"cash":"8.37","3 month":"8.37","15 month":"8.37"},
+"LME Zinc":{"cash":"0.85","3 month":"0.86","15 month":"0.89"},
+"LME Lead":{"cash":"0.90","3 month":"0.91","15 month":"0.93"},
+"LME Tin":{"cash":"10.20","3 month":"10.16","15 month":"10.20"},
+"COMEX Copper":{"cash":"3.39","3 month":"3.32","15 month":""}
 }
