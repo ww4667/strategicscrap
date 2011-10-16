@@ -11,7 +11,7 @@ Scrap Classifieds!
 		
 		require_once($_SERVER['DOCUMENT_ROOT']."/gir/index.php");
 	} 
-	
+	  
 	$categoryOne = new Category();
 	$classifiedOne = new Classified();
 	
