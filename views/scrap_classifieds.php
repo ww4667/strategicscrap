@@ -18,5 +18,6 @@ Scrap Classifieds!
 	$categoryOne->PTS( $categoryOne, "Category One" );
 	$classifiedOne->PTS( $classifiedOne, "Classified One" );
 	
+	print "howdy";
 ?>
 
