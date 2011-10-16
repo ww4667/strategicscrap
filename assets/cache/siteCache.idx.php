@@ -4,7 +4,7 @@ $c['manager_theme'] = "MODxCarbon";
 $c['settings_version'] = "1.0.3";
 $c['show_meta'] = "0";
 $c['server_offset_time'] = "0";
-$c['server_protocol'] = "http";
+$c['server_protocol'] = "https";
 $c['manager_language'] = "english";
 $c['modx_charset'] = "UTF-8";
 $c['site_name'] = "Strategic Scrap";
@@ -39,7 +39,7 @@ $c['number_of_messages'] = "30";
 $c['number_of_results'] = "20";
 $c['use_editor'] = "1";
 $c['use_browser'] = "1";
-$c['rb_base_dir'] = "/hsphere/local/home/silversilos/demo.strategicscrap.com/assets/";
+$c['rb_base_dir'] = "C:/xampp/htdocs/local.strategicscrap.com/assets/";
 $c['rb_base_url'] = "assets/";
 $c['which_editor'] = "TinyMCE";
 $c['fe_editor_lang'] = "english";
@@ -55,7 +55,7 @@ $c['upload_files'] = "aac,au,avi,css,cache,doc,docx,gz,gzip,htaccess,htm,html,js
 $c['upload_maxsize'] = "1048576";
 $c['new_file_permissions'] = "0644";
 $c['new_folder_permissions'] = "0755";
-$c['filemanager_path'] = "/hsphere/local/home/silversilos/demo.strategicscrap.com/";
+$c['filemanager_path'] = "C:/xampp/htdocs/local.strategicscrap.com/";
 $c['theme_refresher'] = "";
 $c['manager_layout'] = "4";
 $c['custom_contenttype'] = "application/rss+xml,application/pdf,application/vnd.ms-word,application/vnd.ms-excel,text/html,text/css,text/xml,text/javascript,text/plain";
@@ -101,17 +101,32 @@ $this->aliasListing = array();
 $a = &$this->aliasListing;
 $d = &$this->documentListing;
 $m = &$this->documentMap;
+$d['paid-registration'] = 152;
+$a[152] = array('id' => 152, 'alias' => 'paid-registration', 'path' => '');
+$m[] = array('0' => '152');
+$d['scrap-registration'] = 34;
+$a[34] = array('id' => 34, 'alias' => 'scrap-registration', 'path' => '');
+$m[] = array('0' => '34');
+$d['intro'] = 17;
+$a[17] = array('id' => 17, 'alias' => 'intro', 'path' => '');
+$m[] = array('0' => '17');
+$d['intro-rework'] = 205;
+$a[205] = array('id' => 205, 'alias' => 'intro-rework', 'path' => '');
+$m[] = array('0' => '205');
 $d['homepage'] = 1;
 $a[1] = array('id' => 1, 'alias' => 'homepage', 'path' => '');
 $m[] = array('0' => '1');
+$d['backup-of-old-homepage'] = 18;
+$a[18] = array('id' => 18, 'alias' => 'backup-of-old-homepage', 'path' => '');
+$m[] = array('0' => '18');
 $d['regions'] = 2;
 $a[2] = array('id' => 2, 'alias' => 'regions', 'path' => '');
 $m[] = array('0' => '2');
 $d['scrap-exchange'] = 3;
 $a[3] = array('id' => 3, 'alias' => 'scrap-exchange', 'path' => '');
 $m[] = array('0' => '3');
-$d['transport-material'] = 4;
-$a[4] = array('id' => 4, 'alias' => 'transport-material', 'path' => '');
+$d['transportation-hub'] = 4;
+$a[4] = array('id' => 4, 'alias' => 'transportation-hub', 'path' => '');
 $m[] = array('0' => '4');
 $d['scrap-classifieds'] = 5;
 $a[5] = array('id' => 5, 'alias' => 'scrap-classifieds', 'path' => '');
@@ -128,12 +143,78 @@ $m[] = array('0' => '13');
 $d['isri-specifications'] = 14;
 $a[14] = array('id' => 14, 'alias' => 'isri-specifications', 'path' => '');
 $m[] = array('0' => '14');
+$d['site-map'] = 240;
+$a[240] = array('id' => 240, 'alias' => 'site-map', 'path' => '');
+$m[] = array('0' => '240');
+$d['glossary-of-terms'] = 209;
+$a[209] = array('id' => 209, 'alias' => 'glossary-of-terms', 'path' => '');
+$m[] = array('0' => '209');
 $d['terms-and-conditions'] = 15;
 $a[15] = array('id' => 15, 'alias' => 'terms-and-conditions', 'path' => '');
 $m[] = array('0' => '15');
 $d['privacy-policy'] = 16;
 $a[16] = array('id' => 16, 'alias' => 'privacy-policy', 'path' => '');
 $m[] = array('0' => '16');
+$d['broker-admin'] = 19;
+$a[19] = array('id' => 19, 'alias' => 'broker-admin', 'path' => '');
+$m[] = array('0' => '19');
+$d['scrap-pricing-form'] = 24;
+$a[24] = array('id' => 24, 'alias' => 'scrap-pricing-form', 'path' => '');
+$m[] = array('0' => '24');
+$d['broker-pricing-form'] = 28;
+$a[28] = array('id' => 28, 'alias' => 'broker-pricing-form', 'path' => '');
+$m[] = array('0' => '28');
+$d['pricing-form2'] = 25;
+$a[25] = array('id' => 25, 'alias' => 'pricing-form2', 'path' => '');
+$m[] = array('0' => '25');
+$d['this-page-is-password-protected'] = 26;
+$a[26] = array('id' => 26, 'alias' => 'this-page-is-password-protected', 'path' => '');
+$m[] = array('0' => '26');
+$d['promotion-landing-pages'] = 77;
+$a[77] = array('id' => 77, 'alias' => 'promotion-landing-pages', 'path' => '');
+$m[] = array('0' => '77');
+$d['feed-links'] = 29;
+$a[29] = array('id' => 29, 'alias' => 'feed-links', 'path' => '');
+$m[] = array('0' => '29');
+$d['my-account'] = 35;
+$a[35] = array('id' => 35, 'alias' => 'my-account', 'path' => '');
+$m[] = array('0' => '35');
+$d['payment-information'] = 132;
+$a[132] = array('id' => 132, 'alias' => 'payment-information', 'path' => '');
+$m[] = array('0' => '132');
+$d['pricing-export-csv'] = 48;
+$a[48] = array('id' => 48, 'alias' => 'pricing-export-csv', 'path' => '');
+$m[] = array('0' => '48');
+$d['downloader'] = 59;
+$a[59] = array('id' => 59, 'alias' => 'downloader', 'path' => '');
+$m[] = array('0' => '59');
+$d['reset-password'] = 82;
+$a[82] = array('id' => 82, 'alias' => 'reset-password', 'path' => '');
+$m[] = array('0' => '82');
+$d['crons'] = 156;
+$a[156] = array('id' => 156, 'alias' => 'crons', 'path' => '');
+$m[] = array('0' => '156');
+$d['scrap-logout'] = 33;
+$a[33] = array('id' => 33, 'alias' => 'scrap-logout', 'path' => '');
+$m[] = array('0' => '33');
+$d['controllers'] = 49;
+$a[49] = array('id' => 49, 'alias' => 'controllers', 'path' => '');
+$m[] = array('0' => '49');
+$d['scrap-login'] = 32;
+$a[32] = array('id' => 32, 'alias' => 'scrap-login', 'path' => '');
+$m[] = array('0' => '32');
+$d['static-market-data'] = 73;
+$a[73] = array('id' => 73, 'alias' => 'static-market-data', 'path' => '');
+$m[] = array('0' => '73');
+$d['static-market-data-backup'] = 74;
+$a[74] = array('id' => 74, 'alias' => 'static-market-data-backup', 'path' => '');
+$m[] = array('0' => '74');
+$d['poll'] = 75;
+$a[75] = array('id' => 75, 'alias' => 'poll', 'path' => '');
+$m[] = array('0' => '75');
+$d['blog'] = 226;
+$a[226] = array('id' => 226, 'alias' => 'blog', 'path' => '');
+$m[] = array('0' => '226');
 $d['regions/northeast'] = 7;
 $a[7] = array('id' => 7, 'alias' => 'northeast', 'path' => 'regions');
 $m[] = array('2' => '7');
@@ -149,30 +230,850 @@ $m[] = array('2' => '10');
 $d['regions/west'] = 11;
 $a[11] = array('id' => 11, 'alias' => 'west', 'path' => 'regions');
 $m[] = array('2' => '11');
+$d['scrap-classifieds/buy-scrap'] = 37;
+$a[37] = array('id' => 37, 'alias' => 'buy-scrap', 'path' => 'scrap-classifieds');
+$m[] = array('5' => '37');
+$d['scrap-classifieds/jobs'] = 53;
+$a[53] = array('id' => 53, 'alias' => 'jobs', 'path' => 'scrap-classifieds');
+$m[] = array('5' => '53');
+$d['scrap-classifieds/sell-scrap'] = 36;
+$a[36] = array('id' => 36, 'alias' => 'sell-scrap', 'path' => 'scrap-classifieds');
+$m[] = array('5' => '36');
+$d['scrap-classifieds/auctions'] = 51;
+$a[51] = array('id' => 51, 'alias' => 'auctions', 'path' => 'scrap-classifieds');
+$m[] = array('5' => '51');
+$d['equipment-classifieds/buy-equipment'] = 44;
+$a[44] = array('id' => 44, 'alias' => 'buy-equipment', 'path' => 'equipment-classifieds');
+$m[] = array('6' => '44');
+$d['equipment-classifieds/sell-equipment'] = 41;
+$a[41] = array('id' => 41, 'alias' => 'sell-equipment', 'path' => 'equipment-classifieds');
+$m[] = array('6' => '41');
+$d['broker-admin/dashboard'] = 21;
+$a[21] = array('id' => 21, 'alias' => 'dashboard', 'path' => 'broker-admin');
+$m[] = array('19' => '21');
+$d['broker-admin/login'] = 20;
+$a[20] = array('id' => 20, 'alias' => 'login', 'path' => 'broker-admin');
+$m[] = array('19' => '20');
+$d['broker-admin/request-manager'] = 22;
+$a[22] = array('id' => 22, 'alias' => 'request-manager', 'path' => 'broker-admin');
+$m[] = array('19' => '22');
+$d['broker-admin/quote-manager'] = 27;
+$a[27] = array('id' => 27, 'alias' => 'quote-manager', 'path' => 'broker-admin');
+$m[] = array('19' => '27');
+$d['feed-links/scrap-feed'] = 30;
+$a[30] = array('id' => 30, 'alias' => 'scrap-feed', 'path' => 'feed-links');
+$m[] = array('29' => '30');
+$d['feed-links/business-feed'] = 31;
+$a[31] = array('id' => 31, 'alias' => 'business-feed', 'path' => 'feed-links');
+$m[] = array('29' => '31');
+$d['feed-links/twitter'] = 65;
+$a[65] = array('id' => 65, 'alias' => 'twitter', 'path' => 'feed-links');
+$m[] = array('29' => '65');
+$d['feed-links/twit'] = 98;
+$a[98] = array('id' => 98, 'alias' => 'twit', 'path' => 'feed-links');
+$m[] = array('29' => '98');
+$d['scrap-classifieds/sell-scrap/9272011-sun-lite-metals1'] = 212;
+$a[212] = array('id' => 212, 'alias' => '9272011-sun-lite-metals1', 'path' => 'scrap-classifieds/sell-scrap');
+$m[] = array('36' => '212');
+$d['scrap-classifieds/sell-scrap/9272011-sun-lite-metals'] = 211;
+$a[211] = array('id' => 211, 'alias' => '9272011-sun-lite-metals', 'path' => 'scrap-classifieds/sell-scrap');
+$m[] = array('36' => '211');
+$d['scrap-classifieds/sell-scrap/hms-greg-crown'] = 38;
+$a[38] = array('id' => 38, 'alias' => 'hms-greg-crown', 'path' => 'scrap-classifieds/sell-scrap');
+$m[] = array('36' => '38');
+$d['scrap-classifieds/sell-scrap/10052011-sun-lite-metals'] = 243;
+$a[243] = array('id' => 243, 'alias' => '10052011-sun-lite-metals', 'path' => 'scrap-classifieds/sell-scrap');
+$m[] = array('36' => '243');
+$d['scrap-classifieds/sell-scrap/9212011-foundry-plate'] = 206;
+$a[206] = array('id' => 206, 'alias' => '9212011-foundry-plate', 'path' => 'scrap-classifieds/sell-scrap');
+$m[] = array('36' => '206');
+$d['scrap-classifieds/sell-scrap/10052011-sun-lite-metals1'] = 244;
+$a[244] = array('id' => 244, 'alias' => '10052011-sun-lite-metals1', 'path' => 'scrap-classifieds/sell-scrap');
+$m[] = array('36' => '244');
+$d['scrap-classifieds/sell-scrap/9212011-brass-bead-wire'] = 207;
+$a[207] = array('id' => 207, 'alias' => '9212011-brass-bead-wire', 'path' => 'scrap-classifieds/sell-scrap');
+$m[] = array('36' => '207');
+$d['scrap-classifieds/sell-scrap/9282011-1-cu-chops'] = 217;
+$a[217] = array('id' => 217, 'alias' => '9282011-1-cu-chops', 'path' => 'scrap-classifieds/sell-scrap');
+$m[] = array('36' => '217');
+$d['scrap-classifieds/sell-scrap/kyle-1-machinery-cast'] = 63;
+$a[63] = array('id' => 63, 'alias' => 'kyle-1-machinery-cast', 'path' => 'scrap-classifieds/sell-scrap');
+$m[] = array('36' => '63');
+$d['scrap-classifieds/sell-scrap/9282011-pure-lead-ingot'] = 218;
+$a[218] = array('id' => 218, 'alias' => '9282011-pure-lead-ingot', 'path' => 'scrap-classifieds/sell-scrap');
+$m[] = array('36' => '218');
+$d['scrap-classifieds/sell-scrap/exim-ps'] = 69;
+$a[69] = array('id' => 69, 'alias' => 'exim-ps', 'path' => 'scrap-classifieds/sell-scrap');
+$m[] = array('36' => '69');
+$d['scrap-classifieds/sell-scrap/9272011-sun-lite-metals3'] = 214;
+$a[214] = array('id' => 214, 'alias' => '9272011-sun-lite-metals3', 'path' => 'scrap-classifieds/sell-scrap');
+$m[] = array('36' => '214');
+$d['scrap-classifieds/sell-scrap/chad-heavy-breakable-cast'] = 64;
+$a[64] = array('id' => 64, 'alias' => 'chad-heavy-breakable-cast', 'path' => 'scrap-classifieds/sell-scrap');
+$m[] = array('36' => '64');
+$d['scrap-classifieds/sell-scrap/9272011-sun-lite-metals2'] = 213;
+$a[213] = array('id' => 213, 'alias' => '9272011-sun-lite-metals2', 'path' => 'scrap-classifieds/sell-scrap');
+$m[] = array('36' => '213');
+$d['scrap-classifieds/buy-scrap/cimco-shredable-scrap'] = 107;
+$a[107] = array('id' => 107, 'alias' => 'cimco-shredable-scrap', 'path' => 'scrap-classifieds/buy-scrap');
+$m[] = array('37' => '107');
+$d['scrap-classifieds/buy-scrap/7222011-sadoff-iron-and-metal'] = 170;
+$a[170] = array('id' => 170, 'alias' => '7222011-sadoff-iron-and-metal', 'path' => 'scrap-classifieds/buy-scrap');
+$m[] = array('37' => '170');
+$d['scrap-classifieds/buy-scrap/9212011-cu-transformer-cores'] = 208;
+$a[208] = array('id' => 208, 'alias' => '9212011-cu-transformer-cores', 'path' => 'scrap-classifieds/buy-scrap');
+$m[] = array('37' => '208');
+$d['scrap-classifieds/buy-scrap/9272011-sun-lite-metals7'] = 221;
+$a[221] = array('id' => 221, 'alias' => '9272011-sun-lite-metals7', 'path' => 'scrap-classifieds/buy-scrap');
+$m[] = array('37' => '221');
+$d['scrap-classifieds/buy-scrap/10052011-scrap-trading'] = 249;
+$a[249] = array('id' => 249, 'alias' => '10052011-scrap-trading', 'path' => 'scrap-classifieds/buy-scrap');
+$m[] = array('37' => '249');
+$d['scrap-classifieds/buy-scrap/9272011-sun-lite-metals5'] = 219;
+$a[219] = array('id' => 219, 'alias' => '9272011-sun-lite-metals5', 'path' => 'scrap-classifieds/buy-scrap');
+$m[] = array('37' => '219');
+$d['scrap-classifieds/buy-scrap/9272011-sun-lite-metals6'] = 220;
+$a[220] = array('id' => 220, 'alias' => '9272011-sun-lite-metals6', 'path' => 'scrap-classifieds/buy-scrap');
+$m[] = array('37' => '220');
+$d['scrap-classifieds/buy-scrap/9272011-sun-lite-metals4'] = 210;
+$a[210] = array('id' => 210, 'alias' => '9272011-sun-lite-metals4', 'path' => 'scrap-classifieds/buy-scrap');
+$m[] = array('37' => '210');
+$d['scrap-classifieds/buy-scrap/10052011-metal-exchange'] = 250;
+$a[250] = array('id' => 250, 'alias' => '10052011-metal-exchange', 'path' => 'scrap-classifieds/buy-scrap');
+$m[] = array('37' => '250');
+$d['scrap-classifieds/buy-scrap/wanted-scrap'] = 97;
+$a[97] = array('id' => 97, 'alias' => 'wanted-scrap', 'path' => 'scrap-classifieds/buy-scrap');
+$m[] = array('37' => '97');
+$d['scrap-classifieds/buy-scrap/scrap-wanted'] = 96;
+$a[96] = array('id' => 96, 'alias' => 'scrap-wanted', 'path' => 'scrap-classifieds/buy-scrap');
+$m[] = array('37' => '96');
+$d['scrap-classifieds/buy-scrap/heavy-turnings-greg-crown'] = 39;
+$a[39] = array('id' => 39, 'alias' => 'heavy-turnings-greg-crown', 'path' => 'scrap-classifieds/buy-scrap');
+$m[] = array('37' => '39');
+$d['equipment-classifieds/sell-equipment/ivan-1999-leibherr-a924'] = 178;
+$a[178] = array('id' => 178, 'alias' => 'ivan-1999-leibherr-a924', 'path' => 'equipment-classifieds/sell-equipment');
+$m[] = array('41' => '178');
+$d['equipment-classifieds/sell-equipment/model-sr-5x-used-global-two-ram-shear-baler'] = 83;
+$a[83] = array('id' => 83, 'alias' => 'model-sr-5x-used-global-two-ram-shear-baler', 'path' => 'equipment-classifieds/sell-equipment');
+$m[] = array('41' => '83');
+$d['equipment-classifieds/sell-equipment/962011-a-line-mag-2'] = 195;
+$a[195] = array('id' => 195, 'alias' => '962011-a-line-mag-2', 'path' => 'equipment-classifieds/sell-equipment');
+$m[] = array('41' => '195');
+$d['equipment-classifieds/sell-equipment/962011-a-line-mag-1'] = 194;
+$a[194] = array('id' => 194, 'alias' => '962011-a-line-mag-1', 'path' => 'equipment-classifieds/sell-equipment');
+$m[] = array('41' => '194');
+$d['equipment-classifieds/sell-equipment/4-36-used-constellation-hydraulic-alligator-shear'] = 91;
+$a[91] = array('id' => 91, 'alias' => '4-36-used-constellation-hydraulic-alligator-shear', 'path' => 'equipment-classifieds/sell-equipment');
+$m[] = array('41' => '91');
+$d['equipment-classifieds/sell-equipment/ivan-2007-colmar-650'] = 175;
+$a[175] = array('id' => 175, 'alias' => 'ivan-2007-colmar-650', 'path' => 'equipment-classifieds/sell-equipment');
+$m[] = array('41' => '175');
+$d['equipment-classifieds/sell-equipment/ivan-2005-leibherr-a934hd'] = 177;
+$a[177] = array('id' => 177, 'alias' => 'ivan-2005-leibherr-a934hd', 'path' => 'equipment-classifieds/sell-equipment');
+$m[] = array('41' => '177');
+$d['equipment-classifieds/sell-equipment/23-x-33-used-pb-24-bepex-mega-torq-rubber-grinder'] = 89;
+$a[89] = array('id' => 89, 'alias' => '23-x-33-used-pb-24-bepex-mega-torq-rubber-grinder', 'path' => 'equipment-classifieds/sell-equipment');
+$m[] = array('41' => '89');
+$d['equipment-classifieds/sell-equipment/rem-used-tcd-10-can-flattener-wconveyor'] = 88;
+$a[88] = array('id' => 88, 'alias' => 'rem-used-tcd-10-can-flattener-wconveyor', 'path' => 'equipment-classifieds/sell-equipment');
+$m[] = array('41' => '88');
+$d['equipment-classifieds/sell-equipment/24-prab-used-chip-wringer'] = 87;
+$a[87] = array('id' => 87, 'alias' => '24-prab-used-chip-wringer', 'path' => 'equipment-classifieds/sell-equipment');
+$m[] = array('41' => '87');
+$d['equipment-classifieds/sell-equipment/24-zeno-used-single-shaft-shredder'] = 86;
+$a[86] = array('id' => 86, 'alias' => '24-zeno-used-single-shaft-shredder', 'path' => 'equipment-classifieds/sell-equipment');
+$m[] = array('41' => '86');
+$d['equipment-classifieds/sell-equipment/42-new-gusella-scrap-lifting-magnet-with-hydraulic-attachment'] = 85;
+$a[85] = array('id' => 85, 'alias' => '42-new-gusella-scrap-lifting-magnet-with-hydraulic-attachment', 'path' => 'equipment-classifieds/sell-equipment');
+$m[] = array('41' => '85');
+$d['equipment-classifieds/sell-equipment/2400-used-american-pulverizer-ring-crusher'] = 84;
+$a[84] = array('id' => 84, 'alias' => '2400-used-american-pulverizer-ring-crusher', 'path' => 'equipment-classifieds/sell-equipment');
+$m[] = array('41' => '84');
+$d['equipment-classifieds/sell-equipment/elme-new-clamshell-grapplemagnet-combination'] = 72;
+$a[72] = array('id' => 72, 'alias' => 'elme-new-clamshell-grapplemagnet-combination', 'path' => 'equipment-classifieds/sell-equipment');
+$m[] = array('41' => '72');
+$d['equipment-classifieds/sell-equipment/ivan-winkle-magnet'] = 131;
+$a[131] = array('id' => 131, 'alias' => 'ivan-winkle-magnet', 'path' => 'equipment-classifieds/sell-equipment');
+$m[] = array('41' => '131');
+$d['equipment-classifieds/sell-equipment/ivan-2007-sennebogen-825'] = 124;
+$a[124] = array('id' => 124, 'alias' => 'ivan-2007-sennebogen-825', 'path' => 'equipment-classifieds/sell-equipment');
+$m[] = array('41' => '124');
+$d['equipment-classifieds/sell-equipment/ivan-mhl-340-1995'] = 109;
+$a[109] = array('id' => 109, 'alias' => 'ivan-mhl-340-1995', 'path' => 'equipment-classifieds/sell-equipment');
+$m[] = array('41' => '109');
+$d['equipment-classifieds/sell-equipment/ivan-2001-mhl360'] = 112;
+$a[112] = array('id' => 112, 'alias' => 'ivan-2001-mhl360', 'path' => 'equipment-classifieds/sell-equipment');
+$m[] = array('41' => '112');
+$d['equipment-classifieds/sell-equipment/7122011-balcon-enterprises'] = 161;
+$a[161] = array('id' => 161, 'alias' => '7122011-balcon-enterprises', 'path' => 'equipment-classifieds/sell-equipment');
+$m[] = array('41' => '161');
+$d['equipment-classifieds/sell-equipment/ivan-1996-mhl350'] = 113;
+$a[113] = array('id' => 113, 'alias' => 'ivan-1996-mhl350', 'path' => 'equipment-classifieds/sell-equipment');
+$m[] = array('41' => '113');
+$d['equipment-classifieds/sell-equipment/ivan-2003-cat-m318'] = 119;
+$a[119] = array('id' => 119, 'alias' => 'ivan-2003-cat-m318', 'path' => 'equipment-classifieds/sell-equipment');
+$m[] = array('41' => '119');
+$d['equipment-classifieds/sell-equipment/ivan-1999-komatsu-pw130'] = 123;
+$a[123] = array('id' => 123, 'alias' => 'ivan-1999-komatsu-pw130', 'path' => 'equipment-classifieds/sell-equipment');
+$m[] = array('41' => '123');
+$d['equipment-classifieds/sell-equipment/ivan-2005-sennebogen-835m'] = 125;
+$a[125] = array('id' => 125, 'alias' => 'ivan-2005-sennebogen-835m', 'path' => 'equipment-classifieds/sell-equipment');
+$m[] = array('41' => '125');
+$d['equipment-classifieds/sell-equipment/ivan-new-4-tine-rotating-grapples'] = 126;
+$a[126] = array('id' => 126, 'alias' => 'ivan-new-4-tine-rotating-grapples', 'path' => 'equipment-classifieds/sell-equipment');
+$m[] = array('41' => '126');
+$d['equipment-classifieds/sell-equipment/ivan-new-gen-set'] = 130;
+$a[130] = array('id' => 130, 'alias' => 'ivan-new-gen-set', 'path' => 'equipment-classifieds/sell-equipment');
+$m[] = array('41' => '130');
+$d['equipment-classifieds/buy-equipment/ivan-material-handlers'] = 127;
+$a[127] = array('id' => 127, 'alias' => 'ivan-material-handlers', 'path' => 'equipment-classifieds/buy-equipment');
+$m[] = array('44' => '127');
+$d['equipment-classifieds/buy-equipment/ivan-mobile-shears'] = 128;
+$a[128] = array('id' => 128, 'alias' => 'ivan-mobile-shears', 'path' => 'equipment-classifieds/buy-equipment');
+$m[] = array('44' => '128');
+$d['equipment-classifieds/buy-equipment/ivan-portable-baler'] = 129;
+$a[129] = array('id' => 129, 'alias' => 'ivan-portable-baler', 'path' => 'equipment-classifieds/buy-equipment');
+$m[] = array('44' => '129');
+$d['equipment-classifieds/buy-equipment/852011-chad-roll-off-truck'] = 181;
+$a[181] = array('id' => 181, 'alias' => '852011-chad-roll-off-truck', 'path' => 'equipment-classifieds/buy-equipment');
+$m[] = array('44' => '181');
+$d['controllers/remote'] = 50;
+$a[50] = array('id' => 50, 'alias' => 'remote', 'path' => 'controllers');
+$m[] = array('49' => '50');
+$d['controllers/usaepay'] = 99;
+$a[99] = array('id' => 99, 'alias' => 'usaepay', 'path' => 'controllers');
+$m[] = array('49' => '99');
+$d['scrap-classifieds/auctions/big-auction-two-auction-company-two'] = 56;
+$a[56] = array('id' => 56, 'alias' => 'big-auction-two-auction-company-two', 'path' => 'scrap-classifieds/auctions');
+$m[] = array('51' => '56');
+$d['scrap-classifieds/auctions/248'] = 248;
+$a[248] = array('id' => 248, 'alias' => '248', 'path' => 'scrap-classifieds/auctions');
+$m[] = array('51' => '248');
+$d['scrap-classifieds/auctions/10052011-rb-auctions'] = 247;
+$a[247] = array('id' => 247, 'alias' => '10052011-rb-auctions', 'path' => 'scrap-classifieds/auctions');
+$m[] = array('51' => '247');
+$d['scrap-classifieds/auctions/9292011-world-net-auctions'] = 223;
+$a[223] = array('id' => 223, 'alias' => '9292011-world-net-auctions', 'path' => 'scrap-classifieds/auctions');
+$m[] = array('51' => '223');
+$d['scrap-classifieds/auctions/big-auction-auction-company'] = 52;
+$a[52] = array('id' => 52, 'alias' => 'big-auction-auction-company', 'path' => 'scrap-classifieds/auctions');
+$m[] = array('51' => '52');
+$d['scrap-classifieds/auctions/10052011-adesa'] = 245;
+$a[245] = array('id' => 245, 'alias' => '10052011-adesa', 'path' => 'scrap-classifieds/auctions');
+$m[] = array('51' => '245');
+$d['scrap-classifieds/auctions/10052011-cat-auction-services'] = 246;
+$a[246] = array('id' => 246, 'alias' => '10052011-cat-auction-services', 'path' => 'scrap-classifieds/auctions');
+$m[] = array('51' => '246');
+$d['scrap-classifieds/auctions/9272011-rb-auctions'] = 216;
+$a[216] = array('id' => 216, 'alias' => '9272011-rb-auctions', 'path' => 'scrap-classifieds/auctions');
+$m[] = array('51' => '216');
+$d['scrap-classifieds/auctions/cat-auction-services'] = 203;
+$a[203] = array('id' => 203, 'alias' => 'cat-auction-services', 'path' => 'scrap-classifieds/auctions');
+$m[] = array('51' => '203');
+$d['scrap-classifieds/auctions/9292011-us-auctioneers-inc'] = 222;
+$a[222] = array('id' => 222, 'alias' => '9292011-us-auctioneers-inc', 'path' => 'scrap-classifieds/auctions');
+$m[] = array('51' => '222');
+$d['scrap-classifieds/jobs/upstateshredding-eddy-current-supervisor'] = 62;
+$a[62] = array('id' => 62, 'alias' => 'upstateshredding-eddy-current-supervisor', 'path' => 'scrap-classifieds/jobs');
+$m[] = array('53' => '62');
+$d['scrap-classifieds/jobs/9132011-sims-metal-management'] = 198;
+$a[198] = array('id' => 198, 'alias' => '9132011-sims-metal-management', 'path' => 'scrap-classifieds/jobs');
+$m[] = array('53' => '198');
+$d['scrap-classifieds/jobs/hiring-company-two-cfo'] = 57;
+$a[57] = array('id' => 57, 'alias' => 'hiring-company-two-cfo', 'path' => 'scrap-classifieds/jobs');
+$m[] = array('53' => '57');
+$d['scrap-classifieds/jobs/7122011-commercial-metals-company'] = 165;
+$a[165] = array('id' => 165, 'alias' => '7122011-commercial-metals-company', 'path' => 'scrap-classifieds/jobs');
+$m[] = array('53' => '165');
+$d['scrap-classifieds/jobs/7122011-severstal'] = 166;
+$a[166] = array('id' => 166, 'alias' => '7122011-severstal', 'path' => 'scrap-classifieds/jobs');
+$m[] = array('53' => '166');
+$d['scrap-classifieds/jobs/7122011-psc-metals'] = 167;
+$a[167] = array('id' => 167, 'alias' => '7122011-psc-metals', 'path' => 'scrap-classifieds/jobs');
+$m[] = array('53' => '167');
+$d['scrap-classifieds/jobs/6102011-cimco-resources'] = 143;
+$a[143] = array('id' => 143, 'alias' => '6102011-cimco-resources', 'path' => 'scrap-classifieds/jobs');
+$m[] = array('53' => '143');
+$d['scrap-classifieds/jobs/upstateshredding-maintenance-personnel'] = 61;
+$a[61] = array('id' => 61, 'alias' => 'upstateshredding-maintenance-personnel', 'path' => 'scrap-classifieds/jobs');
+$m[] = array('53' => '61');
+$d['scrap-classifieds/jobs/upstateshredding-mega-shredder-maintenance-foreman'] = 60;
+$a[60] = array('id' => 60, 'alias' => 'upstateshredding-mega-shredder-maintenance-foreman', 'path' => 'scrap-classifieds/jobs');
+$m[] = array('53' => '60');
+$d['scrap-classifieds/jobs/852011-sadoff-iron-and-metals'] = 182;
+$a[182] = array('id' => 182, 'alias' => '852011-sadoff-iron-and-metals', 'path' => 'scrap-classifieds/jobs');
+$m[] = array('53' => '182');
+$d['scrap-classifieds/jobs/812011-maurer-mfg'] = 180;
+$a[180] = array('id' => 180, 'alias' => '812011-maurer-mfg', 'path' => 'scrap-classifieds/jobs');
+$m[] = array('53' => '180');
+$d['scrap-classifieds/jobs/9132011-tube-city-ims'] = 197;
+$a[197] = array('id' => 197, 'alias' => '9132011-tube-city-ims', 'path' => 'scrap-classifieds/jobs');
+$m[] = array('53' => '197');
+$d['promotion-landing-pages/some-easy-to-remember-url'] = 81;
+$a[81] = array('id' => 81, 'alias' => 'some-easy-to-remember-url', 'path' => 'promotion-landing-pages');
+$m[] = array('77' => '81');
+$d['crons/daily'] = 157;
+$a[157] = array('id' => 157, 'alias' => 'daily', 'path' => 'crons');
+$m[] = array('156' => '157');
+$d['intro-rework/carousel'] = 224;
+$a[224] = array('id' => 224, 'alias' => 'carousel', 'path' => 'intro-rework');
+$m[] = array('205' => '224');
+$d['intro-rework/hp-news-ticker'] = 225;
+$a[225] = array('id' => 225, 'alias' => 'hp-news-ticker', 'path' => 'intro-rework');
+$m[] = array('205' => '225');
+$d['intro-rework/walkthrough'] = 229;
+$a[229] = array('id' => 229, 'alias' => 'walkthrough', 'path' => 'intro-rework');
+$m[] = array('205' => '229');
+$d['intro-rework/carousel/hp-carousel-banner-1'] = 230;
+$a[230] = array('id' => 230, 'alias' => 'hp-carousel-banner-1', 'path' => 'intro-rework/carousel');
+$m[] = array('224' => '230');
+$d['intro-rework/carousel/hp-carousel-banner-2'] = 231;
+$a[231] = array('id' => 231, 'alias' => 'hp-carousel-banner-2', 'path' => 'intro-rework/carousel');
+$m[] = array('224' => '231');
+$d['intro-rework/carousel/hp-carousel-banner-3'] = 232;
+$a[232] = array('id' => 232, 'alias' => 'hp-carousel-banner-3', 'path' => 'intro-rework/carousel');
+$m[] = array('224' => '232');
+$d['intro-rework/carousel/hp-carousel-banner-4'] = 241;
+$a[241] = array('id' => 241, 'alias' => 'hp-carousel-banner-4', 'path' => 'intro-rework/carousel');
+$m[] = array('224' => '241');
+$d['intro-rework/carousel/hp-carousel-banner-5'] = 242;
+$a[242] = array('id' => 242, 'alias' => 'hp-carousel-banner-5', 'path' => 'intro-rework/carousel');
+$m[] = array('224' => '242');
+$d['intro-rework/hp-news-ticker/hp-news-ticker-1'] = 235;
+$a[235] = array('id' => 235, 'alias' => 'hp-news-ticker-1', 'path' => 'intro-rework/hp-news-ticker');
+$m[] = array('225' => '235');
+$d['intro-rework/hp-news-ticker/hp-news-ticker-2'] = 234;
+$a[234] = array('id' => 234, 'alias' => 'hp-news-ticker-2', 'path' => 'intro-rework/hp-news-ticker');
+$m[] = array('225' => '234');
+$d['intro-rework/hp-news-ticker/hp-news-ticker-3'] = 233;
+$a[233] = array('id' => 233, 'alias' => 'hp-news-ticker-3', 'path' => 'intro-rework/hp-news-ticker');
+$m[] = array('225' => '233');
+$d['blog/last-week-in-review'] = 227;
+$a[227] = array('id' => 227, 'alias' => 'last-week-in-review', 'path' => 'blog');
+$m[] = array('226' => '227');
+$d['blog/last-week-in-review/diesel-cost-affecting-bottom-line'] = 228;
+$a[228] = array('id' => 228, 'alias' => 'diesel-cost-affecting-bottom-line', 'path' => 'blog/last-week-in-review');
+$m[] = array('227' => '228');
+$d['intro-rework/walkthrough/processors'] = 236;
+$a[236] = array('id' => 236, 'alias' => 'processors', 'path' => 'intro-rework/walkthrough');
+$m[] = array('229' => '236');
+$d['intro-rework/walkthrough/brokers'] = 237;
+$a[237] = array('id' => 237, 'alias' => 'brokers', 'path' => 'intro-rework/walkthrough');
+$m[] = array('229' => '237');
+$d['intro-rework/walkthrough/processors/processor-dashboard'] = 238;
+$a[238] = array('id' => 238, 'alias' => 'processor-dashboard', 'path' => 'intro-rework/walkthrough/processors');
+$m[] = array('236' => '238');
+$d['intro-rework/walkthrough/processors/scrap-classifieds1'] = 239;
+$a[239] = array('id' => 239, 'alias' => 'scrap-classifieds1', 'path' => 'intro-rework/walkthrough/processors');
+$m[] = array('236' => '239');
 $c = &$this->contentTypes;
 $c = &$this->chunkCache;
 $c['parentRowTpl'] = '<li class="li-top [+wf.classnames+]"><a href="[+wf.link+]" title="[+wf.title+]" class="mainItem">[+wf.linktext+]</a>[+wf.wrapper+]</li>';
 $c['outerTpl'] = '<ul id="mainnav"[+wf.classes+]>[+wf.wrapper+]</ul>';
 $c['rowTpl'] = '<li[+wf.id+] class="li-top [+wf.classnames+]"><a href="[+wf.link+]" title="[+wf.title+]" class="mainItem" [+wf.attributes+]>[+wf.linktext+]</a>[+wf.wrapper+]</li>';
-$c['js_tabs'] = '<script type="text/javascript">
+$c['js_tabs'] = '<!-- include this plugin --> 
+<script type="text/javascript" src="/resources/js/jgfeed/jquery.jgfeed-min.js"></script> 
+<style type="text/css">
+.gfc-resultsHeader				{display:none}
+.gf-result						{padding:5px;margin-bottom:10px;color:#999;}
+.gf-result .gf-title			{height:auto;}
+.gf-title a,.gf-title a:visited	{font-weight:bold;color:#000;display:block;}
+.gf-title a:hover				{font-weight:bold;color:#F96C14;display:block;}
+
+#twitterFeed .gf-snippet 		{display:none}
+</style>
+
+<script type="text/javascript">
 	$(document).ready(function() {
-            $(\'#tabs-news\').tabs();
-            $(\'#tabs-scrapClass\').tabs();
-            $(\'#tabs-equipClass\').tabs();
-            $(\'#scroll-pane1,#scroll-pane2,#scroll-pane3\').jScrollPane();
-            $(".scrapDesc1").colorbox({width:"550", inline:true, href:"#listingDescription1"});
+
+jQuery.jGFeed(\'http://feeds.feedburner.com/StrategicScrapRssBusinessNews\',
+function(feeds){
+  // Check for errors
+  if(!feeds){
+    // there was an error
+    return false;
+  }
+  // do whatever you want with feeds here
+  for(var i=0; i<feeds.entries.length; i++){
+    var entry = feeds.entries[i];
+    // Entry title
+    jQuery("#latestNews #content2").append("<div class=\'gf-result\'><div class=\'gf-title\'><a href=\'" + entry.link+ " \'>" + entry.title + "</a></div><div class=\'gf-author\'>by " + entry.author + "</div><div class=\'gf-relativePublishedDate\'>" + new Date(entry.publishedDate) + "</div><div class=\'gf-snippet\'>" + entry.contentSnippet + "</div></div>");
+  }
+
+        sw.businessNewsSlider = new sw.app.verticalSlider(\'#tab2\', \'#pane2\',\'#content2\',{overflow: "hidden", float: "left", height: "656px", width: "245px"}, {position: "relative"} );
+
+jQuery("#latestNews #content2 a").addClass("external").click(function(){
+window.open(this.href); // pop a new window
+return false; // return false to keep the actual link click from actuating
+});
+}, 10);
+
+jQuery.jGFeed(\'http://feeds.feedburner.com/StrategicScrapRssMetalNews\',
+function(feeds){
+  // Check for errors
+  if(!feeds){
+    // there was an error
+    return false;
+  }
+  // do whatever you want with feeds here
+  for(var i=0; i<feeds.entries.length; i++){
+    var entry = feeds.entries[i];
+    // Entry title
+    jQuery("#latestNews #content1").append("<div class=\'gf-result\'><div class=\'gf-title\'><a href=\'" + entry.link+ " \'>" + entry.title + "</a></div><div class=\'gf-author\'>by " + entry.author + "</div><div class=\'gf-relativePublishedDate\'>" + new Date(entry.publishedDate) + "</div><div class=\'gf-snippet\'>" + entry.contentSnippet + "</div></div>");
+  }
+
+        sw.scrapNewsSlider    = new sw.app.verticalSlider(\'#tab1\', \'#pane1\',\'#content1\',{overflow: "hidden", float: "left", height: "656px", width: "245px"}, {position: "relative"} );
+
+jQuery("#latestNews #content1 a").addClass("external").click(function(){
+window.open(this.href); // pop a new window
+return false; // return false to keep the actual link click from actuating
+});
+}, 10);
+
+jQuery.jGFeed(\'https://strategicscrap.com/feed-links/twit?\' + Number(new Date()),
+function(feeds){
+  // Check for errors
+  if(!feeds){
+    // there was an error
+    return false;
+  }
+  // do whatever you want with feeds here
+  for(var i=0; i<feeds.entries.length; i++){
+    var entry = feeds.entries[i];
+    // Entry title
+    jQuery("#twitterFeed").append("<div class=\'gf-result\'><div class=\'gf-title\'><a href=\'" + entry.link+ " \'>" + entry.title + "</a></div><div class=\'gf-relativePublishedDate\'>" + new Date(entry.publishedDate) + "</div></div>");
+  }
+
+sw.twitterFeedSlider  = new sw.app.verticalSlider(\'#twitter-wrapper\', \'#twitter-pane\',\'#twitterFeed\',{overflow: "hidden", float: "left", height: "268px"}, {position: "relative", width: "255px"} );
+
+jQuery("#twitterFeed a").addClass("external").click(function(){
+window.open(this.href); // pop a new window
+return false; // return false to keep the actual link click from actuating
+});
+}, 5);
+
+sw.regionalMarketDataSlider = new sw.app.verticalSlider(\'#marketData-wrapper\', \'#marketData-pane\', \'#marketData-content\', {overflow: "hidden", float: "left", height: "403px"}, {position: "relative", width: "255px"} );
+
 	});
 </script>';
 $c['js_map'] = '<script type="text/javascript">
 	$(document).ready(function() {
 		jQuery("#map-container AREA").mouseover(
 			function(){var regionMap = $(this).attr(\'id\')+\'-map\';$(\'#map-image\').removeClass().addClass(regionMap);
-			}).mouseout(function(){$(\'#map-image\').removeClass().addClass(\'default\');});
+			}).mouseout(function(){$(\'#map-image\').removeClass().addClass(\'default_map\');});
 		$(".videoOverlay").colorbox({iframe:true, innerWidth:425, innerHeight:344});
 	});
 </script>';
 $c['innerTpl'] = '<ul class="ul-sub">[+wf.wrapper+]</ul>';
 $c['innerRowTpl'] = '<li[+wf.classes+]><a href="[+wf.link+]" title="[+wf.title+]">[+wf.linktext+]</a>[+wf.wrapper+]</li>';
+$c['66_33_AdBlock'] = '					<div id="rightAd1" class="rcAd">
+<!--/* OpenX Javascript Tag v2.4.5 */-->
+
+<script type=\'text/javascript\'><!--//<![CDATA[
+   var m3_u = (location.protocol==\'https:\'?\'https://strategicscrap.com/openads/www/delivery/ajs.php\':\'http://strategicscrap.com/openads/www/delivery/ajs.php\');
+   var m3_r = Math.floor(Math.random()*99999999999);
+   if (!document.MAX_used) document.MAX_used = \',\';
+   document.write ("<scr"+"ipt type=\'text/javascript\' src=\'"+m3_u);
+   document.write ("?zoneid=6");
+   document.write (\'&amp;cb=\' + m3_r);
+   if (document.MAX_used != \',\') document.write ("&amp;exclude=" + document.MAX_used);
+   document.write ("&amp;loc=" + escape(window.location));
+   if (document.referrer) document.write ("&amp;referer=" + escape(document.referrer));
+   if (document.context) document.write ("&context=" + escape(document.context));
+   if (document.mmm_fo) document.write ("&amp;mmm_fo=1");
+   document.write ("\'><\\/scr"+"ipt>");
+//]]>--></script><noscript><a href=\'http://strategicscrap.com/openads/www/delivery/ck.php?n=a194dc73&amp;cb=INSERT_RANDOM_NUMBER_HERE\' target=\'_blank\'><img src=\'https://strategicscrap.com/openads/www/delivery/avw.php?zoneid=6&amp;n=a194dc73\' border=\'0\' alt=\'\' /></a></noscript>
+					</div>
+                                        <div id="rightAd2" class="rcAd">
+<!--/* OpenX Javascript Tag v2.4.5 */-->
+
+<script type=\'text/javascript\'><!--//<![CDATA[
+   var m3_u = (location.protocol==\'https:\'?\'https://strategicscrap.com/openads/www/delivery/ajs.php\':\'http://strategicscrap.com/openads/www/delivery/ajs.php\');
+   var m3_r = Math.floor(Math.random()*99999999999);
+   if (!document.MAX_used) document.MAX_used = \',\';
+   document.write ("<scr"+"ipt type=\'text/javascript\' src=\'"+m3_u);
+   document.write ("?zoneid=7");
+   document.write (\'&amp;cb=\' + m3_r);
+   if (document.MAX_used != \',\') document.write ("&amp;exclude=" + document.MAX_used);
+   document.write ("&amp;loc=" + escape(window.location));
+   if (document.referrer) document.write ("&amp;referer=" + escape(document.referrer));
+   if (document.context) document.write ("&context=" + escape(document.context));
+   if (document.mmm_fo) document.write ("&amp;mmm_fo=1");
+   document.write ("\'><\\/scr"+"ipt>");
+//]]>--></script><noscript><a href=\'http://strategicscrap.com/openads/www/delivery/ck.php?n=a2de2ae5&amp;cb=INSERT_RANDOM_NUMBER_HERE\' target=\'_blank\'><img src=\'https://strategicscrap.com/openads/www/delivery/avw.php?zoneid=7&amp;n=a2de2ae5\' border=\'0\' alt=\'\' /></a></noscript>
+					</div>
+                                        <div id="rightAd3" class="rcAd">
+<!--/* OpenX Javascript Tag v2.4.5 */-->
+
+<script type=\'text/javascript\'><!--//<![CDATA[
+   var m3_u = (location.protocol==\'https:\'?\'https://strategicscrap.com/openads/www/delivery/ajs.php\':\'http://strategicscrap.com/openads/www/delivery/ajs.php\');
+   var m3_r = Math.floor(Math.random()*99999999999);
+   if (!document.MAX_used) document.MAX_used = \',\';
+   document.write ("<scr"+"ipt type=\'text/javascript\' src=\'"+m3_u);
+   document.write ("?zoneid=8");
+   document.write (\'&amp;cb=\' + m3_r);
+   if (document.MAX_used != \',\') document.write ("&amp;exclude=" + document.MAX_used);
+   document.write ("&amp;loc=" + escape(window.location));
+   if (document.referrer) document.write ("&amp;referer=" + escape(document.referrer));
+   if (document.context) document.write ("&context=" + escape(document.context));
+   if (document.mmm_fo) document.write ("&amp;mmm_fo=1");
+   document.write ("\'><\\/scr"+"ipt>");
+//]]>--></script><noscript><a href=\'https://strategicscrap.com/openads/www/delivery/ck.php?n=a839416c&amp;cb=INSERT_RANDOM_NUMBER_HERE\' target=\'_blank\'><img src=\'https://strategicscrap.com/openads/www/delivery/avw.php?zoneid=8&amp;n=a839416c\' border=\'0\' alt=\'\' /></a></noscript>
+					</div>';
+$c['ClassifiedsAdBlock_6'] = '					<div id="rightAd1" class="rcAd">
+<!--/* OpenX Javascript Tag v2.4.5 */-->
+
+<script type=\'text/javascript\'><!--//<![CDATA[
+   var m3_u = (location.protocol==\'https:\'?\'https://strategicscrap.com/openads/www/delivery/ajs.php\':\'http://strategicscrap.com/openads/www/delivery/ajs.php\');
+   var m3_r = Math.floor(Math.random()*99999999999);
+   if (!document.MAX_used) document.MAX_used = \',\';
+   document.write ("<scr"+"ipt type=\'text/javascript\' src=\'"+m3_u);
+   document.write ("?zoneid=6");
+   document.write (\'&amp;cb=\' + m3_r);
+   if (document.MAX_used != \',\') document.write ("&amp;exclude=" + document.MAX_used);
+   document.write ("&amp;loc=" + escape(window.location));
+   if (document.referrer) document.write ("&amp;referer=" + escape(document.referrer));
+   if (document.context) document.write ("&context=" + escape(document.context));
+   if (document.mmm_fo) document.write ("&amp;mmm_fo=1");
+   document.write ("\'><\\/scr"+"ipt>");
+//]]>--></script><noscript><a href=\'http://strategicscrap.com/openads/www/delivery/ck.php?n=a194dc73&amp;cb=INSERT_RANDOM_NUMBER_HERE\' target=\'_blank\'><img src=\'https://strategicscrap.com/openads/www/delivery/avw.php?zoneid=6&amp;n=a194dc73\' border=\'0\' alt=\'\' /></a></noscript>
+					</div>
+                                        <div id="rightAd2" class="rcAd">
+<!--/* OpenX Javascript Tag v2.4.5 */-->
+
+<script type=\'text/javascript\'><!--//<![CDATA[
+   var m3_u = (location.protocol==\'https:\'?\'https://strategicscrap.com/openads/www/delivery/ajs.php\':\'http://strategicscrap.com/openads/www/delivery/ajs.php\');
+   var m3_r = Math.floor(Math.random()*99999999999);
+   if (!document.MAX_used) document.MAX_used = \',\';
+   document.write ("<scr"+"ipt type=\'text/javascript\' src=\'"+m3_u);
+   document.write ("?zoneid=7");
+   document.write (\'&amp;cb=\' + m3_r);
+   if (document.MAX_used != \',\') document.write ("&amp;exclude=" + document.MAX_used);
+   document.write ("&amp;loc=" + escape(window.location));
+   if (document.referrer) document.write ("&amp;referer=" + escape(document.referrer));
+   if (document.context) document.write ("&context=" + escape(document.context));
+   if (document.mmm_fo) document.write ("&amp;mmm_fo=1");
+   document.write ("\'><\\/scr"+"ipt>");
+//]]>--></script><noscript><a href=\'http://strategicscrap.com/openads/www/delivery/ck.php?n=a2de2ae5&amp;cb=INSERT_RANDOM_NUMBER_HERE\' target=\'_blank\'><img src=\'https://strategicscrap.com/openads/www/delivery/avw.php?zoneid=7&amp;n=a2de2ae5\' border=\'0\' alt=\'\' /></a></noscript>
+					</div>
+                                        <div id="rightAd3" class="rcAd">
+<!--/* OpenX Javascript Tag v2.4.5 */-->
+
+<script type=\'text/javascript\'><!--//<![CDATA[
+   var m3_u = (location.protocol==\'https:\'?\'https://strategicscrap.com/openads/www/delivery/ajs.php\':\'http://strategicscrap.com/openads/www/delivery/ajs.php\');
+   var m3_r = Math.floor(Math.random()*99999999999);
+   if (!document.MAX_used) document.MAX_used = \',\';
+   document.write ("<scr"+"ipt type=\'text/javascript\' src=\'"+m3_u);
+   document.write ("?zoneid=8");
+   document.write (\'&amp;cb=\' + m3_r);
+   if (document.MAX_used != \',\') document.write ("&amp;exclude=" + document.MAX_used);
+   document.write ("&amp;loc=" + escape(window.location));
+   if (document.referrer) document.write ("&amp;referer=" + escape(document.referrer));
+   if (document.context) document.write ("&context=" + escape(document.context));
+   if (document.mmm_fo) document.write ("&amp;mmm_fo=1");
+   document.write ("\'><\\/scr"+"ipt>");
+//]]>--></script><noscript><a href=\'http://strategicscrap.com/openads/www/delivery/ck.php?n=a839416c&amp;cb=INSERT_RANDOM_NUMBER_HERE\' target=\'_blank\'><img src=\'https://strategicscrap.com/openads/www/delivery/avw.php?zoneid=8&amp;n=a839416c\' border=\'0\' alt=\'\' /></a></noscript>
+					</div>';
+$c['js_brokerDashboard'] = '<script type="text/javascript">
+	$(document).ready(function() {
+$("td a.archive").click(function() {
+		// get handle to the current image (trashcan)
+		var img = $(this);
+
+		// gradually hide the parent row
+		img.parents("tr").fadeOut(function()  {
+                resetTable("quotes");
+		});
+        return false;
+});
+
+$(".filter input").change(function(){
+	var chk_val = $(this).val();
+	if($(this).is(\':checked\') == true) {
+		$(".quotes tr."+chk_val).fadeIn(function(){resetTable("quotes")});
+	} else {
+		$(".quotes tr."+chk_val).fadeOut(function(){resetTable("quotes")});
+	}
+});
+
+	});
+
+function resetTable(tbl){
+        $("."+tbl+".stripes tr:visible:odd").addClass("row2");
+        $("."+tbl+".stripes tr:visible:even").removeClass("row2");
+}
+
+</script>';
+$c['scrap_row_white'] = '				<!-- white background -->
+				<div class="scrapListing row1">
+					<strong>[+classifieds_scrap_material+]</strong>
+					<dl class="clearfix">
+						<dt class="col1">Unit:</dt><dd>Tons</dd>
+						<dt class="col2">Posted On:</dt><dd>[+pub_date:date=`%e %B %Y`+]</dd>
+						
+						<dt class="col1">Price:</dt><dd>$[+classifieds_scrap_price+]</dd>
+						<dt class="col2">&nbsp;</dt><dd>&nbsp;</dd>
+						
+						<dt class="col1">Qty:</dt><dd>[+classifieds_scrap_qty+]</dd>
+						<dt class="col2 colspan2"><a class="classifiedLink" ssclass="scrapDesc-[+id+]" href="#">Description and Contact Information</a></dt>
+					</dl>
+				</div>
+				<!-- This contains the hidden content for inline calls --> 
+				<div style="display:none"> 
+				 
+					<div id="scrapDesc-[+id+]" style="padding:10px; background:#fff;">
+					    <div class="detail_img" style="float:left;display:none">
+					        <img src="/resources/images/image_not_available.gif" alt="detial image" />
+					    </div>
+				        <div style="float:left;padding-left:0px;width:475px;">
+							<strong>[+classifieds_scrap_material+]</strong>
+							<dl>
+								<dt style="clear:left;float:left;width:60px;">Unit:</dt><dd style="float:left">Tons</dd>
+								<dt style="clear:left;float:left;width:60px;">Quantity:</dt><dd style="float:left">[+classifieds_scrap_qty+]</dd>
+								<dt style="clear:left;float:left;width:60px;">Price:</dt><dd style="float:left">$[+classifieds_scrap_price+]</dd>
+							</dl>
+							<div style="clear:left;padding-top:10px">[+classifieds_scrap_desc+]</div>
+							<div style="clear:left;padding-top:10px">Company: [+classifieds_scrap_company+]<br />Contact: [+classifieds_scrap_contact+]<br />Email: [+classifieds_scrap_email+]<br />Phone: [+classifieds_scrap_phone+]</div>
+				        </div>
+						<div style="clear:both"><!--not empty--></div>
+					</div> 
+				</div><!-- scrapListing row1 -->';
+$c['scrap_row_gray'] = '				<!-- gray background -->
+				<div class="scrapListing row2">
+					<strong>[+classifieds_scrap_material+]</strong>
+					<dl class="clearfix">
+						<dt class="col1">Unit:</dt><dd>Tons</dd>
+						<dt class="col2">Posted On:</dt><dd>[+pub_date:date=`%e %B %Y`+]</dd>
+						
+						<dt class="col1">Price:</dt><dd>$[+classifieds_scrap_price+]</dd>
+						<dt class="col2">&nbsp;</dt><dd>&nbsp;</dd>
+						
+						<dt class="col1">Qty:</dt><dd>[+classifieds_scrap_qty+]</dd>
+						<dt class="col2 colspan2"><a class="classifiedLink" ssclass="scrapDesc-[+id+]" href="#">Description and Contact Information</a></dt>
+					</dl>
+				</div>
+				<!-- This contains the hidden content for inline calls --> 
+				<div style="display:none"> 
+				 
+					<div id="scrapDesc-[+id+]" style="padding:10px; background:#fff;">
+					    <div class="detail_img" style="float:left;display:none">
+					        <img src="/resources/images/image_not_available.gif" alt="detial image" />
+					    </div>
+				        <div style="float:left;padding-left:0px;width:475px;">
+							<strong>[+classifieds_scrap_material+]</strong>
+							<dl>
+								<dt style="clear:left;float:left;width:60px;">Unit:</dt><dd style="float:left">Tons</dd>
+								<dt style="clear:left;float:left;width:60px;">Quantity:</dt><dd style="float:left">[+classifieds_scrap_qty+]</dd>
+								<dt style="clear:left;float:left;width:60px;">Price:</dt><dd style="float:left">$[+classifieds_scrap_price+]</dd>
+							</dl>
+							<div style="clear:left;padding-top:10px">[+classifieds_scrap_desc+]</div>
+							<div style="clear:left;padding-top:10px">Company: [+classifieds_scrap_company+]<br />Contact: [+classifieds_scrap_contact+]<br />Email: [+classifieds_scrap_email+]<br />Phone: [+classifieds_scrap_phone+]</div>
+				        </div>
+						<div style="clear:both"><!--not empty--></div>
+					</div> 
+				</div><!-- scrapListing row2 --> ';
+$c['js_tabs_BACKUP'] = '<!-- include Google Feed API --> 
+<script type="text/javascript" src="http://www.google.com/jsapi?key=ABQIAAAA5orusEsORwp3TpDfY4mHghRo1yugqLkC8EOUpvf1E4JGwrqUFxTZkUlXKDqUJWMKrySTaiPKtyYvRA"></script> 
+ 
+<!-- include this plugin --> 
+<script type="text/javascript" src="/resources/js/gfeed/jquery.gfeed.js"></script> 
+<style type="text/css">
+.gfc-resultsHeader				{display:none}
+.gf-result						{padding:5px;margin-bottom:10px;color:#999;}
+.gf-result .gf-title			{height:auto;}
+.gf-title a,.gf-title a:visited	{font-weight:bold;color:#000;display:block;}
+.gf-title a:hover				{font-weight:bold;color:#F96C14;display:block;}
+
+#twitterFeed .gf-snippet 		{display:none}
+</style>
+
+<script type="text/javascript">
+	$(document).ready(function() {
+            $(\'#tabs-news\').tabs();
+            $(\'#tabs-scrapClass\').tabs();
+            $(\'#tabs-equipClass\').tabs();
+            $(".scrapDesc1").colorbox({width:"550", inline:true, href:"#listingDescription1"});
+            $(\'#scroll-pane2, #scroll-pane1, #twitterFeed\').jScrollPane();
+
+    // add a feed manually 
+    $(\'#twitterFeed\').gFeed({  
+        url: \'http://twitter.com/statuses/user_timeline/156125388.rss\',
+        max: 5
+    });
+
+    // add a feed manually 
+    $(\'#latestNews #scroll-pane1\').gFeed({  
+        url: \'http://feeds.feedburner.com/StrategicScrapRssMetalNews?[[timestamp]]\',
+        max: 20
+    }); 
+
+    // add a feed manually 
+    $(\'#latestNews #scroll-pane2\').gFeed({  
+        url: \'http://feeds.feedburner.com/StrategicScrapRssBusinessNews?[[timestamp]]\',
+        max: 20
+    });
+
+google.setOnLoadCallback(updateFeedBoxes);
+
+function updateFeedBoxes(){
+    $(\'#scroll-pane2, #scroll-pane1, #twitterFeed\').jScrollPane();
+    outlinks();
+}
+
+function outlinks(){
+$("#twitterFeed a, #latestNews .tabBox a")
+.addClass("external")
+.click(function(){
+window.open(this.href); // pop a new window
+return false; // return false to keep the actual link click from actuating
+});
+}
+	});
+</script>';
+$c['mm_demo_rules'] = '// ------------------------ INSERT YOUR RULES HERE --------------------
+// Insert your rules here. You can also use a chunk; see the plugin configuration and documentation.
+// For example rules, also see the default.mm_rules.inc.php and the documentation. PHP is allowed.
+
+// Hide templates for non admin users
+mm_hideTemplates(\'6\', \'!1\');
+
+// Make news stories published on today\'s date by default
+mm_default(\'pub_date\', \'\', \'\', \'9\');
+
+// Classifieds template
+$classifieds_tpl = \'11,13,14,15\';
+mm_hideFields(\'content\', \'1\', $classifieds_tpl);
+
+// Hide some fields
+mm_hideFields(\'link_attributes\');
+
+mm_renameField(\'longtitle\', \'Page heading\');
+mm_renameField(\'description\', \'Search engine description\');
+
+
+// ------------------------ END OF RULES --------------------';
+$c['equip_row_gray'] = '				<!-- gray background -->
+        <div class="equipListing row2">
+          <strong>[+classifieds_equip_item+]</strong>
+          <dl class="clearfix">
+            <dt>[+classifieds_equip_desc+]</dt>
+            <dt><a class="classifiedLink" ssclass="equipDesc-[+id+]" href="#">Description and Contact Information</a></dt>
+          </dl>
+        </div>
+				<!-- This contains the hidden content for inline calls --> 
+				<div style="display:none"> 
+				 
+					<div id="equipDesc-[+id+]" style="padding:10px; background:#fff;">
+					    <div class="detail_img equip-[+parent+]" style="float:left">
+					        <img src="[+classifieds_equip_photo+]" alt="detail image" style="width:135px" class="sm" /><br />
+					        <span class="clickme">click to zoom in</span>
+					    </div>
+				        <div class="equip-[+parent+]" style="float:left;padding-left:20px;width:320px;">
+							<strong>[+classifieds_equip_item+]</strong>
+							<div style="clear:left;padding-top:10px">[+classifieds_equip_desc+]</div>
+							<div style="clear:left;padding-top:10px">Company: [+classifieds_equip_company+]<br />Contact: [+classifieds_equip_contact+]<br />Email: [+classifieds_equip_email+]<br />Phone: [+classifieds_equip_phone+]</div>
+				        </div>
+						<div style="clear:both"><!--not empty--></div>
+					</div> 
+				</div><!-- equipListing row2 --> ';
+$c['auction_row_gray'] = '		<!-- gray background -->
+        <div class="scrapListing row2">
+          <strong>[+classifieds_auction_company+]</strong>
+          <dl class="clearfix">
+            <dt class="col1" style="width:480px">[+classifieds_auction_desc+]</dt>
+            <dt class="col1" style="width:70px"><br />Date:</dt><dd style="width:200px"><br />[+classifieds_auction_date+]</dd>
+            <dt class="col1" style="width:70px">Website:</dt><dd style="width:200px"><a href="[+classifieds_auction_website+]" target="_blank">[+classifieds_auction_website+]</a></dd>
+          </dl>
+        </div><!-- equipListing row2 --> ';
+$c['equip_row_white'] = '				<!-- gray background -->
+        <div class="equipListing row1">
+          <strong>[+classifieds_equip_item+]</strong>
+          <dl class="clearfix">
+            <dt>[+classifieds_equip_desc+]</dt>
+            <dt><a class="classifiedLink" ssclass="equipDesc-[+id+]" href="#">Description and Contact Information</a></dt>
+          </dl>
+        </div>
+				<!-- This contains the hidden content for inline calls --> 
+				<div style="display:none"> 
+				 
+					<div id="equipDesc-[+id+]" style="padding:10px; background:#fff;">
+					    <div class="detail_img equip-[+parent+]" style="float:left">
+					        <img src="[+classifieds_equip_photo+]" alt="detail image" style="width:135px" class="sm" /><br />
+					        <span class="clickme">click to zoom in</span>
+					    </div>
+				        <div class="equip-[+parent+]" style="float:left;padding-left:20px;width:320px;">
+							<strong>[+classifieds_equip_item+]</strong>
+							<div style="clear:left;padding-top:10px">[+classifieds_equip_desc+]</div>
+							<div style="clear:left;padding-top:10px">Company: [+classifieds_equip_company+]<br />Contact: [+classifieds_equip_contact+]<br />Email: [+classifieds_equip_email+]<br />Phone: [+classifieds_equip_phone+]</div>
+				        </div>
+						<div style="clear:both"><!--not empty--></div>
+					</div> 
+				</div><!-- equipListing row1 --> ';
+$c['auction_row_white'] = '		<!-- white background -->
+        <div class="scrapListing row1">
+          <strong>[+classifieds_auction_company+]</strong>
+          <dl class="clearfix">
+            <dt class="col1" style="width:480px">[+classifieds_auction_desc+]</dt>
+            <dt class="col1" style="width:70px"><br />Date:</dt><dd style="width:200px"><br />[+classifieds_auction_date+]</dd>
+            <dt class="col1" style="width:70px">Website:</dt><dd style="width:200px"><a href="[+classifieds_auction_website+]" target="_blank">[+classifieds_auction_website+]</a></dd>
+          </dl>
+        </div><!-- equipListing row1 -->';
+$c['job_row_gray'] = '	<!-- gray background -->
+        <div class="scrapListing row2">
+          <strong>[+classifieds_job_company+]</strong>
+          <dl class="clearfix">
+            <dt class="col1" style="width:70px">Position:</dt><dd style="width:200px">[+classifieds_job_position+]</dd>
+            <dt class="col1" style="width:70px">Salary:</dt><dd style="width:200px">[+classifieds_job_salary+]</dd>
+            <dt class="col1" style="width:70px">Experience:</dt><dd style="width:410px">[+classifieds_job_experience+]</dd>
+            <dt class="col1" style="width:480px"><br />[+classifieds_job_desc+]</dt>
+            <dt class="col1" style="width:70px"><br />Phone:</dt><dd style="width:200px"><br />[+classifieds_job_phone+]</dd>
+            <dt class="col1" style="width:70px">Email:</dt><dd style="width:200px">[+classifieds_job_email+]</dd>
+            <dt class="col1" style="width:70px">Website:</dt><dd style="width:200px"><a href="[+classifieds_job_website+]" target="_blank">[+classifieds_job_website+]</a></dd>
+          </dl>
+        </div><!-- scrapListing row2 --> ';
+$c['job_row_white'] = '	<!-- white background -->
+        <div class="scrapListing row1">
+          <strong>[+classifieds_job_company+]</strong>
+          <dl class="clearfix">
+            <dt class="col1" style="width:70px">Position:</dt><dd style="width:200px">[+classifieds_job_position+]</dd>
+            <dt class="col1" style="width:70px">Salary:</dt><dd style="width:200px">[+classifieds_job_salary+]</dd>
+            <dt class="col1" style="width:70px">Experience:</dt><dd style="width:410px">[+classifieds_job_experience+]</dd>
+            <dt class="col1" style="width:480px"><br />[+classifieds_job_desc+]</dt>
+            <dt class="col1" style="width:70px"><br />Phone:</dt><dd style="width:200px"><br />[+classifieds_job_phone+]</dd>
+            <dt class="col1" style="width:70px">Email:</dt><dd style="width:200px">[+classifieds_job_email+]</dd>
+            <dt class="col1" style="width:70px">Website:</dt><dd style="width:200px"><a href="[+classifieds_job_website+]" target="_blank">[+classifieds_job_website+]</a></dd>
+          </dl>
+        </div><!-- scrapListing row1 -->';
+$c['blog_feed_row'] = '				<div class = "blog_category">[[get_parent_title?parent_id=`[+parent+]`]]</div>
+				<div class = "blog_title">[+title+]</div>
+				<div class = "blog_by_line">by [+author+] on [[format_date?timestamp=`[+pub_date+]`&format=`F d, Y`]]</div>
+				<div class = "blog_content">[[remove_p_tags?text=`[+content+]`&chars=300]]
+					<a href = "[~[+id+]~]">MORE ></a>
+				</div>';
+$c['hp_image_carousel_item'] = '	     <li class = "slide ">
+        	<a href = "[+carousel_url+]"><img src="[+carousel_image+]" alt="[+carousel_text+]"/></a>
+             </li>';
+$c['hp_news_carousel_item'] = '	     <li class = "slide_news ">
+        	<a href = "[+carousel_url+]">[+carousel_text+]</a>
+             </li>';
+$c['hp_walkthrough_page'] = '<li class = "[+walkthrough_type+]_page hide">
+	<h1>[+walkthrough_title+]</h1>
+	<div class = "walkthrough_image">
+		<img src = "[+walkthrough_image+]" />
+	</div>
+	<div class = "walkthrough_text">
+		[+walkthrough_text+]
+	</div>
+</li>
+';
+$c['hp_walkthrough_group'] = '		<div id = "[+menutitle+]_walkthrough" class = "walkthrough_group hide">			
+			<ul class = "pages">
+				[[Ditto? &parents=`[+id+]`&orderBy=`menuindex ASC` &display=`12` &total=`12` &tpl=`hp_walkthrough_page`]]
+			</ul>
+		</div>';
+$c['hp_walkthrough_group_buttons'] = '	<span id = "choose_[+menutitle+]" data-type="[+menutitle+]" class = "walkthrough_choice">[+title+]</span>	
+';
+$c['sitemap'] = '<p style="padding-left:50px">[!Wayfinder? &startId=`0` &firstClass=`first` &level=`2` &hereClass=`current`!]</p>';
 $s = &$this->snippetCache;
 $s['WebLogin'] = '# Created By Raymond Irving 2004
 #::::::::::::::::::::::::::::::::::::::::
@@ -3821,6 +4722,159 @@ include($modx->config[\'filemanager_path\'].\'controllers/\'.$page);';
 $s['include'] = 'include($modx->config[\'filemanager_path\'].$page);';
 $s['getDocInfo'] = '$val = $modx->getPageInfo($id,1,$tv);
 return $val[$tv];';
+$s['DocPassword'] = '// Snippet: DocPassword - Protect MODx documents with a unique password
+// Version: 0.0.1
+//  Author: Mike Reid (www.pixelchutes.com)
+// Created: 1/4/2008
+
+/*
+    INSTALL:    
+        1. Install DocPassword snippet
+        
+                   Name: DocPassword
+            Description: <strong>0.0.1</strong> - Protect MODx documents with a unique password
+        
+        2. Create the Template Variable "DocPasswordTV" and assign to necessary template(s)
+            
+            3. Create your "unauthorized page" with the following snippet call: [!DocPassword? &redirect=`[*id*]`!]
+        
+            - NOTE: You MUST PASS &redirect=`[*id*]` in the "unauthorized page" snippet call!
+        
+            - By default, DocPassword will use the defined "unauthorized page" from the
+              site configuration (Tools > Configuration > Unauthorized Page) with a default login form.
+            
+            - [Optional] Or, you can pass a chunk name via the &form_tpl parameter to use a custom "login form" template
+                + If using the &form_tpl parameter, it is only needed in your "unauthorized page" snippet call
+                
+                + Placeholders:
+                    [+fieldname+] (name of the form input)
+                    [+action+] (the action for the form)
+                    
+                    e.g. [!DocPassword? &redirect=`[*id*]` &form_tpl=`login_form_tpl`!] where the "login_form_tpl" chunk contains:
+                    
+                        <p>Please enter the password to access this page.</p>
+                        <form action="[+action+]" method="POST">
+                            <b>Password:</b> <input name="[+fieldname+]" type="password"/>
+                            <input type="submit" value="Login"/>
+                        </form>                 
+       
+        5. Place DocPassword snippet call on pages you wish to protect: [!DocPassword!]
+        
+            - Remember to set a password for the page! (Fill out the TV field) 
+              If the snippet call is present, but you have not defined a password,
+              the page will remain unprotected.        
+        
+            - [Optional] If you want to use a custom "unauthorized page" other than the MODx default, 
+                         you can pass the &redirect parameter containing doc_id of your "unauthorized page"
+                         
+                    e.g. [!DocPassword? &redirect=`123`!]
+        
+        
+        Enjoy!      
+*/
+
+// Init
+$tv = \'DocPasswordTV\'; // Name of your password Template Variable
+$fieldname = \'DocPassword\'; // Form field name to lookup and compare to TV
+$placeholders = array( \'fieldname\' => $fieldname, \'action\' => $modx->makeUrl( ( isset($_REQUEST[\'unauthid\']) ? (int) $_REQUEST[\'unauthid\'] : $modx->documentIdentifier ) ) ); // Placeholders
+$session_key = \'docpassword.authenticated\';
+
+// Parameters
+$form_tpl = isset( $form_tpl ) ? $modx->parseChunk( $form_tpl, $placeholders, \'[+\', \'+]\' ) : \'<p>Please enter the password to access this page.</p><form action="\'.$placeholders[\'action\'].\'" method="POST"><b>Password:</b> <input name="\'.$placeholders[\'fieldname\'].\'" type="password"/> <input type="submit" value="Login"/></form>\'; // Form chunk template
+$redirect = isset( $redirect ) ? (int) $redirect : $modx->config[\'unauthorized_page\']; // Doc ID to redirect to on failure (default: MODx unauthorized_page)
+$error = false; // Innocent until proven guilty
+$authenticated = in_array( $modx->documentIdentifier, (array) $_SESSION[ $session_key ] ); // Check successful logins
+
+// Grab the monthly password (if needed)
+$docPassword = ( !$authenticated ) ? $modx->getTemplateVarOutput( $tv, $modx->documentIdentifier ) : array( $tv => $_REQUEST[ $fieldname ] );
+
+// Did the user submit a password? Or, did they authenticate?
+if( isset( $_REQUEST[ $fieldname ] ) or $authenticated ) {
+
+    // Does TV exist, and if so, does it match?
+    if( $authenticated or ( $docPassword[ $tv ] != \'\' && $docPassword[ $tv ] == $_REQUEST[ $fieldname ] ) ){
+        
+        // Add authenticated document id to session
+        if( !$authenticated ) $_SESSION[ $session_key ][] = $modx->documentIdentifier;
+        
+    } else $error = true; // Password didn\'t match
+
+} elseif( $docPassword[ $tv ] != \'\' ) $error = true; // Nothing submitted
+
+// Show password form on failure
+if( $redirect == $modx->documentIdentifier ){
+
+    return ( $modx->makeUrl( $redirect ) == $placeholders[\'action\'] ) ? \'\' : $form_tpl;
+}
+// Redirect on error
+elseif( $error ) $modx->sendRedirect( $modx->makeUrl( $redirect, \'\', \'unauthid=\'.$modx->documentIdentifier ), 0, \'REDIRECT_HEADER\' );
+  
+return \'\';';
+$s['timestamp'] = 'return time();';
+$s['pricing_export'] = '// DB Connection here
+
+//$sql = "SELECT FirstName, LastName, Email1 as Email, s.school_name as SchoolName FROM 2009_User, schools_2009 as s, 2009_User_School as us WHERE `UserGroup` = \'sponsor\' AND 2009_User.ID = us.User_ID AND s.ID = us.School_ID";
+
+$sql = "/* SCRAP PRICING REPORT */"
+." SELECT pb.first_name, pb.last_name, pb.company, pf.name AS facility, pf.city, pf.state, pf.region, pm.name AS material, pe.price, pe.created_at AS time_stamp FROM scrap_pricing_entries AS pe"
+." LEFT JOIN `scrap_pricing_brokers` AS pb ON pb.id = pe.broker_id"
+." LEFT JOIN scrap_pricing_facilities AS pf ON pf.id = pe.facility_id"
+." LEFT JOIN scrap_pricing_materials AS pm ON pm.id = pe.material_id";
+
+$export = $modx->db->query($sql);
+
+$fields = mysql_num_fields($export);
+
+for ($i = 0; $i < $fields; $i++)
+{
+    $header .= mysql_field_name($export, $i)."\\t";
+}
+
+while ($row = mysql_fetch_row($export))
+{
+    $line = \'\';
+    foreach ($row as $value)
+    {
+        if ((! isset ($value)) || ($value == ""))
+        {
+            $value = "\\t";
+        }
+        else
+        {
+            $value = str_replace(\'"\', \'""\', $value);
+            $value = \'"\'.$value.\'"\'."\\t";
+        }
+        $line .= $value;
+    }
+    $data .= trim($line)."\\n";
+}
+$data = str_replace("\\r", "", $data);
+
+if ($data == "")
+{
+    $data = "\\n(0) Records Found!\\n";
+}
+
+header("Content-type: application/octet-stream");
+header("Content-Disposition: attachment; filename=pricing_report_".date("Ymd_His").".xls");
+header("Pragma: no-cache");
+header("Expires: 0");
+print "$header\\n$data";';
+$s['get_parent_title'] = '$content_table = $modx->getFullTableName("site_content");
+$data = $modx->db->getValue(\'SELECT `pagetitle` FROM \'.$content_table.\' WHERE id=\'.$parent_id);
+echo $data;';
+$s['remove_p_tags'] = '$new_text = str_replace("<p>", "", $text);
+$new_text = str_replace("</p>", "", $new_text);
+$the_length = strlen($new_text);
+if($chars > 0){
+  $new_text = substr($new_text, 0, $chars);
+
+}
+echo $new_text;
+if($the_length > $chars){
+  echo "...";
+}';
+$s['format_date'] = 'echo date($format, $timestamp);';
 $p = &$this->pluginCache;
 $p['TransAlias'] = '/*
  * Initialize parameters
@@ -4475,11 +5529,11 @@ if ($show) {
     include_once($modx->config[\'base_path\'].\'assets/plugins/qm/qm.inc.php\');
     $qm = new Qm($modx, $jqpath, $loadmanagerjq, $loadfrontendjq, $noconflictjq, $loadtb, $tbwidth, $tbheight, $hidefields, $hidetabs, $hidesections, $addbutton, $tpltype, $tplid, $custombutton, $managerbutton, $logout, $autohide);
 }';
-$p['Quick Manager+Props'] = '&jqpath=Path to jQuery;text;assets/js/jquery-1.3.2.min.js &loadmanagerjq=Load jQuery in manager;list;true,false;true &loadfrontendjq=Load jQuery in front-end;list;true,false;true &noconflictjq=jQuery noConflict mode in front-end;list;true,false;true &loadtb=Load modal box in front-end;list;true,false;true &tbwidth=Modal box window width;text;80% &tbheight=Modal box window height;text;90% &hidefields=Hide document fields from front-end editors;text;parent &hidetabs=Hide document tabs from front-end editors;text; &hidesections=Hide document sections from front-end editors;text; &addbutton=Show add document here button;list;true,false;true &tpltype=New document template type;list;parent,id,selected;parent &tplid=New document template id;int;3  &custombutton=Custom buttons;textarea; &managerbutton=Show go to manager button;list;true,false;true &logout=Logout to;list;manager,front-end;manager &disabled=Plugin disabled on documents;text; &autohide=Autohide toolbar;list;true,false;true ';
+$p['Quick Manager+Props'] = '&jqpath=Path to jQuery;text;assets/js/jquery-1.3.2.min.js &loadmanagerjq=Load jQuery in manager;list;true,false;true &loadfrontendjq=Load jQuery in front-end;list;true,false;false &noconflictjq=jQuery noConflict mode in front-end;list;true,false;true &loadtb=Load modal box in front-end;list;true,false;true &tbwidth=Modal box window width;text;80% &tbheight=Modal box window height;text;90% &hidefields=Hide document fields from front-end editors;text;parent &hidetabs=Hide document tabs from front-end editors;text; &hidesections=Hide document sections from front-end editors;text; &addbutton=Show add document here button;list;true,false;true &tpltype=New document template type;list;parent,id,selected;parent &tplid=New document template id;int;3  &custombutton=Custom buttons;textarea; &managerbutton=Show go to manager button;list;true,false;true &logout=Logout to;list;manager,front-end;manager &disabled=Plugin disabled on documents;text; &autohide=Autohide toolbar;list;true,false;true ';
 $p['class_initialize'] = 'include $_SERVER[\'DOCUMENT_ROOT\'].\'/inc/initialize.php\';';
 $e = &$this->pluginEvent;
 $e['OnBeforeManagerLogin'] = array('Forgot Manager Login');
-$e['OnDocFormPrerender'] = array('Quick Manager+','ManagerManager','Inherit Parent Template');
+$e['OnDocFormPrerender'] = array('Inherit Parent Template','Quick Manager+','ManagerManager');
 $e['OnDocFormRender'] = array('ManagerManager','Show Image TVs');
 $e['OnDocFormSave'] = array('Quick Manager+');
 $e['OnInterfaceSettingsRender'] = array('TinyMCE Rich Text Editor');
@@ -4493,5 +5547,5 @@ $e['OnRichTextEditorRegister'] = array('TinyMCE Rich Text Editor');
 $e['OnStripAlias'] = array('TransAlias');
 $e['OnTVFormRender'] = array('ManagerManager');
 $e['OnWebPageInit'] = array('class_initialize');
-$e['OnWebPagePrerender'] = array('Quick Manager+','Search Highlight');
+$e['OnWebPagePrerender'] = array('Search Highlight','Quick Manager+');
 ?>

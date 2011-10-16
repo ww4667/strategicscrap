@@ -2,6 +2,7 @@
 /**
  * Set the variables below to setup the application
  */
+
 $coreDirectory = "core";
 $modulesDirectory = "modules";
 $librariesDirectory = $_SERVER["DOCUMENT_ROOT"] . "/lib";
@@ -34,8 +35,8 @@ if ( isset( $DOMAIN_CHECK["slashwebstudios"] ) ) {
 	$dbName = '`stagings_strategi_scrap`';
 } else if ( isset( $DOMAIN_CHECK["local"] ) ) {
 	$dbUsername = 'root';
-	$dbPassword = 'root';
-	$dbName = '`strategi_scrap`';
+	$dbPassword = '';
+	$dbName = 'strategi_scrap';
 } else {
 	$dbUsername = 'strategi_scrap';
 	$dbPassword = 'T,uUUAfOi#T1';

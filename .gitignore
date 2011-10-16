@@ -6,3 +6,7 @@
 .buildpath
 /jsonsample.txt
 /.project
+gir/config.php
+gir/config.php
+assets/cache
+.htaccess

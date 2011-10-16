@@ -9,7 +9,7 @@ final class Mysql extends Database {
 
     static function getInstance($dbHost, $dbName, $dbUser, $dbPass) {
         if(!Mysql::$instance) {
-            Mysql::$instance = new Mysql($dbHost, $dbName, $dbUser, $dbPass);
+            Mysql::$instance = new Mysql($dbHost, $dbName, $dbUser, $dbPass );
         }
         return Mysql::$instance;
     }
@@ -48,6 +48,8 @@ final class Mysql extends Database {
 
         if ($this->connection === false)
         die("Could not connect to database. Check your username and password then try again.\n");
+
+
 
         if (!mysql_select_db($this->database, $this->connection)) {
             die("Could not select database");
