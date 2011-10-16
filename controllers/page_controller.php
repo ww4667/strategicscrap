@@ -16,7 +16,12 @@ switch($controller_action){
 	case 'my-homepage':
 		$temp_time_start = microtime(true);
 		error_log( "starting to load homepage: " . (microtime(true) - $temp_time_start) . " seconds so far..." );
+<<<<<<< HEAD
 //		require_ssl();
+=======
+		//require_ssl();
+		
+>>>>>>> 7912cb4724c7b04efb26814054bf2a2e0639e349
 		if( !$gir->auth->authenticate() || $_SESSION['user']['group'] != "scrapper" ){
 			$PAGE_BODY = "views/scrappers/my_homepages_demo.php";  	/* which file to pull into the template */
 			$message = array();
@@ -342,12 +347,12 @@ switch($controller_action){
 	/* Scrap Classifieds */
 	case 'scrap-classifieds':
 		// page 'template variables'
-		$PAGE_BODY = "views/scrap_classifieds.php";  	/* which file to pull into the template */
+		$PAGE_BODY = "views/scrap_classifieds.php";  	
 			
 		//the layout file  -  THIS PART NEEDS TO BE LAST
 		require($_SERVER['DOCUMENT_ROOT']."/views/layouts/shell.php");
 		break;
-
+	
 
 	/* Equipment Classifieds */
 	case 'equipment-classifieds':
@@ -360,7 +365,7 @@ switch($controller_action){
 
 	/* Regions */
 	case 'regions':
-		require_ssl();
+		//require_ssl();
 		// page 'template variables'
 		$PAGE_BODY = "views/regions.php";  	/* which file to pull into the template */
 			
@@ -370,7 +375,7 @@ switch($controller_action){
 
 	/* Scrap Exchange */
 	case 'scrap-exchange':
-		require_ssl();
+		//require_ssl();
 		if( !$gir->auth->authenticate() || $_SESSION['user']['group'] != "scrapper" ){
 			$PAGE_BODY = "views/scrappers/scrap_exchange_demo.php";  	/* which file to pull into the template */
 			$message = array();
@@ -413,7 +418,7 @@ switch($controller_action){
 
 	/* Transport Material */
 	case 'transport-material':
-		require_ssl();
+		//require_ssl();
 		// page 'template variables'
 		$PAGE_BODY = "views/scrappers/transport_material.php";  	/* which file to pull into the template */
 			
@@ -424,7 +429,7 @@ switch($controller_action){
 
 	/* Registration (home) */
 	case 'register':
-		require_ssl();
+		//require_ssl();
 		//include_once($_SERVER['DOCUMENT_ROOT'].'/models/Mailer.php');
 
 		// page 'template variables'
@@ -480,7 +485,7 @@ switch($controller_action){
 		
 	/* Broker Dashboard */
 	case 'broker-dashboard':
-		require_ssl();
+		//require_ssl();
 		if( !$gir->auth->authenticate() || $_SESSION['user']['group'] != "broker" ){
 			$message = array();
 			$message[] = "You need to be logged in as a broker to use this feature.";
@@ -504,7 +509,7 @@ switch($controller_action){
 
 	/* Broker Dashboard :: quote manager */
 	case 'broker-quote-manager':
-		require_ssl();
+		//require_ssl();
 		$brokerClass = new Broker();
 		$brokerByUserId = $brokerClass->getBrokersByUserId( $_SESSION['user']['id'] );
 		if( count( $brokerByUserId ) > 0 ){
@@ -523,7 +528,7 @@ switch($controller_action){
 
 	/* Broker Dashboard :: request manager */
 	case 'broker-request-manager':
-		require_ssl();
+		//require_ssl();
 		$brokerClass = new Broker();
 		$brokerByUserId = $brokerClass->getBrokersByUserId( $_SESSION['user']['id'] );
 		if( count( $brokerByUserId ) > 0 ){
@@ -542,7 +547,7 @@ switch($controller_action){
 
 	/* Pricing Form */
 	case 'pricing-form':
-		require_ssl();
+		//require_ssl();
 		// include any models that might be needed
 		include_once('models/Price.php');
 		// page 'template variables'
@@ -566,7 +571,7 @@ switch($controller_action){
 
 	/* Broker Pricing Form */
 	case 'broker-pricing-form':
-		require_ssl();
+		//require_ssl();
 		// include any models that might be needed
 		include_once('models/Price.php');
 		include_once('models/pricing/Broker.php');
@@ -640,7 +645,11 @@ switch($controller_action){
 
 	/* SCRAP LOGIN **************************************** */
 	case 'scrap-login':
+<<<<<<< HEAD
 //		require_ssl();
+=======
+		//require_ssl();
+>>>>>>> 7912cb4724c7b04efb26814054bf2a2e0639e349
 		$error_messages = array();
 			
 		if ( (isset($_POST['username']) && $_POST['username'] != "") && (isset($_POST['password']) && $_POST['password'] != "") ) {
@@ -748,12 +757,12 @@ switch($controller_action){
 
 	/* MAKE PAYMENT **************************************** */
 	case 'scrap-payment':
-		require_ssl();
+		//require_ssl();
 		break;
 		
 	/* REGISTER PAID **************************************** */
 	case 'paid-registration':
-		require_ssl();
+		//require_ssl();
 		include_once($_SERVER['DOCUMENT_ROOT'].'/models/Mailer.php');
 		//include_once($_SERVER['DOCUMENT_ROOT'].'/models/Mailer.php');
 		$SUBSCRIPTION_DURATION = "+1 year";
@@ -887,7 +896,7 @@ switch($controller_action){
 
 	/* REGISTER **************************************** */
 	case 'scrap-registration':
-		require_ssl();
+		//require_ssl();
 		include_once($_SERVER['DOCUMENT_ROOT'].'/models/Mailer.php');
 		//include_once($_SERVER['DOCUMENT_ROOT'].'/models/Mailer.php');
 		$SUBSCRIPTION_DURATION = "+1 year";
@@ -1020,7 +1029,7 @@ switch($controller_action){
 
 	/* MY ACCOUNT SETTINGS **************************************** */
 	case 'my-account':
-		require_ssl();
+		//require_ssl();
 		if(!$gir->auth->authenticate()){
 			$message = array();
 			$message[] = "You need to login to update your account settings.";
@@ -1127,7 +1136,7 @@ switch($controller_action){
 		break;
 /* PAYMENT INFORMATION **************************************** */
 	case 'payment-information':
-		require_ssl();
+		//require_ssl();
 		if(!$gir->auth->authenticate()){
 			$message = array();
 			$message[] = "You need to login to update your Payment Information.";
@@ -1323,7 +1332,7 @@ switch($controller_action){
 
 	/* RESET PASSWORD FOR USERS **************************************** */
 	case 'reset-password':
-		require_ssl();
+		//require_ssl();
 			
 		$PAGE_BODY = "views/reset_password.php";  	/* which file to pull into the template */
 			

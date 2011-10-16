@@ -11,8 +11,8 @@ if ( isset( $DOMAIN_CHECK["slashwebstudios"] ) ) {
 	$dbase = '`stagings_strategi_scrap`';
 } else if ( isset( $DOMAIN_CHECK["local"] ) ) {
 	$database_user = 'root';
-	$database_password = 'root';
-	$dbase = '`strategi_scrap`';
+	$database_password = '';
+	$dbase = 'strategi_scrap';
 } else {
 	$database_user = 'strategi_scrap';
 	$database_password = 'T,uUUAfOi#T1';

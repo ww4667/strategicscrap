@@ -25,13 +25,12 @@ $usa_epay_source_key 	= "m9I9GmBoXwMpKNuNAO7Vb5uo9lMjkZ78";
 $usa_epay_pin			= "2580";
 
 // VDC vars...
-
 $DOMAIN_CHECK = array_flip( explode( ".",$_SERVER["HTTP_HOST"] ) );
 
 if ( isset( $DOMAIN_CHECK["slashwebstudios"] ) ) {
 	$dbUsername = 'stagings_user';
 	$dbPassword = 'H=D?98!s{)Xc';
-	$dbName = '`stagings_strategi_scrap`';
+	$dbName = 'stagings_strategi_scrap';
 } else if ( isset( $DOMAIN_CHECK["local"] ) ) {
 	$dbUsername = 'root';
 	$dbPassword = 'root';
@@ -39,7 +38,7 @@ if ( isset( $DOMAIN_CHECK["slashwebstudios"] ) ) {
 } else {
 	$dbUsername = 'strategi_scrap';
 	$dbPassword = 'T,uUUAfOi#T1';
-	$dbName = '`strategi_scrap`';
+	$dbName = 'strategi_scrap';
 }
 
 $dbHost = "localhost";

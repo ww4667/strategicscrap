@@ -39,7 +39,11 @@ $c['number_of_messages'] = "30";
 $c['number_of_results'] = "20";
 $c['use_editor'] = "1";
 $c['use_browser'] = "1";
+<<<<<<< HEAD
 $c['rb_base_dir'] = "/Repos/scrap_classifieds/assets/";
+=======
+$c['rb_base_dir'] = "C:/xampp/htdocs/local.strategicscrap.com/assets/";
+>>>>>>> 7912cb4724c7b04efb26814054bf2a2e0639e349
 $c['rb_base_url'] = "assets/";
 $c['which_editor'] = "TinyMCE";
 $c['fe_editor_lang'] = "english";
@@ -55,7 +59,11 @@ $c['upload_files'] = "aac,au,avi,css,cache,doc,docx,gz,gzip,htaccess,htm,html,js
 $c['upload_maxsize'] = "1048576";
 $c['new_file_permissions'] = "0644";
 $c['new_folder_permissions'] = "0755";
+<<<<<<< HEAD
 $c['filemanager_path'] = "/Repos/scrap_classifieds/";
+=======
+$c['filemanager_path'] = "C:/xampp/htdocs/local.strategicscrap.com/";
+>>>>>>> 7912cb4724c7b04efb26814054bf2a2e0639e349
 $c['theme_refresher'] = "";
 $c['manager_layout'] = "4";
 $c['custom_contenttype'] = "application/rss+xml,application/pdf,application/vnd.ms-word,application/vnd.ms-excel,text/html,text/css,text/xml,text/javascript,text/plain";
@@ -5533,7 +5541,7 @@ $p['Quick Manager+Props'] = '&jqpath=Path to jQuery;text;assets/js/jquery-1.3.2.
 $p['class_initialize'] = 'include $_SERVER[\'DOCUMENT_ROOT\'].\'/inc/initialize.php\';';
 $e = &$this->pluginEvent;
 $e['OnBeforeManagerLogin'] = array('Forgot Manager Login');
-$e['OnDocFormPrerender'] = array('Quick Manager+','ManagerManager','Inherit Parent Template');
+$e['OnDocFormPrerender'] = array('Inherit Parent Template','Quick Manager+','ManagerManager');
 $e['OnDocFormRender'] = array('ManagerManager','Show Image TVs');
 $e['OnDocFormSave'] = array('Quick Manager+');
 $e['OnInterfaceSettingsRender'] = array('TinyMCE Rich Text Editor');

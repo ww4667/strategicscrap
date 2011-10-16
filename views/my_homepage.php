@@ -1,4 +1,4 @@
-					
+				
     <style type="text/css">
     .dataTables_scroll{background: #ebebeb;}
 	button.acceptButton{background:url(/resources/images/buttons/accept_bid.png);width:130px;height:32px;text-indent:-5000px;border:none;}

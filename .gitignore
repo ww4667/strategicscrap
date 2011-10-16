@@ -6,5 +6,12 @@
 .buildpath
 /jsonsample.txt
 /.project
+<<<<<<< HEAD
 .htaccess
 /assets/cache/*
+=======
+gir/config.php
+gir/config.php
+assets/cache
+.htaccess
+>>>>>>> 7912cb4724c7b04efb26814054bf2a2e0639e349

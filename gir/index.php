@@ -10,7 +10,7 @@ error_reporting(E_ALL);
  */
 
 // include configuration settings
-require_once("config.php");
+require_once($_SERVER["DOCUMENT_ROOT"] . "\gir\config.php");
 
 // include core modules
 require_once($coreDirectory."/models/crud/Crud.php");
@@ -30,6 +30,8 @@ require_once($coreDirectory."/Gir.php");
 $gir = new Gir();
 
 // include application modules
+require_once($modulesDirectory."/classified/Classified.php");
+require_once($modulesDirectory."/category/Category.php");
 require_once($modulesDirectory."/facility/Facility.php");
 require_once($modulesDirectory."/material/Material.php");
 require_once($modulesDirectory."/scrapper/Scrapper.php");
