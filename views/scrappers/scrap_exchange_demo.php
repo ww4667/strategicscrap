@@ -2,7 +2,7 @@
 	#tryit_wrapper, #video_wrapper {}
 	#video_wrapper {width:500px;margin:0 auto;text-align:center}
 	#tryit_wrapper {margin-left:20px}
-	#tryit_wrapper p {padding:0;margin-bottom:1.2em;font-size:1.5em;line-height:1.2em;font-family:Georgia,Serif;color:#555}
+	#tryit_wrapper p {padding:0;margin-bottom:1.2em;font-size:1.5em;line-height:1.2em;/*font-family:Georgia,Serif;*/color:#555}
 	#tryit_wrapper p strong {color:#333}
 	#tryit_wrapper p.warning {font-size:1.1em;font-family:Arial,Sans-Serif;color:#555}
 	#tryit_wrapper a#try_it_home {display:block;background:url(/resources/images/buttons/try_it.png) no-repeat;width:138px;height:46px;text-indent:-5000px}

@@ -7,7 +7,7 @@ li, p, h1, h2, h3, h4, h5, form {border:0 none;margin:0;padding:0;}
 ul, ol{border:0 none;margin:0 0 0 20px;padding:0;margin-left:35px;}
 hr{clear:both;margin:0 0 10px;padding:5px 0 0;height:1px;border:0;border-bottom:1px solid #999;}
 
-h1{color:#000;font-family:Arial,Helvetica,sans-serif;text-transform:uppercase;margin:0 0 10px 0;}
+h1{color:#000;font-family:Arial,Helvetica,sans-serif;text-transform:uppercase;margin:0 0 10px 0;line-height:1em;}
 h2{color:#000;font-family:Arial,Helvetica,sans-serif;text-transform:uppercase;font-size:22px;}
 h3{color:#000;font-family:Arial,Helvetica,sans-serif;}
 h4{color:#F96C14;font-family:Arial,Helvetica,sans-serif;text-transform:uppercase;font-size:18px;}
@@ -126,7 +126,7 @@ a:active	{outline:none;}
 /* ----[2. Regions]---- */
 .region h3{margin:0 0 7px 50px;}
 /* .region p{margin:0 0 13px 50px;} */
-.region .content p, .region .content ul, .region .content ol{margin-left:50px;color:#555;font-family:Georgia,serif;font-size:1.5em;line-height:1.2em;margin-bottom:1.2em;margin-right:20px;padding:0px 10px;}
+.region .content p, .region .content ul, .region .content ol{margin-left:50px;color:#555;/*font-family:Georgia,serif;*/font-size:1.5em;line-height:1.2em;margin-bottom:1.2em;margin-right:20px;padding:0px 10px;}
 /* .region ul, .region ol {margin:0 0 13px 70px} */
 .region li {margin:0 0 7px 0}
 .region ul li, .region ol li {margin-left:20px}
@@ -236,10 +236,10 @@ ul.regionBullets li{float:left;width:210px;}
     font-weight: bold;
     margin: 10px 0 0 10px;
 }
-.blog .leftCol {font-size:14px}
+.blog .leftCol {font-size:14px;line-height:1.3em;}
 .blog .leftCol .blog_by_line {color:#666;}
 .blog .leftCol .social_links {float:none;}
-.blog .leftCol p {margin:0 1em 1em;}
+.blog .leftCol p {margin:0 1em 1.3em;}
 .blog .leftCol h3,
 .blog .leftCol h4,
 .blog .leftCol h5 {margin:0 1em .2em}
@@ -265,7 +265,7 @@ ul.regionBullets li{float:left;width:210px;}
 }
 .blog_by_line {
     color: #CCCCCC;
-    font-family: Georgia;
+    font-family:Georgia,serif;
     font-size: 12px;
     margin-bottom: 8px;
 }
@@ -279,13 +279,16 @@ ul.regionBullets li{float:left;width:210px;}
 .blog_content a {
     font-weight: bold;
 }
-
 .blog_item {
     clear: both;float: left; margin: 10px 0; /* padding: 10px 0 ; border-bottom: 2px solid #ccc; */
 }
-
 .social_links {float: right;}
 .scrapex .social_links {display:none} /* Josh says no... */
 .region .social_links {float:none;margin-bottom:10px;}
 .clear_both{clear: both;}
-
+#scrap_walkthrough ul ul {list-style:disc}
+#scrap_walkthrough p,
+#scrap_walkthrough ul {font-size:14px;line-height:1.3em;}
+#scrap_walkthrough p {margin:0 1em 1.3em;}
+#scrap_walkthrough a {color:#F96C14;}
+#scrap_walkthrough a:hover {text-decoration:underline;}

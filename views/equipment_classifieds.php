@@ -9,6 +9,7 @@
   <ul id="tabs-equipClass">
     <li><a href="#tabs-1"><span>For Sale</span></a></li>
     <li><a href="#tabs-2"><span>Wanted</span></a></li>
+    <li><a href="#tabs-3"><span>Auctions</span></a></li>
   </ul><!-- tabs-equipClass -->
      
     <div id="tabs-1">
@@ -30,6 +31,16 @@
         </div><!-- tab2 conent -->
     </div><!-- tab2 pane -->
     </div><!-- tab2 -->
+    
+    <div id="tabs-3">
+    <div id="tab-3-pane" style="position:relative">
+      <div id="tab-3-content">
+
+				[[Ditto? &parents=`51`&orderBy=`pub_date DESC` &display=`500` &total=`500` &tpl=`auction_row_white` &tplAlt=`auction_row_gray`]]
+        
+        </div><!-- tab3 conent -->
+    </div><!-- tab3 pane -->
+    </div><!-- tab3 -->
     
 </div><!-- equipClassifieds -->
 

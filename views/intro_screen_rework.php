@@ -117,7 +117,7 @@ var sws = {};
 				<h3>Market Data</h3>
 				<div class="updated-timestamp">Updated: <?=$market_data_timestamp?></div>
 				<div class="more">
-					<a href = "/scrap-registration">Click here for live data</a>
+					<a href = "/scrap-registration?pay=true">Click here for live data</a>
 				</div>
 				<hr style="margin-bottom:0" />
 				<table>
@@ -192,9 +192,11 @@ var sws = {};
 			<div class = "blog_row">
 				[[Ditto? &parents=`281`&orderBy=`menuindex ASC` &display=`1` &total=`1` &tpl=`blog_feed_row`]]
 			</div>
+<?php /*
 			<div class = "blog_row">
 				[[Ditto? &parents=`281`&orderBy=`menuindex ASC` &start=`1` &display=`1` &total=`1` &tpl=`blog_feed_row`]]
 			</div>
+*/?>
 			<div class = "blog_row">
 				[[Ditto? &parents=`284`&orderBy=`menuindex ASC` &display=`1` &total=`1` &tpl=`blog_feed_row`]]
 			</div>

@@ -42,8 +42,13 @@
 	<ul id="tabs-scrapClass">
 		<li><a href="#tab22"><span>Wanted</span></a></li>
 		<li><a href="#tab11"><span>For Sale</span></a></li>
-		<li><a href="#tab3"><span>Auctions</span></a></li>
 		<li><a href="#tab4"><span>Jobs</span></a></li>
+<?php
+/*
+ * 
+		<li><a href="#tab3"><span>Auctions</span></a></li>
+ */
+?>
 	</ul>
 	
 	<div class="tabBox">
@@ -64,14 +69,6 @@
     </div><!-- tab1 pane -->
 		</div><!-- tab1 -->
 		
-		<div id="tab3">
-    <div id="tab-3-pane" style="position:relative">
-      <div id="tab-3-content">
-		[[Ditto? &parents=`51`&orderBy=`pub_date DESC` &display=`500` &total=`500` &tpl=`auction_row_white` &tplAlt=`auction_row_gray`]]
-        </div><!-- tab3 conent -->
-    </div><!-- tab3 pane -->
-		</div><!-- tab3 -->
-		
 		<div id="tab4">
     <div id="tab-4-pane" style="position:relative">
       <div id="tab-4-content">
@@ -79,6 +76,19 @@
         </div><!-- tab4 conent -->
     </div><!-- tab4 pane -->
 		</div><!-- tab4 -->
+		
+<?php 
+/*
+ * 
+		<div id="tab3">
+    <div id="tab-3-pane" style="position:relative">
+      <div id="tab-3-content">
+		[[Ditto? &parents=`51`&orderBy=`pub_date DESC` &display=`500` &total=`500` &tpl=`auction_row_white` &tplAlt=`auction_row_gray`]]
+        </div><!-- tab3 conent -->
+    </div><!-- tab3 pane -->
+		</div><!-- tab3 -->
+ */
+?>		
 			
 	</div><!-- tabBox -->
 </div>
@@ -87,4 +97,4 @@
 <div style="display:none"> 
 	<div id="listingDescription1" style="padding:10px; background:#fff;">
 	</div> 
-</div> 
+</div>
