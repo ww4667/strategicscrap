@@ -692,19 +692,19 @@ switch($controller_action){
 						$state = $obj->state_province;
 						$f = new Facility();
 						$region = $f->setRegion($state);
+						$_SESSION["user"]["homepage"] = "/regions";
 						// send them there.
 						if ($region == "NE")
-						redirect_to('/regions/northeast');
+							$_SESSION["user"]["homepage"] = "/regions/northeast";
 						if ($region == "C")
-						redirect_to('/regions/central');
+							$_SESSION["user"]["homepage"] = "/regions/central";
 						if ($region == "S")
-						redirect_to('/regions/south');
+							$_SESSION["user"]["homepage"] = "/regions/south";
 						if ($region == "SE")
-						redirect_to('/regions/southeast');
+							$_SESSION["user"]["homepage"] = "/regions/southeast";
 						if ($region == "W")
-						redirect_to('/regions/west');
-						// couldn't determine region.
-						redirect_to('/regions');
+							$_SESSION["user"]["homepage"] = "/regions/west";
+						redirect_to($_SESSION["user"]["homepage"]);
 						break;
 
 					case 'broker':
@@ -1101,19 +1101,19 @@ switch($controller_action){
 					$state = $obj->state_province;
 					$f = new Facility();
 					$region = $f->setRegion($state);
+					$_SESSION["user"]["homepage"] = "/regions";
 					// send them there.
 					if ($region == "NE")
-					redirect_to('/regions/northeast');
+						$_SESSION["user"]["homepage"] = "/regions/northeast";
 					if ($region == "C")
-					redirect_to('/regions/central');
+						$_SESSION["user"]["homepage"] = "/regions/central";
 					if ($region == "S")
-					redirect_to('/regions/south');
+						$_SESSION["user"]["homepage"] = "/regions/south";
 					if ($region == "SE")
-					redirect_to('/regions/southeast');
+						$_SESSION["user"]["homepage"] = "/regions/southeast";
 					if ($region == "W")
-					redirect_to('/regions/west');
-					// couldn't determine region.
-					redirect_to('/regions');
+						$_SESSION["user"]["homepage"] = "/regions/west";
+					redirect_to($_SESSION["user"]["homepage"]);
 
 					//						redirect_to($redirect_url);
 				} else {

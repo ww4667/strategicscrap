@@ -117,7 +117,7 @@ var sws = {};
 				<h3>Market Data</h3>
 				<div class="updated-timestamp">Updated: <?=$market_data_timestamp?></div>
 				<div class="more">
-					<a href = "/scrap-registration?pay=true">Click here for live data</a>
+					<a href = "<?= isset($_SESSION["user"]["homepage"]) ? $_SESSION["user"]["homepage"] : "/regions/central"?>">Click here for live data</a>
 				</div>
 				<hr style="margin-bottom:0" />
 				<table>
@@ -296,9 +296,9 @@ a#next_news {background:url(/resources/images/dashboard_action_sprite.png) -66px
 a#next_news:hover {background:url(/resources/images/dashboard_action_sprite.png) -66px -22px no-repeat;}
 #slides_news {overflow:hidden; /* fix ie overflow issue */ position:relative; width:560px; height:26px; margin: 0;}
 #slides_news li { width:545px; height:26px; float:left; margin-top: 3px;line-height: 26px; font-size: 12px; padding-left: 15px; }
-#scrap_walkthrough {background: #fff; width: 680px; padding: 10px;}
+#scrap_walkthrough {background: #fff; width: 680px; padding: 20px;}
 #scrap_walkthrough .pages {list-style: none; margin: 0;}
-#walkthrough_controls{clear: both; margin-top: 8px; float: left; width: 100%;}
+#walkthrough_controls{clear: both; margin-top: 10px; float: left; width: 100%;}
 .walkthrough_choice{cursor: pointer;}
 .walkthrough_choice:hover{color: #000;}
 
@@ -326,7 +326,7 @@ a#next_news:hover {background:url(/resources/images/dashboard_action_sprite.png)
         $("#activate_walkthrough").click(function(){
 //        	$.colorbox({width:"705px", height:"536px", inline:true, href:"#scrap_walkthrough"});
 			reset_walkthrough();
-        	$.colorbox({width:"705px", inline:true, href:"#scrap_walkthrough"});
+        	$.colorbox({width:"725px", inline:true, href:"#scrap_walkthrough"});
         })
         
         

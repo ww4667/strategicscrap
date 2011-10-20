@@ -290,5 +290,6 @@ ul.regionBullets li{float:left;width:210px;}
 #scrap_walkthrough p,
 #scrap_walkthrough ul {font-size:14px;line-height:1.3em;}
 #scrap_walkthrough p {margin:0 1em 1.3em;}
+#scrap_walkthrough ul {margin:0 2em 1.3em;}
 #scrap_walkthrough a {color:#F96C14;}
 #scrap_walkthrough a:hover {text-decoration:underline;}
