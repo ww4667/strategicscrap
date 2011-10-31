@@ -184,13 +184,13 @@ var sws = {};
 				</div>
 			</div> -->
 			<div class = "blog_row">
-				[[Ditto? &parents=`227`&orderBy=`menuindex ASC` &display=`1` &total=`1` &tpl=`blog_feed_row`]]
+				[[Ditto? &parents=`227`&orderBy=`pub_date DESC` &display=`1` &tpl=`blog_feed_row`]]
 			</div>
 			<div class = "blog_row">
-				[[Ditto? &parents=`279`&orderBy=`menuindex ASC` &display=`1` &total=`1` &tpl=`blog_feed_row`]]
+				[[Ditto? &parents=`279`&orderBy=`pub_date DESC` &display=`1` &tpl=`blog_feed_row`]]
 			</div>
 			<div class = "blog_row">
-				[[Ditto? &parents=`281`&orderBy=`menuindex ASC` &display=`1` &total=`1` &tpl=`blog_feed_row`]]
+				[[Ditto? &parents=`281`&orderBy=`pub_date DESC` &display=`1` &tpl=`blog_feed_row`]]
 			</div>
 <?php /*
 			<div class = "blog_row">
@@ -198,7 +198,7 @@ var sws = {};
 			</div>
 */?>
 			<div class = "blog_row">
-				[[Ditto? &parents=`284`&orderBy=`menuindex ASC` &display=`1` &total=`1` &tpl=`blog_feed_row`]]
+				[[Ditto? &parents=`284`&orderBy=`pub_date DESC` &display=`1` &tpl=`blog_feed_row`]]
 			</div>
 			
 		</div>

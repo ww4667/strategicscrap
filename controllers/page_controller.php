@@ -478,6 +478,25 @@ switch($controller_action){
 		require($_SERVER['DOCUMENT_ROOT']."/views/layouts/shell.php");
 		break;
 		
+	/* Introduction-Rework (home) */
+	case 'market_history':
+		// page 'template variables'
+		//			$PAGE_BODY = "views/intro_screen.php";  	/* which file to pull into the template */
+		//			if(isset($_GET['new']))
+//		
+//		$cache_file = $_SERVER['DOCUMENT_ROOT']."/cache/static-market-data.cache";
+//		$feed_url = "https://strategicscrap.com/static-market-data";
+//		$test_market_data = get_cached_file($cache_file, 900, $feed_url);
+//
+//		$market_data = json_decode($test_market_data,true);
+//		$market_data_timestamp = date("M d, Y, h:ia",filemtime($cache_file))." CST";
+		
+		$PAGE_BODY = "views/market_history.php";  	/* which file to pull into the template */
+			
+		//the layout file  -  THIS PART NEEDS TO BE LAST
+		require($_SERVER['DOCUMENT_ROOT']."/views/layouts/shell.php");
+		break;
+		
 	/* Broker Dashboard */
 	case 'broker-dashboard':
 		require_ssl();
@@ -995,7 +1014,11 @@ switch($controller_action){
 					Mailer::welcome_email($object);
 					Mailer::mail_chimp_subscribe($object); 
 					//						flash("Welcome to Strategic Scrap! You have successfully been registered. Use the sign-in form above to get started.");
-					redirect_to('/');
+					$obj = new Scrapper();
+					$obj->Login( $post_data['email'], $post_data['verify_password'] );
+					$_SESSION['user']['new'] =  1;
+					redirect_to('/my-account');
+//					redirect_to('/');
 					//						die(print_r($scrapper));
 				} else {
 					// setup the new broker!
@@ -1004,7 +1027,10 @@ switch($controller_action){
 					$broker = $b->GetItemObj($newBroker->newId);
 					$broker->addUser($newUser->newId);
 					//						flash("Welcome to Strategic Scrap! You have successfully been registered. Use the sign-in form above to get started.");
-					redirect_to('/');
+					$obj = new Broker();
+					$obj->Login( $post_data['email'], $post_data['verify_password'] );
+					redirect_to('/broker-admin/dashboard');
+//					redirect_to('/');
 					//						die(print_r($broker));
 				}
 			} else {

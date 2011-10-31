@@ -53,6 +53,24 @@ function controller_remote( $_controller_remote_method = null,
 	 * TODO: Add Keys for these cases so people cant access them outside without proper permissions
 	 */
 	switch($_controller_remote_method){
+		/* Market History data */
+		case 'market_history':
+			// page 'template variables'
+			//			$PAGE_BODY = "views/intro_screen.php";  	/* which file to pull into the template */
+			//			if(isset($_GET['new']))
+	//		
+	//		$cache_file = $_SERVER['DOCUMENT_ROOT']."/cache/static-market-data.cache";
+	//		$feed_url = "https://strategicscrap.com/static-market-data";
+	//		$test_market_data = get_cached_file($cache_file, 900, $feed_url);
+	//
+	//		$market_data = json_decode($test_market_data,true);
+	//		$market_data_timestamp = date("M d, Y, h:ia",filemtime($cache_file))." CST";
+			
+			$PAGE_BODY = "views/market_history.php";  	/* which file to pull into the template */
+				
+			//the layout file  -  THIS PART NEEDS TO BE LAST
+			//require($_SERVER['DOCUMENT_ROOT']."/views/layouts/shell.php");
+			break;
 		
 		case 'get-market-data':
 			
