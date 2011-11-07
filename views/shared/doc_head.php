@@ -11,7 +11,7 @@
   <meta http-equiv="content-type" CONTENT="text/html; charset=iso-8859-1">
   <meta NAME="Author" CONTENT="Slash/Web Studios in Clive, Iowa" />
   <meta NAME="classification" CONTENT="Commercial">
-  <meta NAME="description" CONTENT="Strategic Scrap provides the first and only comprehensive web-based solution for the scrap metal industry.">
+  <meta NAME="description" CONTENT="[*description*]">
   <meta NAME="distribution" CONTENT="GLOBAL">
   <meta NAME="keywords" CONTENT="scrap metal, exchange, buy scrap, sell scrap, mills, foundries">
   <meta NAME="language" CONTENT="en-us">
