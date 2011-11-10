@@ -321,17 +321,44 @@ switch($controller_action){
 			$postal_code = explode("-",$scrapper->postal_code);
 			$postal_code = $postal_code[0];
 	error_log('hitting weather feed: ' . (microtime(true) - $temp_time_start) . ' seconds so far . . .');
-			$request_url = "http://xoap.weather.com/weather/local/" . $postal_code . "?cc=*&dayf=5&link=xoap&prod=xoap&par=1182592015&key=bd35fd8b6e181b8a";
+	
+			$request_url = "http://weather.yahooapis.com/forecastrss?p=" . $postal_code . "&u=f";
 			$xml = simplexml_load_file($request_url) or die("feed not loading");
-			$weather = $xml->xpath('//weather');
-			if ( empty( $weather ) ) {
+		
+			$channel_yweather = $xml->channel->children("http://xml.weather.yahoo.com/ns/rss/1.0");
+		
+			foreach($channel_yweather as $x => $channel_item) 
+				foreach($channel_item->attributes() as $k => $attr) 
+					$yw_channel[$x][$k] = $attr;
+	
+			if ( empty( $yw_channel['location']['city'][0] ) ) {
 				$postal_code = false;
 	error_log('hitting weather feed default if needed: ' . (microtime(true) - $temp_time_start) . ' seconds so far . . .');
-				$request_url = "http://xoap.weather.com/weather/local/$zipcode?cc=*&dayf=5&link=xoap&prod=xoap&par=1182592015&key=bd35fd8b6e181b8a";
+				$request_url = "http://weather.yahooapis.com/forecastrss?p=" . $postal_code . "&u=f";
 				$xml = simplexml_load_file($request_url) or die("feed not loading");
-				$weather = $xml->xpath('//weather');
+			
+				$channel_yweather = $xml->channel->children("http://xml.weather.yahoo.com/ns/rss/1.0");
+			
+				foreach($channel_yweather as $x => $channel_item) 
+					foreach($channel_item->attributes() as $k => $attr) 
+						$yw_channel[$x][$k] = $attr;
 			}
-			$weather = $weather[0];
+					
+			$item_yweather = $xml->channel->item->children("http://xml.weather.yahoo.com/ns/rss/1.0");
+		
+			foreach($item_yweather as $x => $yw_item) {
+				foreach($yw_item->attributes() as $k => $attr) {
+					if($k == 'day') $day = $attr;
+					if($x == 'forecast') { $yw_forecast[$x][$day . ''][$k] = $attr;	} 
+					else { $yw_forecast[$x][$k] = $attr; }
+				}
+			}
+			
+			$weather_location = $yw_channel['location']['city'][0] . ", " . $yw_channel['location']['region'][0] . " (" . $postal_code . ")";
+			$weather_condition = $yw_forecast['condition']['text'][0];
+			$weather_temp = $yw_forecast['condition']['temp'][0];
+			$weather_code = $yw_forecast['condition']['code'][0];
+			$weather_date = $yw_forecast['condition']['date'][0];
 		} // end else statement for auth
 		//the layout file  -  THIS PART NEEDS TO BE LAST
 	error_log('finally ready to show this page!: ' . (microtime(true) - $temp_time_start) . ' seconds so far . . .');

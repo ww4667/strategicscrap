@@ -359,12 +359,12 @@
 						<div id="localWeather" class="oneColMod"><div class="moduleTop"><!-- IE hates empty elements --></div>
 							<div class="moduleContent">
 								<div style="padding:10px 10px 10px;">
-								<strong><?=$weather->loc->dnam?> Weather</strong><br />
-								Updated: <?=date('M d, Y, g:ia T',strtotime($weather->cc->lsup))?><br />
-								<img src="/resources/images/weather/icons/93x93/<?=$weather->cc->icon?>.png" alt="<?=$weather->cc->t?>" style="float:left;" /><div style="color:#999;font-size:60px;margin:10px;float:left"><?=$weather->cc->tmp?>&deg;<span style="font-size:30px">F</span></div>
+								<strong><?=$weather_location?> Weather</strong><br />
+								Updated: <?=date('M d, Y, g:ia T',strtotime($weather_date))?><br />
+								<img src="/resources/images/weather/icons/93x93/<?=$weather_code?>.png" alt="<?=$weather_condition?>" style="float:left;" /><div style="color:#999;font-size:60px;margin:10px;float:left"><?=$weather_temp?>&deg;<span style="font-size:30px">F</span></div>
 								<div style="clear:both;">
-								<strong><a href="http://www.weather.com/weather/today/<? echo !$postal_code?$zipcode:$postal_code ?>" style="text-decoration:underline;" target="_blank">Details</a></strong><br /><br />
-								<p class="note">Weather data provided by <a href="http://www.weather.com/">The Weather Channel</a> and <a href="http://www.weather.com/">weather.com</a></p>
+								<strong><a href="http://weather.yahoo.com/" style="text-decoration:underline;" target="_blank">Details</a></strong><br /><br />
+								<p class="note">Weather data provided by <a href="http://weather.yahoo.com/">Yahoo Weather</a> and <a href="http://weather.yahoo.com/">weather.yahoo.com</a></p>
 								</div>
 								</div>
 							</div><div class="moduleBottom"><!-- IE hates empty elements --></div>	
