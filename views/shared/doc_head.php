@@ -13,7 +13,7 @@
   <meta NAME="classification" CONTENT="Commercial">
   <meta NAME="description" CONTENT="[*description*]">
   <meta NAME="distribution" CONTENT="GLOBAL">
-  <meta NAME="keywords" CONTENT="scrap metal, exchange, buy scrap, sell scrap, mills, foundries">
+  <meta NAME="keywords" CONTENT="[*meta_keywords*]">
   <meta NAME="language" CONTENT="en-us">
   <meta NAME="rating" CONTENT="GENERAL">
   <meta NAME="revisit-after" CONTENT="30 Days">

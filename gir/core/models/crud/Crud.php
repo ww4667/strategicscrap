@@ -132,6 +132,18 @@ class Crud {
 		$this->newId = $itemId;
 		return $this;
     }
+    
+    public function CreateItems( $itemsData ){
+    	$objectNameId = $this->_OBJECT_NAME_ID;
+    	$itemIds = $this->_CreateItems( $objectNameId, count( $itemsData ) );
+    	$idsArray = array();
+    	foreach ($itemIds as $row) {
+    		$idsArray[] = $row['id'];
+    	}
+    	if ( $this->_InsertPropertyValues( $idsArray, $itemsData ) )
+    		return true;
+    	return false;
+    }
 	
 	public function GetItem( $itemId, $detail = false ){
 		$item = $this->_GetValuesByObjectId( $itemId );
@@ -465,6 +477,35 @@ class Crud {
     	}
 		return $op;
     }
+    
+    private function _CreateItems( $objectNameId, $count ){
+    	if(!isset($count)) $count = 1;
+    	$op = array();
+    	if( count( $this->_GetDataById( $objectNameId, $this->_TABLE_PREFIX.constant('Crud::_OBJECT_NAMES') ) ) > 0 ){
+			$created_ts = date("Y-m-d H:i:s"); // set created timestamp
+			// build crazy awesome query poop
+			$query = "LOCK TABLE " . $this->_TABLE_PREFIX.constant('Crud::_ITEMS') . " WRITE;";
+			$this->_RunQuery( $query );
+			$query = " INSERT INTO " . $this->_TABLE_PREFIX.constant('Crud::_ITEMS') . " ( object_name_id, created_ts ) VALUES ";
+			for ($index = 0; $index < $count; $index++) {
+				$query .= " ( $objectNameId, '$created_ts' ),";
+			}
+			
+			//print "QUERY BEFORE TRIM " . $query . "<br /><br />";
+			$query = trim( $query, "," );
+			$query .= ";";
+			//print "QUERY AFTER TRIM " . $query . "<br /><br />";
+			if($this->_RunQuery( $query )) {
+				// build query that grabs ids that were just created
+				$query = "SELECT id FROM " . $this->_TABLE_PREFIX.constant('Crud::_ITEMS') . " WHERE created_ts = '$created_ts' AND object_name_id = $objectNameId";
+				$op = $this->_RunQuery( $query, true );
+			}
+
+			$query = "UNLOCK TABLES;";
+			$this->_RunQuery( $query );
+    	}
+		return $op;
+    }
 
     /*
      * SetPropertyValue( $objectId, $propertyId, $type );
@@ -554,6 +595,73 @@ class Crud {
     	} else {
 			return false;
     	}
+    }
+    
+    private function _InsertPropertyValues ( $itemIds, $itemsData ) {
+    	$op = false;
+    	// create map for data types
+    	$objectProperties = $this->_OBJECT_PROPERTIES;
+    	$fields_map = array();
+    	foreach ( $itemsData[0] as $item ) {
+    		foreach ( $objectProperties as $p ) {
+    			if ( isset( $item[$p['field']] ) ) {
+    				$fields_map[$p['field']] = array( 'type' => $p['type'], 'property_name_id' => $p['property_name_id'] );
+    			}
+    		}
+    	}
+    	// build the queries for the data types
+    	$text_query = "";
+    	$number_query = "";
+    	$date_query = "";
+		
+		$this->database_connection->Open();
+    	foreach ( $itemsData as $key1 => $val1 ) {
+    		foreach ($val1 as $key2 => $val2 ) {
+	    		if ( isset( $fields_map[$key2] ) ) {
+	    			$query_string = "('" . mysql_real_escape_string($val2) . "','" . $fields_map[$key2]['property_name_id'] . "'," . $itemIds[$key1] . "),";
+	    			switch ( $fields_map[$key2]['type'] ) {
+	    				case "text":
+	    					$text_query .= $query_string;
+    					break;
+	    					
+	    				case "number":
+	    					$number_query .= $query_string;
+    					break;
+    					
+	    				case "date":
+	    					$date_query .= $query_string;
+    					break;
+	    			}
+	    		}
+    		}
+    	}
+		$this->database_connection->Close();
+
+    	// check for queries and insert them
+    	
+    	$text_query = trim( $text_query, " ," );
+    	$number_query = trim( $number_query, " ," );
+    	$date_query = trim( $date_query, " ," );
+		
+    	if ( $text_query != "" ) {
+    		// insert text data
+	    	$table = $this->_TABLE_PREFIX.constant('Crud::_VALUES_TABLE_TEXT');
+    		$query = "INSERT INTO $table ( value, property_name_id, item_id  ) VALUES $text_query;";
+    		if( $this->_RunQuery( $query ) ) $op = true;
+    	}
+    	if ( $number_query != "" ) {
+    		// insert number data
+    		$table = $this->_TABLE_PREFIX.constant('Crud::_VALUES_TABLE_NUMBERS');
+    		$query = "INSERT INTO $table ( value, property_name_id, item_id  ) VALUES $number_query;";
+    		if( $this->_RunQuery( $query ) ) $op = true;
+    	}
+    	if ( $date_query != "" ) {
+    		// insert date data
+    		$table = $this->_TABLE_PREFIX.constant('Crud::_VALUES_TABLE_DATES');
+    		$query = "INSERT INTO $table ( value, property_name_id, item_id  ) VALUES $date_query;";
+    		if( $this->_RunQuery( $query ) ) $op = true;
+    	}
+    	return $op;
     }
 	
 	private function _SetJoinValue ( $joinItemId, $joinName ) {
