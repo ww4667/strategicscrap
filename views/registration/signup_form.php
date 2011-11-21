@@ -8,7 +8,7 @@ if (!$_GET['pay']){
 <p>Fill out your registration below to get started.</p>
 <form action"" class="clearfix" method="post">
 <fieldset>
-<legend>Personal Information:</legend>							
+<legend>Required Information:</legend>							
 <ul class="form">
 <li><label>First Name:</label><input name="first_name" type="text" value="<?=$post_data['first_name']?>" /></li>
 <li><label>Last Name:</label><input name="last_name" type="text" value="<?=$post_data['last_name']?>" /></li>
@@ -17,6 +17,15 @@ if (!$_GET['pay']){
 <ul class="form hii">
 <li><label class="firstLabel">Password:</label><input name="password" type="password" /></li>
 <li><label class="firstLabel">Verify Password:</label><input name="verify_password" type="password" /></li>
+</ul>
+<ul class="form">
+<li><label>Company Name:</label><input name="company" type="text" value="<?=$post_data['company']?>" /></li>
+<li><label>Address 1:</label><input name="address_1" type="text" value="<?=$post_data['address_1']?>" /></li>
+<li><label>Address 2 (optional):</label><input name="address_2" type="text" value="<?=$post_data['address_2']?>" /></li>
+<li><label>City:</label><input name="city" type="text" value="<?=$post_data['city']?>" /></li>
+<li><label>State/Province:</label><?php print state_province_select("full","state_province","state_province","","") ?></li>
+<li><label>Postal Code:</label><input name="postal_code" type="text" value="<?=$post_data['postal_code']?>" /></li>
+<li><label>Work Phone:</label><input name="work_phone" type="text" value="<?=$post_data['work_phone']?>" /></li>
 </ul>
 <div class="submitButton">
 <input id="submitRegistration" alt="Submit Registration" name="submitReg" src="resources/images/buttons/submit_registration.png" type="image" />

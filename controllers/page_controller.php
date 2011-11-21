@@ -979,6 +979,21 @@ switch($controller_action){
 			$error_messages[] = "Password field cannot be left empty.";
 			if( $post_data['verify_password'] != $post_data['password'] )
 			$error_messages[] = "Verify Password does not match Password field.";
+			$post_data['work_phone'] = format_phone($post_data['work_phone']);
+			if( $post_data['work_phone'] == "" )
+			$error_messages[] = "Work Phone field cannot be left empty.";
+			if( strlen($post_data['work_phone']) != 14 )
+			$error_messages[] = "Work Phone must have 10 digits.";
+			if( $post_data['company'] == "" )
+			$error_messages[] = "Company field cannot be left empty.";
+			if( $post_data['address_1'] == "" )
+			$error_messages[] = "Address field cannot be left empty.";
+			if( $post_data['city'] == "" )
+			$error_messages[] = "City field cannot be left empty.";
+			if( $post_data['state_province'] == "" )
+			$error_messages[] = "State/Province field cannot be left empty.";
+			if( $post_data['postal_code'] == "" )
+			$error_messages[] = "Postal Code field cannot be left empty.";
 			//				$post_data['work_phone'] = format_phone($post_data['work_phone']);
 			//				if( strlen($post_data['work_phone']) != 14 )
 			//					$error_messages[] = "Phone field must have 10 digits.";
@@ -1029,6 +1044,17 @@ switch($controller_action){
 						$post_data['subscription_end_date'] = date("Y-m-d 00:00:00",strtotime($SUBSCRIPTION_DURATION,strtotime($post_data['subscription_start_date'])));
 					}
 					$post_date['status'] = 'ACTIVE';
+					// fix state/province country data
+					$state = substr($post_data['state_province'], -2);
+					$country = substr($post_data['state_province'], 0, 2);
+					$post_data['state_province'] = $state;
+					if ( $country == "US" ) {
+						$post_data['country'] = "United States";
+					} elseif ( $country == "MX" ) {
+						$post_data['country'] = "Mexico";
+					} else {
+						$post_data['country'] = "Canada";
+					}
 					// setup the new scrapper!
 					$s = new Scrapper();
 					$newScrapper = $s->CreateItem($post_data);
@@ -1043,8 +1069,25 @@ switch($controller_action){
 					//						flash("Welcome to Strategic Scrap! You have successfully been registered. Use the sign-in form above to get started.");
 					$obj = new Scrapper();
 					$obj->Login( $post_data['email'], $post_data['verify_password'] );
-					$_SESSION['user']['new'] =  1;
-					redirect_to('/my-account');
+//					$_SESSION['user']['new'] =  1;
+					// find what region scrapper belongs to.
+					$state = $scrapper->state_province;
+					$f = new Facility();
+					$region = $f->setRegion($state);
+					$_SESSION["user"]["homepage"] = "/regions";
+					// send them there.
+					if ($region == "NE")
+						$_SESSION["user"]["homepage"] = "/regions/northeast";
+					if ($region == "C")
+						$_SESSION["user"]["homepage"] = "/regions/central";
+					if ($region == "S")
+						$_SESSION["user"]["homepage"] = "/regions/south";
+					if ($region == "SE")
+						$_SESSION["user"]["homepage"] = "/regions/southeast";
+					if ($region == "W")
+						$_SESSION["user"]["homepage"] = "/regions/west";
+					redirect_to($_SESSION["user"]["homepage"]);
+//					redirect_to('/my-account');
 //					redirect_to('/');
 					//						die(print_r($scrapper));
 				} else {
