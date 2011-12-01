@@ -375,8 +375,12 @@ class Crud {
         return $this->_GetJoin( $itemId, $foreignItemId );
     }
 
-    public function ReadJoins( $joinObject ){
-        return $this->_GetJoins( $joinObject );
+    public function ReadJoins( $joinObject, $return_sql = false ){
+        return $this->_GetJoinsNew( $joinObject, $return_sql );
+    }
+
+    public function ReadJoinsNew( $joinObject, $return_sql = false ){
+        return $this->_GetJoinsNew( $joinObject, $return_sql );
     }
 
     public function ReadForeignJoins( $joinObject ){
@@ -415,6 +419,27 @@ class Crud {
     	print "</pre>";
     }
 
+
+	public function QueryObjectItems( $whereStatement, $return_sql = false ) {
+		$items = $this->_QueryObjectItems( $whereStatement, $return_sql );
+		if ($return_sql){
+			return $items;
+		} else {	
+			if (count($items) > 0) {
+				$objs = array();
+				foreach ($items as $item) {
+					$obj = clone $this;
+					foreach ($item as $key => $val) {
+						$obj->$key = $val;
+					}
+					$objs[] = $obj;
+				}
+				return $objs;
+			} else {
+				return FALSE;
+			}
+		}
+	}
     /* PRIVATE */
 
 	/**
@@ -1025,6 +1050,45 @@ class Crud {
 		}
 	}
 
+	private function _GetJoinsNew( $joinObject, $return_sql = false ){
+		$itemId = $this->id;
+		$properties = $joinObject->_OBJECT_PROPERTIES;
+		$objectName = $joinObject->_OBJECT_NAME;
+		$objectNameId = $joinObject->_OBJECT_NAME_ID;
+		
+		$field_names = "";
+		$field_tables = "";
+		$text_table = $this->_TABLE_PREFIX.constant('Crud::_VALUES_TABLE_TEXT');
+		$number_table = $this->_TABLE_PREFIX.constant('Crud::_VALUES_TABLE_NUMBERS');
+		$date_table = $this->_TABLE_PREFIX.constant('Crud::_VALUES_TABLE_DATES');
+		$join_table = $this->_TABLE_PREFIX.constant('Crud::_VALUES_TABLE_TEXT'); // used only to produce empty field
+		
+		foreach ($properties as $p) {
+			$table = ${$p['type'] . "_table"};
+			$alias = "obj" . $objectNameId . "pn" . $p['property_name_id'];
+			$field_names .= ($p['type'] != "join") ? " $alias.value as '" . $p['field'] . "'," : " count($alias.value) as " . $p['field'] . ",";
+			$field_tables .= " LEFT JOIN $table as $alias on $alias.item_id=o.id AND $alias.property_name_id=" . $p['property_name_id'];
+		}
+		
+		$field_names = trim( $field_names, "," );
+		$query = "SELECT o.id, o.created_ts, o.updated_ts, o.object_name_id,";
+		$query .= $field_names;
+		$query .= " FROM " . $this->_TABLE_PREFIX.constant('Crud::_ITEMS') . " as o";
+		$query .= $field_tables;
+		$query .= " JOIN " . $this->_TABLE_PREFIX.constant('Crud::_VALUES_TABLE_JOINS') . " as vj on vj.item_id = $itemId AND vj.value = o.id";
+		$query .= " WHERE o.object_name_id = $objectNameId";
+		$query .= " GROUP BY o.id";
+
+		if ($return_sql){
+			return $query;
+		} else {			
+			$result = (array) $this->_RunQuery( $query, true );
+			$joinPropertyLabel = "join_" . strtolower($objectName);
+			if( count( $result ) > 0 ) $this->$joinPropertyLabel = $result;
+			return $result;
+		}
+	}
+
 	private function _GetForeignJoins( $joinObject ){
 		$foreignItemId = $joinObject->id;
 		$properties = $this->_OBJECT_PROPERTIES;
@@ -1042,8 +1106,6 @@ class Crud {
 			$table = ${$p['type'] . "_table"};
 			$alias = "obj" . $objectNameId . "pn" . $p['property_name_id'];
 			$field_names .= ($p['type'] != "join") ? " $alias.value as '" . $p['field'] . "'," : " count($alias.value) as " . $p['field'] . ",";
-//			$field_names .= ($p['type'] != "join") ? " $alias.value as '" . $p['field'] . "'," : " null as " . $p['field'] . ",";
-//			$field_names .= " $alias.value as '" . $p['field'] . "',";
 			// unique to this join query
 			if($p['type'] != "join") {
 				$field_tables .= " LEFT JOIN $table as $alias on $alias.item_id=o.id AND $alias.property_name_id=" . $p['property_name_id'];
@@ -1085,5 +1147,33 @@ class Crud {
     	
 		return false;
     }
+
+	private function _QueryObjectItems( $whereStatement = "id != null" ) {
+		$objectNameId = $this->_OBJECT_NAME_ID;
+		$properties = $this->_OBJECT_PROPERTIES;
+		$field_names = "";
+		$field_tables = "";
+		$text_table = $this->_TABLE_PREFIX.constant('Crud::_VALUES_TABLE_TEXT');
+		$number_table = $this->_TABLE_PREFIX.constant('Crud::_VALUES_TABLE_NUMBERS');
+		$date_table = $this->_TABLE_PREFIX.constant('Crud::_VALUES_TABLE_DATES');
+		$join_table = $this->_TABLE_PREFIX.constant('Crud::_VALUES_TABLE_TEXT'); // used only to produce empty field
+		
+		foreach ($properties as $p) {
+			$table = ${$p['type'] . "_table"};
+			$alias = "obj" . $objectNameId . "pn" . $p['property_name_id'];
+			$field_names .= " $alias.value as " . $p['field'] . ",";
+			$field_tables .= " LEFT JOIN $table as $alias on $alias.item_id=o.id AND $alias.property_name_id=" . $p['property_name_id'];
+		}
+		$field_names = trim( $field_names, "," );
+		$query = "SELECT o.id, o.created_ts, o.updated_ts, o.object_name_id,";
+		$query .= $field_names;
+		$query .= " FROM " . $this->_TABLE_PREFIX.constant('Crud::_ITEMS') . " as o";
+		$query .= $field_tables;
+		$query .= " WHERE o.object_name_id = $objectNameId";
+		$query = "SELECT * FROM ($query) as tbl";	
+		$query .= " WHERE $whereStatement";
+		
+		return $this->_RunQuery( $query, true );
+	}
 }
 ?>

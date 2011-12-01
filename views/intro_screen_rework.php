@@ -160,7 +160,7 @@ var sws = {};
 				<hr style="margin-bottom:0" />
 				
 	        <ul id="slides_news">
-	        	[[Ditto? &parents=`225`&orderBy=`menuindex ASC` &display=`5` &total=`5` &tpl=`hp_news_carousel_item`]]
+	        	[[Ditto? &parents=`225`&orderBy=`menuindex ASC` &display=`1000` &total=`1000` &tpl=`hp_news_carousel_item`]]
 	        </ul>
 	    <div id="buttons_news" style = "">
 	        <a href="#" id="prev_news">prev</a>
@@ -258,64 +258,6 @@ var sws = {};
 		<br class = "clear"/>
 	</div>
 </div>
-<style type="text/css">
-
-.dataTables_scroll{background: #ebebeb;}
-#walkthrough_choices{text-align:center; padding:40px;}
-.walkthrough_choice{float: left; margin: 4px 30px;background:url(/resources/images/buttons/blank_large_button.png);width:230px;height:46px;text-align: center; line-height: 46px; text-transform: uppercase; font-weight: bold; color: #fff;border:none;}
-button.acceptButton{background:url(/resources/images/buttons/accept_bid.png);width:130px;height:32px;text-indent:-5000px;border:none;}
-button.sureButton{background:url(/resources/images/buttons/confirm.png);width:130px;height:32px;text-indent:-5000px;border:none;}
-button.cancelButton{background:url(/resources/images/buttons/cancel.png);width:130px;height:32px;text-indent:-5000px;border:none;margin-top:5px}
-button.acceptButton:hover{background:url(/resources/images/buttons/accept_bid_hover.png)}
-button.sureButton:hover{background:url(/resources/images/buttons/confirm_hover.png)}
-button.cancelButton:hover{background:url(/resources/images/buttons/cancel_hover.png)}
-.updated-timestamp{position:relative;left:30px;top:12px;float:left}
-.myhome div.dataTables_info{float:right}
-.myhome a.archive{width:22px;height:22px;display:block;background:url(/resources/images/buttons/dashboard_action.png) 0px 0px;text-indent:-5000px}
-.myhome a.archive:hover{background-position: 0px -22px}
-	
-#carousel { position: relative; width:560px; height:194px; margin:0 auto; }
-#slides { overflow:hidden; /* fix ie overflow issue */ position:relative; width:560px; height:194px; margin: 0;}
-#slides li { width:560px; height:194px; float:left; list-style: none; }
-#slides li img { padding:0; }
-#slides li a { float: left; width: 560px; margin:0; }
-.slide_text { line-height: 28px; font-size: 24px; left: 10px; position: absolute; top: 132px; color: #fff; z-index: 10; }
-.slide_text_background { background: #777; width: 560px; height: 72px; opacity: .5; position: absolute; top: 122px; z-index: 5; }
-#buttons a { display:block; width:31px; height:32px; text-indent:-999em; float:left; outline:0; }
-a#prev { background:url(/resources/images/dashboard_action_sprite.png) 0 -88px no-repeat; }
-a#prev:hover { background:url(/resources/images/dashboard_action_sprite.png) -22px -88px no-repeat; }
-a#next { background:url(/resources/images/dashboard_action_sprite.png) -32px -31px no-repeat; }
-a#next:hover { background:url(/resources/images/dashboard_action_sprite.png) -32px 0 no-repeat; }
-.clear {clear:both}
-.hide{display: none;}
-#buttons_news{position: absolute; top: 53px; left: 505px; width: 52px;}
-#buttons_news a {display:block; width:22px; height:22px; text-indent:-999em; float:left; outline:0; margin: 0 2px}
-a#prev_news {background:url(/resources/images/dashboard_action_sprite.png) -88px 0 no-repeat;}
-a#prev_news:hover {background:url(/resources/images/dashboard_action_sprite.png) -88px -22px no-repeat;}
-a#next_news {background:url(/resources/images/dashboard_action_sprite.png) -66px 0 no-repeat;}
-a#next_news:hover {background:url(/resources/images/dashboard_action_sprite.png) -66px -22px no-repeat;}
-#slides_news {overflow:hidden; /* fix ie overflow issue */ position:relative; width:560px; height:26px; margin: 0;}
-#slides_news li { width:545px; height:26px; float:left; margin-top: 3px;line-height: 26px; font-size: 12px; padding-left: 15px; }
-#scrap_walkthrough {background: #fff; width: 680px; padding: 20px;}
-#scrap_walkthrough .pages {list-style: none; margin: 0;}
-#walkthrough_controls{clear: both; margin-top: 10px; float: left; width: 100%;}
-.walkthrough_choice{cursor: pointer;}
-.walkthrough_choice:hover{color: #000;}
-
-.walkthrough_image {width: 350px; float: left;}
-.walkthrough_text{width: 300px; float: left; margin: 0 10px;}
-
-.first_time_here{cursor: pointer; float: left; background:url(/resources/images/buttons/first_time_here.png) 0px 0px; width: 248px; height: 46px; margin: 30px 0 20px 10px;}
-.first_time_here:hover{background:url(/resources/images/buttons/first_time_here_hover.png) 0px 0px; width: 248px; height: 46px;}
-.free_30_day_trial{cursor: pointer; float: left; background:url(/resources/images/buttons/free_30_day_trial.png) 0px 0px; width: 248px; height: 46px;margin:0 0 72px 10px;}
-.free_30_day_trial:hover{background:url(/resources/images/buttons/free_30_day_trial_hover.png) 0px 0px; width: 248px; height: 46px;}
-
-#walkthrough_prev{text-indent: -5000px; cursor: pointer; float: left; background:url(/resources/images/buttons/back_btn.png) 0px 0px; width: 130px; height: 32px;margin:0 0 0 10px;}
-#walkthrough_prev:hover{background:url(/resources/images/buttons/back_btn_hover.png) 0px 0px;}
-#walkthrough_next{text-indent: -5000px; cursor: pointer; float: right; background:url(/resources/images/buttons/next_btn.png) 0px 0px; width: 130px; height: 32px;margin:0 0 0 10px;}
-#walkthrough_next:hover{background:url(/resources/images/buttons/next_btn_hover.png) 0px 0px;}
-
-</style>
 <script type="text/javascript">
 	sw.walkthrough = {};
 	sw.walkthrough.current_page = 0;
