@@ -1,4 +1,7 @@
 <?php
+if(!isset($_SESSION)){
+	session_start();
+}
 
 ini_set('display_errors', 1); 
 ini_set('log_errors', 1); 
@@ -38,6 +41,8 @@ require_once($modulesDirectory."/request/Request.php");
 require_once($modulesDirectory."/bid/Bid.php");
 require_once($modulesDirectory."/transportation_type/Transportation_Type.php");
 require_once($modulesDirectory."/pricing/Pricing.php");
+require_once($modulesDirectory."/regional_data/Regional_Data.php");
+require_once($modulesDirectory."/market_data/Market_Data.php");
 
 // include application modules
 require_once($librariesDirectory."/usaepay/usaepay.php");

@@ -1148,7 +1148,7 @@ class Crud {
 		return false;
     }
 
-	private function _QueryObjectItems( $whereStatement = "id != null" ) {
+	private function _QueryObjectItems( $whereStatement = "id != null", $return_sql = false ) {
 		$objectNameId = $this->_OBJECT_NAME_ID;
 		$properties = $this->_OBJECT_PROPERTIES;
 		$field_names = "";
@@ -1161,7 +1161,7 @@ class Crud {
 		foreach ($properties as $p) {
 			$table = ${$p['type'] . "_table"};
 			$alias = "obj" . $objectNameId . "pn" . $p['property_name_id'];
-			$field_names .= " $alias.value as " . $p['field'] . ",";
+			$field_names .= " $alias.value as '" . $p['field'] . "',";
 			$field_tables .= " LEFT JOIN $table as $alias on $alias.item_id=o.id AND $alias.property_name_id=" . $p['property_name_id'];
 		}
 		$field_names = trim( $field_names, "," );
@@ -1173,7 +1173,11 @@ class Crud {
 		$query = "SELECT * FROM ($query) as tbl";	
 		$query .= " WHERE $whereStatement";
 		
-		return $this->_RunQuery( $query, true );
+		if ($return_sql){
+			return $query;
+		} else {			
+			return $this->_RunQuery( $query, true );
+		}
 	}
 }
 ?>
