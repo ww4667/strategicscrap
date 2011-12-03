@@ -310,6 +310,181 @@ while (!$KILL) {
 			$KILL = true;
 		break;
 		
+		case 'regional-data-manager':
+			$PAGE_TITLE 		= "Regional Pricing Manager";						/* Title text for this page */
+			$SECTION_HEADER 	= "Update Regional Pricing";						/* Header text for this page */
+			$PAGE_BODY 			= $ss_path."views/manager/regional_data_manage.php";				/* which file to pull into the template */
+			
+			$r = new Regional_Data();
+			
+			$region = (isset($_REQUEST["region"])) ? $_REQUEST["region"] : null;
+			$region_grouped = $r->GetRegionalDataGrouped();
+			echo "in regional data manager2";
+			
+			$regions =  array("NE"=>"Northeast","SE"=>"Southeast","C"=>"Central","S"=>"South","W"=>"West");
+			
+			$region_data = array();
+			
+			foreach ($region_grouped as $val){
+				error_log('building regional data: ' . (microtime(true) - $temp_time_start) . ' seconds so far . . .');
+				$tmp_data 	= array();
+				
+				$tmp_data["month"] 	= $val->month;
+				$tmp_data["year"] 	= $val->year;
+				
+				$region_data[$val->region][] = $tmp_data;
+				
+			}
+			
+			//the layout file
+			require($ss_path."views/layouts/manager_shell.php");
+			$KILL = true;
+		break;
+		
+		
+		case 'regional-data-add':
+			//echo "Hello";
+			$PAGE_TITLE 		= "Regional Pricing Manager";						/* Title text for this page */
+			$SECTION_HEADER 	= "Update Regional Pricing";						/* Header text for this page */
+			$PAGE_BODY 			= $ss_path."views/manager/regional_data_add.php";				/* which file to pull into the template */
+			//echo $PAGE_BODY;
+			$region = (isset($_REQUEST["region"])) ? $_REQUEST["region"] : null;
+			
+			if (isset($_POST['submitted'])) {
+				$post_data = $_POST;
+				// unset empty vars from the (mat) array
+				foreach ($post_data['mat'] as $lbl => $val) {
+					if (empty($val['price']) && empty($val['broker_price'])) unset($post_data['mat'][$lbl]);
+				}
+				$materials = $post_data['mat'];
+				if (!empty($materials)) {
+					// remove all the regional pricing from the DB
+					$p = new Regional_Data();
+					foreach ($materials as $lbl => $val) {
+						$post_data['price'] = number_format($val['price'],2);
+						$post_data['broker_price'] = number_format($val['broker_price'],2);
+						$p = new Regional_Data();
+						$pricing = $p->CreateItem($post_data);
+						$pricing->addMaterial($lbl);
+					}
+					if (isset($pricing)) {
+						$message = $post_data['region']." pricing has been updated successfully.";
+						flash($message);
+					} else {
+						$message = "There was a problem updating the pricing.";
+						flash($message,"bad");	
+					}
+					unset($_POST);
+				} else {
+					$message = "There was nothing to update.";
+					flash($message);
+				}
+				redirect_to("index.php?a=112&id=2&method=regional-data-manager");
+				break;
+			}
+			
+			$regions =  array("NE"=>"Northeast","SE"=>"Southeast","C"=>"Central","S"=>"South","W"=>"West");
+		
+			$m = new Material();
+			$materials = $m->GetAllItems();
+			// alphabetize the materials array
+			$name_array = array();
+			foreach ($materials as $val) {
+				$name_array[] = $val['name'];
+			}
+			array_multisort($name_array,$materials);
+
+			//the layout file
+			require($ss_path."views/layouts/manager_shell.php");
+			$KILL = true;
+		break;
+		
+		case 'regional-data-edit':
+			//echo "Hello";
+			$PAGE_TITLE 		= "Regional Pricing Manager";						/* Title text for this page */
+			$SECTION_HEADER 	= "Update Regional Pricing";						/* Header text for this page */
+			$PAGE_BODY 			= $ss_path."views/manager/regional_data_edit.php";				/* which file to pull into the template */
+			//echo $PAGE_BODY;
+			$region = (isset($_REQUEST["region"])) ? $_REQUEST["region"] : null;
+			$month = (isset($_REQUEST["month"])) ? $_REQUEST["month"] : null;
+			$year = (isset($_REQUEST["year"])) ? $_REQUEST["year"] : null;
+			
+			if (isset($_POST['submitted'])) {
+				$post_data = $_POST;
+				// unset empty vars from the (mat) array and remove them from the DB
+				$rp = new Regional_Data();
+				foreach ($post_data['mat'] as $lbl => $val) {
+					if (empty($val['price']) && empty($val['broker_price'])) {
+						if ( !empty($val['id']) ) {
+							$rp->RemoveItem($val['id']);
+						}
+						unset($post_data['mat'][$lbl]);
+					}
+				}
+				$materials = $post_data['mat'];
+				if (!empty($materials)) {
+					foreach ($materials as $lbl => $val) {
+						$post_data['price'] = ( empty($val['price']) )
+							? $val['price']
+							: number_format($val['price'],2);
+						$post_data['broker_price'] = ( empty($val['broker_price']) )
+							? $val['broker_price']
+							: number_format($val['broker_price'],2);
+						$post_data['id'] = $val['id'];
+						
+						$p = new Regional_Data();
+						
+						if($post_data['id']){
+							$p->GetItemObj($post_data['id']);
+							if( $p->UpdateItem($post_data) ) {
+								$message = "Regional data updated successfully.";
+								flash($message);
+							} else {
+								$message = "There was a problem updating the regional data.";
+								flash($message,"bad");
+							}
+						} else {
+							$pricing = $p->CreateItem($post_data);
+							$pricing->addMaterial($lbl);
+						}
+					}
+					unset($_POST);
+				} else {
+					$message = "Regional data was removed successfully.";
+					flash($message);
+					$method = "regional-data-manager";
+					break;
+				}
+			}
+			
+			
+			$regions =  array("NE"=>"Northeast","SE"=>"Southeast","C"=>"Central","S"=>"South","W"=>"West");
+			
+			$p = new Regional_Data();
+			
+			$pricing = $p->getRegionalDataByMonthYear($region, $month, $year);
+			$material = new Material();
+			foreach ($pricing as $indx => $p) {
+					$p->ReadJoinsNew( $material );
+					$p->join_material = $p->join_material[0]["id"];
+					//$material->PTS($p);
+				$pricing[$indx] = $p;
+			}
+			
+			$m = new Material();
+			$materials = $m->GetAllItems();
+			// alphabetize the materials array
+			$name_array = array();
+			foreach ($materials as $val) {
+				$name_array[] = $val['name'];
+			}
+			array_multisort($name_array,$materials);
+
+			//the layout file
+			require($ss_path."views/layouts/manager_shell.php");
+			$KILL = true;
+		break;
+		
 		case 'material-manager':
 			
 			$PAGE_TITLE 		= "Material Manager";					/* Title text for this page */

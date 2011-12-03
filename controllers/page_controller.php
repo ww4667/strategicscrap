@@ -1504,6 +1504,360 @@ switch($controller_action){
 		require($_SERVER['DOCUMENT_ROOT']."/views/layouts/shell.php");
 			
 		break;
+		
+		/* HOMEPAGE FOR SCRAPPERS **************************************** */
+	case 'my-homepage-historical':
+		$temp_time_start = microtime(true);
+		error_log( "starting to load homepage: " . (microtime(true) - $temp_time_start) . " seconds so far..." );
+		require_ssl();
+		if( !$gir->auth->authenticate() || $_SESSION['user']['group'] != "scrapper" ){
+			$PAGE_BODY = "views/scrappers/my_homepages_demo.php";  	/* which file to pull into the template */
+			$message = array();
+			$message[] = "You must be a registered user to access this page.";
+			flash($message,'bad');
+		} elseif ($_SESSION['user']['status'] == "EXPIRED") {
+			$message = array();
+			$message[] = "Your subscription has expired. Add your payment information to continue using your StrategicScrap.com account.";
+			flash($message,'bad');
+			redirect_to('/payment-information'); 
+		} else {
+			// page 'template variables'
+			$PAGE_BODY = "views/my_homepage_historical.php";  	/* which file to pull into the template */
+			
+			/*
+			 *
+			 * symbols being used
+			 * CU AM NI ZZ LD TN || HG
+			 *
+			 */
+				
+			function getComexData($symbol,$type = null) {
+				$xignite_header = new SoapHeader('http://www.xignite.com/services/', 'Header', array("Username" => "greg@slashwebstudios.com"));
+//				$xignite_header = new SoapHeader('http://www.xignite.com/services/', 'Header', array("Username" => "F8F0E4AB52D34B6E85E21D48FD3B0E25"));
+//				$xignite_header = new SoapHeader('http://www.xignite.com/services/', 'Header', array("Username" => "FDFDBEAF9B004b2eBB2D7A9D1D39F24F"));
+				$client = new soapclient('http://www.xignite.com/xFutures.asmx?WSDL', array('trace' => 1));
+				$client->__setSoapHeaders(array($xignite_header));
+
+				switch ($type) {
+					case 'strip':
+						// create an array of parameters
+						$param = array(
+						               'Symbol' => $symbol,
+						               'StripType' => "EighteenMonth"
+						               );
+						               // call the service, passing the parameters and the name of the operation
+						               $result = $client->GetDelayedFutureStrip($param);
+						               // assess the results
+						               if (is_soap_fault($result) && isset($_GET['xml'])) {
+						               	echo '<h2>Fault</h2><pre>';
+						               	print_r($result);
+						               	echo '</pre>';
+						               } elseif (isset($_GET['xml'])) {
+						               	print_r($result);
+						               	$comex = array("cash"=>number_format($result->GetDelayedFutureResult->Last,2));
+						               	print_r($comex);
+						               }
+						               break;
+						               	
+					default:
+						// create an array of parameters
+						$param = array(
+						               'Symbol' => $symbol,
+						               'Day' => "0",
+						               'Month' => "0",
+						               'Year' => date('Y')
+						);
+						// call the service, passing the parameters and the name of the operation
+						$result = $client->GetDelayedFuture($param);
+						// assess the results
+						if (is_soap_fault($result) && isset($_GET['xml'])) {
+							echo '<h2>Fault</h2><pre>';
+							print_r($result);
+							echo '</pre>';
+						} else {
+							$comex = array("cash"=>number_format($result->GetDelayedFutureResult->Last,2));
+							return $comex;
+						}
+						break;
+				}
+			}
+				
+			function getLmeData($symbol,$type = null) {
+				$xignite_header = new SoapHeader('http://www.xignite.com/services/', 'Header', array("Username" => "FDFDBEAF9B004b2eBB2D7A9D1D39F24F"));
+//				$xignite_header = new SoapHeader('http://www.xignite.com/services/', 'Header', array("Username" => "F8F0E4AB52D34B6E85E21D48FD3B0E25"));
+				$client = new soapclient('http://lmemetals.xignite.com/xLMEMetals.asmx?WSDL', array('trace' => 1));
+				$client->__setSoapHeaders(array($xignite_header));
+
+				switch ($type) {
+					case 'strip':
+						// create an array of parameters
+						$param = array(
+						               'Symbol' => $symbol,
+						               'CurrencyType' => "USD",
+						               'StripTypes' => "EighteenMonth"
+						               );
+						               // call the service, passing the parameters and the name of the operation
+						               $result = $client->GetDelayedFutureStripForMetal($param);
+						               // assess the results
+						               if (is_soap_fault($result) && isset($_GET['xml'])) {
+						               	echo '<h2>Fault</h2><pre>';
+						               	print_r($result);
+						               	echo '</pre>';
+						               } else {
+						               	$result = (array) $result->GetDelayedFutureStripForMetalResult->FutureQuote;
+						               	$lme = array(	"cash"=>number_format($result[0]->Last/2204.62262,2),
+											"3 month"=>number_format($result[2]->Last/2204.62262,2),
+											"15 month"=>number_format($result[14]->Last/2204.62262,2)
+						               	);
+						               	return $lme;
+						               }
+						               break;
+						               	
+					default:
+						// create an array of parameters
+						$param = array(
+						               'Symbol' => $symbol,
+						               'CurrencyType' => "USD",
+						               'Day' => date('d'),			// can't be zero
+						               'Month' => date('m'),			// can't be zero
+						               'Year' => date('Y')			// can't be zero
+						);
+						// call the service, passing the parameters and the name of the operation
+						$result = $client->GetDelayedFuture($param);
+						// assess the results
+						if (is_soap_fault($result) && isset($_GET['xml'])) {
+							echo '<h2>Fault</h2><pre>';
+							print_r($result);
+							echo '</pre>';
+						} else {
+							$lme = array("cash"=>$result->GetDelayedFutureResult->Last);
+							return $lme;
+						}
+						break;
+				}
+			}
+			$s = new Scrapper();
+			$user_id = $_SESSION['user']['id'];
+			$scrapper = $s->getScrapperByUserId($user_id);
+			$subscription_type = $scrapper->subscription_type;
+			if($_GET['test_expired']){
+				//echo "is subscription valid [" . 
+				if($scrapper->isSubscriptionExpired()){
+					
+					$message = array();
+					$message[] = "Your subscription has expired.";
+					flash($message,'bad');
+					redirect_to('/payment-information');
+				}
+			}
+			
+			if($_GET['test_payment']){
+				
+				//$s->PTS($scrapper);
+				if ( !$scrapper->isPaymentMethodValid() ) {
+					
+					$message = array();
+					$message[] = "You need to have a valid method to pay for your subscription.";
+					flash($message,'bad');
+
+					$_SESSION['user']['invalid_payment'] =  1;
+					redirect_to('/payment-information');
+				} else {
+					unset($_SESSION['user']['invalid_payment']);
+				}
+			}
+			
+			if( $subscription_type == "paid" ) {
+				
+				// begin new market data		
+//				if($_GET['test']){
+					
+			//error_log('ready to grab market-data cache: ' . (microtime(true) - $temp_time_start) . ' seconds so far . . .');
+					$cache_file = $_SERVER['DOCUMENT_ROOT']."/cache/new-market-data.cache";
+//					$market_json_temp = json_decode($cache_content);
+					$last = filemtime($cache_file);
+				    $now = time();
+				    $interval = 30; //seconds
+				    // check the cache file
+				    $day = date("D",$last);
+				    $hour_minute = date("Gi",$last);
+					if ( (!$last || ( $now - $last ) > $interval) && $day != "Sat" && $day != "Sun" && $hour_minute >= 740 && $hour_minute <= 1340 ) {
+			//error_log('inside get new market-data loop: ' . (microtime(true) - $temp_time_start) . ' seconds so far . . .');
+						// cached file is missing or too old, refreshing it
+						$sss = new Scrapper();
+						$live_market_data = $sss->getMarketData(1,1);
+						// check for good feed
+						$test = $live_market_data->cash[0];
+						if ( !empty($test) ) {
+							$cache_content = json_encode($live_market_data);
+					        if ( $cache_content ) {
+					            // we got something back
+		//	error_log('ready to save new market-data to file: ' . (microtime(true) - $temp_time_start) . ' seconds so far . . .');
+					            $cache_static = fopen($cache_file, 'wb');
+					            fwrite($cache_static, $cache_content);
+					            fclose($cache_static);
+		//	error_log('done saving to file: ' . (microtime(true) - $temp_time_start) . ' seconds so far . . .');
+					        }
+//							$market_json_new = json_decode($cache_content);
+						}
+					}
+//					$market_json = ($market_json_new) ? $market_json_new : $market_json_tmp;
+					$market_json = json_decode(@file_get_contents($cache_file)); 
+					$market_data_timestamp = date("M d, Y, h:ia",filemtime($cache_file))." CST (delayed)";
+
+				// end new market data		
+//				} else {
+					
+//				$cache_file = $_SERVER['DOCUMENT_ROOT']."/cache/delayed-market-data.cache";
+//				$last = filemtime($cache_file);
+//			    $now = time();
+//			    $interval = 900; //seconds
+//			    // check the cache file
+//				if ( !$last || ( $now - $last ) > $interval ) {
+//					// cached file is missing or too old, refreshing it
+//					
+//					
+//					$live_market_data = array(
+//						"LME Copper" => getLmeData("CU","strip"),
+//						"LME Aluminium" => getLmeData("AM","strip"),
+//						"LME Nickel" => getLmeData("NI","strip"),
+//						"LME Zinc" => getLmeData("ZZ","strip"),
+//						"LME Lead" => getLmeData("LD","strip"),
+//						"LME Tin" => getLmeData("TN","strip"),
+//						"COMEX Copper" => getComexData("HG")
+//					);
+//					
+//					// check for good feed
+//					$test = $live_market_data['LME Copper']['cash'];
+//					if ($test > 0 && !empty($test) ) {
+//						$cache_content = json_encode($live_market_data);
+//				        if ( $cache_content ) {
+//				            // we got something back
+//				            $cache_static = fopen($cache_file, 'wb');
+//				            fwrite($cache_static, $cache_content);
+//				            fclose($cache_static);
+//				        }
+//						
+//					}
+//				}
+//				$market_data = json_decode(file_get_contents($cache_file),true);
+//				$market_data_timestamp = date("M d, Y, h:ia",filemtime($cache_file))." CST (delayed)";
+
+				// end test if
+//				}
+				
+			} else {
+				// set message for trial accounts
+				$message = array();
+				$message[] = 'Are you enjoying your free trial? <a href="/payment-information">Upgrade your account today!</a><br />Preview a sample of the <a id="grid-sample" href="/resources/images/market_data_grid_sample.gif">Market Data Grid</a> for paid accounts.';
+				flash($message);
+				
+				$cache_file = $_SERVER['DOCUMENT_ROOT']."/cache/static-market-data.cache";
+				$feed_url = "https://strategicscrap.com/static-market-data";
+				$test_market_data = get_cached_file($cache_file, 900, $feed_url);
+	
+				$market_data = json_decode($test_market_data,true);
+				$market_data_timestamp = date("M d, Y, h:ia",filemtime($cache_file))." CST (End of day)";
+			}
+
+			//			$market_data = array(
+			//				"LME Copper" => array("cash" => "4.23","3 month" => "4.25","15 month" => "4.13"),
+			//				"LME Aluminium" => array("cash" => "1.07","3 month" => "1.09","15 month" => "1.11"),
+			//				"LME Nickel" => array("cash" => "11.54","3 month" => "11.69","15 month" => "11.25"),
+			//				"LME Zinc" => array("cash" => "1.04","3 month" => "1.05","15 month" => "1.06"),
+			//				"LME Lead" => array("cash" => "1.13","3 month" => "1.10","15 month" => "1.08"),
+			//				"LME Tin" => array("cash" => "12.15","3 month" => "12.24","15 month" => "11.88"),
+			//				"COMEX Copper" => array("cash" => "4.26","3 month" => "4.28","15 month" => "4.21")
+			//			);
+				
+			//			if (isset($_GET['xml'])) {
+			//				echo '<h2>Market Data</h2><pre>';
+			//				print_r($market_data);
+			//				echo '</pre>';
+			//			}
+				
+			// region setup
+			if ( $region == "ne" ) {
+				$zipcode = 10292; // New York
+			} elseif ( $region == "c" ) {
+				$zipcode = 60601; // Chicago
+			} elseif ( $region == "w" ) {
+				$zipcode = 92101; // San Diego
+			} elseif ( $region == "s" ) {
+				$zipcode = 77299; // Houston
+			} elseif ( $region == "se" ) {
+				$zipcode = 39901; // Atlanta
+			}
+//			if ( $region == "c") {
+
+				$region = (isset($_GET["region"])) ? $_GET["region"] : $region;
+	//error_log('before regional data: ' . (microtime(true) - $temp_time_start) . ' seconds so far . . .');
+			if ( $region != "ASDFASDFASDFADSFASDF") {
+				$p = new Regional_Data();
+				$pricing_array = $p->getRegionalDataByRegion(strtoupper($region));
+				//echo $region;
+				//die();
+				$pricing_data 	= array();
+				$pricing 		= array();
+				$last_month 	= $pricing_array[0]->month;
+				$last_year 		= $pricing_array[0]->year;
+				$array_count	= count($pricing_array);
+				$count 			= 0;
+				//$p->PTS($pricing_array);
+				
+				$material = new Material();
+				if(!empty($pricing_array)){
+					foreach ($pricing_array as $val){
+						error_log('building regional data: ' . (microtime(true) - $temp_time_start) . ' seconds so far . . .');
+						$tmp_array = array();
+							
+						$tmp_data 	= array();
+						
+						error_log('getting join material data: ' . (microtime(true) - $temp_time_start) . ' seconds so far . . .');
+						$val->ReadJoinsNew( $material );
+						error_log('got join material data: ' . (microtime(true) - $temp_time_start) . ' seconds so far . . .');
+						//$p->PTS($val);
+						
+						if(($val->month != $last_month || $val->year  != $last_year)){
+							
+							$tmp_array["month"] 		= $last_month;
+							$tmp_array["year"] 			= $last_year;
+							$tmp_array["pricing"] 		= $pricing;
+							$tmp_array["timestamp"] 	=  ($val->updated_ts) ? date("M d, Y, h:ia",strtotime($val->updated_ts))." CST" : date("M d, Y, h:ia",strtotime($val->created_ts))." CST";
+							$pricing_data[] 				= $tmp_array;
+							
+							$last_month 	= $val->month;
+							$last_year 		= $val->year;
+							$pricing 		= array();
+							
+						}
+						
+						$tmp_data["price"] 				= $val->price;
+						$tmp_data["broker_price"] 	= $val->broker_price;
+						$tmp_data["join_material"] 	= $val->join_material;
+						
+						$pricing[] = $tmp_data;
+						$count++;
+						
+						if($count == $array_count){
+							
+							$tmp_array["timestamp"] 	=  ($val->updated_ts) ? date("M d, Y, h:ia",strtotime($val->updated_ts))." CST" : date("M d, Y, h:ia",strtotime($val->created_ts))." CST";
+							$tmp_array["month"] 		= $last_month;
+							$tmp_array["year"] 			= $last_year;
+							$tmp_array["pricing"] 		= $pricing;
+							$pricing_data[] 				= $tmp_array;
+							
+						}
+					
+					}
+				}
+			}
+		} // end else statement for auth
+		//the layout file  -  THIS PART NEEDS TO BE LAST
+	//error_log('finally ready to show this page!: ' . (microtime(true) - $temp_time_start) . ' seconds so far . . .');
+		require($_SERVER['DOCUMENT_ROOT']."/views/layouts/shell.php");
+		//			die();
+		break;
 	}
 		//} // END WHILE $KILL
 		?>

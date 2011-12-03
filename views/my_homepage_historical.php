@@ -114,7 +114,17 @@ ul#regional_data{margin:0;padding:0;list-style:none;}
 ul#regional_data li{margin:0;padding:0;list-style:none;}
 .hide {display: none;}
 
-.regional_button{color:#F86C13; font-weight: bold;  cursor: pointer;}
+.history_button{cursor: pointer}
+.history_button:hover{color: #F86C13;}
+.regional_button {
+color: #F86C13;
+font-weight: bold;
+cursor: pointer;
+font-size: 24px;
+bottom: -2px;
+position: relative;
+padding: 0 4px;
+}
 .disabled{color:#999; cursor: default;}
 
 #regional_data_period{width: 100px; text-align: center; display: inline-block;}
@@ -136,7 +146,7 @@ ul#regional_data li{margin:0;padding:0;list-style:none;}
 								var v = +new Date();
 								
 									$.ajax({
-									  url: '/controllers/remote/?method=get-market-data&v=' + v,
+									  url: '/controllers/remote/?method=get-market-data-historical&v=' + v,
 									  beforeSend: function(){
 									  	$('#refreshing-overlay').show();
 									  },
@@ -154,6 +164,20 @@ ul#regional_data li{margin:0;padding:0;list-style:none;}
 										$(".change_percent").click(function(){
 											$(".change_amount").show();
 											$(".change_percent").hide();
+										})
+										
+										
+										$(".history_button").click(function(){
+											var symbol = $(this).attr("data-symbol");
+											symbol = (symbol == "HG")? symbol : "L" + symbol;
+											var the_url = "/controllers/market_data_controller.php?method=history-data&symbol=" + symbol
+											the_url = the_url + "&chart_title=" + $(this).attr("data-chart-title");
+											the_url = the_url + "&change_cost=" + $(this).attr("data-change-cost");
+											the_url = the_url + "&change_amount=" + $(this).attr("data-change-amount");
+											the_url = the_url + "&change_percent=" + $(this).attr("data-change-percent");
+											the_url = the_url + "&change_class=" + $(this).attr("data-change-class");
+											//$.colorbox({iframe: true, href:"/market-data-history?symbol=" + $(this).attr("data-symbol"), innerWidth: "470px", innerHeight: "300px"});
+											$.colorbox({iframe: true,href: the_url, innerWidth: "510px", innerHeight: "340px"});
 										})
 							 	
 	        							$('#marketData').tabs("destroy");
@@ -191,7 +215,20 @@ ul#regional_data li{margin:0;padding:0;list-style:none;}
 							}
 								
 							$('document').ready(function(){
-							
+
+								$(".history_button").click(function(){
+									var symbol = $(this).attr("data-symbol");
+									symbol = (symbol == "HG")? symbol : "L" + symbol;
+									var the_url = "/controllers/market_data_controller.php?method=history-data&symbol=" + symbol
+									the_url = the_url + "&chart_title=" + $(this).attr("data-chart-title");
+									the_url = the_url + "&change_cost=" + $(this).attr("data-change-cost");
+									the_url = the_url + "&change_amount=" + $(this).attr("data-change-amount");
+									the_url = the_url + "&change_percent=" + $(this).attr("data-change-percent");
+									the_url = the_url + "&change_class=" + $(this).attr("data-change-class");
+									//console.log("/controllers/market_data_controller.php?method=history-data&symbol=" + symbol);
+									//$.colorbox({iframe: true, href:"/market-data-history?symbol=" + $(this).attr("data-symbol"), innerWidth: "470px", innerHeight: "300px"});
+									$.colorbox({iframe: true, href: the_url , innerWidth: "510px", innerHeight: "340px"});
+								})
 							
 								$(".change_amount").click(function(){
 									$(".change_amount").hide();
@@ -270,7 +307,7 @@ ul#regional_data li{margin:0;padding:0;list-style:none;}
 							//]]>--></script>
 
 							<div id = "market-data-div" class="moduleContent">
-								<? require_once($_SERVER['DOCUMENT_ROOT']."/views/scrappers/scrap_market_data.php"); ?>
+								<? require_once($_SERVER['DOCUMENT_ROOT']."/views/scrappers/scrap_market_data_historical.php"); ?>
 							</div>
 							<div id = "refreshing-overlay" style = "display:none;color: #fff;background: #000;position: absolute;top:52px; left:0;opacity:0.5;filter:alpha(opacity=50);width: 559px;">
 								<div style='width: 135px; margin:0 auto; padding: 91px 0;'><img src = '/resources/images/loading.gif' style='float: left; margin-right: 8px;' />
@@ -321,7 +358,7 @@ ul#regional_data li{margin:0;padding:0;list-style:none;}
 					</div>
 					<div class="upperLeftCol">
 						<div id="regionalPricing" class="twoColMod"><div class="moduleTop"><!-- IE hates empty elements --></div>
-							<div class="moduleContent">
+							<div class="moduleContent" style = "height: auto;">
 								<h3>Regional Ferrous Pricing</h3>
 								<p style="padding-bottom:5px; padding-top:10px; border-top:1px solid #999; line-height: 22px;">
 									Data for 
@@ -339,36 +376,38 @@ ul#regional_data li{margin:0;padding:0;list-style:none;}
 									<ul id = "regional_data">
 										<? 
 										$count = 0;
-										foreach($pricing_data as $d){ ?>
-										<li class = "regional_data_page hide" data-period="<?= date( "F Y", strtotime($d["year"] . "-" .$d["month"] . "-01")) ?>" data-timestamp="<?= ($count == 0) ? ' | Updated: ' . $d["timestamp"] : '' ?>">
-											<table>
-												<tr class="row2">
-												    <th style = "width: 446px;">SCRAP TYPE</th>
-												    <th>COST/GT</th>
-												</tr>
-												
-												<? $i = 0; ?>
-												<? foreach ($d["pricing"] as $p) { 
-													$p = (object) $p; ?>
-													<? if( !empty($p->price) && $p->price > 0) { ?>
-														<tr<?=$i%2?' class="row2"':""?>>
-														    <td><?= $p->join_material[0]['name'] ?></td>
-														    <td><?= $p->price ?></td>
-														</tr>
-													<? $i++; ?>
+										if(!empty($pricing_data)){
+											foreach($pricing_data as $d){ ?>
+											<li class = "regional_data_page hide" data-period="<?= date( "F Y", strtotime($d["year"] . "-" .$d["month"] . "-01")) ?>" data-timestamp="<?= ($count == 0) ? ' | Updated: ' . $d["timestamp"] : '' ?>">
+												<table>
+													<tr class="row2">
+													    <th style = "width: 446px;">SCRAP TYPE</th>
+													    <th>COST/GT</th>
+													</tr>
+													
+													<? $i = 0; ?>
+													<? foreach ($d["pricing"] as $p) { 
+														$p = (object) $p; ?>
+														<? if( !empty($p->price) && $p->price > 0) { ?>
+															<tr<?=$i%2?' class="row2"':""?>>
+															    <td><?= $p->join_material[0]['name'] ?></td>
+															    <td><?= $p->price ?></td>
+															</tr>
+														<? $i++; ?>
+														<? } ?>
+														<? if( !empty($p->broker_price)  && $p->broker_price > 0) { ?>
+															<tr<?=$i%2?' class="row2"':""?>>
+															    <td><?= $p->join_material[0]['name'] ?></td>
+															    <td>*<?= $p->broker_price ?></td>
+															</tr>
+														<? $i++; ?>
+														<? } ?>
 													<? } ?>
-													<? if( !empty($p->broker_price)  && $p->broker_price > 0) { ?>
-														<tr<?=$i%2?' class="row2"':""?>>
-														    <td><?= $p->join_material[0]['name'] ?></td>
-														    <td>*<?= $p->broker_price ?></td>
-														</tr>
-													<? $i++; ?>
-													<? } ?>
-												<? } ?>
-											</table>
-										</li>
-										<?
-										$count++;
+												</table>
+											</li>
+											<?
+											$count++;
+											}
 										} ?>
 									</ul>
 										<? } else { ?>

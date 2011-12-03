@@ -105,6 +105,40 @@ function controller_remote( $_controller_remote_method = null,
 					include($_SERVER['DOCUMENT_ROOT']."/views/scrappers/scrap_market_data.php");
 			
 			break;
+			
+		case 'get-market-data-historical':
+			
+					$cache_file = $_SERVER['DOCUMENT_ROOT']."/cache/new-market-data.cache";
+					$last = filemtime($cache_file);
+				    $now = time();
+				    $interval = 30; //seconds
+				    // check the cache file
+    			    $day = date("D",$last);
+				    $hour_minute = date("Gi",$last);
+    				if ( (!$last || ( $now - $last ) > $interval) && ($day != "Sat" || $day != "Sun") && ($hour_minute >= 740 || $hour_minute <= 1340) ) {
+						// cached file is missing or too old, refreshing it
+						$sss = new Scrapper();
+						$live_market_data = $sss->getMarketData(1,1);
+						//print_r($live_market_data);
+						// check for good feed
+						$test = $live_market_data->cash[0];
+						if ( !empty($test) ) {
+							$cache_content = json_encode($live_market_data);
+					        if ( $cache_content ) {
+					            // we got something back
+					            $cache_static = fopen($cache_file, 'wb');
+					            fwrite($cache_static, $cache_content);
+					            fclose($cache_static);
+					        }
+							
+						}
+					}
+					$market_json = json_decode(@file_get_contents($cache_file));
+					$market_data_timestamp = date("M d, Y, h:ia",filemtime($cache_file))." CST (delayed)";
+					
+					include($_SERVER['DOCUMENT_ROOT']."/views/scrappers/scrap_market_data_historical.php");
+			
+			break;
 		
 		/* SCRAP EXCHANGE DATA CALL **************************************** */
 		case 'filter-material':
