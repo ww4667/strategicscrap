@@ -6,6 +6,15 @@
 	require_once($_SERVER['DOCUMENT_ROOT']."/gir/index.php");
 	require_once($_SERVER['DOCUMENT_ROOT'].'/models/Mailer.php');
 	
+	if(isset($_GET['update_market_data'])){
+		$symbols = array("LCU","LAM","LNI","LZZ","LLD","LTN","HG");
+		$md = new Market_Data();
+		foreach ($symbols as $symbol) {
+			echo $md->updateHistoryBySymbol($symbol);
+		}
+		exit();
+	}
+	
 	/* --------------------------------------------------
 	Find All Requests That Are NOT "complete" or "expired"
 	----------------------------------------------------- */	

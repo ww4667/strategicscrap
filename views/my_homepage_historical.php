@@ -359,9 +359,10 @@ padding: 0 4px;
 					<div class="upperLeftCol">
 						<div id="regionalPricing" class="twoColMod"><div class="moduleTop"><!-- IE hates empty elements --></div>
 							<div class="moduleContent" style = "height: auto;">
-								<h3>Regional Ferrous Pricing</h3>
+							<?php $region_array = array("c"=>"Central","s"=>"South","w"=>"West","ne"=>"Northeast","se"=>"Southeast")?>
+								<h3><?= $region_array[$region] ?> Ferrous Pricing</h3>
 								<p style="padding-bottom:5px; padding-top:10px; border-top:1px solid #999; line-height: 22px;">
-									Data for 
+									Pricing for 
 										<span id = "regional_data_next" class = " regional_button">&laquo;</span>
 										<b><span id = "regional_data_period"></span></b>
 										<span id = "regional_data_prev" class = "disabled regional_button">&raquo;</span>

@@ -1,4 +1,4 @@
-<!--[if lt IE 9]><script language="javascript" type="text/javascript" src="../excanvas.js"></script><![endif]-->
+<!--[if lt IE 9]><script language="javascript" type="text/javascript" src="/resources/js/excanvas.js"></script><![endif]-->
     
   <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js" ></script>
   <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.7/jquery-ui.min.js" ></script>
