@@ -345,6 +345,8 @@ a#next_news:hover {background:url(/resources/images/dashboard_action_sprite.png)
 .first_time_here:hover{background:url(/resources/images/buttons/first_time_here_hover.png) 0px 0px; width: 248px; height: 46px;}
 .free_30_day_trial{cursor: pointer; float: left; background:url(/resources/images/buttons/free_30_day_trial.png) 0px 0px; width: 248px; height: 46px;margin:0 0 72px 10px;}
 .free_30_day_trial:hover{background:url(/resources/images/buttons/free_30_day_trial_hover.png) 0px 0px; width: 248px; height: 46px;}
+.sign_up_today_home{cursor: pointer; float: left; background:url(/resources/images/buttons/sign_up_today_home_sprite.png) no-repeat 0px 0px; width: 248px; height: 46px;margin:0 0 72px 10px;}
+.sign_up_today_home:hover{background:url(/resources/images/buttons/sign_up_today_home_sprite.png) no-repeat 0px -46px; width: 248px; height: 46px;}
 
 #walkthrough_prev{text-indent: -5000px; cursor: pointer; float: left; background:url(/resources/images/buttons/back_btn.png) 0px 0px; width: 130px; height: 32px;margin:0 0 0 10px;}
 #walkthrough_prev:hover{background:url(/resources/images/buttons/back_btn_hover.png) 0px 0px;}

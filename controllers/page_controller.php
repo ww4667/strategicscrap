@@ -958,6 +958,7 @@ switch($controller_action){
 
 	/* REGISTER **************************************** */
 	case 'scrap-registration':
+		redirect_to("/paid-registration");
 		require_ssl();
 		include_once($_SERVER['DOCUMENT_ROOT'].'/models/Mailer.php');
 		//include_once($_SERVER['DOCUMENT_ROOT'].'/models/Mailer.php');

@@ -24,7 +24,7 @@
 					}); 
 				</script>
 		<? } else { ?>
-		<a href="/scrap-registration" class="sign_up"><img src="/resources/images/buttons/sign_up_header.png" alt="Sign up today!" /></a>
+		<a href="/paid-registration" class="sign_up"><img src="/resources/images/buttons/sign_up_header.png" alt="Sign up today!" /></a>
 		<form action="/scrap-login" method="post" id="header_sign_in">
 			<input type="text" name="username" class="username" />
 			<input type="password" name="password" class="password" />

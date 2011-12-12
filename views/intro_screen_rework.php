@@ -208,7 +208,7 @@ var sws = {};
 </div>
 <div class="rightCol">
 	<span id ="activate_walkthrough" class = "first_time_here"><!--  --></span>
-	<a href = "/scrap-registration" class = "free_30_day_trial"><!--  --></a>
+	<a href = "/paid-registration" class = "sign_up_today_home"><!--  --></a>
 	<br class = "clear"/>
 	<div id="latestNews" class="oneColMod"><div class="moduleTop"><!-- IE hates empty elements --></div>
 		<div class="moduleContent clearfix">
