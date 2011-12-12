@@ -12,6 +12,7 @@
 			<th width="">Address</th>
 			<th width="">City</th>
 			<th width="">State/Province</th>
+			<th width="">Subscription Type</th>
 			<th width="65">Last Login</th>
 			<th width="65">Created</th>
 			<th width="65">Updated</th>
@@ -27,6 +28,7 @@
 			<td><?php echo ucwords($scrapper['address_1']); ?><br /><?php echo ucwords($scrapper['address_2']); ?></td>
 			<td><?php echo ucwords($scrapper['city']); ?></td>
 			<td><?php echo strtoupper($scrapper['state_province']); ?></td>
+			<td><?php echo $scrapper['subscription_type']; ?></td>
 			<td><?php echo ( empty($scrapper['last_login_ts']) ) ? "never" : date("Y-m-d", strtotime($scrapper['last_login_ts']))."<br />".date("H:i:s", strtotime($scrapper['last_login_ts'])) ?></td>
 			<td><?php echo date("Y-m-d", strtotime($scrapper['created_ts'])) ?><br /><?php echo date("H:i:s", strtotime($scrapper['created_ts'])) ?></td>
 			<td><?php echo ( !empty($broker['updated_ts']) ) ? date("Y-m-d", strtotime($scrapper['updated_ts']))."<br />".date("H:i:s", strtotime($scrapper['updated_ts'])) : date("Y-m-d", strtotime($scrapper['created_ts']))."<br />".date("H:i:s", strtotime($scrapper['created_ts'])) ?></td>

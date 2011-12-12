@@ -142,7 +142,7 @@ class Payment {
 			if ($data["recurring"]){
 				$RecurringBillData = array(
 					array('Field'=>'NumLeft', 'Value'=>'*'),
-					array('Field'=>'Amount', 'Value'=>$data["trans_amount"]),
+					array('Field'=>'Amount', 'Value'=>$data["bill_amount"]),
 					array('Field'=>'Description', 'Value'=>$data["trans_recur_description"]),
 					array('Field'=>'Schedule', 'Value'=>$data["trans_recur_schedule"]),
 					array('Field'=>'Enabled', 'Value'=>$data["trans_recur_enabled"])

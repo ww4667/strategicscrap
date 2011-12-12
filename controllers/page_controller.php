@@ -832,6 +832,8 @@ switch($controller_action){
 			$error_messages[] = "First Name field cannot be left empty.";
 			if( $post_data['last_name'] == "" )
 			$error_messages[] = "Last Name field cannot be left empty.";
+			if( $post_data['company'] == "" )
+			$error_messages[] = "Company field cannot be left empty.";
 			$post_data['email'] = strtolower($post_data['email']);
 			$u = new User();
 			$users = $u->GetItemsObjByPropertyValue( 'email', $post_data['email'] );
@@ -852,16 +854,38 @@ switch($controller_action){
 			//					$error_messages[] = "State/Province selection missing.";
 			//				if( !isZip($post_data['postal_code']) )
 			//					$error_messages[] = "Zip Code cannot be empty.";
-			// setup the new user!
+			//check for promo_code being used
+			$discount = 0;
+			if(isset($post_data["promo_code"]) && $post_data["promo_code"] != ""){
+				global $modx;
+				$promo_in = trim(strtolower($post_data["promo_code"]));
+				$parentid = 77;
+				$tvidnames = array("promo_title","promo_code","promo_discount");
+				$published = 1;
+				$promos = $modx->getDocumentChildrenTVarOutput($parentid, $tvidnames, $published);
+				$valid = false;
+				foreach ($promos as $p) {
+					$promoCode = trim(strtolower($p['promo_code']));
+					if ($promo_in == $promoCode) {
+						$valid = true;
+						$discount = preg_replace("/[^0-9]/","",$p['promo_discount']);
+					}
+				}
+				$error_messages[] = "Invalid Promo Code being used.";
+			}
+			//process the CC payment
 			if(isset($post_data["card_number"])){
 				$u = new User();
 		
 				$data['source_key'] = $usa_epay_source_key;
 				$data['source_pin'] = $usa_epay_pin;
 				$data['payment_info'] = "Strategic Scrap :: ";
-				
-				$post_data["trans_amount"] = "699.00";
-				$post_data["trans_description"] = "Annual Membership";
+				$post_data["trans_amount"] = strval( 699.00 - $discount );
+				$post_data["bill_amount"] = "699.00";
+				($discount > 0)
+					? $code_used = "; promo: " . $post_data['promo_code']
+					: $code_used = "";
+				$post_data["trans_description"] = "Annual Membership" . $code_used;
 				$post_data["recurring"] = true;
 				$post_data["trans_recur_description"] = "Strategic Scrap Annual Membership Renewal";
 				$post_data["trans_recur_enabled"] = "Yes";
@@ -879,6 +903,7 @@ switch($controller_action){
 				//$u->PTS($post_data, "POST DATA");
 				//die();
 			}
+			// setup the new user!
 			if(count($error_messages) == 0) {
 				$post_data['salt'] = $u->GetSalt($post_data['email']);
 				$post_data['password'] = $u->SetPassword($post_data['password'], $post_data['salt']);
@@ -891,7 +916,7 @@ switch($controller_action){
 						$post_data['subscription_type'] = $PROMOTION;
 						$post_data['subscription_end_date'] = date("Y-m-d 00:00:00",strtotime($PROMOTION,strtotime($post_data['subscription_start_date'])));
 					} else {
-						$post_data['subscription_type'] = $SUBSCRIPTION_DURATION;
+						$post_data['subscription_type'] = "paid";
 						$post_data['subscription_end_date'] = date("Y-m-d 00:00:00",strtotime($SUBSCRIPTION_DURATION,strtotime($post_data['subscription_start_date'])));
 					}
 					$post_date['status'] = 'ACTIVE';
@@ -922,7 +947,7 @@ switch($controller_action){
 			} else {
 				flash($error_messages,'bad');
 				$_SESSION['post_data_'.$controller_action] = $post_data;
-				redirect_to('/scrap-registration');
+				redirect_to('/paid-registration');
 				//					die("Hmmmm. something didn't work right.");
 			}
 		}
@@ -1010,6 +1035,7 @@ switch($controller_action){
 				$data['payment_info'] = "Strategic Scrap :: ";
 				
 				$post_data["trans_amount"] = "699.00";
+				$post_data["bill_amount"] = "699.00";
 				$post_data["trans_description"] = "Annual Membership";
 				$post_data["recurring"] = true;
 				$post_data["trans_recur_description"] = "Strategic Scrap Annual Membership Renewal";
@@ -1324,6 +1350,7 @@ switch($controller_action){
 				} else {
 					
 					$post_data["trans_amount"] = "699.00";
+					$post_data["bill_amount"] = "699.00";
 					if( $post_data['card_holder_name'] == "Gregory Crown" ) $post_data["trans_amount"] = "1.00";
 					$post_data["trans_description"] = "Annual Membership";
 					$post_data["recurring"] = true;

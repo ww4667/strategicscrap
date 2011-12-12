@@ -1010,6 +1010,23 @@ function controller_remote( $_controller_remote_method = null,
 		}
 			//require (thisFullPath . "/views/layouts/shell.php");
 			break;
+			
+		case 'checkPromoCode':
+			global $modx;
+			$promo_in = trim(strtolower($_GET['promo_code']));
+			$parentid = 77;
+			$tvidnames = array("promo_title","promo_code","promo_discount");
+			$published = 1;
+			$promos = $modx->getDocumentChildrenTVarOutput($parentid, $tvidnames, $published);
+			$output = "false";
+			foreach ($promos as $p) {
+				$promoCode = trim(strtolower($p['promo_code']));
+				if ($promo_in == $promoCode) {
+					$output = json_encode($p);
+				}
+			}
+			print $output;
+			break;
 	}
 }
 
