@@ -1,6 +1,6 @@
 <style type="text/css">
 #subscription_details p {padding: 0;margin-bottom: 1.2em;font-size: 1.5em;line-height: 1.2em;font-family: Georgia,Serif;color: #555;}
-h2.sub-title { margin: -10px 0 20px;font-size: 1.5em;line-height: 1.2em;font-family: Georgia,Serif;color: #555;text-transform: none;}
+h2.sub-title { margin: -10px 0 20px;font-size: 1.5em;line-height: 1.2em;/*font-family: Georgia,Serif;*/color: #555;text-transform: none;}
 </style>
 <h2 class = "sub-title">Special Introductory Rate: $699/year</h2>						
 
