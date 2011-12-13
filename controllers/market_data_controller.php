@@ -78,7 +78,12 @@ switch($method){
 		$temp_time_start = microtime(true);
 		$m = new Market_Data();
 		$symbol = (isset($_GET['symbol'])) ? $_GET['symbol'] : null;
-		$begin = (isset($_GET['begin'])) ? $_GET['begin'] : date("Y-m-d");
+		$latest = $m->getLatestBySymbol($symbol);
+//		echo "<!-- ";
+//		$m->PTS($latest);
+//		echo " -->";
+		$latest_date = (isset($latest[0]["date"])) ? $latest[0]["date"] : date("Y-m-d");
+		$begin = (isset($_GET['begin'])) ? $_GET['begin'] : $latest_date;
 		$offset = 0;
 		
 		$today = ($begin)? date("Y-m-d", strtotime($begin)) : date("Y-m-d");

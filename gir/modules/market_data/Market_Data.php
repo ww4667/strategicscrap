@@ -45,6 +45,10 @@ class Market_Data extends Crud {
 		return $this->_getBySymbol($symbol, $months);
 	}
 	
+	public function getLatestBySymbol($symbol = null) {
+		return $this->_getLatestBySymbol($symbol);
+	}
+	
 	public function addFromXML($symbol = null, $local = false) {
 		return $this->_addFromXML($symbol, $local);
 	}
@@ -73,6 +77,23 @@ class Market_Data extends Crud {
 //		return data 
 	}
 
+	private function _getLatestBySymbol($symbol) {
+//		return data 
+ 
+		$query = $this->GetObjectQueryString();
+		$query1 = "";
+		$count = 0;
+		$sql = "SELECT * FROM(" . $query. ") as tb1 WHERE tb1.symbol = '" . $symbol . "' ORDER BY tb1.date DESC LIMIT 1";
+
+		$items = $this->getQuery($sql);
+		
+		if($items){
+			return $items;
+		} else {
+			return false;
+		}
+		
+	}
 	private function _addFromXML($symbol, $local) {
 		if($local){
 //			sample file name: GetHistoricalCommodityRange-LAM.xml
