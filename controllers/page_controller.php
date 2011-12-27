@@ -958,12 +958,19 @@ switch($controller_action){
 
 	/* REGISTER **************************************** */
 	case 'scrap-registration':
-		redirect_to("/paid-registration");
+		if(!isset($_GET['trial']) || $_GET['trial'] != "") {
+			redirect_to("/paid-registration");
+		}
 		require_ssl();
 		include_once($_SERVER['DOCUMENT_ROOT'].'/models/Mailer.php');
 		//include_once($_SERVER['DOCUMENT_ROOT'].'/models/Mailer.php');
 		$SUBSCRIPTION_DURATION = "+1 year";
 		$PROMOTION = "+30 days";
+		if(isset($_GET['full']) && $_GET['full'] > 0) {
+			$days = (int) $_GET['full'];
+			$PROMOTION = "+" . $days . " days";
+			$FULL_ACCESS = true;
+		}
 		$PAGE_BODY = "views/registration/signup_form.php";  	/* which file to pull into the template */
 		if(isset($_SESSION['post_data_'.$controller_action])) {
 			$post_data = $_SESSION['post_data_'.$controller_action];
@@ -1064,7 +1071,7 @@ switch($controller_action){
 					$post_data['subscription_start_date'] = date("Y-m-d 00:00:00",strtotime("+1 day",time()));
 					// promotion check
 					if ( isset($PROMOTION) && !empty($PROMOTION) ) {
-						$post_data['subscription_type'] = $PROMOTION;
+						$post_data['subscription_type'] = ($FULL_ACCESS) ? "paid" : $PROMOTION;
 						$post_data['subscription_end_date'] = date("Y-m-d 00:00:00",strtotime($PROMOTION,strtotime($post_data['subscription_start_date'])));
 					} else {
 						$post_data['subscription_type'] = $SUBSCRIPTION_DURATION;
@@ -1829,6 +1836,7 @@ switch($controller_action){
 				$pricing 		= array();
 				$last_month 	= $pricing_array[0]->month;
 				$last_year 		= $pricing_array[0]->year;
+				$timestamp		= ($pricing_array[0]->updated_ts) ? date("M d, Y, h:ia",strtotime($pricing_array[0]->updated_ts))." CST" : date("M d, Y, h:ia",strtotime($pricing_array[0]->created_ts))." CST";
 				$array_count	= count($pricing_array);
 				$count 			= 0;
 				//$p->PTS($pricing_array);
@@ -1844,24 +1852,27 @@ switch($controller_action){
 						error_log('getting join material data: ' . (microtime(true) - $temp_time_start) . ' seconds so far . . .');
 						$val->ReadJoinsNew( $material );
 						error_log('got join material data: ' . (microtime(true) - $temp_time_start) . ' seconds so far . . .');
-						//$p->PTS($val);
+//						$p->PTS($val);
 						
 						if(($val->month != $last_month || $val->year  != $last_year)){
 							
 							$tmp_array["month"] 		= $last_month;
 							$tmp_array["year"] 			= $last_year;
 							$tmp_array["pricing"] 		= $pricing;
-							$tmp_array["timestamp"] 	=  ($val->updated_ts) ? date("M d, Y, h:ia",strtotime($val->updated_ts))." CST" : date("M d, Y, h:ia",strtotime($val->created_ts))." CST";
-							$pricing_data[] 				= $tmp_array;
+//							$tmp_array["timestamp"] 	=  ($val->updated_ts) ? date("M d, Y, h:ia",strtotime($val->updated_ts))." CST" : date("M d, Y, h:ia",strtotime($val->created_ts))." CST";
+							$tmp_array["timestamp"] 	= $timestamp;
+							$pricing_data[] 			= $tmp_array;
 							
 							$last_month 	= $val->month;
 							$last_year 		= $val->year;
 							$pricing 		= array();
+							$timestamp		= ($val->updated_ts) ? date("M d, Y, h:ia",strtotime($val->updated_ts))." CST" : date("M d, Y, h:ia",strtotime($val->created_ts))." CST";
 							
 						}
 						
-						$tmp_data["price"] 				= $val->price;
+						$tmp_data["price"] 			= $val->price;
 						$tmp_data["broker_price"] 	= $val->broker_price;
+						$tmp_data["export_price"] 	= $val->export_price;
 						$tmp_data["join_material"] 	= $val->join_material;
 						
 						$pricing[] = $tmp_data;
@@ -1869,14 +1880,14 @@ switch($controller_action){
 						
 						if($count == $array_count){
 							
-							$tmp_array["timestamp"] 	=  ($val->updated_ts) ? date("M d, Y, h:ia",strtotime($val->updated_ts))." CST" : date("M d, Y, h:ia",strtotime($val->created_ts))." CST";
+//							$tmp_array["timestamp"] 	=  ($val->updated_ts) ? date("M d, Y, h:ia",strtotime($val->updated_ts))." CST" : date("M d, Y, h:ia",strtotime($val->created_ts))." CST";
+							$tmp_array["timestamp"] 	= $timestamp;
 							$tmp_array["month"] 		= $last_month;
 							$tmp_array["year"] 			= $last_year;
 							$tmp_array["pricing"] 		= $pricing;
-							$pricing_data[] 				= $tmp_array;
+							$pricing_data[] 			= $tmp_array;
 							
 						}
-					
 					}
 				}
 			}

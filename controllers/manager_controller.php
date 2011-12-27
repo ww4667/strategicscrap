@@ -354,7 +354,7 @@ while (!$KILL) {
 				$post_data = $_POST;
 				// unset empty vars from the (mat) array
 				foreach ($post_data['mat'] as $lbl => $val) {
-					if (empty($val['price']) && empty($val['broker_price'])) unset($post_data['mat'][$lbl]);
+					if (empty($val['price']) && empty($val['broker_price']) && empty($val['export_price'])) unset($post_data['mat'][$lbl]);
 				}
 				$materials = $post_data['mat'];
 				if (!empty($materials)) {
@@ -363,6 +363,7 @@ while (!$KILL) {
 					foreach ($materials as $lbl => $val) {
 						$post_data['price'] = number_format($val['price'],2);
 						$post_data['broker_price'] = number_format($val['broker_price'],2);
+						$post_data['export_price'] = number_format($val['export_price'],2);
 						$p = new Regional_Data();
 						$pricing = $p->CreateItem($post_data);
 						$pricing->addMaterial($lbl);
@@ -414,7 +415,7 @@ while (!$KILL) {
 				// unset empty vars from the (mat) array and remove them from the DB
 				$rp = new Regional_Data();
 				foreach ($post_data['mat'] as $lbl => $val) {
-					if (empty($val['price']) && empty($val['broker_price'])) {
+					if (empty($val['price']) && empty($val['broker_price']) && empty($val['export_price'])) {
 						if ( !empty($val['id']) ) {
 							$rp->RemoveItem($val['id']);
 						}
@@ -430,6 +431,9 @@ while (!$KILL) {
 						$post_data['broker_price'] = ( empty($val['broker_price']) )
 							? $val['broker_price']
 							: number_format($val['broker_price'],2);
+						$post_data['export_price'] = ( empty($val['export_price']) )
+							? $val['export_price']
+							: number_format($val['export_price'],2);
 						$post_data['id'] = $val['id'];
 						
 						$p = new Regional_Data();

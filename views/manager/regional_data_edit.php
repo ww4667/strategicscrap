@@ -17,7 +17,7 @@
     <br style="clear:left" />
     
 	<div class="label">&nbsp;</div>
-	<div class="value"><strong style="display:inline-block;width:80px">Transported:</strong> <strong style="display:inline-block;width:80px">Brokered:</strong></div>
+	<div class="value"><strong style="display:inline-block;width:86px">Mill/Foundry Delivered:</strong> <strong style="display:inline-block;width:86px">Broker Buying:</strong> <strong style="display:inline-block;width:86px">Export - Delivered Port:</strong></div>
     <br style="clear:left" />
     <br style="clear:left" />
 	<? foreach ($materials as $m) { ?>
@@ -25,7 +25,7 @@
 			if ($p->join_material == $m['id'] && $p->region == $region) $price = $p;
 		} ?>
 	<div class="label"><strong><?= $m['name']?></strong></div>
-	<div class="value"><input name="mat[<?= $m['id'] ?>][id]" value="<?= isset($price)?$price->id:''?>" type = "hidden" style="display:inline-block;width:80px" /> <input name="mat[<?= $m['id'] ?>][price]" value="<?= isset($price)?$price->price:''?>" style="display:inline-block;width:80px" /> <input name="mat[<?= $m['id'] ?>][broker_price]" value="<?= isset($price)?$price->broker_price:''?>" style="display:inline-block;width:80px" /></div>
+	<div class="value"><input name="mat[<?= $m['id'] ?>][id]" value="<?= isset($price)?$price->id:''?>" type = "hidden" style="display:inline-block;width:80px" /> <input name="mat[<?= $m['id'] ?>][price]" value="<?= isset($price)?$price->price:''?>" style="display:inline-block;width:80px" /> <input name="mat[<?= $m['id'] ?>][broker_price]" value="<?= isset($price)?$price->broker_price:''?>" style="display:inline-block;width:80px" /> <input name="mat[<?= $m['id'] ?>][export_price]" value="<?= isset($price)?$price->export_price:''?>" style="display:inline-block;width:80px" /></div>
     <br style="clear:left" />
 	<? unset($price); ?>
 	<? } ?>

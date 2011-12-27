@@ -81,8 +81,6 @@ class Market_Data extends Crud {
 //		return data 
  
 		$query = $this->GetObjectQueryString();
-		$query1 = "";
-		$count = 0;
 		$sql = "SELECT * FROM(" . $query. ") as tb1 WHERE tb1.symbol = '" . $symbol . "' ORDER BY tb1.date DESC LIMIT 1";
 
 		$items = $this->getQuery($sql);

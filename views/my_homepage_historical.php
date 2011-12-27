@@ -403,6 +403,13 @@ padding: 0 4px;
 															</tr>
 														<? $i++; ?>
 														<? } ?>
+														<? if( !empty($p->export_price)  && $p->export_price > 0) { ?>
+															<tr<?=$i%2?' class="row2"':""?>>
+															    <td><?= $p->join_material[0]['name'] ?></td>
+															    <td>**<?= $p->export_price ?></td>
+															</tr>
+														<? $i++; ?>
+														<? } ?>
 													<? } ?>
 												</table>
 											</li>
@@ -484,7 +491,7 @@ padding: 0 4px;
 								</div>
 								</div>
 								<p class = "clear_both">All prices are shown in US dollars per gross ton(GT) or (2,240lbs) of material delivered to the consumer unless otherwise noted.<br />
-								* denotes broker buying prices</p>
+								* denotes broker buying prices;	** denotes export - delivered port prices</p>
 							</div><div class="moduleBottom"><!-- IE hates empty elements --></div>
 						</div>
 					</div>

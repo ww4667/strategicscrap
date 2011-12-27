@@ -18,12 +18,12 @@
     <br style="clear:left" />
     
 	<div class="label">&nbsp;</div>
-	<div class="value"><strong style="display:inline-block;width:80px">Transported:</strong> <strong style="display:inline-block;width:80px">Brokered:</strong></div>
+	<div class="value"><strong style="display:inline-block;width:86px">Mill/Foundry Delivered:</strong> <strong style="display:inline-block;width:86px">Broker Buying:</strong> <strong style="display:inline-block;width:86px">Export - Delivered Port:</strong></div>
     <br style="clear:left" />
     <br style="clear:left" />
 	<? foreach ($materials as $m) { ?>
 	<div class="label"><strong><?= $m['name']?></strong></div>
-	<div class="value"><input name="mat[<?= $m['id'] ?>][price]" value="" style="display:inline-block;width:80px" /> <input name="mat[<?= $m['id'] ?>][broker_price]" value="" style="display:inline-block;width:80px" /></div>
+	<div class="value"><input name="mat[<?= $m['id'] ?>][price]" value="" style="display:inline-block;width:80px" /> <input name="mat[<?= $m['id'] ?>][broker_price]" value="" style="display:inline-block;width:80px" /> <input name="mat[<?= $m['id'] ?>][export_price]" value="" style="display:inline-block;width:80px" /></div>
     <br style="clear:left" />
 	<? unset($price); ?>
 	<? } ?>

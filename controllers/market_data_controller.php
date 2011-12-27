@@ -127,7 +127,20 @@ switch($method){
 		$query = $m->GetObjectQueryString();
 		$query1 = "";
 		$count = 0;
-		$sql = "SELECT * FROM(" . $query. ") as tb1 WHERE tb1.date > '" . $compare_dates[4] . "' AND tb1.symbol = '" . $symbol . "' ORDER BY tb1.date ASC";
+		
+		/*
+		JOIN gir_property_values_dates as obj11pn2808j on obj11pn2808j.item_id=o.id AND obj11pn2808j.property_name_id=2808 AND obj11pn2808j.value > '2009-12-07'
+JOIN gir_property_values_text as obj11pn2804j on obj11pn2804j.item_id=o.id AND obj11pn2804j.property_name_id=2804 AND obj11pn2804j.value = 'LCU'
+ WHERE o.object_name_id = 11 GROUP BY o.id ORDER BY date ASC
+ */
+		$query = trim($query,"WHERE o.object_name_id = 11 GROUP BY o.id");
+		$query .= " JOIN gir_property_values_dates as obj11pn2808j on obj11pn2808j.item_id=o.id AND obj11pn2808j.property_name_id=2808 AND obj11pn2808j.value > '" . $compare_dates[4] . "'";
+		$query .= " JOIN gir_property_values_text as obj11pn2804j on obj11pn2804j.item_id=o.id AND obj11pn2804j.property_name_id=2804 AND obj11pn2804j.value = '" . $symbol . "'";
+		$query .= " WHERE o.object_name_id = 11 GROUP BY o.id ORDER BY date ASC";
+//		die($query);
+		$sql = $query;
+		
+//		$sql = "SELECT * FROM(" . $query. ") as tb1 WHERE tb1.date > '" . $compare_dates[4] . "' AND tb1.symbol = '" . $symbol . "' ORDER BY tb1.date ASC";
 //		echo "<br /><br /><br />" . $sql;
 //		die();
 
@@ -138,7 +151,7 @@ switch($method){
 		foreach($compare_dates as $c){
 			$tmp_points = array();
 			$settle_high = 0;
-			$settle_low = 100;
+			$settle_low = 999999;
 			$i_count = 1;
 			if($items){
 				$history_default = $items[0];
@@ -168,12 +181,13 @@ switch($method){
 						
 						if($settle_high < $h["settle"]){
 								//echo "<br />High - " . $h["settle"];
-							$settle_high = ceil($h["settle"]);
+							$settle_high = (ceil($h["settle"]) > 2) ? $h["settle"] + .2 : $h["settle"] + .1;
 						}
 						
 						if($settle_low > $h["settle"]){
 								//echo "<br />Low - " . $h["settle"];
-							$settle_low = floor($h["settle"]);
+							$settle_low = (floor($h["settle"]) > 1) ? $h["settle"] - .2 : $h["settle"] - .1;
+							$settle_low = ($h["settle"] < .1) ? floor($h["settle"]) : $h["settle"] - .1;
 						}
 					}
 					

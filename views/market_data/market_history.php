@@ -15,7 +15,7 @@
 
 <style>
 #chart_wrapper {padding: 20px; float: left; background: #fff;}
-#chart_info {margin-left: 30px; width: 395px; float: left;}
+#chart_info {margin-left: 30px; width: 425px; float: left;}
 #chart_title {font-weight: bold; font-size: 14px; float: left;}
 #chart_change{clear: left; float: left;}
 #chart_change .positive {font-weight: bold; color: #00ff00;}
@@ -109,6 +109,9 @@ function draw_chart( count, data){
 //	$_GET["change_amount"] = ".54";
 //	$_GET["change_percent"] = ".02";
 	?>
+	<!--
+	<?php // echo $sql ?>
+	-->
 <div id = "chart_wrapper">
 	<div id = "chart_info">
 		<div id = "chart_toggles">
@@ -122,10 +125,10 @@ function draw_chart( count, data){
 		<div id = "chart_change"><?= $_GET["change_cost"] ?> / <span class ='<?= $_GET["change_class"] ?>'><?= $_GET["change_amount"] ?> (<?= $_GET["change_percent"] ?>)</span></div>
 	</div>
 	<div class="chart-content">
-		<div id="chart_1" class="plot" style="width:440px;height:260px;"></div>
-		<div id="chart_2" class="plot" style="width:440px;height:260px;"></div>
-		<div id="chart_3" class="plot" style="width:440px;height:260px;"></div>
-		<div id="chart_4" class="plot" style="width:440px;height:260px;"></div>
-		<div id="chart_5" class="plot" style="width:440px;height:260px;"></div>
+		<div id="chart_1" class="plot" style="width:470px;height:260px;"></div>
+		<div id="chart_2" class="plot" style="width:470px;height:260px;"></div>
+		<div id="chart_3" class="plot" style="width:470px;height:260px;"></div>
+		<div id="chart_4" class="plot" style="width:470px;height:260px;"></div>
+		<div id="chart_5" class="plot" style="width:470px;height:260px;"></div>
 	</div>
 </div>
