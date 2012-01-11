@@ -364,6 +364,8 @@ while (!$KILL) {
 			$SECTION_HEADER 	= "Update Category";									/* Header text for this page */
 			$PAGE_BODY 			= $ss_path."views/manager/category_update.php";			/* which file to pull into the template */
 	
+			$updatedCategory = new Category();
+			
 			if(isset($_POST['remove'])){
 				$method = "category-remove";
 				break;
@@ -372,9 +374,15 @@ while (!$KILL) {
 			if(isset($_POST['submitted'])){
 				$post_data = $_POST;
 				$post_data['id'] = $post_data['category_id'];
-				$c = new Category();
-				$c->GetItemObj($post_data['id']);
-				if( $c->UpdateItem($post_data) ) {
+				
+				$updatedCategory->GetItemObj($post_data['id']);
+				
+				
+				if( $updatedCategory->UpdateItem($post_data) ) {
+				
+					if( isset( $post_data['join_category_parent'] ) ) $updatedCategory->addParentCategory($post_data['join_category_parent']);
+					
+						
 					$message = "Category updated successfully.";
 					flash($message);
 				} else {
@@ -385,9 +393,8 @@ while (!$KILL) {
 				break;
 			}
 
-			$c = new Category();
-			$category = $c->GetItemObj($_GET['category_id']);
-
+			$category = $updatedCategory->GetItemObj($_GET['category_id']);
+			$updatedCategory->getParentCategory();
 			//the layout file
 			require($ss_path."views/layouts/manager_shell.php");
 			$KILL = true;
@@ -398,7 +405,9 @@ while (!$KILL) {
 			$PAGE_TITLE 		= "Category Manager";					/* Title text for this page */
 			$SECTION_HEADER 	= "Add Category";								/* Header text for this page */
 			$PAGE_BODY 			= $ss_path."views/manager/category_add.php";			/* which file to pull into the template */
-			
+
+			$newCategory = new Category();
+						
 			if(isset($_POST['submitted'])){
 				$post_data = $_POST;
 				// check for required fields
@@ -411,9 +420,12 @@ while (!$KILL) {
 					$post_data[$key] = is_string($post_data[$key]) ? trim($val) : $post_data[$key];
 				}
 				// create the material
-				$c = new Category();
-				$c->CreateItem($post_data);
-				if( !empty($c->id) ){
+				
+				$newCategory->CreateItem($post_data);
+				if( !empty($newCategory->id) ){
+					
+					$newCategory->addParentCategory($post_data['join_category_parent']);
+
 					$message = "Category added successfully.";
 					flash($message);
 				} else {
@@ -423,8 +435,7 @@ while (!$KILL) {
 				$method = "category-manager";
 				break;
 			} else {
-				$c = new Category();
-				foreach($c as $key => $val) {
+				foreach($newCategory as $key => $val) {
 					$post_data[$key] = "";
 				}
 			}

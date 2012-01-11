@@ -9,7 +9,7 @@ class Category extends Crud {
 	protected $_OBJECT_NAME = "category";
 	protected $_OBJECT_NAME_ID = "";
 	protected $_OBJECT_PROPERTIES = array(	array("type"=>"text","label"=>"Name","field"=>"name"),
-											array("type"=>"join","label"=>"Join Category Type","field"=>"join_category_type"),
+											array("type"=>"text","label"=>"Path","field"=>"path"),
 											array("type"=>"join","label"=>"Join Category Parent","field"=>"join_category_parent")
 										);
 	
@@ -20,7 +20,7 @@ class Category extends Crud {
 		}
 	}
 	
-	public function addParent( $parentId = null ){
+	public function addParentCategory( $parentId = null ){
 		$item = $this->GetCurrentItem();
 		$category = $this->GetItem($parentId);
 		$this->SetCurrentItem($item); // need to reset Current item back to the request
@@ -38,6 +38,16 @@ class Category extends Crud {
 			}
 			$this->AddValueJoin($item['id'], $category_join_property, $parentId);
 		}
+	}
+	
+	
+	public function getParentCategory( $itemId = null ) {
+		// get materials by "itemId" and join type "material_join"
+		$item = $this->GetCurrentItem();
+		$itemId = isset($itemId) ? $itemId : $item['id'];
+		$category = new Category();
+		$joins = $this->ReadJoins( $category );
+		$this->join_category_parent = $joins;
 	}
 	
 	public function removeCategory( $categoryId = null ){
@@ -60,6 +70,7 @@ class Category extends Crud {
 		$items = $this->ReadForeignJoins( $category );
 		return $items;
 	}
+	
 	/*
 	
 		public function getMaterials( $itemId = null ) {
