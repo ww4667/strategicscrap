@@ -43,6 +43,8 @@ require_once($modulesDirectory."/transportation_type/Transportation_Type.php");
 require_once($modulesDirectory."/pricing/Pricing.php");
 require_once($modulesDirectory."/regional_data/Regional_Data.php");
 require_once($modulesDirectory."/market_data/Market_Data.php");
+require_once($modulesDirectory."/category/Category.php");
+require_once($modulesDirectory."/classified/Classified.php");
 
 // include application modules
 require_once($librariesDirectory."/usaepay/usaepay.php");
