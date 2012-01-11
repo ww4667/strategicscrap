@@ -503,6 +503,15 @@ while (!$KILL) {
 					/*array("image","Classified Title cannot be left empty"),*/
 					array("join_category_parent","Classified Category Parent cannot be left empty")
 				);
+				
+				
+				$fileUploader = upload_function( $_SERVER["DOCUMENT_ROOT"] . '/resources/images/classifieds/', 'image' );
+				
+				if( $fileUploader !== FALSE ){
+					$post_data['image'] = '/resources/images/classifieds/' .$fileUploader; 
+				} else {
+					$post_data['image'] = '';
+				}
 				 
 				if( $updatedClassified->UpdateItem( $post_data ) ) {
 					
@@ -561,7 +570,13 @@ while (!$KILL) {
 					$post_data[$key] = is_string($post_data[$key]) ? trim($val) : $post_data[$key];
 				}
 				
-				 
+				$fileUploader = upload_function( $_SERVER["DOCUMENT_ROOT"] . '/resources/images/classifieds/', 'image' );
+				
+				if( $fileUploader !== FALSE ){
+					$post_data['image'] = '/resources/images/classifieds/' .$fileUploader; 
+				} else {
+					$post_data['image'] = '';
+				}
 				
 				// create the material
 				$c = new Classified();

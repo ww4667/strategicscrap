@@ -3,7 +3,6 @@
 			
 			$updatedClassifiedArray = $updatedClassified->getAllWithUserDetails($_GET['classified_id']);
 			
-			$updatedClassified->PTS($updatedClassifiedArray);
 
 ?>
 
@@ -27,6 +26,10 @@
     <br style="clear:left" />
 	
 	<div><strong>Classified Information:</strong><hr /></div>
+	<div class="label"><strong>Expires:</strong></div>
+	<div class="value"><input name="end_date" value="<?= $updatedClassifiedArray[0]['end_date'] ?>" style="width: 300px;"  /></div>
+    
+    <br style="clear:left" />
 	<div class="label"><strong>Classified Title:</strong></div>
 	<div class="value"><input name="title" value="<?= $updatedClassifiedArray[0]['title'] ?>" style="width: 300px;"  /></div>
     
@@ -37,14 +40,25 @@
     <br style="clear:left" />
     <!-- http://hacks.mozilla.org/2011/01/how-to-develop-a-html5-image-uploader/ -->
 	<div class="label"><strong>Classified Image:</strong></div>
-	<div class="value"><input name="image" value="<?= $updatedClassifiedArray[0]['image'] ?>" style="width: 300px;" /></div>
+	<div class="value">
+		<input name="image" value="<?= $updatedClassifiedArray[0]['image'] ?>" style="width: 300px;" />
+		<br class="clear:both;" />
+		[<a id="preview_link" href="<?=$updatedClassifiedArray[0]['image']?>" target="_blank">Show Preview</a>]
+		
+		
+		<br class="clear:both;" />
+	</div>
 	
     <br style="clear:left" />
-	<div class="label"><strong>Approved:[<?=$updatedClassifiedArray[0]['approved']?>]</strong></div>
+	<div class="label"><strong>Paid:</strong></div>
+	<div class="value"><input type="checkbox" name="approved" value="1" <?= $updatedClassifiedArray[0]['paid'] == 1 ? 'checked="checked"' : "" ?>" /></div>
+	
+    <br style="clear:left" />
+	<div class="label"><strong>Approved:</strong></div>
 	<div class="value"><input type="checkbox" name="approved" value="1" <?= $updatedClassifiedArray[0]['approved'] == 1 ? 'checked="checked"' : "" ?>" /></div>
 
     <br style="clear:left" />
-	<div class="label"><strong>Featured Classified:[<?=$updatedClassifiedArray[0]['featured']?>]</strong></div>
+	<div class="label"><strong>Featured Classified:</strong></div>
 	<div class="value"><input type="checkbox" name="featured" value="1" <?= $updatedClassifiedArray[0]['featured'] == 1 ? 'checked="checked"' : "" ?>" /></div>
 
     <br style="clear:left" />

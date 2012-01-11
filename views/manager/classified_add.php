@@ -3,14 +3,13 @@
 	<li><a href="<?= $ss_url ?>&amp;method=classified-manager">Back to Classified Manager</a></li>
 </ul>
 <br />
-
+ 
 <div class="sectionHeader">Adding Classified:</div>
 <div class="sectionBody order_details">
-	<form action="<?=$ss_url?>&amp;method=classified-add" method="post">
-	
+	<form action="<?=$ss_url?>&amp;method=classified-add" method="post"  enctype="multipart/form-data">
 	<div><strong>Classified Information:</strong><hr /></div>
 	<div class="label"><strong>Expires (yyyy-mm-dd):</strong></div>
-	<div class="value"><input name="end_date" value="<?= $post_data['end_date']?>" style="width: 300px;" /></div>
+	<div class="value"><input name="end_date" value="<?=isset( $post_data['end_date'] ) == true && $post_data['end_date'] != '' ? $post_data['end_date'] : '' . date("Y-m-d", strtotime("+30 day")); ?>" style="width: 300px;" /></div>
     <br style="clear:left" />
 	<div class="label"><strong>Classified Title:</strong></div>
 	<div class="value"><input name="title" value="<?= $post_data['title']?>" style="width: 300px;" /></div>
