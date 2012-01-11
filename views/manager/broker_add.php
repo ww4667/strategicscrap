@@ -1,10 +1,10 @@
-<h1 style="margin:0;padding:0">Brokers // Add</h1>
+<h1 style="margin:0;padding:0">Transportation Brokers // Add</h1>
 <ul>
-	<li><a href="<?= $ss_url ?>&amp;method=broker-manager">Back to Brokers</a></li>
+	<li><a href="<?= $ss_url ?>&amp;method=broker-manager">Back to Transportation Brokers</a></li>
 </ul>
 <br />
 
-<div class="sectionHeader">Adding Broker:</div>
+<div class="sectionHeader">Adding Transportation Broker:</div>
 <div class="sectionBody order_details">
 	<form action="<?=$ss_url?>&amp;method=broker-add" method="post">
 	

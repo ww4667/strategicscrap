@@ -1,4 +1,4 @@
-<h1 style="margin:0;padding:0">Scrappers</h1>
+<h1 style="margin:0;padding:0">Subscribers</h1>
 <br />
 <?php if (count($scrappers) >= 1) { ?>
 <div style="clear:both;"></div>

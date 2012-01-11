@@ -222,7 +222,397 @@ while (!$KILL) {
 			flash($message,"bad");
 		break;
 
-		case 'pricing':
+
+/** 
+ * START scrap-category-type
+ */
+
+		case 'category-type-manager':
+			
+			$PAGE_TITLE 		= "Category Type Manager";								/* Title text for this page */
+			$SECTION_HEADER 	= "Category Type List";								/* Header text for this page */
+			$PAGE_BODY 			= $ss_path."views/manager/category_type_manager.php";			/* which file to pull into the template */
+
+			$ct = new CategoryType();
+			$categoryTypes = $ct->GetAllItems();
+			
+			//the layout file
+			require($ss_path."views/layouts/manager_shell.php");
+			$KILL = true;
+		break;
+		
+		case 'category-type-update':
+			
+			$PAGE_TITLE 		= "Category Type Manager";							/* Title text for this page */
+			$SECTION_HEADER 	= "Update Category Type";									/* Header text for this page */
+			$PAGE_BODY 			= $ss_path."views/manager/category_type_update.php";			/* which file to pull into the template */
+	
+			if(isset($_POST['remove'])){
+				$method = "category-type-remove";
+				break;
+			}
+			
+			if(isset($_POST['submitted'])){
+				$post_data = $_POST;
+				$post_data['id'] = $post_data['category_type_id'];
+				$m = new CategoryType();
+				$m->GetItemObj($post_data['id']);
+				if( $m->UpdateItem($post_data) ) {
+					$message = "Category Type updated successfully.";
+					flash($message);
+				} else {
+					$message = "There was a problem updating the category type.";
+					flash($message,"bad");
+				}
+				$method = "category-type-manager";
+				break;
+			}
+
+			$ct = new CategoryType();
+			$categoryType = $ct->GetItemObj($_GET['category_type_id']);
+
+			//the layout file
+			require($ss_path."views/layouts/manager_shell.php");
+			$KILL = true;
+		break;
+		
+		case 'category-type-add':
+			
+			$PAGE_TITLE 		= "Category Type Manager";					/* Title text for this page */
+			$SECTION_HEADER 	= "Add Category Type";								/* Header text for this page */
+			$PAGE_BODY 			= $ss_path."views/manager/category_type_add.php";			/* which file to pull into the template */
+			
+			if(isset($_POST['submitted'])){
+				$post_data = $_POST;
+				// check for required fields
+				$required_fields = array(
+											array("name","Category Type Name cannot be left empty")
+				);
+				// fix data
+				// trim first
+				foreach ($post_data as $key => $val) {
+					$post_data[$key] = is_string($post_data[$key]) ? trim($val) : $post_data[$key];
+				}
+				// create the material
+				$ct = new CategoryType();
+				$ct->CreateItem($post_data);
+				if( !empty($ct->id) ){
+					$message = "Category Type added successfully.";
+					flash($message);
+				} else {
+					$message = "There was a problem adding the category type.";
+					flash($message,"bad");
+				}
+				$method = "category-type-manager";
+				break;
+			} else {
+				$ct = new CategoryType();
+				foreach($ct as $key => $val) {
+					$post_data[$key] = "";
+				}
+			}
+
+			//the layout file
+			require($ss_path."views/layouts/manager_shell.php");
+			$KILL = true;
+		break;
+				
+		case 'category-type-remove':
+			$method = "category-type-manager";
+			if ( isset($_REQUEST['category_type_id']) ) {
+				$categoryTypeId = (int) $_REQUEST['category_type_id'];
+				$ct = new CategoryType();
+				$ct->GetItemObj($categoryTypeId);
+				if ( !empty($ct->id) ) {
+					$ct->RemoveItem($categoryTypeId);
+					$message = "The category type was removed successfully.";
+					flash($message);
+					break;
+				}
+			}
+			$message = "There was a problem removing the category type.";
+			flash($message,"bad");
+		break;
+ 
+/** 
+ * END scrap-category-type
+ */
+
+
+
+/** 
+ * START scrap-category
+ */
+
+		case 'category-manager':
+			
+			$PAGE_TITLE 		= "Category Manager";								/* Title text for this page */
+			$SECTION_HEADER 	= "Category List";								/* Header text for this page */
+			$PAGE_BODY 			= $ss_path."views/manager/category_manager.php";			/* which file to pull into the template */
+
+			$c = new Category();
+			$categories = $c->GetAllItems();
+			
+			//the layout file
+			require($ss_path."views/layouts/manager_shell.php");
+			$KILL = true;
+		break;
+		
+		case 'category-update':
+			
+			$PAGE_TITLE 		= "Category Manager";							/* Title text for this page */
+			$SECTION_HEADER 	= "Update Category";									/* Header text for this page */
+			$PAGE_BODY 			= $ss_path."views/manager/category_update.php";			/* which file to pull into the template */
+	
+			if(isset($_POST['remove'])){
+				$method = "category-remove";
+				break;
+			}
+			
+			if(isset($_POST['submitted'])){
+				$post_data = $_POST;
+				$post_data['id'] = $post_data['category_id'];
+				$c = new Category();
+				$c->GetItemObj($post_data['id']);
+				if( $c->UpdateItem($post_data) ) {
+					$message = "Category updated successfully.";
+					flash($message);
+				} else {
+					$message = "There was a problem updating the category.";
+					flash($message,"bad");
+				}
+				$method = "category-manager";
+				break;
+			}
+
+			$c = new Category();
+			$category = $c->GetItemObj($_GET['category_id']);
+
+			//the layout file
+			require($ss_path."views/layouts/manager_shell.php");
+			$KILL = true;
+		break;
+		
+		case 'category-add':
+			
+			$PAGE_TITLE 		= "Category Manager";					/* Title text for this page */
+			$SECTION_HEADER 	= "Add Category";								/* Header text for this page */
+			$PAGE_BODY 			= $ss_path."views/manager/category_add.php";			/* which file to pull into the template */
+			
+			if(isset($_POST['submitted'])){
+				$post_data = $_POST;
+				// check for required fields
+				$required_fields = array(
+											array("name","Category Name cannot be left empty")
+				);
+				// fix data
+				// trim first
+				foreach ($post_data as $key => $val) {
+					$post_data[$key] = is_string($post_data[$key]) ? trim($val) : $post_data[$key];
+				}
+				// create the material
+				$c = new Category();
+				$c->CreateItem($post_data);
+				if( !empty($c->id) ){
+					$message = "Category added successfully.";
+					flash($message);
+				} else {
+					$message = "There was a problem adding the category.";
+					flash($message,"bad");
+				}
+				$method = "category-manager";
+				break;
+			} else {
+				$c = new Category();
+				foreach($c as $key => $val) {
+					$post_data[$key] = "";
+				}
+			}
+
+			//the layout file
+			require($ss_path."views/layouts/manager_shell.php");
+			$KILL = true;
+		break;
+				
+		case 'category-remove':
+			$method = "category-manager";
+			if ( isset($_REQUEST['category_id']) ) {
+				$categoryId = (int) $_REQUEST['category_id'];
+				$c = new Category();
+				$c->GetItemObj($categoryId);
+				if ( !empty($c->id) ) {
+					$ct->RemoveItem($categoryId);
+					$message = "The category was removed successfully.";
+					flash($message);
+					break;
+				}
+			}
+			$message = "There was a problem removing the category.";
+			flash($message,"bad");
+		break;
+ 
+/** 
+ * END scrap-category
+ */
+
+
+
+/** 
+ * START classifieds
+ */
+
+		case 'classified-manager':
+			
+			$PAGE_TITLE 		= "Classifieds Manager";								/* Title text for this page */
+			$SECTION_HEADER 	= "Classifieds List";								/* Header text for this page */
+			$PAGE_BODY 			= $ss_path."views/manager/classified_manager.php";			/* which file to pull into the template */
+
+			
+			
+			//the layout file
+			require($ss_path."views/layouts/manager_shell.php");
+			$KILL = true;
+		break;
+		
+		case 'classified-update':
+			
+			$PAGE_TITLE 		= "Classifieds Manager";							/* Title text for this page */
+			$SECTION_HEADER 	= "Update Classifieds";									/* Header text for this page */
+			$PAGE_BODY 			= $ss_path."views/manager/classified_update.php";			/* which file to pull into the template */
+			
+			$updatedClassified = new Classified();
+						
+			if(isset($_POST['remove'])){
+				$method = "classified-remove";
+				break;
+			}
+			
+			if(isset($_POST['submitted'])){
+				
+				$post_data = $_POST;
+				$post_data['id'] = $post_data['classified_id'];
+				
+				$updatedClassified->GetItemObj( $post_data[ 'id' ] );
+				$post_data['featured'] = isset( $post_data['featured'] ) ? 1 : 0;
+				$post_data['approved'] = isset( $post_data['approved'] ) ? 1 : 0;
+				 
+				$required_fields = array(
+					array("title","Classified Title cannot be left empty"),
+					array("description","Classified Description cannot be left empty"),
+					array("join_scrapper","Classified Description cannot be left empty"),
+					/*array("image","Classified Title cannot be left empty"),*/
+					array("join_category_parent","Classified Category Parent cannot be left empty")
+				);
+				 
+				if( $updatedClassified->UpdateItem( $post_data ) ) {
+					
+					// update category join
+					$updatedClassified->getCategory();
+					$joined_category = $updatedClassified->join_category_parent;
+				
+					$joined_category_id = $joined_category[0]['id'];
+				
+					// grab posted join ids
+					$category_id = $post_data['join_category_parent'];
+									
+					// loop the arrays and add/remove
+					if ( !isset( $joined_category_id ) ) $updatedClassified->addCategory( $category_id );
+					if ( !isset( $category_id ) ) $updatedClassified->removeMaterial( $joined_category_id );
+					
+					
+						
+					$message = "Classified updated successfully.";
+					flash($message);
+				} else {
+					$message = "There was a problem updating the classified.";
+					flash($message,"bad");
+				}
+				
+				$method = "classified-manager";
+				break;
+			}
+
+
+			//the layout file
+			require($ss_path."views/layouts/manager_shell.php");
+			$KILL = true;
+		break;
+		
+		case 'classified-add':
+			
+			$PAGE_TITLE 		= "Classified Manager";					/* Title text for this page */
+			$SECTION_HEADER 	= "Add Classified";								/* Header text for this page */
+			$PAGE_BODY 			= $ss_path."views/manager/classified_add.php";			/* which file to pull into the template */
+						
+			if(isset($_POST['submitted'])){
+				$post_data = $_POST;
+				// check for required fields
+				$required_fields = array(
+					array("title","Classified Title cannot be left empty"),
+					array("description","Classified Description cannot be left empty"),
+					array("join_scrapper","Classified Description cannot be left empty"),
+					/*array("image","Classified Title cannot be left empty"),*/
+					array("join_category_parent","Classified Category Parent cannot be left empty")
+				);
+				
+				// fix data
+				// trim first
+				foreach ($post_data as $key => $val) {
+					$post_data[$key] = is_string($post_data[$key]) ? trim($val) : $post_data[$key];
+				}
+				
+				 
+				
+				// create the material
+				$c = new Classified();
+				$c->CreateItem($post_data);
+				if( !empty($c->id) ){
+					
+					$c->addScrapper($post_data['join_scrapper']);
+					$c->addCategory($post_data['join_category_parent']);
+					
+					$message = "Classified added successfully.";
+					flash($message);
+				} else {
+					$message = "There was a problem adding the classified.";
+					flash($message,"bad");
+				}
+				$method = "classified-manager";
+				break;
+			} else {
+				$c = new Classified();
+				foreach($c as $key => $val) {
+					$post_data[$key] = "";
+				}
+			}
+
+			//the layout file
+			require($ss_path."views/layouts/manager_shell.php");
+			$KILL = true;
+		break;
+				
+		case 'classified-remove':
+			$method = "classified-manager";
+			if ( isset($_REQUEST['classified_id']) ) {
+				$classifiedId = (int) $_REQUEST['classified_id'];
+				$classifiedToRemove = new Classified();
+				$classifiedToRemove->GetItemObj($classifiedId);
+				if ( !empty($classifiedToRemove->id) ) {
+					$classifiedToRemove->RemoveItem($classifiedId);
+					$message = "The classified was removed successfully.";
+					flash($message);
+					break;
+				}
+			}
+			$message = "There was a problem removing the classified.";
+
+		break;
+ 
+/** 
+ * END classifieds
+ */
+ 
+ 		case 'pricing':
 			
 			$PAGE_TITLE 		= "Regional Pricing Manager";						/* Title text for this page */
 			$SECTION_HEADER 	= "Update Regional Pricing";						/* Header text for this page */
@@ -598,8 +988,8 @@ while (!$KILL) {
 
 		case 'scrapper-manager':
 			
-			$PAGE_TITLE 		= "Scrapper Manager";								/* Title text for this page */
-			$SECTION_HEADER 	= "Scrapper List";									/* Header text for this page */
+			$PAGE_TITLE 		= "Subscriber Manager";								/* Title text for this page */
+			$SECTION_HEADER 	= "Subscriber List";									/* Header text for this page */
 			$PAGE_BODY 			= $ss_path."views/manager/scrapper_manager.php";	/* which file to pull into the template */
 			
 			$s = new Scrapper();
@@ -612,8 +1002,8 @@ while (!$KILL) {
 		
 		case 'scrapper-update':
 			
-			$PAGE_TITLE 		= "Scrapper Manager";								/* Title text for this page */
-			$SECTION_HEADER 	= "Update Scrapper";								/* Header text for this page */
+			$PAGE_TITLE 		= "Subscriber Manager";								/* Title text for this page */
+			$SECTION_HEADER 	= "Update Subscriber";								/* Header text for this page */
 			$PAGE_BODY 			= $ss_path."views/manager/scrapper_update.php";		/* which file to pull into the template */
 			
 			if(isset($_POST['submitted'])){
@@ -675,8 +1065,8 @@ while (!$KILL) {
 
 		case 'broker-manager':
 			
-			$PAGE_TITLE 		= "Broker Manager";								/* Title text for this page */
-			$SECTION_HEADER 	= "Broker List";								/* Header text for this page */
+			$PAGE_TITLE 		= "Transportation Broker Manager";								/* Title text for this page */
+			$SECTION_HEADER 	= "Transportation Broker List";								/* Header text for this page */
 			$PAGE_BODY 			= $ss_path."views/manager/broker_manager.php";	/* which file to pull into the template */
 			
 			$b = new Broker();
@@ -702,8 +1092,8 @@ while (!$KILL) {
 		
 		case 'broker-update':
 			
-			$PAGE_TITLE 		= "Broker Manager";									/* Title text for this page */
-			$SECTION_HEADER 	= "Update Broker";									/* Header text for this page */
+			$PAGE_TITLE 		= "Transportation Broker Manager";									/* Title text for this page */
+			$SECTION_HEADER 	= "Update Transportation Broker";									/* Header text for this page */
 			$PAGE_BODY 			= $ss_path."views/manager/broker_update.php";		/* which file to pull into the template */
 			
 			if(isset($_POST['submitted'])){
@@ -765,8 +1155,8 @@ while (!$KILL) {
 		
 		case 'broker-add':
 			
-			$PAGE_TITLE 		= "Broker Manager";								/* Title text for this page */
-			$SECTION_HEADER 	= "Add Broker";									/* Header text for this page */
+			$PAGE_TITLE 		= "Transportation Broker Manager";								/* Title text for this page */
+			$SECTION_HEADER 	= "Add Transportation Broker";									/* Header text for this page */
 			$PAGE_BODY 			= $ss_path."views/manager/broker_add.php";		/* which file to pull into the template */
 			
 			if(isset($_POST['submitted'])){

@@ -15,11 +15,13 @@
 <ul>
 	<li><a href="<?=$ss_url?>&method=facility-manager">manage facilities</a></li>
 	<li><a href="<?=$ss_url?>&method=material-manager">manage materials</a></li>
-	<li><a href="<?=$ss_url?>&method=scrapper-manager">manage scrappers</a></li>
-	<li><a href="<?=$ss_url?>&method=broker-manager">manage brokers</a></li>
+	<li><a href="<?=$ss_url?>&method=scrapper-manager">manage subscribers</a></li>
+	<li><a href="<?=$ss_url?>&method=broker-manager">manage transportation brokers</a></li>
 	<li><a href="<?=$ss_url?>&method=request-manager">manage requests</a></li>
-	<li><a href="<?=$ss_url?>&method=pricing">manage regional pricing</a></li>
+	<!-- <li><a href="<?=$ss_url?>&method=pricing">manage regional pricing</a></li>  -->
 	<li><a href="<?=$ss_url?>&method=regional-data-manager">NEW - manage regional pricing</a></li>
+	<li><a href="<?=$ss_url?>&method=category-manager">manage categories</a></li>
+	<li><a href="<?=$ss_url?>&method=classified-manager">manage classifieds</a></li>
 </ul>
 </div> <? // end of sectionBody div ?>
 <div class="sectionHeader"><?= $PAGE_TITLE ?></div>

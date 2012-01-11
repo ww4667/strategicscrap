@@ -1,6 +1,6 @@
-<h1 style="margin:0;padding:0">Brokers // Update</h1>
+<h1 style="margin:0;padding:0">Transportation Brokers // Update</h1>
 <ul>
-	<li><a href="<?= $ss_url ?>&amp;method=broker-manager">Back to Brokers</a></li>
+	<li><a href="<?= $ss_url ?>&amp;method=broker-manager">Back to Transportation Brokers</a></li>
 </ul>
 <br />
 

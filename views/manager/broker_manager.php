@@ -1,5 +1,5 @@
-<h1 style="margin:0;padding:0">Brokers</h1>
-<ul><li><a href="<?=$ss_url?>&method=broker-add">[+] add a broker</a></li></ul>
+<h1 style="margin:0;padding:0">Transportation Brokers</h1>
+<ul><li><a href="<?=$ss_url?>&method=broker-add">[+] add a transportation broker</a></li></ul>
 <br />
 <?php if (count($brokers) >= 1) { ?>
 <div style="clear:both;"></div>

@@ -1,10 +1,10 @@
-<h1 style="margin:0;padding:0">Scrappers // Update</h1>
+<h1 style="margin:0;padding:0">Subscribers // Update</h1>
 <ul>
-	<li><a href="<?= $ss_url ?>&amp;method=scrapper-manager">Back to Scrappers</a></li>
+	<li><a href="<?= $ss_url ?>&amp;method=scrapper-manager">Back to Subscribers</a></li>
 </ul>
 <br />
 
-<div class="sectionHeader">Updating Scrapper ID: <?= $scrapper->id ?> (<?= ($scrapper->join_user[0]['logged_in'] == 1) ? "currently" : "not" ?> logged-in)</div>
+<div class="sectionHeader">Updating Subscriber ID: <?= $scrapper->id ?> (<?= ($scrapper->join_user[0]['logged_in'] == 1) ? "currently" : "not" ?> logged-in)</div>
 <div class="sectionBody order_details">
 	<form action="<?=$ss_url?>&amp;method=scrapper-update" method="post">
 	<input type="hidden" name="scrapper_id" value="<?= $scrapper->id ?>" />
