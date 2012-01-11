@@ -12,9 +12,6 @@
 	<div class="label"><strong>Category Name:</strong></div>
 	<div class="value"><input name="name" value="<?= $post_data['name']?>" /></div>
     <br style="clear:left" />
-	<div class="label"><strong>Category Type:</strong></div>
-	<div class="value"><input name="join_category_type" value="<?= $post_data['join_category_type']?>" /></div>
-    <br style="clear:left" />
 	<div class="label"><strong>Category Parent:</strong></div>
 	<?
 	
