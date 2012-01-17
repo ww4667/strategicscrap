@@ -130,7 +130,7 @@ class Mailer{
 		$mail = new Zend_Mail();
 		$mail->setFrom('do_not_reply@strategicscrap.com', 'Strategic Scrap');
 
-		$mail->setSubject("A bid has been submitted to your transportation request!");
+		$mail->setSubject("A transportation request has been submitted to your strategicscrap.com account");
 		$mail->setBodyText("Visit your regional homepage to see your requests and view your unread bids. Login at http://strategicscrap.com to see the details.");
 		$mail->addTo($i_object['email'], $i_object['fname'] . " " . $i_object['lname']);
 		

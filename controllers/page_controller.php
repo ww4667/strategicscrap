@@ -385,6 +385,19 @@ switch($controller_action){
 		require($_SERVER['DOCUMENT_ROOT']."/views/layouts/shell.php");
 		break;
 
+	/* Equipment Classifieds */
+	case 'new-classifieds':
+		// page 'template variables'
+//		$PAGE_BODY = "views/equipment_classifieds.php";  	/* which file to pull into the template */
+			
+		print_r ($_GET);
+		
+		die();
+		
+		//the layout file  -  THIS PART NEEDS TO BE LAST
+//		require($_SERVER['DOCUMENT_ROOT']."/views/layouts/shell.php");
+		break;
+
 	/* Regions */
 	case 'regions':
 		require_ssl();
