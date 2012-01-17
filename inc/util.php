@@ -540,5 +540,26 @@ function upload_function( $location, $formField = 'file' ) {
   } 
 } 
 
+/**
+* Format alias to be URL-safe. Strip invalid characters.
+*
+* @param string Alias to be formatted
+* @return string Safe alias
+*/
+function cleanSlug( $slug ){
+	
+   // default behavior: strip invalid characters and replace spaces with dashes.
+   $slug = strip_tags( $slug ); // strip HTML
+   $slug = strtolower( $slug ); // lower-case
+   $slug = preg_replace('/[^\.A-Za-z0-9 _-]/', '', $slug ); // strip non-alphanumeric characters
+   $slug = preg_replace('/\s+/', '-', $slug ); // convert white-space to dash
+   $slug = preg_replace('/-+/', '-', $slug );  // convert multiple dashes to one
+   $slug = trim( $slug , '-'); // trim excess
+
+   return $slug;
+   
+}
+   
+
 
 ?>

@@ -9,7 +9,8 @@ class Category extends Crud {
 	protected $_OBJECT_NAME = "category";
 	protected $_OBJECT_NAME_ID = "";
 	protected $_OBJECT_PROPERTIES = array(	array("type"=>"text","label"=>"Name","field"=>"name"),
-											array("type"=>"text","label"=>"Path","field"=>"path"),
+											array("type"=>"text","label"=>"Slug","field"=>"slug"),
+											array("type"=>"text","label"=>"Id Path","field"=>"id_path"),
 											array("type"=>"join","label"=>"Join Category Parent","field"=>"join_category_parent")
 										);
 	
@@ -20,23 +21,62 @@ class Category extends Crud {
 		}
 	}
 	
-	public function addParentCategory( $parentId = null ){
-		$item = $this->GetCurrentItem();
-		$category = $this->GetItem($parentId);
-		$this->SetCurrentItem($item); // need to reset Current item back to the request
-		if(count($category)>0){
-			$category_join_property = null;
-			$arr = $this->_OBJECT_PROPERTIES;
-			$c = count($this->_OBJECT_PROPERTIES);
-			$i = 0;
-			while($i<$c){
-				if( $arr[$i]['field'] == "join_category_parent" ){
-					$category_join_property = $arr[$i]['property_name_id'];
-					break;
-				}
-				$i++;
+	public function findSlugsBySlug( $slug = '' ){
+		$category_query = $this->GetObjectQueryString();
+		
+		$join_table = $this->_TABLE_PREFIX . constant('Crud::_VALUES_TABLE_JOINS');
+		$query = "SELECT ";
+		$query .= " cat.* ";
+		$query .= " FROM ";
+		$query .= " ($category_query) AS cat ";
+		$query .= " WHERE cat.slug = '$slug' ";
+		
+		return $this->Query( $query, true );
+	}
+	
+	public function addParentCategory( $parentId = null, $process = true ){
+		$currentCategory = $this->GetCurrentItem();
+		$parentCategory = $this->GetItem($parentId);
+		$this->SetCurrentItem($currentCategory); // need to reset Current item back to the request
+		
+		$join_category_parent = $this->ReadPropertyByName( 'join_category_parent' );
+		$id_path = $this->ReadPropertyByName( 'id_path' );
+		$slug = $this->ReadPropertyByName( 'slug' );
+		
+		$cleanName = cleanSlug( $currentCategory['name'] );
+		 
+		/**
+		 * MAKE A FUNCTION that cleans up the name
+		 */
+		$slug_op = ( !empty( $parentCategory['slug'] ) ? $parentCategory['slug'] : '' ) . '/' . $cleanName;
+		$id_path_op = ( !empty( $parentCategory['id_path'] ) ? $parentCategory['id_path'] . ',' : '' ) .  $currentCategory['id'];
+		
+		if( $process ){		
+			if( count( $join_category_parent ) ){
+				$this->UpdateValueJoin( $currentCategory['id'], $join_category_parent['id'], $parentId);
+			} else {
+				$this->AddValueJoin( $currentCategory['id'], $join_category_parent['id'], $parentId);
 			}
-			$this->AddValueJoin($item['id'], $category_join_property, $parentId);
+					
+			if( !empty( $currentCategory['slug'] ) ){
+				print "<br/>update slug";
+				print '<br>' . $slug_op;
+				$this->UpdateValueText( $currentCategory['id'], $slug['id'], $slug_op );
+			} else {
+				print "add slug";
+				$this->AddValueText( $currentCategory['id'], $slug['id'], $slug_op );
+			}
+					
+			if( !empty( $currentCategory['id_path'] ) ){
+				print "<br/>update path";
+				print '<br>' . $id_path_op;
+				$this->UpdateValueText( $currentCategory['id'], $id_path['id'], $id_path_op );
+			} else {
+				print "add path";
+				$this->AddValueText( $currentCategory['id'], $id_path['id'], $id_path_op );		
+				}
+		} else {
+			return $slug_op;
 		}
 	}
 	
@@ -70,6 +110,59 @@ class Category extends Crud {
 		$items = $this->ReadForeignJoins( $category );
 		return $items;
 	}
+	
+	public function getAllCategoriesByHierarchy(  ) {
+		$category_query = $this->GetObjectQueryString();
+		
+		$join_table = $this->_TABLE_PREFIX . constant('Crud::_VALUES_TABLE_JOINS');
+		$query = "SELECT ";
+		/**
+		 * ,COALESCE(c.approved, 0) as approved
+		 * ,COALESCE will check for a null and 0 and will return 0 - this is a super fast function!
+		 */
+		$query .= " cat.* ";
+		$query .= " FROM ";
+		$query .= " ($category_query) AS cat ";
+		$query .= " ORDER BY cat.slug     ";
+		
+		return $this->Query( $query, true );
+	}	
+	
+	
+	/**
+	 * this could get us the recursive update
+	 */
+	public function updateYourFamily( $de = "" ){
+		/*$this->PTS( $this );*/
+		$joins = $this->ReadForeignJoins( $this );
+		$de = $de . "-";
+		$op = "";
+		
+		foreach( $joins as $join ){
+			$tempCat = new Category();
+			$tempCat->getItemObj( $join['id'] );
+			$op .= $de . $tempCat->name;
+			$op .= $tempCat->getYourFamily( $de . "<br />" );
+		}
+		
+		return $op;
+	}
+	
+	public function getYourFamilyIds( $first = true ){
+		/*$this->PTS( $this );*/
+		$joins = $this->ReadForeignJoins( $this );
+		$op = "";
+		if( $first ) $op .= $this->id;
+		foreach( $joins as $join ){
+			$tempCat = new Category();
+			$tempCat->getItemObj( $join['id'] );
+			$op .= "," . $tempCat->id;
+			$op .= $tempCat->getYourFamilyIds( false );
+		}
+		
+		return $op;
+	}
+	
 	
 	/*
 	

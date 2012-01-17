@@ -15,7 +15,9 @@ class Classified extends Crud {
 											array("type"=>"number","label"=>"Featured","field"=>"featured"),
 											array("type"=>"number","label"=>"Paid","field"=>"paid"),
 											array("type"=>"number","label"=>"Approved","field"=>"approved"),
+											array("type"=>"number","label"=>"Sale or Wanted","field"=>"sale_or_wanted"),/* 0 for sale and 1 for wanted */
 											array("type"=>"text","label"=>"Parent Object","field"=>"parent_object"),
+											array("type"=>"text","label"=>"Slug","field"=>"slug"),
 											array("type"=>"date","label"=>"End Date","field"=>"end_date"),
 											array("type"=>"join","label"=>"Join Scrapper","field"=>"join_scrapper"),
 											array("type"=>"join","label"=>"Join Category Parent","field"=>"join_category_parent")
@@ -32,27 +34,55 @@ class Classified extends Crud {
 	 * PUBLIC FUNCTIONS
 	 */
 	
+	public function findSlugsBySlug( $slug = '' ){
+		$classified_query = $this->GetObjectQueryString();
+		
+		$join_table = $this->_TABLE_PREFIX . constant('Crud::_VALUES_TABLE_JOINS');
+		$query = "SELECT ";
+		$query .= " c.* ";
+		$query .= " FROM ";
+		$query .= " ($classified_query) AS c ";
+		$query .= " WHERE c.slug = '$slug' ";
+		
+		return $this->Query( $query, trued );
+	}
+	
 	public function getExpiredClassifieds( $compare_date, $days_out='0' ) {
 		return $this->_getExpiredClassifieds( $compare_date, $days_out );
 	}
 
-	public function addCategory( $categoryId = null ){
-		$item = $this->GetCurrentItem();
-		$category = $this->GetItem( $categoryId );
-		$this->SetCurrentItem($item); // need to reset Current item back to the request
-		if(count( $category )>0){
-			$join_category_parent = null;
-			$arr = $this->_OBJECT_PROPERTIES;
-			$c = count($this->_OBJECT_PROPERTIES);
-			$i = 0;
-			while($i<$c){
-				if( $arr[$i]['field'] == "join_category_parent" ){
-					$join_category_parent = $arr[$i]['property_name_id'];
-					break;
+	public function addCategory( $categoryId = null, $process = false ){
+
+		$currentClassified = $this->GetCurrentItem();
+		$category = new Category();
+		$parentCategory = $category->GetItem( $categoryId );
+		
+		$this->SetCurrentItem( $currentClassified ); // need to reset Current item back to the request
+		
+		$join_category_parent = $this->ReadPropertyByName( 'join_category_parent' );
+		$slug = $this->ReadPropertyByName( 'slug' );
+		
+		$cleanName = cleanSlug( $currentClassified['name'] );
+		
+		/**
+		 * MAKE A FUNCTION that cleans up the name
+		 */
+		$slug_op = ( !empty( $parentCategory['slug'] ) ? $parentCategory['slug'] : '' ) . '/' . $cleanName;
+		
+		if( $process ){		
+			if( count( $join_category_parent ) ){
+				$this->UpdateValueJoin( $currentClassified['id'], $join_category_parent['id'], $categoryId );
+			} else {
+				$this->AddValueJoin( $currentClassified['id'], $join_category_parent['id'], $categoryId );
 				}
-				$i++;
+			
+			if( !empty( $currentCategory['slug'] ) ){
+				$this->UpdateValueText( $currentClassified['id'], $slug['id'], $slug_op );
+			} else {
+				$this->AddValueText( $currentClassified['id'], $slug['id'], $slug_op );
 			}
-			$this->UpdateValueJoin( $item['id'], $join_category_parent, $categoryId );
+		} else {
+			return $slug_op;
 		}
 	}
 	
@@ -131,13 +161,12 @@ class Classified extends Crud {
 				}
 				$i++;
 			}
-			$this->UpdateValueNumber($item['id'], $approved_property, 0);
-			$this->UpdateValueNumber($item['id'], $featured_property, 0);
+			$this->UpdateValueNumber( $item['id'], $approved_property, 0 );
+			$this->UpdateValueNumber( $item['id'], $featured_property, 0 );
 		}
 	}
 	
-	
-	public function getAllWithUserDetails( $classifiedId = null, $approved = null, $featured = null, $categoryId = null ) {
+	public function getAllWithUserDetails( $classifiedId = null, $approved = null, $featured = null, $categoryId = null, $categoryIds = null, $sale_or_wanted = null ) {
 		$classifieds_query = $this->GetObjectQueryString();
 		
 		$s = new Scrapper();
@@ -155,7 +184,7 @@ class Classified extends Crud {
 		 * ,COALESCE(c.approved, 0) as approved
 		 * ,COALESCE will check for a null and 0 and will return 0 - this is a super fast function!
 		 */
-		$query .= " c.*,COALESCE(c.approved, 0) as approved,COALESCE(c.featured, 0) as featured,cat.id as category_id,cat.name as category_name,s.id as scrapper_id,s.last_name as scrapper_last_name,s.first_name as scrapper_first_name,u.email,u.logged_in,u.last_login_ts ";
+		$query .= " c.*,COALESCE(c.approved, 0) as approved,COALESCE(c.featured, 0) as featured,COALESCE(c.approved, 0) as approved,COALESCE(c.sale_or_wanted, 0) as sale_or_wanted,cat.id as category_id,cat.name as category_name,s.id as scrapper_id,s.last_name as scrapper_last_name,s.first_name as scrapper_first_name,u.email,u.logged_in,u.last_login_ts ";
 		$query .= " FROM ";
 		$query .= " ($user_query) AS u,";
 		$query .= " ($classifieds_query) AS c,";
@@ -170,10 +199,13 @@ class Classified extends Crud {
 		$query .= " AND c.id = j3.item_id AND cat.id = j3.value ";
 		if( $classifiedId ) $query .= " AND c.id = ($classifiedId) ";
 		if( $categoryId ) $query .= " AND cat.id = ($categoryId) ";
+		if( $categoryIds ) $query .= " AND cat.id IN ($categoryIds) ";
 		if( $approved === TRUE ) $query .= " AND c.approved = 1 ";
 		if( $approved === FALSE ) $query .= " AND COALESCE(c.approved, 0) = 0 ";
-		if( $featured === TRUE ) $query .= " AND c.approved = 1 ";
+		if( $featured === TRUE ) $query .= " AND c.featured = 1 ";
 		if( $featured === FALSE ) $query .= " AND COALESCE(c.featured, 0) = 0 ";
+		if( $sale_or_wanted === TRUE ) $query .= " AND c.sale_or_wanted = 1 ";
+		if( $sale_or_wanted === FALSE ) $query .= " AND COALESCE(c.sale_or_wanted, 0) = 0 ";
 		
 		return $this->Query( $query, true );
 	}

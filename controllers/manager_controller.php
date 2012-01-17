@@ -351,7 +351,7 @@ while (!$KILL) {
 			$PAGE_BODY 			= $ss_path."views/manager/category_manager.php";			/* which file to pull into the template */
 
 			$c = new Category();
-			$categories = $c->GetAllItems();
+			$categoryByHierarchy = $c->getAllCategoriesByHierarchy();
 			
 			//the layout file
 			require($ss_path."views/layouts/manager_shell.php");
@@ -375,13 +375,23 @@ while (!$KILL) {
 				$post_data = $_POST;
 				$post_data['id'] = $post_data['category_id'];
 				
-				$updatedCategory->GetItemObj($post_data['id']);
+				$potential_path = $updatedCategory->addParentCategory( $post_data[ 'join_category_parent' ], false  );
+				$cleanSlug = cleanSlug( $post_data['name'] );
+				$potential_path_op =  $potential_path . $cleanSlug;
+				$processNewCategory = $updatedCategory->findSlugsBySlug( $potential_path_op );
 				
+				if( count( $processNewCategory ) > 0  ){
+					$message = "Category name already exists at this level.";
+					flash( $message,"bad" );
+					$category = $updatedCategory->GetItemObj($_POST['category_id']);
+					$updatedCategory->getParentCategory();
+				} else {	
+				$updatedCategory->GetItemObj($post_data['id']);
 				
 				if( $updatedCategory->UpdateItem($post_data) ) {
 				
-					if( isset( $post_data['join_category_parent'] ) ) $updatedCategory->addParentCategory($post_data['join_category_parent']);
-					
+						$updatedCategory->GetItemObj($post_data['id']);
+						$updatedCategory->addParentCategory($post_data['join_category_parent']);
 						
 					$message = "Category updated successfully.";
 					flash($message);
@@ -392,9 +402,12 @@ while (!$KILL) {
 				$method = "category-manager";
 				break;
 			}
-
+			} else {
 			$category = $updatedCategory->GetItemObj($_GET['category_id']);
 			$updatedCategory->getParentCategory();
+			}
+
+
 			//the layout file
 			require($ss_path."views/layouts/manager_shell.php");
 			$KILL = true;
@@ -421,19 +434,35 @@ while (!$KILL) {
 				}
 				// create the material
 				
-				$newCategory->CreateItem($post_data);
-				if( !empty($newCategory->id) ){
+				$potential_path = $newCategory->addParentCategory( $post_data[ 'join_category_parent' ], false  );
+				$cleanSlug = cleanSlug( $post_data['name'] );
+				$potential_path_op =  $potential_path . $cleanSlug;
+				$processNewCategory = $newCategory->findSlugsBySlug( $potential_path_op );
+				
+				if( count( $processNewCategory ) > 0  ){
+					$message = "Category name already exists at this level.";
+					flash( $message,"bad" );
+				} else {
+					
+					$newCategory->CreateItem( $post_data );	
+					
+					if( !empty( $newCategory->id ) ){
 					
 					$newCategory->addParentCategory($post_data['join_category_parent']);
 
 					$message = "Category added successfully.";
 					flash($message);
+						
 				} else {
+						
 					$message = "There was a problem adding the category.";
 					flash($message,"bad");
+						
 				}
+					
 				$method = "category-manager";
 				break;
+				}
 			} else {
 				foreach($newCategory as $key => $val) {
 					$post_data[$key] = "";
@@ -449,10 +478,10 @@ while (!$KILL) {
 			$method = "category-manager";
 			if ( isset($_REQUEST['category_id']) ) {
 				$categoryId = (int) $_REQUEST['category_id'];
-				$c = new Category();
-				$c->GetItemObj($categoryId);
-				if ( !empty($c->id) ) {
-					$ct->RemoveItem($categoryId);
+				$categoryToRemove = new Category();
+				$categoryToRemove->GetItemObj($categoryId);
+				if ( !empty($categoryToRemove->id) ) {
+					$categoryToRemove->RemoveItem($categoryId);
 					$message = "The category was removed successfully.";
 					flash($message);
 					break;
@@ -499,13 +528,30 @@ while (!$KILL) {
 			}
 			
 			if(isset($_POST['submitted'])){
-				
 				$post_data = $_POST;
+				
+				$potential_path = $updatedClassified->addCategory( $post_data[ 'join_category_parent' ], false  );
+				
+				$cleanSlug = cleanSlug( $post_data['title'] );
+				
+				$potential_path_op =  $potential_path . $cleanSlug;
+				$processNewCategory = $updatedClassified->findSlugsBySlug( $potential_path_op );
+
+				$post_data['slug'] = $potential_path_op; 			
+				
+				
+				if( count( $processNewCategory ) > 0 ){
+					$message = "There is a classified with this name already under this category. Please choose a unique title.";
+					flash($message,'bad');
+					
+				} else {
+				
 				$post_data['id'] = $post_data['classified_id'];
 				
 				$updatedClassified->GetItemObj( $post_data[ 'id' ] );
 				$post_data['featured'] = isset( $post_data['featured'] ) ? 1 : 0;
 				$post_data['approved'] = isset( $post_data['approved'] ) ? 1 : 0;
+					$post_data['sale_or_wanted'] = isset( $post_data['sale_or_wanted'] ) ? 1 : 0;
 				 
 				$required_fields = array(
 					array("title","Classified Title cannot be left empty"),
@@ -537,25 +583,29 @@ while (!$KILL) {
 									
 					// loop the arrays and add/remove
 					if ( !isset( $joined_category_id ) ) $updatedClassified->addCategory( $category_id );
-					if ( !isset( $category_id ) ) $updatedClassified->removeMaterial( $joined_category_id );
+						if ( !isset( $category_id ) ) $updatedClassified->removeCategory( $joined_category_id );
+						
 					
 					
 						
 					$message = "Classified updated successfully.";
 					flash($message);
+						$method = "classified-manager";
+						break;
 				} else {
 					$message = "There was a problem updating the classified.";
 					flash($message,"bad");
 				}
 				
-				$method = "classified-manager";
-				break;
+					
+					
+				}
 			}
-
 
 			//the layout file
 			require($ss_path."views/layouts/manager_shell.php");
 			$KILL = true;
+			
 		break;
 		
 		case 'classified-add':
@@ -565,7 +615,22 @@ while (!$KILL) {
 			$PAGE_BODY 			= $ss_path."views/manager/classified_add.php";			/* which file to pull into the template */
 						
 			if(isset($_POST['submitted'])){
+					
 				$post_data = $_POST;
+					
+					$newClassified = new Classified();
+					
+					$potential_path = $newClassified->addCategory( $post_data[ 'join_category_parent' ], false  );
+					$cleanSlug = cleanSlug( $post_data['title'] );
+					$potential_path_op =  $potential_path . $cleanSlug;
+					$processNewCategory = $newClassified->findSlugsBySlug( $potential_path_op );
+
+					$post_data['slug'] = $potential_path_op; 			
+
+					if( count( $processNewCategory ) > 0 ){
+						$message = "There is a classified with this name already under this category. Please choose a unique title.";
+						flash($message,'bad');
+					} else {	
 				// check for required fields
 				$required_fields = array(
 					array("title","Classified Title cannot be left empty"),
@@ -605,12 +670,17 @@ while (!$KILL) {
 				}
 				$method = "classified-manager";
 				break;
+					}
 			} else {
 				$c = new Classified();
 				foreach($c as $key => $val) {
 					$post_data[$key] = "";
 				}
 			}
+
+			
+			
+			
 
 			//the layout file
 			require($ss_path."views/layouts/manager_shell.php");

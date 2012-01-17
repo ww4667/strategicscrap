@@ -10,7 +10,7 @@ require_once($_SERVER['DOCUMENT_ROOT']."/gir/index.php");
 //
 //while (!$KILL) {
 
-switch($controller_action){
+switch( $controller_action ){
 
 	/* HOMEPAGE FOR SCRAPPERS **************************************** */
 	case 'my-homepage':
@@ -385,14 +385,14 @@ switch($controller_action){
 		require($_SERVER['DOCUMENT_ROOT']."/views/layouts/shell.php");
 		break;
 
-	/* Equipment Classifieds */
+	/* New Classifieds */
 	case 'new-classifieds':
 		// page 'template variables'
-//		$PAGE_BODY = "views/equipment_classifieds.php";  	/* which file to pull into the template */
+		$PAGE_BODY = "views/classifieds/classifieds_home.php";  	/* which file to pull into the template */
 			
-		print_r ($_GET);
-		
-		die();
+		//the layout file  -  THIS PART NEEDS TO BE LAST
+		require($_SERVER['DOCUMENT_ROOT']."/views/layouts/shell.php");
+		break;
 		
 		//the layout file  -  THIS PART NEEDS TO BE LAST
 //		require($_SERVER['DOCUMENT_ROOT']."/views/layouts/shell.php");

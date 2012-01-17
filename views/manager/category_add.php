@@ -15,22 +15,20 @@
 	<div class="label"><strong>Category Parent:</strong></div>
 	<?
 	
-	$allCategories = new Category();
-	$allCategoryObjects = $allCategories->GetAllItems();
 	
-	$categoryListOp = '<select name="">';
+	$allCategoryObjects = $newCategory->getAllCategoriesByHierarchy();
+	
+	$categoryListOp = '<select name="join_category_parent">';
 	$categoryListOp .= '<option value="null">--Top Level--</option>';
 	
 	foreach( $allCategoryObjects as $categoryObject ){
-		
-		$categoryListOp .= '<option value="' . $categoryObject['id'] . '">' . $categoryObject['name'] . '</option>';
-	    
+		$categoryListOp .= '<option value="' . $categoryObject['id'] . '">' . $categoryObject['slug'] . '</option>';
 	}
 	
 	$categoryListOp .= '</select>';
 	 
 	?>
-	<div class="value"><?=$categoryListOp;?><!--<input name="join_category_parent" value="<?= $post_data['join_category_parent']?>" />--></div>
+	<div class="value"><?=$categoryListOp;?></div>
     <br style="clear:left" />
     <br style="clear:left" />
 	

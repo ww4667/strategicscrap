@@ -109,9 +109,6 @@ function draw_chart( count, data){
 //	$_GET["change_amount"] = ".54";
 //	$_GET["change_percent"] = ".02";
 	?>
-	<!--
-	<?php // echo $sql ?>
-	-->
 <div id = "chart_wrapper">
 	<div id = "chart_info">
 		<div id = "chart_toggles">

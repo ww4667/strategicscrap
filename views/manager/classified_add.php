@@ -23,6 +23,10 @@
 	<div class="label"><strong>Featured Classified:</strong></div>
 	<div class="value"><input type="checkbox" name="featured" value="<?= $post_data['featured']?>" /></div>
     
+    <br style="clear:left" />
+	<div class="label"><strong>For Sale or Wanted?:<br/>(Check if it is a want ad.)</strong></div>
+	<div class="value"><input type="checkbox" name="sale_or_wanted" value="<?= $post_data['sale_or_wanted']?>" /></div>
+    
 
     <br style="clear:left" />
 	<div class="label"><strong>Associated Scrapper:</strong></div>

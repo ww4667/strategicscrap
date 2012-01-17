@@ -1,7 +1,10 @@
 <?
 			
-			
-			$updatedClassifiedArray = $updatedClassified->getAllWithUserDetails($_GET['classified_id']);
+$usePostOrGet = $_POST['classified_id'];		
+if( !isset( $_POST['classified_id'] ) ){
+	$usePostOrGet = $_GET['classified_id'];
+}			
+			$updatedClassifiedArray = $updatedClassified->getAllWithUserDetails($usePostOrGet);
 			
 
 ?>
@@ -23,6 +26,9 @@
 	<div class="label"><strong>Updated On:</strong></div>
 	<div class="value"><?= $updatedClassifiedArray[0]['updated_ts'] ?></div>
     <br style="clear:left" />
+	<div class="label"><strong>Slug:</strong></div>
+	<div class="value"><?= $updatedClassifiedArray[0]['slug'] ?></div>
+    <br style="clear:left" />
     <br style="clear:left" />
 	
 	<div><strong>Classified Information:</strong><hr /></div>
@@ -41,25 +47,27 @@
     <!-- http://hacks.mozilla.org/2011/01/how-to-develop-a-html5-image-uploader/ -->
 	<div class="label"><strong>Classified Image:</strong></div>
 	<div class="value">
-		<input name="image" value="<?= $updatedClassifiedArray[0]['image'] ?>" style="width: 300px;" />
+		<input name="image" type="file" value="<?= $updatedClassifiedArray[0]['image'] ?>" style="width: 300px;" />
 		<br class="clear:both;" />
 		[<a id="preview_link" href="<?=$updatedClassifiedArray[0]['image']?>" target="_blank">Show Preview</a>]
-		
-		
 		<br class="clear:both;" />
 	</div>
 	
     <br style="clear:left" />
+	<div class="label"><strong>For Sale or Wanted?:<br/>(Check if it is a want ad.)</strong></div>
+	<div class="value"><input type="checkbox" name="sale_or_wanted" value="1" <?= $updatedClassifiedArray[0]['sale_or_wanted'] == 1 ? 'checked="checked"' : "" ?> /></div>
+    
+    <br style="clear:left" />
 	<div class="label"><strong>Paid:</strong></div>
-	<div class="value"><input type="checkbox" name="approved" value="1" <?= $updatedClassifiedArray[0]['paid'] == 1 ? 'checked="checked"' : "" ?>" /></div>
+	<div class="value"><input type="checkbox" name="approved" value="1" <?= $updatedClassifiedArray[0]['paid'] == 1 ? 'checked="checked"' : "" ?> /></div>
 	
     <br style="clear:left" />
 	<div class="label"><strong>Approved:</strong></div>
-	<div class="value"><input type="checkbox" name="approved" value="1" <?= $updatedClassifiedArray[0]['approved'] == 1 ? 'checked="checked"' : "" ?>" /></div>
+	<div class="value"><input type="checkbox" name="approved" value="1" <?= $updatedClassifiedArray[0]['approved'] == 1 ? 'checked="checked"' : "" ?> /></div>
 
     <br style="clear:left" />
 	<div class="label"><strong>Featured Classified:</strong></div>
-	<div class="value"><input type="checkbox" name="featured" value="1" <?= $updatedClassifiedArray[0]['featured'] == 1 ? 'checked="checked"' : "" ?>" /></div>
+	<div class="value"><input type="checkbox" name="featured" value="1" <?= $updatedClassifiedArray[0]['featured'] == 1 ? 'checked="checked"' : "" ?> /></div>
 
     <br style="clear:left" />
 	<div class="label"><strong>Associated Scrapper:</strong></div>
@@ -90,13 +98,14 @@
 	
 	$allCategories = new Category();
 	$allCategoryObjects = $allCategories->GetAllItems();
+	$allCategoryObjects = $allCategories->getAllCategoriesByHierarchy();
 	
 	$categoryListOp = '<select name="join_category_parent">';
 	$categoryListOp .= '<option value="null">--Top Level--</option>';
 	
 	foreach( $allCategoryObjects as $categoryObject ){
 		
-		$categoryListOp .= '<option value="' . $categoryObject['id'] . '" ' . ( $updatedClassifiedArray[0]['category_id'] == $categoryObject['id'] ? 'selected="selected"' : '' ) . '>' . $categoryObject['name'] . '</option>';
+		$categoryListOp .= '<option value="' . $categoryObject['id'] . '" ' . ( $updatedClassifiedArray[0]['category_id'] == $categoryObject['id'] ? 'selected="selected"' : '' ) . '>' . $categoryObject['slug'] . '</option>';
 	    
 	}
 	

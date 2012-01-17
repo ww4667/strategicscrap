@@ -25,6 +25,7 @@ $classifiedsBogus = $c->getAllWithUserDetails(null);
 			<th class="nosort" width="40">&nbsp;</th>
 			<th width="">Classified Title</th>
 			<th width="">Category</th>
+			<th width="">Path</th>
 			<th width="">Email</th>
 			<th width="">First Name</th>
 			<th width="">Last Name</th>
@@ -41,6 +42,7 @@ $classifiedsBogus = $c->getAllWithUserDetails(null);
 			<td><a href="<?php echo $ss_url; ?>&amp;method=classified-update&amp;classified_id=<? echo $classified['id']; ?>">update</a></td>
 			<td><?php echo $classified['title']; ?></td>
 			<td><?php echo $classified['category_name']; ?></td>
+			<td><?php echo $classified['slug']; ?></td>
 			<td><?php echo $classified['email']; ?></td>
 			<td><?php echo $classified['scrapper_first_name']; ?></td>
 			<td><?php echo $classified['scrapper_last_name']; ?></td>
