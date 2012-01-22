@@ -173,6 +173,23 @@ class Crud {
 		return $items;
 	}
 	
+	public function GetSQLSelectForClass( $prefix = null ){
+		$properties = $this->_OBJECT_PROPERTIES;
+		$objectName = $this->_OBJECT_NAME;
+		if( is_null( $prefix ) ) {
+			$prefix = $objectName;
+		} 
+		$op  = "";
+		$op .= "". $objectName .".id as ".$prefix."_id";
+		$op .= ",". $objectName .".updated_ts as ".$prefix."_updated_ts";
+		$op .= ",". $objectName .".created_ts as ".$prefix."_created_ts";
+		foreach ($properties as $p) {
+			$op .= ",". $objectName .".".$p['field']." as ".$prefix."_".$p['field']."";
+		}
+				
+		return $op;
+	}
+	
 	public function GetItemsObjByPropertyValue( $propertyName, $value ){
 		$objectNameId = $this->_OBJECT_NAME_ID;
 		$items = array();

@@ -11,6 +11,7 @@ class Classified extends Crud {
 	protected $_OBJECT_NAME_ID = "";
 	protected $_OBJECT_PROPERTIES = array(	array("type"=>"text","label"=>"Title","field"=>"title"),
 											array("type"=>"text","label"=>"Description","field"=>"description"),
+											array("type"=>"text","label"=>"Contact Form","field"=>"contact_form"),
 											array("type"=>"text","label"=>"Image","field"=>"image"),
 											array("type"=>"number","label"=>"Featured","field"=>"featured"),
 											array("type"=>"number","label"=>"Paid","field"=>"paid"),
@@ -19,7 +20,8 @@ class Classified extends Crud {
 											array("type"=>"text","label"=>"Parent Object","field"=>"parent_object"),
 											array("type"=>"text","label"=>"Slug","field"=>"slug"),
 											array("type"=>"date","label"=>"End Date","field"=>"end_date"),
-											array("type"=>"join","label"=>"Join Scrapper","field"=>"join_scrapper"),
+											array("type"=>"join","label"=>"Join Classified Type","field"=>"join_classified_type"),
+											array("type"=>"join","label"=>"Join Contact","field"=>"join_contact"),
 											array("type"=>"join","label"=>"Join Category Parent","field"=>"join_category_parent")
 										);
 	
@@ -103,111 +105,103 @@ class Classified extends Crud {
 		$this->join_category_parent = $joins;
 	}
 	
-	public function addScrapper( $scrapperId = null ){
-		$item = $this->GetCurrentItem();
-		$scrapper = $this->GetItem($scrapperId);
-		$this->SetCurrentItem($item); // need to reset Current item back to the request
-		
-		if(count($scrapper)>0){
-			$scrapper_join_property = null;
-			$arr = $this->_OBJECT_PROPERTIES;
-			$c = count($this->_OBJECT_PROPERTIES);
-			$i = 0;
-			while($i<$c){
-				if( $arr[$i]['field'] == "join_scrapper" ){
-					$scrapper_join_property = $arr[$i]['property_name_id'];
-					break;
-				}
-				$i++;
-			}
-			$this->UpdateValueJoin($item['id'], $scrapper_join_property, $scrapperId);
-		}
-	}
-
-	public function removeScrapper( $scrapperId = null ){
-		$scrapper = $this->ReadObjectById($scrapperId);
-		if(count($category)>0){
-			$item = $this->GetCurrentItem();
-			$this->RemoveValueJoin($item['id'], $scrapperId);
-		}
-	}
-	
-	public function getScrapper( $itemId = null ) {
+	public function getContact( $itemId = null ) {
 		// get materials by "itemId" and join type "material_join"
 		$item = $this->GetCurrentItem();
 		$itemId = isset($itemId) ? $itemId : $item['id'];
-		$scrapper = new Scrapper();
-		$joins = $this->ReadJoins( $scrapper );
-		$this->join_scrapper = $joins;
+		$contact = new Contact();
+		$joins = $this->ReadJoins( $contact );
+		$this->join_contact = $joins;
 	}
 
-	public function setDefaults(  ){
-		$item = $this->GetCurrentItem();
-		$this->SetCurrentItem($item); // need to reset Current item back to the request
-		
-		if(count($scrapper)>0){
-			$scrapper_join_property = null;
-			$arr = $this->_OBJECT_PROPERTIES;
-			$c = count($this->_OBJECT_PROPERTIES);
-			$i = 0;
-			while($i<$c){
-				if( $arr[$i]['field'] == "approved" ){
-					$approved_property = $arr[$i]['property_name_id'];
-					break;
-				}
-				if( $arr[$i]['field'] == "featured" ){
-					$featured_property = $arr[$i]['property_name_id'];
-					break;
-				}
-				$i++;
-			}
-			$this->UpdateValueNumber( $item['id'], $approved_property, 0 );
-			$this->UpdateValueNumber( $item['id'], $featured_property, 0 );
-		}
-	}
+	/**
+	 * 
+	 * $properties array	$defaultProperties = array(
+			"classifiedId" => null, 
+			"approved" => null, 
+			"featured" => null, 
+			"categoryIds" => null, 
+			"sale_or_wanted" => null,
+			"showContacts" => null,
+			"classifiedType" => null
+		); 
+	 */
+	public function getAllWithUserDetails( $properties = null ) {
 	
-	public function getAllWithUserDetails( $classifiedId = null, $approved = null, $featured = null, $categoryId = null, $categoryIds = null, $sale_or_wanted = null ) {
-		$classifieds_query = $this->GetObjectQueryString();
+		$defaultProperties = array(
+			"classifiedId" => null, 
+			"approved" => null, 
+			"featured" => null, 
+			"categoryIds" => null, 
+			"sale_or_wanted" => null,
+			"showContacts" => null,
+			"classifiedType" => null
+		);	
+
+		if( is_null( $properties ) ) $properties = $defaultProperties;
 		
-		$s = new Scrapper();
-		$scrapper_query = $s->GetObjectQueryString();
+		foreach ( $defaultProperties as $k => &$v ) {
+		    if( isset( $properties[ $k ] ) ) $v = $properties[ $k ]; 
+		}
+	
+		//$this->PTS( $defaultProperties, 'default props' );
+		
+		$classifieds_query = $this->GetObjectQueryString();
 		
 		$cat = new Category();
 		$category_query = $cat->GetObjectQueryString();
 		
-		$u = new User();
-		$user_query = $u->GetObjectQueryString();
+		$contact = new Contact();
+		$contact_query = $contact->GetObjectQueryString();
+		$contact_select = $contact->GetSQLSelectForClass();
+		
+		$classifiedType = new ClassifiedType();
+		$classifiedType_query = $classifiedType->GetObjectQueryString();
 		
 		$join_table = $this->_TABLE_PREFIX . constant('Crud::_VALUES_TABLE_JOINS');
+		
 		$query = "SELECT ";
-		/**
-		 * ,COALESCE(c.approved, 0) as approved
-		 * ,COALESCE will check for a null and 0 and will return 0 - this is a super fast function!
-		 */
-		$query .= " c.*,COALESCE(c.approved, 0) as approved,COALESCE(c.featured, 0) as featured,COALESCE(c.approved, 0) as approved,COALESCE(c.sale_or_wanted, 0) as sale_or_wanted,cat.id as category_id,cat.name as category_name,s.id as scrapper_id,s.last_name as scrapper_last_name,s.first_name as scrapper_first_name,u.email,u.logged_in,u.last_login_ts ";
+		$query .= " c.*,";
+		$query .= "	COALESCE(c.approved, 0) as approved,";
+		$query .= "	COALESCE(c.featured, 0) as featured,";
+		$query .= "	COALESCE(c.sale_or_wanted, 0) as sale_or_wanted,";
+		$query .= "	cat.id as category_id,";
+		$query .= "	cat.name as category_name" ; 
+		$query .= ( !is_null( $defaultProperties['showContacts'] ) ? "$contact_select, " : "" ); 
+		$query .= ( !is_null( $defaultProperties['classifiedType'] ) ? 
+					" classifiedType.id as classifiedType_id, classifiedType.name as classifiedType_name " : "" ); 
+		
 		$query .= " FROM ";
-		$query .= " ($user_query) AS u,";
 		$query .= " ($classifieds_query) AS c,";
 		$query .= " ($category_query) AS cat,";
-		$query .= " ($scrapper_query) AS s,";
-		$query .= " $join_table AS j,";
-		$query .= " $join_table AS j2,";
-		$query .= " $join_table AS j3";
+		$query .= ( !is_null( $defaultProperties['showContacts'] ) ? " ($contact_query) AS contact," : "" );
+		$query .= ( !is_null( $defaultProperties['classifiedType'] ) ? " ($classifiedType_query) AS classifiedType," : "" );
+		
+		$query .= " $join_table AS j";
+		$query .= ( !is_null( $defaultProperties['showContacts'] ) ? ", $join_table AS j2" : "" );
+		$query .= ( !is_null( $defaultProperties['classifiedType'] ) ? ",  $join_table AS j3" : "" );
 		$query .= " WHERE ";
-		$query .= "     s.id = j.item_id AND u.id = j.value ";
-		$query .= " AND c.id = j2.item_id AND s.id = j2.value ";
-		$query .= " AND c.id = j3.item_id AND cat.id = j3.value ";
-		if( $classifiedId ) $query .= " AND c.id = ($classifiedId) ";
-		if( $categoryId ) $query .= " AND cat.id = ($categoryId) ";
-		if( $categoryIds ) $query .= " AND cat.id IN ($categoryIds) ";
-		if( $approved === TRUE ) $query .= " AND c.approved = 1 ";
-		if( $approved === FALSE ) $query .= " AND COALESCE(c.approved, 0) = 0 ";
-		if( $featured === TRUE ) $query .= " AND c.featured = 1 ";
-		if( $featured === FALSE ) $query .= " AND COALESCE(c.featured, 0) = 0 ";
-		if( $sale_or_wanted === TRUE ) $query .= " AND c.sale_or_wanted = 1 ";
-		if( $sale_or_wanted === FALSE ) $query .= " AND COALESCE(c.sale_or_wanted, 0) = 0 ";
+		
+		$query .= " c.id = j.item_id AND cat.id = j.value ";
+		$query .= ( !is_null( $defaultProperties['showContacts'] ) ? 
+			" AND c.id = j2.item_id AND contact.id = j2.value " : 
+			"" );
+		$query .= ( !is_null( $defaultProperties['classifiedType'] ) ? 
+			" AND c.id = j3.item_id AND classifiedType.id = j3.value " : 
+			"" );
+		
+
+		if( $defaultProperties['classifiedId'] ) $query .= " AND c.id = ".$defaultProperties['classifiedId']." ";
+		if( $defaultProperties['categoryIds'] ) $query .= " AND cat.id IN ( ".$defaultProperties['categoryIds']." ) ";
+		if( $defaultProperties['approved'] === TRUE ) $query .= " AND c.approved = 1 ";
+		if( $defaultProperties['approved'] === FALSE ) $query .= " AND COALESCE(c.approved, 0) = 0 ";
+		if( $defaultProperties['featured'] === TRUE ) $query .= " AND c.featured = 1 ";
+		if( $defaultProperties['featured'] === FALSE ) $query .= " AND COALESCE(c.featured, 0) = 0 ";
+		if( $defaultProperties['sale_or_wanted'] === TRUE ) $query .= " AND c.sale_or_wanted = 1 ";
+		if( $defaultProperties['sale_or_wanted'] === FALSE ) $query .= " AND COALESCE(c.sale_or_wanted, 0) = 0 ";
 		
 		return $this->Query( $query, true );
+		
 	}
 	
 	

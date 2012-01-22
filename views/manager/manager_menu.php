@@ -22,6 +22,7 @@
 	<li><a href="<?=$ss_url?>&method=regional-data-manager">NEW - manage regional pricing</a></li>
 	<li><a href="<?=$ss_url?>&method=category-manager">manage categories</a></li>
 	<li><a href="<?=$ss_url?>&method=classified-manager">manage classifieds</a></li>
+	<li><a href="<?=$ss_url?>&method=classified-type-manager">manage classifieds type</a></li>
 </ul>
 </div> <? // end of sectionBody div ?>
 <div class="sectionHeader"><?= $PAGE_TITLE ?></div>

@@ -224,90 +224,95 @@ while (!$KILL) {
 
 
 /** 
- * START scrap-category-type
+ * START scrap-classified-type
  */
 
-		case 'category-type-manager':
+		case 'classified-type-manager':
 			
-			$PAGE_TITLE 		= "Category Type Manager";								/* Title text for this page */
-			$SECTION_HEADER 	= "Category Type List";								/* Header text for this page */
-			$PAGE_BODY 			= $ss_path."views/manager/category_type_manager.php";			/* which file to pull into the template */
+			$PAGE_TITLE 		= "Classified Type Manager";								/* Title text for this page */
+			$SECTION_HEADER 	= "Classified Type List";								/* Header text for this page */
+			$PAGE_BODY 			= $ss_path."views/manager/classified_type_manager.php";			/* which file to pull into the template */
 
-			$ct = new CategoryType();
-			$categoryTypes = $ct->GetAllItems();
+			$classifiedTypeDisplay = new ClassifiedType();
+			$classifiedTypeDisplayItems = $classifiedTypeDisplay->GetAllItems();
 			
 			//the layout file
 			require($ss_path."views/layouts/manager_shell.php");
 			$KILL = true;
 		break;
 		
-		case 'category-type-update':
+		case 'classified-type-update':
 			
-			$PAGE_TITLE 		= "Category Type Manager";							/* Title text for this page */
-			$SECTION_HEADER 	= "Update Category Type";									/* Header text for this page */
-			$PAGE_BODY 			= $ss_path."views/manager/category_type_update.php";			/* which file to pull into the template */
+			$PAGE_TITLE 		= "Classified Type Manager";							/* Title text for this page */
+			$SECTION_HEADER 	= "Update Classified Type";									/* Header text for this page */
+			$PAGE_BODY 			= $ss_path."views/manager/classified_type_update.php";			/* which file to pull into the template */
 	
 			if(isset($_POST['remove'])){
-				$method = "category-type-remove";
+				$method = "classified-type-remove";
 				break;
 			}
 			
+			$classifiedTypeUpdate = new ClassifiedType();
+			
 			if(isset($_POST['submitted'])){
 				$post_data = $_POST;
-				$post_data['id'] = $post_data['category_type_id'];
-				$m = new CategoryType();
-				$m->GetItemObj($post_data['id']);
-				if( $m->UpdateItem($post_data) ) {
-					$message = "Category Type updated successfully.";
+				$post_data['id'] = $post_data['classified_type_id'];
+				$post_data['hidden'] = isset( $post_data['hidden'] ) ? 1 : 0;
+				$classifiedTypeUpdate->GetItemObj($post_data['id']);
+				if( $classifiedTypeUpdate->UpdateItem($post_data) ) {
+					$message = "Classified Type updated successfully.";
 					flash($message);
 				} else {
-					$message = "There was a problem updating the category type.";
+					$message = "There was a problem updating the classified type.";
 					flash($message,"bad");
 				}
-				$method = "category-type-manager";
+				$method = "classified-type-manager";
 				break;
 			}
 
-			$ct = new CategoryType();
-			$categoryType = $ct->GetItemObj($_GET['category_type_id']);
+			$classifiedTypeUpdate = $classifiedTypeUpdate->GetItemObj($_GET['classified_type_id']);
 
 			//the layout file
 			require($ss_path."views/layouts/manager_shell.php");
 			$KILL = true;
 		break;
 		
-		case 'category-type-add':
+		case 'classified-type-add':
 			
-			$PAGE_TITLE 		= "Category Type Manager";					/* Title text for this page */
-			$SECTION_HEADER 	= "Add Category Type";								/* Header text for this page */
-			$PAGE_BODY 			= $ss_path."views/manager/category_type_add.php";			/* which file to pull into the template */
+			$PAGE_TITLE 		= "Classified Type Manager";					/* Title text for this page */
+			$SECTION_HEADER 	= "Add Classified Type";								/* Header text for this page */
+			$PAGE_BODY 			= $ss_path."views/manager/classified_type_add.php";			/* which file to pull into the template */
+			
+			$classifiedTypeAdd = new ClassifiedType();
 			
 			if(isset($_POST['submitted'])){
 				$post_data = $_POST;
+				
+				$post_data['hidden'] = isset( $post_data['hidden'] ) ? 1 : 0;
 				// check for required fields
 				$required_fields = array(
-											array("name","Category Type Name cannot be left empty")
+					array("name","Classified Type Name cannot be left empty")
 				);
 				// fix data
 				// trim first
 				foreach ($post_data as $key => $val) {
 					$post_data[$key] = is_string($post_data[$key]) ? trim($val) : $post_data[$key];
 				}
-				// create the material
-				$ct = new CategoryType();
-				$ct->CreateItem($post_data);
-				if( !empty($ct->id) ){
-					$message = "Category Type added successfully.";
+				// create the classified type
+				$classifiedTypeAdd->CreateItem($post_data);
+				if( !empty($classifiedTypeAdd->id) ){
+					
+					$message = "Classified Type added successfully.";
 					flash($message);
 				} else {
-					$message = "There was a problem adding the category type.";
+					$message = "There was a problem adding the classified type.";
 					flash($message,"bad");
 				}
-				$method = "category-type-manager";
+
+				$method = "classified-type-manager";
 				break;
 			} else {
-				$ct = new CategoryType();
-				foreach($ct as $key => $val) {
+				foreach($classifiedTypeAdd as $key => $val) {
 					$post_data[$key] = "";
 				}
 			}
@@ -317,25 +322,26 @@ while (!$KILL) {
 			$KILL = true;
 		break;
 				
-		case 'category-type-remove':
-			$method = "category-type-manager";
-			if ( isset($_REQUEST['category_type_id']) ) {
-				$categoryTypeId = (int) $_REQUEST['category_type_id'];
-				$ct = new CategoryType();
-				$ct->GetItemObj($categoryTypeId);
-				if ( !empty($ct->id) ) {
-					$ct->RemoveItem($categoryTypeId);
-					$message = "The category type was removed successfully.";
+		case 'classified-type-remove':
+			$method = "classified-type-manager";
+			$classifiedTypeRemove = new ClassifiedType();
+			if ( isset($_REQUEST['classified_type_id']) ) {
+				$classifiedTypeId = (int) $_REQUEST['classified_type_id'];
+				
+				$classifiedTypeRemove->GetItemObj($classifiedTypeId);
+				if ( !empty($classifiedTypeRemove->id) ) {
+					$classifiedTypeRemove->RemoveItem($classifiedTypeId);
+					$message = "The classified type was removed successfully.";
 					flash($message);
 					break;
 				}
 			}
-			$message = "There was a problem removing the category type.";
+			$message = "There was a problem removing the classified type.";
 			flash($message,"bad");
 		break;
  
 /** 
- * END scrap-category-type
+ * END scrap-classified-type
  */
 
 
@@ -539,6 +545,7 @@ while (!$KILL) {
 
 				$post_data['slug'] = $potential_path_op; 			
 				
+				if( $processNewCategory[0]['id'] == $post_data['classified_id'] ) $processNewCategory = array(); 
 				
 				if( count( $processNewCategory ) > 0 ){
 					$message = "There is a classified with this name already under this category. Please choose a unique title.";
@@ -556,7 +563,7 @@ while (!$KILL) {
 				$required_fields = array(
 					array("title","Classified Title cannot be left empty"),
 					array("description","Classified Description cannot be left empty"),
-					array("join_scrapper","Classified Description cannot be left empty"),
+						array("classified_type","You must choose a type of classified"),
 					/*array("image","Classified Title cannot be left empty"),*/
 					array("join_category_parent","Classified Category Parent cannot be left empty")
 				);
@@ -635,11 +642,61 @@ while (!$KILL) {
 				$required_fields = array(
 					array("title","Classified Title cannot be left empty"),
 					array("description","Classified Description cannot be left empty"),
-					array("join_scrapper","Classified Description cannot be left empty"),
 					/*array("image","Classified Title cannot be left empty"),*/
 					array("join_category_parent","Classified Category Parent cannot be left empty")
 				);
 				
+						/**
+						 * equip for sale:
+						 * 		Company: Worldwide Recycling Equipment Sales, LLC.
+						 *		Contact: 
+						 *		Email: 
+						 *		Phone: 660-263-7575
+						 */
+						
+						/**
+						 * equip wanted:
+						 * 		Company: Worldwide Recycling Equipment Sales, LLC.
+						 *		Contact: 
+						 *		Email: 
+						 *		Phone: 660-263-7575
+						 */
+						
+						/**
+						 * scrap sale:
+						 * 		Title
+						 * 		Unit:Tons
+						 * 		Quantity:call
+						 * 		Price:$call
+						 *		Description: Call John or Scott at Worldwide Battery for all the details. Muncie IN.
+						 *		Company: Worldwide Battery
+						 *		Contact: John or Scott
+						 *		Email: 
+						 *		Phone: 765-282-7000
+						 */
+						
+						/**
+						 * scrap wanted:
+						 * 		Title
+						 * 		Unit:Tons
+						 * 		Quantity:call
+						 * 		Price:$call
+						 *		Description: Call John or Scott at Worldwide Battery for all the details. Muncie IN.
+						 *		Company: Worldwide Battery
+						 *		Contact: John or Scott
+						 *		Email: 
+						 *		Phone: 765-282-7000
+						 */
+						
+						/**
+						 * jobs:
+						 * title
+						 * Position: (description)
+						 * Phone:
+						 * Email:
+						 * Website:
+						 */
+						
 				// fix data
 				// trim first
 				foreach ($post_data as $key => $val) {
@@ -659,7 +716,6 @@ while (!$KILL) {
 				$c->CreateItem($post_data);
 				if( !empty($c->id) ){
 					
-					$c->addScrapper($post_data['join_scrapper']);
 					$c->addCategory($post_data['join_category_parent']);
 					
 					$message = "Classified added successfully.";

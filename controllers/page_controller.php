@@ -394,10 +394,6 @@ switch( $controller_action ){
 		require($_SERVER['DOCUMENT_ROOT']."/views/layouts/shell.php");
 		break;
 		
-		//the layout file  -  THIS PART NEEDS TO BE LAST
-//		require($_SERVER['DOCUMENT_ROOT']."/views/layouts/shell.php");
-		break;
-
 	/* Regions */
 	case 'regions':
 		require_ssl();

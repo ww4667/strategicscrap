@@ -1,9 +1,7 @@
 <?
 $c = new Classified();
-/*$classifieds = $c->GetAllItems();*/
-$classifieds = $c->getAllWithUserDetails(null,false);
-$classifiedsApproved = $c->getAllWithUserDetails(null,true);
-$classifiedsBogus = $c->getAllWithUserDetails(null);
+$classifieds = $c->getAllWithUserDetails(array('approved'=>FALSE));
+$classifiedsApproved = $c->getAllWithUserDetails(array('approved'=>TRUE));
 
 ?>
 
