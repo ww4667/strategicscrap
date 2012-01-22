@@ -142,10 +142,10 @@ if( $onCategory ){
 		$evenOrOdd = 0;
 		$op .= '<div class="classifieds_group">';
 		foreach( $featuredItems as $child ){
-			/*$classifieds->PTS( $child );*/	
+			/*$classifieds->PTS( $child );*/
 			$op .= '<div class="classified_block ' . ( $evenOrOdd == 0 ? 'even' : 'odd' ) . ' ">';
-			if( !empty( $child[ 'image' ] ) ) $op .= '	<div class="image"><img src="http://src.sencha.io/100/100/' . $child['image'] . '" border="0" /></div>';
-			if( empty( $child[ 'image' ] ) ) $op .= '	<div class="image"><img src="http://src.sencha.io/100/100/https://strategicscrap.com/resources/images/image_not_available.gif" border="0" /></div>';
+			if( !empty( $child[ 'image' ] ) ) $op .= '	<div class="image"><img src="/inc/proxy.php?url=http://src.sencha.io/100/100/https://strategicscrap.com' . $child['image'] . '" border="0" /></div>';
+			if( empty( $child[ 'image' ] ) ) $op .= '	<div class="image"><img src="/inc/proxy.php?url=http://src.sencha.io/100/100/https://strategicscrap.com/resources/images/image_not_available.gif" border="0" /></div>';
 			$op .= '	<div class="description_block">';
 			$op .= '		<div class="title"><a href="/classifieds'  . $child['slug'] . '">' . $child['title'] . '</a></div>';
 			$op .= '		<div class="clearBoth description">' . $child['description'] . '</div>';
@@ -176,8 +176,8 @@ if( $onCategory ){
 		foreach( $classifiedsObject as $child ){
 			/*$classifieds->PTS( $child );*/	
 			$op .= '<div class="classified_block ' . ( $evenOrOdd == 0 ? 'even' : 'odd' ) . ' ">';
-			if( !empty( $child[ 'image' ] ) ) $op .= '	<div class="image"><img src="http://src.sencha.io/100/100/' . $child['image'] . '" border="0" /></div>';
-			if( empty( $child[ 'image' ] ) ) $op .= '	<div class="image"><img src="http://src.sencha.io/100/100/https://strategicscrap.com/resources/images/image_not_available.gif" border="0" /></div>';
+			if( !empty( $child[ 'image' ] ) ) $op .= '	<div class="image"><img src="/inc/proxy.php?url=http://src.sencha.io/100/100/https://strategicscrap.com' . $child['image'] . '" border="0" /></div>';
+			if( empty( $child[ 'image' ] ) ) $op .= '	<div class="image"><img src="/inc/proxy.php?url=http://src.sencha.io/100/100/https://strategicscrap.com/resources/images/image_not_available.gif" border="0" /></div>';
 			$op .= '	<div class="description_block">';
 			$op .= '		<div class="title"><a href="/classifieds'  . $child['slug'] . '">' . $child['title'] . '</a></div>';
 			$op .= '		<div class="clearBoth description">' . $child['description'] . '</div>';
@@ -202,7 +202,7 @@ if( $onClassified ){
 	$classified = $classifiedsArray[0];
 	$op .= "<h1>" . $classified['title'] . "</h1>";
 	$op .= "<br />";
-	$op .= '<img src="http://src.sencha.io/100/100/' . $classified['title'] . '" border="0" />';
+	$op .= '<img src="/inc/proxy.php?url=http://src.sencha.io/400/400/https://strategicscrap.com' . $classified['image'] . '" border="0" />';
 	$op .= "<br />";
 	$op .= "<strong>Description:</strong>";
 	$op .= "<br />";
