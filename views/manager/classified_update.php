@@ -47,7 +47,8 @@ $updatedClassifiedArray = $updatedClassified->getAllWithUserDetails(array('class
     <!-- http://hacks.mozilla.org/2011/01/how-to-develop-a-html5-image-uploader/ -->
 	<div class="label"><strong>Classified Image:</strong><br/>(upload new image)</div>
 	<div class="value">
-		<input name="image" type="file" value="<?= $updatedClassifiedArray[0]['image'] ?>" style="width: 300px;" />
+		<input name="image" type="hidden" value="<?= $updatedClassifiedArray[0]['image'] ?>" style="width: 300px;" />
+		<input name="imagenew" type="file" value="<?= $updatedClassifiedArray[0]['image'] ?>" style="width: 300px;" />
 	</div>
 	
     

@@ -63,15 +63,17 @@
 					$post_data['slug'] = $potential_path_op; 			
 					
 					if( count( $processNewCategory ) > 0 ){
-						$message = "There is a classified with this name already under this category. Please choose a unique title.";
-						flash($message,'bad');
+						$errorMessages = "<li>There is a classified with this name already under this category. Please choose a unique title.</li>";
+						
+						showPage( "<ul>" . $errorMessages . "</ul>" );
 					} else {	
 						// check for required fields
 						$required_fields = array(
-							array("title","Classified Title cannot be left empty"),
-							array("description","Classified Description cannot be left empty"),
+							array("title","Classified Title cannot be left empty."),
+							array("description","Classified Description cannot be left empty."),
 							/*array("image","Classified Title cannot be left empty"),*/
-							array("join_category_parent","Classified Category Parent cannot be left empty")
+							array("join_category_parent","Classified Category must be selected."),
+							array("join_classified_type","Classified Type must be selected.")
 						);
 						
 						
@@ -101,6 +103,26 @@
 							$post_data[$key] = is_string($post_data[$key]) ? trim($val) : $post_data[$key];
 						}
 						
+						/**
+						 * go through the contact fields - move them up to the top level
+						 */
+						if( $post_data['join_classified_type'] != 'null' && is_array( $post_data['contact']['form_'.$post_data['join_classified_type']] ) ){
+							$contactFields = $post_data['contact']['form_'.$post_data['join_classified_type']];
+							foreach ( $contactFields as $key => $val ) {
+								$post_data[$key] = $val;
+							}	
+						}
+						
+						//showPage()
+						$errorMessages = "";
+						foreach ( $required_fields as $key => $val ) {
+							if( empty( $post_data[ $val[ 0 ] ] ) || $post_data[ $val[ 0 ] ] == 'null' ) $errorMessages .= "<li>" . $required_fields[$key][1] . "</li>";
+							
+						}
+						
+						if( !empty( $errorMessages ) ) {
+							showPage( "<ul>" . $errorMessages . "</ul>" );
+						} else {
 						$fileUploader = upload_function( $_SERVER["DOCUMENT_ROOT"] . '/resources/images/classifieds/', 'image' );
 						
 						if( $fileUploader !== FALSE ){
@@ -122,16 +144,23 @@
 							$newClassified->addClassifiedType( $post_data['join_classified_type'] );
 							$newClassified->addContact( $newContact->id );
 							
-							print "<h1>Your Classified was submitted correctly</h1>";
+								print "<h1>Your Classified was submitted.</h1><p>We will review and contact you as soon as possible.</p>";
 						} else {
-							print "<h1>ERROR!</h1>";
-							require_once($_SERVER['DOCUMENT_ROOT']."/views/classifieds/classifiedForm.php");
+								print "<h1>ERROR!</h1><p>Try submitting the classified again.</p>";
+							}							
 						}
+						
+
 					}
 				} else {
 					print "<!-- how did you get here? -->";
 				}
 
+function showPage( $errorMessage = "" ){
+	$post_data = $_POST;
+	require_once($_SERVER['DOCUMENT_ROOT']."/views/classifieds/classifiedForm.php");
+				
+}
 ?>
 
 </body>

@@ -157,6 +157,7 @@ class Classified extends Crud {
 			"classifiedId" => null, 
 			"approved" => null, 
 			"featured" => null, 
+			"expired" => null, 
 			"categoryIds" => null, 
 			"sale_or_wanted" => null,
 			"showContacts" => null,
@@ -194,7 +195,7 @@ class Classified extends Crud {
 		$query .= "	cat.name as category_name" ; 
 		$query .= ( !is_null( $defaultProperties['showContacts'] ) ? ", $contact_select, " : "" ); 
 		$query .= ( !is_null( $defaultProperties['classifiedType'] ) ? 
-					" classifiedType.id as classifiedType_id, classifiedType.name as classifiedType_name " : "" ); 
+					" classifiedType.id as classifiedType_id, classifiedType.name as classifiedType_name, classifiedType.fields as classifiedType_fields " : "" ); 
 		
 		$query .= " FROM ";
 		$query .= " ($classifieds_query) AS c,";
@@ -226,6 +227,8 @@ class Classified extends Crud {
 		if( $defaultProperties['sale_or_wanted'] === TRUE ) $query .= " AND c.sale_or_wanted = 1 ";
 		if( $defaultProperties['sale_or_wanted'] === FALSE ) $query .= " AND COALESCE(c.sale_or_wanted, 0) = 0 ";
 		if( is_int($defaultProperties['classifiedType']) === TRUE ) $query .= " AND c.classifiedType_id =  " . $defaultProperties['classifiedType'] . " ";
+		if( $defaultProperties['expired'] === TRUE ) $query .= " AND c.end_date >  " . date("Y-m-d", strtotime("+30 day")) . " ";
+		if( $defaultProperties['expired'] === FALSE ) $query .= " AND c.end_date <=  " . date("Y-m-d", strtotime("+30 day")) . " ";
 		
 		return $this->Query( $query, true );
 		

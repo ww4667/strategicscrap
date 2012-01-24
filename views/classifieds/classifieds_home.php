@@ -1,3 +1,12 @@
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
 <style type="text/css">
 	.content ul.catList { margin: 0; padding: 0; float: left; margin-left: 0; margin-right:0; margin-bottom: 0; width: 100%; }
 	
@@ -167,6 +176,10 @@ if( count( $classifiedsArray ) > 0 ) {
 	$onClassified = true;
 	$classifiedsObject->getItemObj( $classifiedsArray[0]['id'] );
 	$classifiedsObject->getCategory();
+	$classifiedsObject->GetClassifiedType();
+	$classifiedsObject->GetContact();
+	$classifiedsArray[0]['join_classified_type'] = $classifiedsObject->join_classified_type;
+	$classifiedsArray[0]['join_contact'] = $classifiedsObject->join_contact;
 	/*$classifiedsObject->PTS( $classifiedsObject, '$classifiedsObject' );*/
 	
 	$categoryObject->getItemObj( $classifiedsObject->join_category[0]['id'] );
@@ -225,6 +238,19 @@ if( $count > 1 ){
 
 if( $onCategory ){
 	
+	function ranger($url){
+	    $headers = array(
+	    "Range: bytes=0-32768"
+	    );
+	
+	    $curl = curl_init($url);
+	    curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+	    curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
+	    curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+	    return curl_exec($curl);
+	    curl_close($curl);
+	}
+	
 	$category_id = $categoryArray[0]['id'];
 	
 	$currentCategory = $categoryObject->GetItemObj( $category_id );
@@ -248,24 +274,11 @@ if( $onCategory ){
 	/*$categoryObject->PTS( $categoryObject->getYourFamilyIds(), "FAMILY FOR " . $categoryObject->name );*/
 	$familyTree = $categoryObject->getYourFamilyIds();
 	
-	$featuredItems = $classifiedsObject->getAllWithUserDetails( null, TRUE, TRUE, null,  $familyTree );
+	$featuredItems = $classifiedsObject->getAllWithUserDetails( array( "approved"=>TRUE, "featured"=>TRUE, "categoryIds"=>$familyTree ) );
 	
 	if( count( $featuredItems ) > 0 ){
 		$evenOrOdd = 0;
 		$op .= '<div class="classifieds_group">';
-		
-			function ranger($url){
-			    $headers = array(
-			    "Range: bytes=0-32768"
-			    );
-			
-			    $curl = curl_init($url);
-			    curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
-			    curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
-			    curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
-			    return curl_exec($curl);
-			    curl_close($curl);
-			}
 			
 		foreach( $featuredItems as $child ){
 			/*$classifieds->PTS( $child );*/
@@ -310,7 +323,7 @@ if( $onCategory ){
 	
 	$evenOrOdd = 0;
 	$classifieds = new Classified();
-	$classifiedsObject = $classifieds->getAllWithUserDetails( null, TRUE, FALSE, $category_id );
+	$classifiedsObject = $classifieds->getAllWithUserDetails( array( "approved"=>TRUE, "featured"=>FALSE, "categoryIds"=>$familyTree ) );
 	
 	if( count( $classifiedsObject ) > 0 ){
 	
@@ -318,6 +331,10 @@ if( $onCategory ){
 		foreach( $classifiedsObject as $child ){
 			/*$classifieds->PTS( $child );*/	
 			$op .= '<div class="classified_block ' . ( $evenOrOdd == 0 ? 'even' : 'odd' ) . ' ">';
+			
+//			$gir->crud->PTS($child, "child:");
+//			die();
+			
 			if( !empty( $child[ 'image' ] ) ) {
 				
 				// start image stuff		
@@ -357,10 +374,23 @@ if( $onCategory ){
 
 	
 if( $onClassified ){
-	/*$classifiedsObject->PTS( $classifiedsArray );*/
+	$classifiedsObject->PTS( $classifiedsArray );
 	$classified = $classifiedsArray[0];
 	$op .= "<h1>" . $classified['title'] . "</h1>";
 	$op .= "<br />";
+	$op .= '<div class="social">';
+	$op .= '<div class="fb-like" data-href="https://strategicscrap.com' . $_SERVER['REQUEST_URI'] . '" data-send="false" data-layout="button_count" data-width="450" data-show-faces="false"></div>';
+	$op .= '<div class="g-plusone" data-size="small" data-annotation="none"></div>';
+	$op .= '</div>';
+	$op .= '<script type="text/javascript">';
+	$op .= '  (function() {';
+	$op .= "var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;";
+    $op .= "po.src = 'https://apis.google.com/js/plusone.js';";
+    $op .= "var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);";
+	$op .= "})();";
+	$op .= "</script>";
+	
+	$op .= '';
 	$op .= '<img src="/inc/proxy.php?url=http://src.sencha.io/400/400/https://strategicscrap.com' . $classified['image'] . '" border="0" />';
 	$op .= "<br />";
 	$op .= "<strong>Description:</strong>";
@@ -368,8 +398,22 @@ if( $onClassified ){
 	$op .= str_replace("\n", "<br />", $classified['description']);
 }
 
-	print $op;
 
+	/*
+	 * might need to have your classified do this:
+	 * $classifiedVariable->GetClassifiedType();
+	 * */
+
+	$fieldsInputArray = explode(",", $classified['join_classified_type'][0]['fields']);
+	foreach( $fieldsInputArray as $k2 => $v2 ){
+		// !22|Contact
+		$temp = explode("|",$v2);
+		
+		$op .= '<strong>' . $temp[1] . '</strong>:&nbsp;' . $classified[ 'join_contact' ][0][ $temp[ 2 ] ] . '<br />';
+				
+	}
+	print $op;
+	
 ?>
 
 <script type="text/javascript">

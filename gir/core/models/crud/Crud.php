@@ -179,6 +179,7 @@ class Crud {
 		if( is_null( $prefix ) ) {
 			$prefix = $objectName;
 		} 
+		
 		$op  = "";
 		$op .= "". $objectName .".id as ".$prefix."_id";
 		$op .= ",". $objectName .".updated_ts as ".$prefix."_updated_ts";
@@ -187,6 +188,39 @@ class Crud {
 			$op .= ",". $objectName .".".$p['field']." as ".$prefix."_".$p['field']."";
 		}
 				
+		return $op;
+	}
+	
+	
+	/**
+	 * $values = Array ( [_22] => Array ( [mandatory] => 1 [label] => Contact ) [_4] => Array ( [mandatory] => 1 [label] => Email ) [_2841] => Array ( [mandatory] => 1 [label] => Phone ) [_17] => Array ( [mandatory] => [label] => Website ) )
+	 */
+	public function GetPropertiesAsInputsTable( $values = null, $prefix = null, $type="checkbox", $withLabel = true, $withMandatoryOption = true, $addEditableName = true ){
+		$properties = $this->_OBJECT_PROPERTIES;
+		$objectName = $this->_OBJECT_NAME;
+		if( is_null( $prefix ) ) {
+			$prefix = $objectName;
+		} 
+		
+		
+		
+		$op  = "<table>";
+		$op .= "<tr>";
+		$op .= "<td>Form Field</td>";
+		if( $addEditableName ) $op .= "<td>Rename Field?</td>";
+		if( $withMandatoryOption ) $op .= "<td>Mandatory?</td>";
+		$op .= "</tr>";
+		foreach ($properties as $p) {
+			$op .= "<tr>";
+			$op .= '	<td><input type="'.$type.'" name="'. $prefix .'['. $p['field'] .'][display]" value="'.$p['property_name_id'].'" '. ( isset( $values[ "_" . $p['property_name_id'] ] ) ? 'checked="checked"' : "" ) .' />';
+			if( $withLabel ) $op .= '&nbsp;' . $p['label'] ;
+			$op .= '</td>';
+			if( $addEditableName ) $op .= '	<td><input type="text" name="'. $prefix .'['. $p['field'] .'][renamed]" value="'. ( isset( $values[ "_" . $p['property_name_id'] ]["label"] ) ? $values[ "_" . $p['property_name_id'] ]["label"] : $p['label'] ) .'" /></td>';
+			if( $withMandatoryOption ) $op .= '	<td><input type="checkbox" name="'. $prefix .'['. $p['field'] .'][mandatory]" value="'.$p['property_name_id'].'" '. ( isset( $values[ "_" . $p['property_name_id'] ]["mandatory"] ) ? 'checked="checked"' : "" ) .' /></td>';		
+			$op .= "</tr>";	
+		}
+		$op .= "</table>";
+
 		return $op;
 	}
 	
@@ -435,7 +469,6 @@ class Crud {
     	print_r( $value );
     	print "</pre>";
     }
-
 
 	public function QueryObjectItems( $whereStatement, $return_sql = false ) {
 		$items = $this->_QueryObjectItems( $whereStatement, $return_sql );

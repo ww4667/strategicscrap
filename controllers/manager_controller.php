@@ -623,12 +623,15 @@ while (!$KILL) {
 						
 					}									
 					
-				$fileUploader = upload_function( $_SERVER["DOCUMENT_ROOT"] . '/resources/images/classifieds/', 'image' );
+					if( isset($post_data['imageNew']) ){
+						
+						$fileUploader = upload_function( $_SERVER["DOCUMENT_ROOT"] . '/resources/images/classifieds/', 'imageNew' );
 				
 				if( $fileUploader !== FALSE ){
-					$post_data['image'] = '/resources/images/classifieds/' .$fileUploader; 
+							$post_data['imageNew'] = '/resources/images/classifieds/' .$fileUploader; 
 				} else {
-					$post_data['image'] = '';
+							$post_data['imageNew'] = '';
+						}
 				}
 				 
 				if( $updatedClassified->UpdateItem( $post_data ) ) {
@@ -737,6 +740,7 @@ while (!$KILL) {
 					$post_data[$key] = is_string($post_data[$key]) ? trim($val) : $post_data[$key];
 				}
 				
+						if(isset($post_data['image'])){
 				$fileUploader = upload_function( $_SERVER["DOCUMENT_ROOT"] . '/resources/images/classifieds/', 'image' );
 				
 				if( $fileUploader !== FALSE ){
@@ -744,7 +748,7 @@ while (!$KILL) {
 				} else {
 					$post_data['image'] = '';
 				}
-				
+						}
 				// create the material
 					
 						$newClassified->CreateItem($post_data);

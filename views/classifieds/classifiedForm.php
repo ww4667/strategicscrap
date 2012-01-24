@@ -33,6 +33,10 @@
 			.step1 { display: block; }
 			.goforward { float:right; }
 			.goback { float:left; }
+			
+			.error { background-color:#FF7766; padding: 10px; }
+			#flash_panel{background:#FED;border:solid 3px #F96C14;padding:10px 20px;color:#F96C14;font-weight:bold;margin-bottom:20px}
+			#flash_panel ul{margin:0 0 0 20px}
 		</style>
     
 		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js" ></script>
@@ -47,6 +51,16 @@
 		
 
  <h1 style="margin:0;padding:0">Create Your Classified in 3 steps</h1>
+
+<?
+if( !empty( $errorMessage ) ){
+	print "<div id='flash_panel' class='bad'>";
+	print "	<strong>We found some errors:</strong><br />";
+	print "	" . $errorMessage;
+	print "	<br />Please correct and submit again.";
+	print "</div>";
+}
+?>
 
 <div class="sectionBody order_details">
 	<form action="/controllers/remote?method=processClassifiedForm" method="post"  enctype="multipart/form-data">
@@ -108,9 +122,9 @@
 
 <div class="step3 step">
 	<h2>Step 3</h2>
-	<br style="clear:both;" />
 	<sub>What kind of classified is this.</sub>
-		<div class="label"><strong>Classified Type:</strong></div>
+	<br style="clear:both;" />
+		<div ><strong>Classified Type:</strong></div><br style="clear:both;" />
 	<?
 	
 	$refClassifiedType = new ClassifiedType();
@@ -136,7 +150,7 @@
 	$classifedTypeOp .= '</select>';
 	 
 	?>
-	<div class="value"><?=$classifedTypeOp;?><!--<input name="join_classified_parent" value="<?= $post_data['join_classified_parent']?>" />--></div>
+	<div><?=$classifedTypeOp;?><!--<input name="join_classified_parent" value="<?= $post_data['join_classified_parent']?>" />--></div>
     <br style="clear:left" />
 
 <?
@@ -145,7 +159,9 @@ $formOutput = "";
 foreach( $classifiedTypeFields as $k => $v ){
 	
 		
-	$formOutput .= '<div id="form_'.$k.'" class="contactForms"'  . ( $post_data['join_classified_type'] != $classifiedTypeItem['id'] ? 'style="display:none;"' : '' ) . '>';	
+	$formOutput .= '<div id="form_'.$k.'" class="contactForms"'  . ( $post_data['join_classified_type'] != $k ? 'style="display:none;"' : '' ) . '>';	
+	
+	$formOutput .= '<em>Please fill out the following form to complete your submission:</em><br style="clear:left" />';
 	
 	$fieldsInputArray = explode(",", $classifiedTypeFields[$k]);
 	$fieldsOutput = array();
@@ -155,7 +171,7 @@ foreach( $classifiedTypeFields as $k => $v ){
 		
 		$formOutput .= '<br style="clear:left" />';
 		$formOutput .= '<div class="label"><strong>' . $temp[1] . '</strong></div>';
-		$formOutput .= '<div class="value"><input type="text" name="contact[form_'.$k.']['.$temp[2].']" value="" /></div>';		
+		$formOutput .= '<div class="value"><input type="text" name="contact[form_'.$k.']['.$temp[2].']" value="'.$post_data['contact']['form_'.$k][$temp[2]].'" /></div>';		
 		$formOutput .= '<input type="hidden" name="contact[form_'.$k.'][fields]" value="'.$classifiedTypeFields[$k].'" />';		
 	}
 
