@@ -29,51 +29,99 @@
     
 
     <br style="clear:left" />
-	<div class="label"><strong>Associated Scrapper:</strong></div>
-	<?
-	
-	$allScrappers = new Scrapper();
-	$allScrapperObjects = $allScrappers->GetAllItems();
-	
-	$scrapperListOp = '<select name="join_scrapper">';
-	$scrapperListOp .= '<option value="null">--Top Level--</option>';
-	
-	foreach( $allScrapperObjects as $scrapperObject ){
-		
-		$scrapperListOp .= '<option value="' . $scrapperObject['id'] . '" ' . ( $post_data['join_scrapper'] == $scrapperObject['id'] ? 'selected="selected"' : '' ) . '>' . 
-							$scrapperObject['company'] . ' - ' . $scrapperObject['first_name'] . ' ' . $scrapperObject['last_name'] . 
-							'</option>';
-	    
-	}
-	
-	$scrapperListOp .= '</select>';
-	 
-	?>
-	<div class="value"><?=$scrapperListOp;?><!--<input name="join_classified_parent" value="<?= $post_data['join_classified_parent']?>" />--></div>
-    <br style="clear:left" />
-
 	<div class="label"><strong>Classified Parent:</strong></div>
 	<?
 	
 	$allCategories = new Category();
-	$allCategoryObjects = $allCategories->GetAllItems();
+	$allCategoryObjects = $allCategories->getAllCategoriesByHierarchy();
 	
 	$categoryListOp = '<select name="join_category_parent">';
 	$categoryListOp .= '<option value="null">--Top Level--</option>';
 	
 	foreach( $allCategoryObjects as $categoryObject ){
 		
-		$categoryListOp .= '<option value="' . $categoryObject['id'] . '" ' . ( $post_data['join_category_parent'] == $categoryObject['id'] ? 'selected="selected"' : '' ) . '>' . $categoryObject['name'] . '</option>';
+		$categoryListOp .= '<option value="' . $categoryObject['id'] . '" ' . ( $post_data['join_category_parent'] == $categoryObject['id'] ? 'selected="selected"' : '' ) . '>' . $categoryObject['slug'] . '</option>';
 	    
 	}
 	
 	$categoryListOp .= '</select>';
 	 
 	?>
-	<div class="value"><?=$categoryListOp;?><!--<input name="join_classified_parent" value="<?= $post_data['join_classified_parent']?>" />--></div>
+	<div class="value"><?=$categoryListOp;?><!--<input name="join_classified_parent" value="<?= $post_data['join_classified_parent']?>" />--></div>    
+
+    <br style="clear:left" />
+	<div class="label"><strong>Classified Type:</strong></div>
+	<?
+	
+	$refClassifiedType = new ClassifiedType();
+	$allClassifiedTypes = $refClassifiedType->GetAllItems();
+	
+	$classifiedTypeFields = array();
+
+	$classifedTypeOp  = '<select name="join_classified_type" id="join_classified_type">';
+	$classifedTypeOp .= '<option value="null">--Choose One--</option>';
+	
+	foreach( $allClassifiedTypes as $classifiedTypeItem ){
+		
+		if( $classifiedTypeItem['hidden'] != 1 ){
+			$classifedTypeOp .= '<option value="' . $classifiedTypeItem['id'] . '" ' . ( $post_data['join_classified_type'] == $classifiedTypeItem['id'] ? 'selected="selected"' : '' ) . '>' . 
+								$classifiedTypeItem['name'] . 
+								'</option>';
+	
+			$classifiedTypeFields[$classifiedTypeItem['id']] = $classifiedTypeItem['fields']; 
+		}
+	
+	}
+	
+	$classifedTypeOp .= '</select>';
+		
+	?>
+	<div class="value"><?=$classifedTypeOp;?><!--<input name="join_classified_parent" value="<?= $post_data['join_classified_parent']?>" />--></div>
+    <br style="clear:left" />
+	    
+<?
+///print_r($classifiedTypeFields);
+$formOutput = "";
+foreach( $classifiedTypeFields as $k => $v ){
+	
+		
+	$formOutput .= '<div id="form_'.$k.'" class="contactForms"'  . ( $post_data['join_classified_type'] != $classifiedTypeItem['id'] ? 'style="display:none;"' : '' ) . '>';	
+	
+	$fieldsInputArray = explode(",", $classifiedTypeFields[$k]);
+	$fieldsOutput = array();
+	foreach( $fieldsInputArray as $k2 => $v2 ){
+		// !22|Contact
+		$temp = explode("|",$v2);
+		
+		$formOutput .= '<br style="clear:left" />';
+		$formOutput .= '<div class="label"><strong>' . $temp[1] . '</strong></div>';
+		$formOutput .= '<div class="value"><input type="text" name="contact[form_'.$k.']['.$temp[2].']" value="" /></div>';		
+		$formOutput .= '<input type="hidden" name="contact[form_'.$k.'][fields]" value="'.$classifiedTypeFields[$k].'" />';		
+	}
+	
+	 
+	
+	$formOutput .= '</div>';
+}
+print $formOutput;
+	?>
+	
     <br style="clear:left" />
     <br style="clear:left" />
 	
 	<input type="submit" name="submitted" value="Add Classified" />
 	</form>
 </div>
+<script type="text/javascript"> 
+	jQuery.noConflict();
+	(function($) { 
+	  $(function() {
+		$(document).ready(function () {
+			$("#join_classified_type").change(function(){
+				$(".contactForms").hide();
+				$("#form_"+$(this).val()).show();
+			});
+		});
+	  });
+	})(jQuery);
+</script>

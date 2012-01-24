@@ -469,7 +469,7 @@ function upload_function( $location, $formField = 'file' ) {
     'image/' ty^pe. if wrong tell it! 
 ***/ 
 
-    if(!eregi('image/', $_FILES[$formField]['type'])) { 
+    if(!preg_match('~image/~', $_FILES[$formField]['type'])) { 
 
       /*echo 'The uploaded file is not an image please upload a valide file!';*/ 
 		return false;

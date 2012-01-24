@@ -12,6 +12,8 @@ class Contact extends Crud {
 	protected $_OBJECT_NAME_ID = "";
 	protected $_OBJECT_PROPERTIES = array(	/* contact form */
 											array("type"=>"text","label"=>"Name","field"=>"name"),
+											array("type"=>"text","label"=>"First Name","field"=>"firstName"),
+											array("type"=>"text","label"=>"Last Name","field"=>"lastName"),
 											array("type"=>"text","label"=>"Title","field"=>"title"),
 											array("type"=>"text","label"=>"Company","field"=>"company"),
 											array("type"=>"text","label"=>"Email","field"=>"email"),

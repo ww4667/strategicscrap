@@ -10,6 +10,7 @@ class ClassifiedType extends Crud {
 	protected $_OBJECT_NAME = "classified_type";
 	protected $_OBJECT_NAME_ID = "";
 	protected $_OBJECT_PROPERTIES = array(	array("type"=>"text","label"=>"Name","field"=>"name"),
+											array("type"=>"text","label"=>"Fields","field"=>"fields"),
 											array("type"=>"number","label"=>"Hidden","field"=>"hidden")	);
 	
 	function __construct(){

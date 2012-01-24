@@ -32,13 +32,21 @@
 	.classified_block.odd { background: #ccc; }
 	
 	.description_block{
-		float: left;
+		float: right;
+		width: 430px;
 	}
 	
 	.image{
 		float: left;
-		width: 150px;
-		text-align: center;
+		width: 100px;
+		height: 100px;
+	}
+
+	.image a {
+		display: block;
+		width: 100px;
+		height: 100px;
+		text-indent: -1000px;
 	}
 	
 	.title{
@@ -51,20 +59,102 @@
 	}
 	
 	a.active{
-		color: #ff9900;
+		color: #F96C14;
+	}
+	.post-wrapper {
+		position: relative;
+		top: -31px;
+		float: right;
+		right: 10px;
+		font-size: 11px;
+		text-align: center;
+	}
+	
+	.filterLink.selected {
+		color: #f90;
+		font-weight: bold;
+	}
+	.classifieds-filter {
+		display: block;
+		position: relative;
+		float: left;
+		background: #BBB;
+		padding: 4px 8px;
+		border-radius: 4px;
+		font-weight: 900;
+		line-height: normal;
+		top: 20px;
+		left: 0px;
+	}
+	.classifieds-breadcrumbs {
+		position: relative;
+		float: left;
+		margin: -10px 0 10px 10px;
+		font-weight: 900;
+		line-height: normal;
+		clear: both;
+	}
+	.classifieds-category-wrapper ul.catList {
+		font-size: 12px;
+		font-weight: 900;
+		color: black;
+		margin-bottom: 10px;
 	}
 </style>
+
+  <script type="text/javascript">
+  $('document').ready(function() {
+		$('#post_a_classified').hover(function(){ 
+	       $(this).attr('src', '/resources/images/buttons/post_a_classified_hover.png'); 
+		}, function(){ 
+	       $(this).attr('src', '/resources/images/buttons/post_a_classified.png'); 
+		});
+  });
+  </script>
+	<div class="classifieds-filter">
+	<a class="active" href="#">ALL</a> | <a href="#">FOR SALE</a> | <a href="#">WANTED</a>
+	</div>
+
+	<div class="post-wrapper">
+		<div class="posting-button" style="padding: 0 0 4px 0">
+		<a id="submitNewClassified" href="/controllers/remote?method=showClassifiedForm"><img src="/resources/images/buttons/post_a_classified.png" alt="post a classified"  id="post_a_classified" /></a>
+		</div>
+		<div class="posting-text">
+			members: FREE; non-members: $35/listing
+		</div>
+	</div>
+<div class="classifieds-breadcrumbs">
+	<a class="active" href="#">ALL</a>&nbsp;/&nbsp;<a href="#">FOR SALE</a>&nbsp;/&nbsp;<a href="#">WANTED</a>
+</div>
+<div class="classifieds-category-wrapper">
+	<ul class="catList">
+	<li class="left">CATEGORY ONE</li>
+	<li class="middle">CATEGORY TWO</li>
+	<li class="right">CATEGORY THREE</li>
+	<li class="left">CATEGORY FOUR</li>
+	<li class="middle">CATEGORY FIVE</li>
+	<li class="right">CATEGORY SIX</li>
+	<li class="left">CATEGORY SEVEN</li>
+	<li class="middle">CATEGORY EIGHT</li>
+	<li class="right">CATEGORY NINE</li>
+	<li class="left">CATEGORY TEN</li>
+	<li class="middle">&nbsp;</li>
+	<li class="right">&nbsp;</li>
+	</ul>
+</div>
 
 <?
 
 /**
  * check last item in list if its a classified or category
  */
-
- 
  
 $slug = $_GET['slug'];
 $catSlug = $slug;
+$filter = $_GET['filter'];
+$url = $_SERVER['REQUEST_URI'];
+$cleanURL = preg_replace('/\?.*/', '', $url);
+
 
 $onClassified = false;
 $classifiedsObject = new Classified();
@@ -92,6 +182,28 @@ if( count( $classifiedsArray ) > 0 ) {
 }
 
 $op = "";
+
+//
+/*
+$op .= '<a id="submitNewClassified" href="/controllers/remote?method=showClassifiedForm"><span>Create New Classified</span></a>';
+
+	$refClassifiedType = new ClassifiedType();
+	$allClassifiedTypes = $refClassifiedType->GetAllItems();
+	
+	$classifiedTypeFields = array();
+	
+	$op .= '<div class="filters">';
+	
+	foreach( $allClassifiedTypes as $classifiedTypeItem ){
+		if( $classifiedTypeItem['hidden'] != 1 ){
+			$op .= '<a href="'.$cleanURL.'?filter='.$classifiedTypeItem['id'].'" class="filterLink '.(isset($_GET['filter']) && $_GET['filter'] == $classifiedTypeItem['id'] ? 'selected' : '' ).'">'.$classifiedTypeItem['name'].'</a>&nbsp;|&nbsp;';
+		}
+		
+	}
+	
+	$op .= '</div><br />';
+*/
+
 
 $i = 0;
 $slugArray = explode( ",", $categoryObject->id_path );
@@ -141,10 +253,40 @@ if( $onCategory ){
 	if( count( $featuredItems ) > 0 ){
 		$evenOrOdd = 0;
 		$op .= '<div class="classifieds_group">';
+		
+			function ranger($url){
+			    $headers = array(
+			    "Range: bytes=0-32768"
+			    );
+			
+			    $curl = curl_init($url);
+			    curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+			    curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
+			    curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+			    return curl_exec($curl);
+			    curl_close($curl);
+			}
+			
 		foreach( $featuredItems as $child ){
 			/*$classifieds->PTS( $child );*/
 			$op .= '<div class="classified_block ' . ( $evenOrOdd == 0 ? 'even' : 'odd' ) . ' ">';
-			if( !empty( $child[ 'image' ] ) ) $op .= '	<div class="image"><img src="/inc/proxy.php?url=http://src.sencha.io/100/100/https://strategicscrap.com' . $child['image'] . '" border="0" /></div>';
+			if( !empty( $child[ 'image' ] ) ) {
+				
+				// start image stuff		
+				$url = "https://strategicscrap.com" . $child['image'];
+				
+				$raw = ranger($url);
+				
+				$im = imagecreatefromstring($raw);
+				
+				$width = imagesx($im);
+				$height = imagesy($im);
+				
+				//width or height check
+				$sencha_params = ($width > $height) ? "1000/100" : "100/1000";
+				//end image stuff
+				$op .= '	<div class="image" style="background:url(\'/inc/proxy.php?url=http://src.sencha.io/' . $sencha_params . '/https://strategicscrap.com' . $child['image'] . '\') no-repeat center center"><a href="/classifieds'  . $child['slug'] . '">' . $child['title'] . '</a></div>';
+			}
 			if( empty( $child[ 'image' ] ) ) $op .= '	<div class="image"><img src="/inc/proxy.php?url=http://src.sencha.io/100/100/https://strategicscrap.com/resources/images/image_not_available.gif" border="0" /></div>';
 			$op .= '	<div class="description_block">';
 			$op .= '		<div class="title"><a href="/classifieds'  . $child['slug'] . '">' . $child['title'] . '</a></div>';
@@ -176,7 +318,24 @@ if( $onCategory ){
 		foreach( $classifiedsObject as $child ){
 			/*$classifieds->PTS( $child );*/	
 			$op .= '<div class="classified_block ' . ( $evenOrOdd == 0 ? 'even' : 'odd' ) . ' ">';
-			if( !empty( $child[ 'image' ] ) ) $op .= '	<div class="image"><img src="/inc/proxy.php?url=http://src.sencha.io/100/100/https://strategicscrap.com' . $child['image'] . '" border="0" /></div>';
+			if( !empty( $child[ 'image' ] ) ) {
+				
+				// start image stuff		
+				
+				$url = "https://strategicscrap.com" . $child['image'];
+				
+				$raw = ranger($url);
+				
+				$im = imagecreatefromstring($raw);
+				
+				$width = imagesx($im);
+				$height = imagesy($im);
+				
+				//width or height check
+				$sencha_params = ($width > $height) ? "1000/100" : "100/1000";
+				//end image stuff
+				$op .= '	<div class="image" style="background:url(\'/inc/proxy.php?url=http://src.sencha.io/' . $sencha_params . '/https://strategicscrap.com' . $child['image'] . '\') no-repeat center center"><a href="/classifieds'  . $child['slug'] . '">' . $child['title'] . '</a></div>';
+			}
 			if( empty( $child[ 'image' ] ) ) $op .= '	<div class="image"><img src="/inc/proxy.php?url=http://src.sencha.io/100/100/https://strategicscrap.com/resources/images/image_not_available.gif" border="0" /></div>';
 			$op .= '	<div class="description_block">';
 			$op .= '		<div class="title"><a href="/classifieds'  . $child['slug'] . '">' . $child['title'] . '</a></div>';
@@ -212,3 +371,10 @@ if( $onClassified ){
 	print $op;
 
 ?>
+
+<script type="text/javascript">
+    $(function ()
+    {
+        $("#submitNewClassified").colorbox({iframe:true, innerWidth:500, innerHeight:450});    
+    })
+</script>

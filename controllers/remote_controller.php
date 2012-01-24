@@ -1027,7 +1027,18 @@ function controller_remote( $_controller_remote_method = null,
 			}
 			print $output;
 			break;
+			
+		
+		case 'showClassifiedForm': 
+			require_once($_SERVER['DOCUMENT_ROOT']."/views/classifieds/classifiedForm.php");
+			break;
+			
+		case 'processClassifiedForm': 
+			require_once($_SERVER['DOCUMENT_ROOT']."/views/classifieds/submitClassified.php");
+			break;
 	}
+
+	
 }
 
 

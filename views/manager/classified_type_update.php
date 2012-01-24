@@ -22,6 +22,38 @@
     <br style="clear:left" />
 	<div class="label"><strong>Hidden?:</strong><br />(check box if you want it hidden)</div>
 	<div class="value"><input type="checkbox" name="hidden" value="<?= $classifiedTypeUpdate->hidden ?>" <?=!empty($classifiedTypeUpdate->hidden) ? 'checked="checked"' : ""?> /></div>
+	
+    <br style="clear:left" />
+	<div class="label"><strong>Form Fields:</strong><br />(check the boxes you want to add to this classified type)</div>
+	<div class="value">
+
+		<? 
+		$contactFields = new Contact();
+		$fieldsInputArray = $classifiedTypeUpdate->fields;
+		
+		$fieldsInputArray = explode(",", $fieldsInputArray);
+		$fieldsOutput = array();
+		foreach( $fieldsInputArray as $k => $v ){
+			// !22|Contact
+			$temp = explode("|",$v);
+			$id = "";
+			
+			if( strpos($temp[0], "!") === false ){
+				$id = $temp[0];
+			} else {
+				$id = substr( $temp[0], 1 );
+				$fieldsOutput["_".$id]['mandatory'] = true;
+				$fieldsOutput["_".$id]['label'] = true;
+			}
+			
+			$fieldsOutput["_".$id]['label'] = $temp[1];
+			
+		}
+
+		print $contactFields->GetPropertiesAsInputsTable( $fieldsOutput );
+		?>
+	</div>
+
     <br style="clear:left" />
     <br style="clear:left" />
 	

@@ -14,6 +14,16 @@
     <br style="clear:left" />
 	<div class="label"><strong>Hidden?:</strong><br />(check box if you want it hidden)</div>
 	<div class="value"><input type="checkbox" name="hidden" value="<?= $post_data['hidden']?>" /></div>
+
+    <br style="clear:left" />
+	<div class="label"><strong>Form Fields:</strong><br />(check the boxes you want to add to this classified type)</div>
+	<div class="value">
+
+		<? 
+		$contactFields = new Contact();
+		print $contactFields->GetPropertiesAsInputsTable();
+		?>
+	</div>
     <br style="clear:left" />
     <br style="clear:left" />
 	

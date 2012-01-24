@@ -258,6 +258,24 @@ while (!$KILL) {
 				$post_data = $_POST;
 				$post_data['id'] = $post_data['classified_type_id'];
 				$post_data['hidden'] = isset( $post_data['hidden'] ) ? 1 : 0;
+				
+				$post_data['fields'] = "";
+				
+				/* check for contacts stuff */
+				$contactItem = $post_data['contact'];
+				foreach( $post_data['contact'] as $k => $v ){//$contactItem
+					
+					if( isset( $contactItem[$k]['display'] ) ){
+						$post_data['fields'] .=  
+							"," . ( isset($contactItem[$k]['mandatory']) ? "!" : "" ) . $contactItem[$k]['display'] .  
+							( isset($contactItem[$k]['renamed']) ? "|" . $contactItem[$k]['renamed'] : "" ).
+							"|" . $k; 
+					} 
+					
+				}
+				$post_data['fields'] = substr($post_data['fields'],1);
+				
+
 				$classifiedTypeUpdate->GetItemObj($post_data['id']);
 				if( $classifiedTypeUpdate->UpdateItem($post_data) ) {
 					$message = "Classified Type updated successfully.";
@@ -293,6 +311,23 @@ while (!$KILL) {
 				$required_fields = array(
 					array("name","Classified Type Name cannot be left empty")
 				);
+				
+				$post_data['fields'] = "";
+				
+				/* check for contacts stuff */
+				$contactItem = $post_data['contact'];
+				foreach( $post_data['contact'] as $k => $v ){//$contactItem
+					
+					if( isset( $contactItem[$k]['display'] ) ){
+						$post_data['fields'] .=  
+							"," . ( isset($contactItem[$k]['mandatory']) ? "!" : "" ) . $contactItem[$k]['display'] .  
+							( isset($contactItem[$k]['renamed']) ? "|" . $contactItem[$k]['renamed'] : "" ).
+							"|" . $k; 
+					} 
+					
+				}
+				$post_data['fields'] = substr($post_data['fields'],1);
+				
 				// fix data
 				// trim first
 				foreach ($post_data as $key => $val) {
@@ -569,6 +604,25 @@ while (!$KILL) {
 				);
 				
 				
+					$selectedClassifiedType = $post_data['contact']['form_'.$post_data['join_classified_type']];
+		
+					/* check for contacts stuff */
+					
+					$fieldsInputArray = explode(",", $selectedClassifiedType['fields']);
+					$fieldsOutput = array();
+					foreach( $fieldsInputArray as $k => $v ){
+						// !22|Contact|contact
+						$temp = explode("|",$v);
+						$id = "";
+						
+						if( strpos($temp[0], "!") === false ){
+							/* uh... */
+						} else {
+							$required_fields[] = array($temp[2],"".$temp[1]." cannot be left empty");
+						}
+						
+					}									
+					
 				$fileUploader = upload_function( $_SERVER["DOCUMENT_ROOT"] . '/resources/images/classifieds/', 'image' );
 				
 				if( $fileUploader !== FALSE ){
@@ -590,11 +644,23 @@ while (!$KILL) {
 									
 					// loop the arrays and add/remove
 					if ( !isset( $joined_category_id ) ) $updatedClassified->addCategory( $category_id );
+
 						if ( !isset( $category_id ) ) $updatedClassified->removeCategory( $joined_category_id );
 						
+						if ( !isset( $joined_category_id ) ) $updatedClassified->addCategory( $category_id );
 					
 					
+						$currentClassifiedType = $updatedClassified->getClassifiedType();
+						if( isset( $currentClassifiedType->join_classified_type[0]['id'] ) ){
+							$newClassified->removeClassifiedType( $currentClassifiedType->join_classified_type[0]['id'] );
+							$newClassified->addClassifiedType( $post_data['join_classified_type'] );
+						} 
 						
+						$newContact = new Contact();
+						$newContact->GetItemObj( $post_data[ 'contact_id' ] );
+						$newContact->UpdateItem( $selectedClassifiedType );
+						
+							print "hi";
 					$message = "Classified updated successfully.";
 					flash($message);
 						$method = "classified-manager";
@@ -604,8 +670,6 @@ while (!$KILL) {
 					flash($message,"bad");
 				}
 				
-					
-					
 				}
 			}
 
@@ -646,56 +710,26 @@ while (!$KILL) {
 					array("join_category_parent","Classified Category Parent cannot be left empty")
 				);
 				
-						/**
-						 * equip for sale:
-						 * 		Company: Worldwide Recycling Equipment Sales, LLC.
-						 *		Contact: 
-						 *		Email: 
-						 *		Phone: 660-263-7575
-						 */
 						
-						/**
-						 * equip wanted:
-						 * 		Company: Worldwide Recycling Equipment Sales, LLC.
-						 *		Contact: 
-						 *		Email: 
-						 *		Phone: 660-263-7575
-						 */
+						$selectedClassifiedType = $post_data['contact']['form_'.$post_data['join_classified_type']];
+			
+						/* check for contacts stuff */
 						
-						/**
-						 * scrap sale:
-						 * 		Title
-						 * 		Unit:Tons
-						 * 		Quantity:call
-						 * 		Price:$call
-						 *		Description: Call John or Scott at Worldwide Battery for all the details. Muncie IN.
-						 *		Company: Worldwide Battery
-						 *		Contact: John or Scott
-						 *		Email: 
-						 *		Phone: 765-282-7000
-						 */
+						$fieldsInputArray = explode(",", $selectedClassifiedType['fields']);
+						$fieldsOutput = array();
+						foreach( $fieldsInputArray as $k => $v ){
+							// !22|Contact|contact
+							$temp = explode("|",$v);
+							$id = "";
 						
-						/**
-						 * scrap wanted:
-						 * 		Title
-						 * 		Unit:Tons
-						 * 		Quantity:call
-						 * 		Price:$call
-						 *		Description: Call John or Scott at Worldwide Battery for all the details. Muncie IN.
-						 *		Company: Worldwide Battery
-						 *		Contact: John or Scott
-						 *		Email: 
-						 *		Phone: 765-282-7000
-						 */
+							if( strpos($temp[0], "!") === false ){
+								/* uh... */
+							} else {
+								$required_fields[] = array($temp[2],"".$temp[1]." cannot be left empty");
+							}
 						
-						/**
-						 * jobs:
-						 * title
-						 * Position: (description)
-						 * Phone:
-						 * Email:
-						 * Website:
-						 */
+						}
+						
 						
 				// fix data
 				// trim first
@@ -712,11 +746,17 @@ while (!$KILL) {
 				}
 				
 				// create the material
-				$c = new Classified();
-				$c->CreateItem($post_data);
-				if( !empty($c->id) ){
 					
-					$c->addCategory($post_data['join_category_parent']);
+						$newClassified->CreateItem($post_data);
+						if( !empty($newClassified->id) ){
+							
+							$newClassified->addCategory($post_data['join_category_parent']);
+							
+							$newContact = new Contact();
+							$newContact->CreateItem( $selectedClassifiedType );
+							
+							$newClassified->addClassifiedType( $post_data['join_classified_type'] );
+							$newClassified->addContact( $newContact->id );
 					
 					$message = "Classified added successfully.";
 					flash($message);
@@ -728,8 +768,8 @@ while (!$KILL) {
 				break;
 					}
 			} else {
-				$c = new Classified();
-				foreach($c as $key => $val) {
+
+					foreach($newClassified as $key => $val) {
 					$post_data[$key] = "";
 				}
 			}

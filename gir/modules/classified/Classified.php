@@ -105,6 +105,32 @@ class Classified extends Crud {
 		$this->join_category_parent = $joins;
 	}
 	
+	
+	public function addClassifiedType( $itemId = null ){
+		$this->AddJoin( $itemId, "join_classified_type" );
+	}
+	
+	public function removeClassifiedType( $itemId = null ){
+		$classifiedType = $this->ReadObjectById( $itemId );
+		if(count( $classifiedType )>0){
+			$item = $this->GetCurrentItem();
+			$this->RemoveValueJoin( $item['id'], $itemId );
+		}
+	}
+	
+	public function getClassifiedType( $itemId = null ) {
+		// get materials by "itemId" and join type "material_join"
+		$item = $this->GetCurrentItem();
+		$itemId = isset($itemId) ? $itemId : $item['id'];
+		$classifiedType = new ClassifiedType();
+		$joins = $this->ReadJoins( $classifiedType );
+		$this->join_classified_type = $joins;
+	}
+	
+	public function addContact( $itemId = null ){
+		$this->AddJoin( $itemId, "join_contact" );
+	}
+	
 	public function getContact( $itemId = null ) {
 		// get materials by "itemId" and join type "material_join"
 		$item = $this->GetCurrentItem();
@@ -113,7 +139,6 @@ class Classified extends Crud {
 		$joins = $this->ReadJoins( $contact );
 		$this->join_contact = $joins;
 	}
-
 	/**
 	 * 
 	 * $properties array	$defaultProperties = array(
@@ -167,7 +192,7 @@ class Classified extends Crud {
 		$query .= "	COALESCE(c.sale_or_wanted, 0) as sale_or_wanted,";
 		$query .= "	cat.id as category_id,";
 		$query .= "	cat.name as category_name" ; 
-		$query .= ( !is_null( $defaultProperties['showContacts'] ) ? "$contact_select, " : "" ); 
+		$query .= ( !is_null( $defaultProperties['showContacts'] ) ? ", $contact_select, " : "" ); 
 		$query .= ( !is_null( $defaultProperties['classifiedType'] ) ? 
 					" classifiedType.id as classifiedType_id, classifiedType.name as classifiedType_name " : "" ); 
 		
@@ -191,6 +216,7 @@ class Classified extends Crud {
 			"" );
 		
 
+
 		if( $defaultProperties['classifiedId'] ) $query .= " AND c.id = ".$defaultProperties['classifiedId']." ";
 		if( $defaultProperties['categoryIds'] ) $query .= " AND cat.id IN ( ".$defaultProperties['categoryIds']." ) ";
 		if( $defaultProperties['approved'] === TRUE ) $query .= " AND c.approved = 1 ";
@@ -199,6 +225,7 @@ class Classified extends Crud {
 		if( $defaultProperties['featured'] === FALSE ) $query .= " AND COALESCE(c.featured, 0) = 0 ";
 		if( $defaultProperties['sale_or_wanted'] === TRUE ) $query .= " AND c.sale_or_wanted = 1 ";
 		if( $defaultProperties['sale_or_wanted'] === FALSE ) $query .= " AND COALESCE(c.sale_or_wanted, 0) = 0 ";
+		if( is_int($defaultProperties['classifiedType']) === TRUE ) $query .= " AND c.classifiedType_id =  " . $defaultProperties['classifiedType'] . " ";
 		
 		return $this->Query( $query, true );
 		

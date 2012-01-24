@@ -1,7 +1,8 @@
 <?
 $c = new Classified();
-$classifieds = $c->getAllWithUserDetails(array('approved'=>FALSE));
-$classifiedsApproved = $c->getAllWithUserDetails(array('approved'=>TRUE));
+$classifieds = $c->getAllWithUserDetails(array('approved'=>FALSE,'showContacts'=>true,'classifiedType'=>true));
+
+$classifiedsApproved = $c->getAllWithUserDetails(array('approved'=>TRUE,''=>true,''=>true));
 
 ?>
 
@@ -21,12 +22,14 @@ $classifiedsApproved = $c->getAllWithUserDetails(array('approved'=>TRUE));
 	<table id="classified_table" border="0" cellpadding="4" cellspacing="1" bgcolor="#707070" class="sortabletable" width="100%">
 		<thead><tr>
 			<th class="nosort" width="40">&nbsp;</th>
+			<th width="">Classified Type</th>
 			<th width="">Classified Title</th>
 			<th width="">Category</th>
-			<th width="">Path</th>
+			<th width="">Category Path</th>
+			<th width="">Company</th>
+			<th width="">Contact</th>
 			<th width="">Email</th>
-			<th width="">First Name</th>
-			<th width="">Last Name</th>
+			<th width="">Phone</th>
 			<th width="65">Created</th>
 			<th width="65">Updated</th>
 		</tr></thead>
@@ -38,12 +41,14 @@ $classifiedsApproved = $c->getAllWithUserDetails(array('approved'=>TRUE));
 
 		<tr style="cursor:pointer;" class='classified_row' onmouseover="this.style.color='#999'" onmouseout="this.style.color='#333'" onclick="location.href='<?php echo $ss_url; ?>&amp;method=classified-update&amp;classified_id=<?php echo $classified['id']; ?>'">
 			<td><a href="<?php echo $ss_url; ?>&amp;method=classified-update&amp;classified_id=<? echo $classified['id']; ?>">update</a></td>
+			<td><?php echo $classified['type']; ?></td>
 			<td><?php echo $classified['title']; ?></td>
 			<td><?php echo $classified['category_name']; ?></td>
 			<td><?php echo $classified['slug']; ?></td>
+			<td><?php echo $classified['company']; ?></td>
+			<td><?php echo $classified['contact']; ?></td>
 			<td><?php echo $classified['email']; ?></td>
-			<td><?php echo $classified['scrapper_first_name']; ?></td>
-			<td><?php echo $classified['scrapper_last_name']; ?></td>
+			<td><?php echo $classified['phone']; ?></td>
 			<td><?php echo date("Y-m-d", strtotime($classified['created_ts'])) ?></td>
 			<td><?php echo !is_null($classified['updated_ts']) ? date("Y-m-d", strtotime($classified['updated_ts'])) : date("Y-m-d", strtotime($classified['created_ts'])) ?></td>
 		</tr>
@@ -85,11 +90,13 @@ $classifiedsApproved = $c->getAllWithUserDetails(array('approved'=>TRUE));
 	<table id="classifieds_approved_table" border="0" cellpadding="4" cellspacing="1" bgcolor="#707070" class="sortabletable" width="100%">
 		<thead><tr>
 			<th class="nosort" width="40">&nbsp;</th>
+			<th width="">Classified Type</th>
 			<th width="">Classified Title</th>
-			<th width="">Category</th>
+			<th width="">Category Path</th>
+			<th width="">Company</th>
+			<th width="">Contact</th>
 			<th width="">Email</th>
-			<th width="">First Name</th>
-			<th width="">Last Name</th>
+			<th width="">Phone</th>
 			<th width="65">Created</th>
 			<th width="65">Updated</th>
 		</tr></thead>
@@ -101,11 +108,13 @@ $classifiedsApproved = $c->getAllWithUserDetails(array('approved'=>TRUE));
 
 		<tr style="cursor:pointer;" class='classified_row' onmouseover="this.style.color='#999'" onmouseout="this.style.color='#333'" onclick="location.href='<?php echo $ss_url; ?>&amp;method=classified-update&amp;classified_id=<?php echo $classified['id']; ?>'">
 			<td><a href="<?php echo $ss_url; ?>&amp;method=classified-update&amp;classified_id=<? echo $classified['id']; ?>">update</a></td>
+			<td><?php echo $classified['type']; ?></td>
 			<td><?php echo $classified['title']; ?></td>
 			<td><?php echo $classified['category_name']; ?></td>
+			<td><?php echo $classified['company']; ?></td>
+			<td><?php echo $classified['contact']; ?></td>
 			<td><?php echo $classified['email']; ?></td>
-			<td><?php echo $classified['scrapper_first_name']; ?></td>
-			<td><?php echo $classified['scrapper_last_name']; ?></td>
+			<td><?php echo $classified['phone']; ?></td>
 			<td><?php echo date("Y-m-d", strtotime($classified['created_ts'])) ?></td>
 			<td><?php echo !is_null($classified['updated_ts']) ? date("Y-m-d", strtotime($classified['updated_ts'])) : date("Y-m-d", strtotime($classified['created_ts'])) ?></td>
 		</tr>
