@@ -109,9 +109,9 @@
 		<? } ?>
 	</div>
 	<div id="register_now">
-		<a href="[~1~]"><img src="/resources/images/buttons/register_now.png" alt="Register Now" /></a>
+		<a href="/"><img src="/resources/images/buttons/register_now.png" alt="Register Now" /></a>
 	</div>
 	<div class="logo">
-		<a href="[~1~]"><img src="/resources/images/strategic_scrap.png" alt="Strategic Scrap" /></a>
+		<a href="/"><img src="/resources/images/strategic_scrap.png" alt="Strategic Scrap" /></a>
 	</div>
 </div>

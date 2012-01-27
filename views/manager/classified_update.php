@@ -1,10 +1,10 @@
 <?
-			
+	
 $usePostOrGet = $_POST['classified_id'];		
 if( !isset( $_POST['classified_id'] ) ){
 	$usePostOrGet = $_GET['classified_id'];
 }			
-			
+
 $updatedClassifiedArray = $updatedClassified->getAllWithUserDetails(array('classifiedId'=>$usePostOrGet,'showContacts'=>true,'classifiedType'=>true));
 
 ?>
@@ -125,11 +125,11 @@ $updatedClassifiedArray = $updatedClassified->getAllWithUserDetails(array('class
 	}
 	
 	$classifedTypeOp .= '</select>';
-	
+	 
 	?>
 	<div class="value"><?=$classifedTypeOp;?><!--<input name="join_classified_parent" value="<?= $post_data['join_classified_parent']?>" />--></div>
     <br style="clear:left" />
-		
+
 <?
 ///print_r($classifiedTypeFields);
 $formOutput = "";
@@ -147,16 +147,16 @@ foreach( $classifiedTypeFields as $k => $v ){
 		$formOutput .= '<div class="label"><strong>' . $temp[1] . '</strong></div>';
 		$formOutput .= '<div class="value"><input type="text" name="contact[form_'.$k.']['.$temp[2].']" value="'.$updatedClassifiedArray[0]['contact_'.$temp[2]].'" /></div>';		
 		$formOutput .= '<input type="hidden" name="contact[form_'.$k.'][fields]" value="'.$classifiedTypeFields[$k].'" />';		
-	    
+
 	}
+
 	
-	 
 	
 	$formOutput .= '</div>';
 }
 $formOutput .= '<input type="hidden" name="contact_id" value="'.$updatedClassifiedArray[0]['contact_id'].'" />';		
 print $formOutput;
-	?>
+?>
 
 
     <br style="clear:left" />

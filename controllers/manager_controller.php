@@ -235,7 +235,7 @@ while (!$KILL) {
 
 			$classifiedTypeDisplay = new ClassifiedType();
 			$classifiedTypeDisplayItems = $classifiedTypeDisplay->GetAllItems();
-			
+
 			//the layout file
 			require($ss_path."views/layouts/manager_shell.php");
 			$KILL = true;
@@ -427,25 +427,42 @@ while (!$KILL) {
 					$category = $updatedCategory->GetItemObj($_POST['category_id']);
 					$updatedCategory->getParentCategory();
 				} else {	
-				$updatedCategory->GetItemObj($post_data['id']);
-				
-				if( $updatedCategory->UpdateItem($post_data) ) {
-				
+					$updatedCategory->GetItemObj($post_data['id']);
+					
+					if( $updatedCategory->UpdateItem($post_data) ) {
+					
 						$updatedCategory->GetItemObj($post_data['id']);
-						$updatedCategory->addParentCategory($post_data['join_category_parent']);
+						$processCategoryChildren = false;
+						if( $post_data['old_name'] != $post_data['name'] ) $processCategoryChildren = true;
+						if( $post_data['old_join_category_parent'] != $post_data['join_category_parent'] ) $processCategoryChildren = true;
+						$updatedCategory->addParentCategory($post_data['join_category_parent'],true, $processCategoryChildren);
 						
-					$message = "Category updated successfully.";
-					flash($message);
-				} else {
-					$message = "There was a problem updating the category.";
-					flash($message,"bad");
+						print "going to try updating classifieds";
+						/* update paths for classifieds associated to this */
+						$updatedClassifiedJoinClass = new Classified();
+						$updatedJoinedClassifieds = $updatedClassifiedJoinClass->ReadForeignJoins( $updatedCategory );
+						if( $processCategoryChildren === TRUE && count( $updatedJoinedClassifieds ) > 0 ){
+							
+							foreach( $updatedJoinedClassifieds as $relatedClassified ){
+								
+								$tempClassified = new Classified();
+								$tempClassified->getItemObj( $relatedClassified['id'] );
+								$tempClassified->UpdateItem( array( 'slug' => $potential_path_op . cleanSlug( $tempClassified->name ) ) );
+							}
+						}
+						
+						$message = "Category updated successfully.";
+						flash($message);
+					} else {
+						$message = "There was a problem updating the category.";
+						flash($message,"bad");
+					}
+					$method = "category-manager";
+					break;
 				}
-				$method = "category-manager";
-				break;
-			}
 			} else {
-			$category = $updatedCategory->GetItemObj($_GET['category_id']);
-			$updatedCategory->getParentCategory();
+				$category = $updatedCategory->GetItemObj($_GET['category_id']);
+				$updatedCategory->getParentCategory();
 			}
 
 
@@ -466,7 +483,7 @@ while (!$KILL) {
 				$post_data = $_POST;
 				// check for required fields
 				$required_fields = array(
-											array("name","Category Name cannot be left empty")
+					array("name","Category Name cannot be left empty")
 				);
 				// fix data
 				// trim first
@@ -488,21 +505,21 @@ while (!$KILL) {
 					$newCategory->CreateItem( $post_data );	
 					
 					if( !empty( $newCategory->id ) ){
+						
+						$newCategory->addParentCategory($post_data['join_category_parent']);
+						
+						$message = "Category added successfully.";
+						flash($message);
+						
+					} else {
+						
+						$message = "There was a problem adding the category.";
+						flash($message,"bad");
+						
+					}
 					
-					$newCategory->addParentCategory($post_data['join_category_parent']);
-
-					$message = "Category added successfully.";
-					flash($message);
-						
-				} else {
-						
-					$message = "There was a problem adding the category.";
-					flash($message,"bad");
-						
-				}
-					
-				$method = "category-manager";
-				break;
+					$method = "category-manager";
+					break;
 				}
 			} else {
 				foreach($newCategory as $key => $val) {
@@ -587,23 +604,23 @@ while (!$KILL) {
 					flash($message,'bad');
 					
 				} else {
-				
-				$post_data['id'] = $post_data['classified_id'];
-				
-				$updatedClassified->GetItemObj( $post_data[ 'id' ] );
-				$post_data['featured'] = isset( $post_data['featured'] ) ? 1 : 0;
-				$post_data['approved'] = isset( $post_data['approved'] ) ? 1 : 0;
+					
+					$post_data['id'] = $post_data['classified_id'];
+					
+					$updatedClassified->GetItemObj( $post_data[ 'id' ] );
+					$post_data['featured'] = isset( $post_data['featured'] ) ? 1 : 0;
+					$post_data['approved'] = isset( $post_data['approved'] ) ? 1 : 0;
 					$post_data['sale_or_wanted'] = isset( $post_data['sale_or_wanted'] ) ? 1 : 0;
-				 
-				$required_fields = array(
-					array("title","Classified Title cannot be left empty"),
-					array("description","Classified Description cannot be left empty"),
+					
+					$required_fields = array(
+						array("title","Classified Title cannot be left empty"),
+						array("description","Classified Description cannot be left empty"),
 						array("classified_type","You must choose a type of classified"),
-					/*array("image","Classified Title cannot be left empty"),*/
-					array("join_category_parent","Classified Category Parent cannot be left empty")
-				);
-				
-				
+						/*array("image","Classified Title cannot be left empty"),*/
+						array("join_category_parent","Classified Category Parent cannot be left empty")
+					);
+
+					
 					$selectedClassifiedType = $post_data['contact']['form_'.$post_data['join_classified_type']];
 		
 					/* check for contacts stuff */
@@ -623,36 +640,36 @@ while (!$KILL) {
 						
 					}									
 					
-					if( isset($post_data['imageNew']) ){
+					if( isset($_FILES['imageNew']) ){
 						
-						$fileUploader = upload_function( $_SERVER["DOCUMENT_ROOT"] . '/resources/images/classifieds/', 'imageNew' );
-				
-				if( $fileUploader !== FALSE ){
+						$fileUploader = upload_function( $_SERVER["DOCUMENT_ROOT"] . '/resources/images/classifieds/', 'imageNew', $post_data['title'] );
+						
+						if( $fileUploader !== FALSE ){
 							$post_data['imageNew'] = '/resources/images/classifieds/' .$fileUploader; 
-				} else {
+						} else {
 							$post_data['imageNew'] = '';
 						}
-				}
-				 
-				if( $updatedClassified->UpdateItem( $post_data ) ) {
+					}
 					
-					// update category join
-					$updatedClassified->getCategory();
-					$joined_category = $updatedClassified->join_category_parent;
-				
-					$joined_category_id = $joined_category[0]['id'];
-				
-					// grab posted join ids
-					$category_id = $post_data['join_category_parent'];
-									
-					// loop the arrays and add/remove
-					if ( !isset( $joined_category_id ) ) $updatedClassified->addCategory( $category_id );
+					if( $updatedClassified->UpdateItem( $post_data ) ) {
+						
+						// update category join
+						$updatedClassified->getCategory();
+						$joined_category = $updatedClassified->join_category_parent;
+					
+						$joined_category_id = $joined_category[0]['id'];
+					
+						// grab posted join ids
+						$category_id = $post_data['join_category_parent'];
+										
+						// loop the arrays and add/remove
+						if ( !isset( $joined_category_id ) ) $updatedClassified->addCategory( $category_id );
 
 						if ( !isset( $category_id ) ) $updatedClassified->removeCategory( $joined_category_id );
-						
+		
 						if ( !isset( $joined_category_id ) ) $updatedClassified->addCategory( $category_id );
-					
-					
+												
+						
 						$currentClassifiedType = $updatedClassified->getClassifiedType();
 						if( isset( $currentClassifiedType->join_classified_type[0]['id'] ) ){
 							$newClassified->removeClassifiedType( $currentClassifiedType->join_classified_type[0]['id'] );
@@ -664,15 +681,15 @@ while (!$KILL) {
 						$newContact->UpdateItem( $selectedClassifiedType );
 						
 							print "hi";
-					$message = "Classified updated successfully.";
-					flash($message);
+						$message = "Classified updated successfully.";
+						flash($message);
 						$method = "classified-manager";
 						break;
-				} else {
-					$message = "There was a problem updating the classified.";
-					flash($message,"bad");
-				}
-				
+					} else {
+						$message = "There was a problem updating the classified.";
+						flash($message,"bad");
+					}
+					
 				}
 			}
 
@@ -688,9 +705,9 @@ while (!$KILL) {
 			$SECTION_HEADER 	= "Add Classified";								/* Header text for this page */
 			$PAGE_BODY 			= $ss_path."views/manager/classified_add.php";			/* which file to pull into the template */
 						
-			if(isset($_POST['submitted'])){
+				if(isset($_POST['submitted'])){
 					
-				$post_data = $_POST;
+					$post_data = $_POST;
 					
 					$newClassified = new Classified();
 					
@@ -698,21 +715,21 @@ while (!$KILL) {
 					$cleanSlug = cleanSlug( $post_data['title'] );
 					$potential_path_op =  $potential_path . $cleanSlug;
 					$processNewCategory = $newClassified->findSlugsBySlug( $potential_path_op );
-
+					
 					$post_data['slug'] = $potential_path_op; 			
-
+					
 					if( count( $processNewCategory ) > 0 ){
 						$message = "There is a classified with this name already under this category. Please choose a unique title.";
 						flash($message,'bad');
 					} else {	
-				// check for required fields
-				$required_fields = array(
-					array("title","Classified Title cannot be left empty"),
-					array("description","Classified Description cannot be left empty"),
-					/*array("image","Classified Title cannot be left empty"),*/
-					array("join_category_parent","Classified Category Parent cannot be left empty")
-				);
-				
+						// check for required fields
+						$required_fields = array(
+							array("title","Classified Title cannot be left empty"),
+							array("description","Classified Description cannot be left empty"),
+							/*array("image","Classified Title cannot be left empty"),*/
+							array("join_category_parent","Classified Category Parent cannot be left empty")
+						);
+						
 						
 						$selectedClassifiedType = $post_data['contact']['form_'.$post_data['join_classified_type']];
 			
@@ -724,33 +741,37 @@ while (!$KILL) {
 							// !22|Contact|contact
 							$temp = explode("|",$v);
 							$id = "";
-						
+							
 							if( strpos($temp[0], "!") === false ){
 								/* uh... */
 							} else {
 								$required_fields[] = array($temp[2],"".$temp[1]." cannot be left empty");
 							}
-						
+							
 						}
 						
 						
-				// fix data
-				// trim first
-				foreach ($post_data as $key => $val) {
-					$post_data[$key] = is_string($post_data[$key]) ? trim($val) : $post_data[$key];
-				}
-				
-						if(isset($post_data['image'])){
-				$fileUploader = upload_function( $_SERVER["DOCUMENT_ROOT"] . '/resources/images/classifieds/', 'image' );
-				
-				if( $fileUploader !== FALSE ){
-					$post_data['image'] = '/resources/images/classifieds/' .$fileUploader; 
-				} else {
-					$post_data['image'] = '';
-				}
+						// fix data
+						// trim first
+						foreach ($post_data as $key => $val) {
+							$post_data[$key] = is_string($post_data[$key]) ? trim($val) : $post_data[$key];
 						}
-				// create the material
-					
+
+						if(isset($_FILES['image'])){
+							
+							$fileUploader = upload_function( $_SERVER["DOCUMENT_ROOT"] . '/resources/images/classifieds/', 'image', $post_data['title'] );
+							
+							
+							if( $fileUploader !== FALSE ){
+								$post_data['image'] = '/resources/images/classifieds/' .$fileUploader; 
+							} else {
+								$post_data['image'] = '';
+							}
+						} else {
+							$newClassified->PTS('no image','$fileUploader');
+						}
+						// create the material
+
 						$newClassified->CreateItem($post_data);
 						if( !empty($newClassified->id) ){
 							
@@ -761,23 +782,23 @@ while (!$KILL) {
 							
 							$newClassified->addClassifiedType( $post_data['join_classified_type'] );
 							$newClassified->addContact( $newContact->id );
-					
-					$message = "Classified added successfully.";
-					flash($message);
-				} else {
-					$message = "There was a problem adding the classified.";
-					flash($message,"bad");
-				}
-				$method = "classified-manager";
-				break;
+							
+							$message = "Classified added successfully.";
+							flash($message);
+						} else {
+							$message = "There was a problem adding the classified.";
+							flash($message,"bad");
+						}
+						$method = "classified-manager";
+						break;
 					}
-			} else {
+				} else {
 
 					foreach($newClassified as $key => $val) {
-					$post_data[$key] = "";
+						$post_data[$key] = "";
+					}
 				}
-			}
-
+			
 			
 			
 			

@@ -33,8 +33,9 @@ $relatedClassifieds = $classifiedJoinClass->ReadForeignJoins( $updatedCategory )
 	
 	<div><strong>Category Information:</strong><hr /></div>
 	<div class="label"><strong>Category Name:</strong></div>
-	<div class="value"><input name="name" value="<?= $updatedCategory->name ?>" /></div>
+	<div class="value"><input name="name" value="<?= $updatedCategory->name ?>" /><input type="hidden" name="old_name" value="<?= $updatedCategory->name ?>" /></div>
 	<br style="clear:left" />
+	<input type="hidden" name="old_join_category_parent" value="<?= $updatedCategory->join_category_parent[0]['id'] ?>" />
 	<div class="label"><strong>Category Parent:</strong></div>
 	<?
 	

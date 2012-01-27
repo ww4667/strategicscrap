@@ -34,7 +34,7 @@ class Category extends Crud {
 		return $this->Query( $query, true );
 	}
 	
-	public function addParentCategory( $parentId = null, $process = true ){
+	public function addParentCategory( $parentId = null, $process = true, $processFamily = false ){
 		$currentCategory = $this->GetCurrentItem();
 		$parentCategory = $this->GetItem($parentId);
 		$this->SetCurrentItem($currentCategory); // need to reset Current item back to the request
@@ -49,6 +49,7 @@ class Category extends Crud {
 		 * MAKE A FUNCTION that cleans up the name
 		 */
 		$slug_op = ( !empty( $parentCategory['slug'] ) ? $parentCategory['slug'] : '' ) . '/' . $cleanName;
+		
 		$id_path_op = ( !empty( $parentCategory['id_path'] ) ? $parentCategory['id_path'] . ',' : '' ) .  $currentCategory['id'];
 		
 		if( $process ){		
@@ -59,22 +60,23 @@ class Category extends Crud {
 			}
 					
 			if( !empty( $currentCategory['slug'] ) ){
-				print "<br/>update slug";
-				print '<br>' . $slug_op;
 				$this->UpdateValueText( $currentCategory['id'], $slug['id'], $slug_op );
 			} else {
-				print "add slug";
 				$this->AddValueText( $currentCategory['id'], $slug['id'], $slug_op );
 			}
 					
 			if( !empty( $currentCategory['id_path'] ) ){
-				print "<br/>update path";
-				print '<br>' . $id_path_op;
 				$this->UpdateValueText( $currentCategory['id'], $id_path['id'], $id_path_op );
 			} else {
-				print "add path";
 				$this->AddValueText( $currentCategory['id'], $id_path['id'], $id_path_op );		
-				}
+			}
+			
+			
+			$joins = $this->ReadForeignJoins( $this );
+			if( count( $joins ) > 0 && $processFamily === TRUE ){
+				$this->updateYourFamily( true, $slug_op, $id_path_op );
+			}
+			
 		} else {
 			return $slug_op;
 		}
@@ -92,15 +94,6 @@ class Category extends Crud {
 	
 	public function removeCategory( $categoryId = null ){
 		/* TODO: revisit this */
-	}
-	
-	public function getCategoryParent( $itemId = null ) {
-		// get materials by "itemId" and join type "material_join"
-		$item = $this->GetCurrentItem();
-		$itemId = $item['id'];
-		$category = new Category();
-		$joins = $this->ReadJoins( $category );
-		$this->material_join = $joins;
 	}
 	
 	public function getCategoryChildren( $categoryId ) {
@@ -132,20 +125,22 @@ class Category extends Crud {
 	/**
 	 * this could get us the recursive update
 	 */
-	public function updateYourFamily( $de = "" ){
+	public function updateYourFamily( $first = true, $newSlug = null, $newIdPath=null ){
 		/*$this->PTS( $this );*/
 		$joins = $this->ReadForeignJoins( $this );
-		$de = $de . "-";
-		$op = "";
 		
+		if( $first ) $op .= $this->id;
 		foreach( $joins as $join ){
 			$tempCat = new Category();
 			$tempCat->getItemObj( $join['id'] );
-			$op .= $de . $tempCat->name;
-			$op .= $tempCat->getYourFamily( $de . "<br />" );
+			
+			$values = array();
+			if( !is_null( $newSlug ) ) $values['slug'] = $newSlug . '/' . cleanSlug( $tempCat->name );
+			if( !is_null( $newIdPath ) ) $values['id_path'] = $newIdPath . ',' . $tempCat->id;
+			if( $tempCat->UpdateItem( $values ) ) $tempCat->updateYourFamily( false, $values['slug'], $values['id_path'] );
 		}
 		
-		return $op;
+		return true;
 	}
 	
 	public function getYourFamilyIds( $first = true ){
@@ -162,36 +157,6 @@ class Category extends Crud {
 		
 		return $op;
 	}
-	
-	
-	/*
-	
-		public function getMaterials( $itemId = null ) {
-			// get materials by "itemId" and join type "material_join"
-			$item = $this->GetCurrentItem();
-			$itemId = isset($itemId) ? $itemId : $item['id'];
-			$material = new Material();
-			$joins = $this->ReadJoins( $material );
-			$this->join_material = $joins;
-		}*/
-	
-	
-	public function getItemsByCategoryIdAndType( $categoryId ){
-		// get facilities by materialId and join type "material_join"
-		/* TODO: update this to get children by type */
-		$c = new Category();
-		$category = $c->GetItemObj( $categoryId );
-		$items = $this->ReadForeignJoins( $category );
-		return $items;
-	}
-	
-	public function getAllParentsByType( $categoryType ){
-		// get facilities by materialId and join type "material_join"
-		/* TODO: update this to get children by type */
-		$ct = new CategoryType();
-		$category = $c->GetItemObj( $categoryId );
-		$items = $this->ReadForeignJoins( $categoryType );
-		return $items;
-	}
+
 }
 ?>

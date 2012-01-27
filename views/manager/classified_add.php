@@ -3,7 +3,7 @@
 	<li><a href="<?= $ss_url ?>&amp;method=classified-manager">Back to Classified Manager</a></li>
 </ul>
 <br />
- 
+
 <div class="sectionHeader">Adding Classified:</div>
 <div class="sectionBody order_details">
 	<form action="<?=$ss_url?>&amp;method=classified-add" method="post"  enctype="multipart/form-data">
@@ -26,9 +26,9 @@
     <br style="clear:left" />
 	<div class="label"><strong>For Sale or Wanted?:<br/>(Check if it is a want ad.)</strong></div>
 	<div class="value"><input type="checkbox" name="sale_or_wanted" value="<?= $post_data['sale_or_wanted']?>" /></div>
-    
 
-    <br style="clear:left" />
+
+	<br style="clear:left" />
 	<div class="label"><strong>Classified Parent:</strong></div>
 	<?
 	
@@ -57,7 +57,7 @@
 	$allClassifiedTypes = $refClassifiedType->GetAllItems();
 	
 	$classifiedTypeFields = array();
-
+	
 	$classifedTypeOp  = '<select name="join_classified_type" id="join_classified_type">';
 	$classifedTypeOp .= '<option value="null">--Choose One--</option>';
 	
@@ -67,25 +67,25 @@
 			$classifedTypeOp .= '<option value="' . $classifiedTypeItem['id'] . '" ' . ( $post_data['join_classified_type'] == $classifiedTypeItem['id'] ? 'selected="selected"' : '' ) . '>' . 
 								$classifiedTypeItem['name'] . 
 								'</option>';
-	
+
 			$classifiedTypeFields[$classifiedTypeItem['id']] = $classifiedTypeItem['fields']; 
 		}
-	
+		
 	}
 	
 	$classifedTypeOp .= '</select>';
-		
+	 
 	?>
 	<div class="value"><?=$classifedTypeOp;?><!--<input name="join_classified_parent" value="<?= $post_data['join_classified_parent']?>" />--></div>
     <br style="clear:left" />
-	    
+
 <?
 ///print_r($classifiedTypeFields);
 $formOutput = "";
 foreach( $classifiedTypeFields as $k => $v ){
 	
 		
-	$formOutput .= '<div id="form_'.$k.'" class="contactForms"'  . ( $post_data['join_classified_type'] != $classifiedTypeItem['id'] ? 'style="display:none;"' : '' ) . '>';	
+	$formOutput .= '<div id="form_'.$k.'" class="contactForms"'  . ( $post_data['join_classified_type'] != $k ? 'style="display:none;"' : '' ) . '>';	
 	
 	$fieldsInputArray = explode(",", $classifiedTypeFields[$k]);
 	$fieldsOutput = array();
@@ -95,16 +95,16 @@ foreach( $classifiedTypeFields as $k => $v ){
 		
 		$formOutput .= '<br style="clear:left" />';
 		$formOutput .= '<div class="label"><strong>' . $temp[1] . '</strong></div>';
-		$formOutput .= '<div class="value"><input type="text" name="contact[form_'.$k.']['.$temp[2].']" value="" /></div>';		
+		$formOutput .= '<div class="value"><input type="text" name="contact[form_'.$k.']['.$temp[2].']" value="'.$post_data['contact']['form_'.$k][$temp[2]].'" /></div>';		
 		$formOutput .= '<input type="hidden" name="contact[form_'.$k.'][fields]" value="'.$classifiedTypeFields[$k].'" />';		
 	}
+
 	
-	 
 	
 	$formOutput .= '</div>';
 }
 print $formOutput;
-	?>
+?>
 	
     <br style="clear:left" />
     <br style="clear:left" />

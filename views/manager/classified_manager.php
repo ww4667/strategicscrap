@@ -1,6 +1,7 @@
 <?
 
 $c = new Classified();
+
 $classifieds = $c->getAllWithUserDetails(array('approved'=>FALSE,'expired'=>FALSE,'showContacts'=>true,'classifiedType'=>true));
 
 $classifiedsApproved = $c->getAllWithUserDetails(array('approved'=>TRUE,'expired'=>FALSE,'showContacts'=>true,'classifiedType'=>true));
@@ -28,12 +29,11 @@ $classifiedsExpired = $c->getAllWithUserDetails(array('expired'=>TRUE,'showConta
 		<thead><tr>
 			<th class="nosort" width="40">&nbsp;</th>
 			<th width="">Classified Type</th>
+			<th width="">Expire Date</th>
 			<th width="">Classified Title</th>
-			<th width="">Category</th>
+			<th width="">Category Name</th>
 			<th width="">Category Path</th>
 			<th width="">Contact Info</th>
-			<th width="65">Created</th>
-			<th width="65">Updated</th>
 		</tr></thead>
 		<tbody>
 			
@@ -55,16 +55,15 @@ $classifiedsExpired = $c->getAllWithUserDetails(array('expired'=>TRUE,'showConta
 
 	
     	?>
-
+		
 		<tr style="cursor:pointer;" class='classified_row' onmouseover="this.style.color='#999'" onmouseout="this.style.color='#333'" onclick="location.href='<?php echo $ss_url; ?>&amp;method=classified-update&amp;classified_id=<?php echo $classified['id']; ?>'">
 			<td valign="top"><a href="<?php echo $ss_url; ?>&amp;method=classified-update&amp;classified_id=<? echo $classified['id']; ?>">update</a></td>
 			<td valign="top"><?php echo $classified['classifiedType_name']; ?></td>
+			<td valign="top"><?php echo date("Y-m-d", strtotime($classified['end_date'])) ?></td>
 			<td valign="top"><?php echo $classified['title']; ?></td>
 			<td valign="top"><?php echo $classified['category_name']; ?></td>
 			<td valign="top"><?php echo $classified['slug']; ?></td>
 			<td valign="top"><?php echo $contactOutput ?></td>
-			<td valign="top"><?php echo date("Y-m-d", strtotime($classified['created_ts'])) ?></td>
-			<td valign="top"><?php echo !is_null($classified['updated_ts']) ? date("Y-m-d", strtotime($classified['updated_ts'])) : date("Y-m-d", strtotime($classified['created_ts'])) ?></td>
 		</tr>
 		
 		<?php } ?>
@@ -75,6 +74,7 @@ $classifiedsExpired = $c->getAllWithUserDetails(array('expired'=>TRUE,'showConta
 <?php } else { ?>
 <div class="message error"><p>No records to show. Try revising your search.</p></div>
 <?php } ?>
+
 <script type="text/javascript"> 
 	jQuery.noConflict();
 	(function($) { 
@@ -105,11 +105,11 @@ $classifiedsExpired = $c->getAllWithUserDetails(array('expired'=>TRUE,'showConta
 		<thead><tr>
 			<th class="nosort" width="40">&nbsp;</th>
 			<th width="">Classified Type</th>
+			<th width="">Expire Date</th>
 			<th width="">Classified Title</th>
+			<th width="">Category Name</th>
 			<th width="">Category Path</th>
 			<th width="">Contact Info</th>
-			<th width="65">Created</th>
-			<th width="65">Updated</th>
 		</tr></thead>
 		<tbody>
 			
@@ -134,11 +134,11 @@ $classifiedsExpired = $c->getAllWithUserDetails(array('expired'=>TRUE,'showConta
 		<tr style="cursor:pointer;" class='classified_row' onmouseover="this.style.color='#999'" onmouseout="this.style.color='#333'" onclick="location.href='<?php echo $ss_url; ?>&amp;method=classified-update&amp;classified_id=<?php echo $classified['id']; ?>'">
 			<td valign="top"><a href="<?php echo $ss_url; ?>&amp;method=classified-update&amp;classified_id=<? echo $classified['id']; ?>">update</a></td>
 			<td valign="top"><?php echo $classified['classifiedType_name']; ?></td>
+			<td valign="top"><?php echo date("Y-m-d", strtotime($classified['end_date'])) ?></td>
 			<td valign="top"><?php echo $classified['title']; ?></td>
+			<td valign="top"><?php echo $classified['category_name']; ?></td>
 			<td valign="top"><?php echo $classified['slug']; ?></td>
 			<td valign="top"><?php echo $contactOutput ?></td>
-			<td valign="top"><?php echo date("Y-m-d", strtotime($classified['created_ts'])) ?></td>
-			<td valign="top"><?php echo !is_null($classified['updated_ts']) ? date("Y-m-d", strtotime($classified['updated_ts'])) : date("Y-m-d", strtotime($classified['created_ts'])) ?></td>
 		</tr>
 		
 		<?php } ?>
@@ -179,11 +179,11 @@ $classifiedsExpired = $c->getAllWithUserDetails(array('expired'=>TRUE,'showConta
 		<thead><tr>
 			<th class="nosort" width="40">&nbsp;</th>
 			<th width="">Classified Type</th>
+			<th width="">Expire Date</th>
 			<th width="">Classified Title</th>
+			<th width="">Category Name</th>
 			<th width="">Category Path</th>
 			<th width="">Contact Info</th>
-			<th width="65">Created</th>
-			<th width="65">Updated</th>
 		</tr></thead>
 		<tbody>
 			
@@ -209,12 +209,11 @@ $classifiedsExpired = $c->getAllWithUserDetails(array('expired'=>TRUE,'showConta
 		<tr style="cursor:pointer;" class='classified_row' onmouseover="this.style.color='#999'" onmouseout="this.style.color='#333'" onclick="location.href='<?php echo $ss_url; ?>&amp;method=classified-update&amp;classified_id=<?php echo $classified['id']; ?>'">
 			<td valign="top"><a href="<?php echo $ss_url; ?>&amp;method=classified-update&amp;classified_id=<? echo $classified['id']; ?>">update</a></td>
 			<td valign="top"><?php echo $classified['classifiedType_name']; ?></td>
+			<td valign="top"><?php echo date("Y-m-d", strtotime($classified['end_date'])) ?></td>
 			<td valign="top"><?php echo $classified['title']; ?></td>
 			<td valign="top"><?php echo $classified['category_name']; ?></td>
 			<td valign="top"><?php echo $classified['slug']; ?></td>
 			<td valign="top"><?php echo $contactOutput ?></td>
-			<td valign="top"><?php echo date("Y-m-d", strtotime($classified['created_ts'])) ?></td>
-			<td valign="top"><?php echo !is_null($classified['updated_ts']) ? date("Y-m-d", strtotime($classified['updated_ts'])) : date("Y-m-d", strtotime($classified['created_ts'])) ?></td>
 		</tr>
 		
 		<?php } ?>

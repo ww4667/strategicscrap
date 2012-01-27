@@ -54,7 +54,7 @@
 					$post_data = $_POST;
 					
 					$newClassified = new Classified();
-					
+
 					$potential_path = $newClassified->addCategory( $post_data[ 'join_category_parent' ], false  );
 					$cleanSlug = cleanSlug( $post_data['title'] );
 					$potential_path_op =  $potential_path . $cleanSlug;
@@ -123,29 +123,32 @@
 						if( !empty( $errorMessages ) ) {
 							showPage( "<ul>" . $errorMessages . "</ul>" );
 						} else {
-						$fileUploader = upload_function( $_SERVER["DOCUMENT_ROOT"] . '/resources/images/classifieds/', 'image' );
-						
-						if( $fileUploader !== FALSE ){
-							$post_data['image'] = '/resources/images/classifieds/' .$fileUploader; 
-						} else {
-							$post_data['image'] = '';
-						}
-						
-						// create the material
-
-						$newClassified->CreateItem($post_data);
-						if( !empty($newClassified->id) ){
+							$fileUploader = false;
+							if( isset($_FILES['imageNew']) ){
+								$fileUploader = upload_function( $_SERVER["DOCUMENT_ROOT"] . '/resources/images/classifieds/', 'image' );
+							}
+								
+							if( $fileUploader !== FALSE ){
+								$post_data['image'] = '/resources/images/classifieds/' .$fileUploader; 
+							} else {
+								$post_data['image'] = '';
+							}
 							
-							$newClassified->addCategory($post_data['join_category_parent']);
-							
-							$newContact = new Contact();
-							$newContact->CreateItem( $selectedClassifiedType );
-							
-							$newClassified->addClassifiedType( $post_data['join_classified_type'] );
-							$newClassified->addContact( $newContact->id );
-							
+							// create the material
+	
+							$newClassified->CreateItem($post_data);
+							if( !empty($newClassified->id) ){
+								
+								$newClassified->addCategory($post_data['join_category_parent']);
+								
+								$newContact = new Contact();
+								$newContact->CreateItem( $selectedClassifiedType );
+								
+								$newClassified->addClassifiedType( $post_data['join_classified_type'] );
+								$newClassified->addContact( $newContact->id );
+								
 								print "<h1>Your Classified was submitted.</h1><p>We will review and contact you as soon as possible.</p>";
-						} else {
+							} else {
 								print "<h1>ERROR!</h1><p>Try submitting the classified again.</p>";
 							}							
 						}

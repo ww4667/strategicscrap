@@ -427,8 +427,12 @@ function get_cached_file($cache_file,$interval=600,$update_url){
     again if you want too, just add a value... 
 ***/ 
 
-function upload_function( $location, $formField = 'file' ) {
+function upload_function( $location, $formField = 'file', $fileName = '' ) {
 	 /*global $globals;*/ 
+	 
+	$time = date('Y-m-d-H-i-s',time());
+	 
+	$newName = cleanSlug( $fileName ) . $time.rand(0, 999);
 
 /*** 
     1rst set the images dir and declare a files 
@@ -471,7 +475,7 @@ function upload_function( $location, $formField = 'file' ) {
 
     if(!preg_match('~image/~', $_FILES[$formField]['type'])) { 
 
-      /*echo 'The uploaded file is not an image please upload a valide file!';*/ 
+      //echo 'The uploaded file is not an image please upload a valide file!'; 
 		return false;
     } else { 
 
@@ -496,6 +500,7 @@ function upload_function( $location, $formField = 'file' ) {
 ***/ 
 
         $_FILES[$formField]['name'] = ceil(count($files)+'1').''.strrchr($_FILES[$formField]['name'], '.'); 
+        $_FILES[$formField]['name'] = $newName.strrchr($_FILES[$formField]['name'], '.'); 
         $uploadfile = $uploaddir . basename($_FILES[$formField]['name']); 
 
 /*** 
@@ -514,13 +519,14 @@ function upload_function( $location, $formField = 'file' ) {
 		Your file was not uploaded please try again 
 		here are your debug informations: 
 		'.print_r($_FILES) .' 
-		</pre>';*/
-		
+		</pre>';
+		*/
 		return false; 
 
       } else { 
 
-		/*echo 'image succesfully uploaded!';*/ 
+		//echo 'image succesfully uploaded!';
+		//print $_FILES[$formField]['name']; 
 		return basename($_FILES[$formField]['name']);
       } 
 

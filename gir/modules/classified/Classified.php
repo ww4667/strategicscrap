@@ -217,7 +217,6 @@ class Classified extends Crud {
 			"" );
 		
 
-
 		if( $defaultProperties['classifiedId'] ) $query .= " AND c.id = ".$defaultProperties['classifiedId']." ";
 		if( $defaultProperties['categoryIds'] ) $query .= " AND cat.id IN ( ".$defaultProperties['categoryIds']." ) ";
 		if( $defaultProperties['approved'] === TRUE ) $query .= " AND c.approved = 1 ";
@@ -227,10 +226,11 @@ class Classified extends Crud {
 		if( $defaultProperties['sale_or_wanted'] === TRUE ) $query .= " AND c.sale_or_wanted = 1 ";
 		if( $defaultProperties['sale_or_wanted'] === FALSE ) $query .= " AND COALESCE(c.sale_or_wanted, 0) = 0 ";
 		if( is_int($defaultProperties['classifiedType']) === TRUE ) $query .= " AND c.classifiedType_id =  " . $defaultProperties['classifiedType'] . " ";
-		if( $defaultProperties['expired'] === TRUE ) $query .= " AND c.end_date >  " . date("Y-m-d", strtotime("+30 day")) . " ";
-		if( $defaultProperties['expired'] === FALSE ) $query .= " AND c.end_date <=  " . date("Y-m-d", strtotime("+30 day")) . " ";
+		if( $defaultProperties['expired'] === TRUE ) $query .= " AND UNIX_TIMESTAMP(c.end_date) >  UNIX_TIMESTAMP('" . date("Y-m-d", strtotime("+30 day")) . "') ";
+		if( $defaultProperties['expired'] === FALSE ) $query .= " AND UNIX_TIMESTAMP(c.end_date) <=  UNIX_TIMESTAMP('" . date("Y-m-d", strtotime("+30 day")) . "') ";
 		
 		return $this->Query( $query, true );
+		
 		
 	}
 	
